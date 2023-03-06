@@ -1,0 +1,46 @@
+low_precision_fully_connected_test.o
+low_precision_fully_connected.o
+kernels/*.o
+low_precision_fully_connected_test
+result-multibatch/*
+!result-multibatch/benchmark.sh
+tmp/*
+test-models/*
+Results/**/*.csv
+Results/**/*.report
+Results/*/variable-all-sizes/*/model-*/**
+Results/*/*/deepspeech-*/**
+!Results/experiment-44-CNNs-with-sleep-fixed-iterations-raspberry-pi-4/logs/PerLayerBreakdown/*.csv
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
