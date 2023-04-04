@@ -27,9 +27,9 @@ using namespace LowPrecision::FullyConnected;
 template <typename T>
 inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape shape, bool no_print_hex = true){
     if (no_print_hex)
-        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ") [" << endl;
+        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << endl;
     else
-        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ") [" << endl << hex;
+        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << endl << hex;
     for (int i = 0; i < shape.size[0]; i++){
         std::cout << "\t[ ";
         for (int j = 0; j < shape.size[1]; j++)
@@ -122,6 +122,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
     bool singed_input           = !(LowPrecision::FullyConnected::GetVariableFromEnv( "ProcessUnsinged" ) == "TRUE");
     bool no_verbosity           = LowPrecision::FullyConnected::GetVariableFromEnv( "VERBOSITY" ) == "0";
     bool no_hex_verbosity       = LowPrecision::FullyConnected::GetVariableFromEnv( "VERBOSITY" ) == "1";
+    bool pre_gemm_print         = LowPrecision::FullyConnected::GetVariableFromEnv( "PreGEMMPrint" ) == "TRUE";
     std::string gemm_size       = LowPrecision::FullyConnected::GetVariableFromEnv( "GEMM_SIZE" );
     std::string sanity_in_file  = LowPrecision::FullyConnected::GetVariableFromEnv( "SANITY_FILE" );
 
@@ -207,7 +208,9 @@ void run_gemm_api_tests(LowPrecision::Method method){
     int8_t*  kernel_scratchpads = nullptr;
     if (kernel_scratchpads_allocation_size)
         kernel_scratchpads = LowPrecision::allocate<int8_t>(kernel_scratchpads_allocation_size);
-    int32_t* output_scratchpads = LowPrecision::allocate<int32_t>(output_scratchpads_allocation_size);
+    int32_t* output_scratchpads = nullptr;
+    if (output_scratchpads_allocation_size)
+        output_scratchpads = LowPrecision::allocate<int32_t>(output_scratchpads_allocation_size);
 
     // Creating Filter Matrix
     LowPrecision::Matrix filter_matrix;
@@ -277,6 +280,23 @@ void run_gemm_api_tests(LowPrecision::Method method){
                                                         << LowPrecision::get_status_string(LowPrecision::mask_out_source(output_preparation_status))
                                                         << ")" << endl;
 
+    // PreGEMM Print
+    if(pre_gemm_print){
+        print_2D_matrix("Kernel", kernel_data, kernel_shape, no_hex_verbosity);
+        if (kernel_scratchpads_shape_list.size() >= 1)
+            print_2D_matrix("Filter", filter_data, filter_shape, no_hex_verbosity);
+        if (kernel_scratchpads_shape_list.size() >= 2)
+            print_2D_matrix("Kernel-Scratchpad-#1", kernel_scratchpads, kernel_scratchpads_shape_list[0], no_hex_verbosity);
+
+        print_2D_matrix("Input", input_data_MB, input_shape_MB, no_hex_verbosity);
+        if (input_scratchpads_shape_list.size() == 1)
+            print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[0], no_hex_verbosity);
+        else if (input_scratchpads_shape_list.size() == 2){
+            print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[1], no_hex_verbosity);
+            print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[1].flatsize, input_scratchpads_shape_list[0], no_hex_verbosity);
+        }
+    }
+
     // Processing The Main GEMM
     LowPrecision::TimingDetailes* gemm_timings = new LowPrecision::TimingDetailes();
     gemm_timings->activate();
@@ -345,10 +365,12 @@ void run_gemm_api_tests(LowPrecision::Method method){
                 print_2D_matrix("Kernel-Scratchpad-#1", kernel_scratchpads, kernel_scratchpads_shape_list[0], no_hex_verbosity);
 
             print_2D_matrix("Input", input_data_MB, input_shape_MB, no_hex_verbosity);
-            if (input_scratchpads_shape_list.size() >= 1)
+            if (input_scratchpads_shape_list.size() == 1)
                 print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[0], no_hex_verbosity);
-            if (input_scratchpads_shape_list.size() >= 2)
-                print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[0].flatsize, input_scratchpads_shape_list[1], no_hex_verbosity);
+            else if (input_scratchpads_shape_list.size() == 2){
+                print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[1], no_hex_verbosity);
+                print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[1].flatsize, input_scratchpads_shape_list[0], no_hex_verbosity);
+            }
 
             print_2D_matrix("Output", output_data_MB, output_shape_MB, no_hex_verbosity);
             if (output_scratchpads_shape_list.size() >= 1)

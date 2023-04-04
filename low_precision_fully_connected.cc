@@ -195,6 +195,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kULPPACKW3A3:
                 case LowPrecision::Method::kULPPACKW4A4:
                     return LowPrecision::FullyConnected::ULPPACK::InputPreProcess();
+                case LowPrecision::Method::kInt4ActInt4Weight:
+                    return LowPrecision::FullyConnected::Int4InputsInt4Weights::InputPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -208,6 +210,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kULPPACKW3A3:
                 case LowPrecision::Method::kULPPACKW4A4:
                     return LowPrecision::FullyConnected::ULPPACK::FilterPreProcess();
+                case LowPrecision::Method::kInt4ActInt4Weight:
+                    return LowPrecision::FullyConnected::Int4InputsInt4Weights::FilterPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -221,6 +225,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kULPPACKW3A3:
                 case LowPrecision::Method::kULPPACKW4A4:
                     return LowPrecision::FullyConnected::ULPPACK::OutputPreProcess();
+                case LowPrecision::Method::kInt4ActInt4Weight:
+                    return LowPrecision::FullyConnected::Int4InputsInt4Weights::OutputPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -234,6 +240,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kULPPACKW3A3:
                 case LowPrecision::Method::kULPPACKW4A4:
                     return LowPrecision::FullyConnected::ULPPACK::OutputPostProcess();
+                case LowPrecision::Method::kInt4ActInt4Weight:
+                    return LowPrecision::FullyConnected::Int4InputsInt4Weights::OutputPostProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -247,6 +255,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kULPPACKW3A3:
                 case LowPrecision::Method::kULPPACKW4A4:
                     return LowPrecision::FullyConnected::ULPPACK::GEMMSupport();
+                case LowPrecision::Method::kInt4ActInt4Weight:
+                    return LowPrecision::FullyConnected::Int4InputsInt4Weights::GEMMSupport();
                 default:
                     return LowPrecision::GEMMType::SupportsNothing;
             }
@@ -416,7 +426,7 @@ namespace LowPrecision{
         Status QuantizeFilter(LowPrecision::Method method, const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){
             int8_t* input_ptr = const_cast<int8_t*>(input);
             Shape input_padded_shape;
-            input_padded_shape = GetPaddedShape(method, k_shape);
+            input_padded_shape = GetPaddedShape(method, k_shape, true, LowPrecision::MatrixType::Weight);
             bool need_padding = input_padded_shape != k_shape;
             if (need_padding){
                 input_ptr = ::LowPrecision::allocate<int8_t>(input_padded_shape.flatsize);
@@ -467,7 +477,7 @@ namespace LowPrecision{
         Status QuantizeFilter(LowPrecision::Method method, const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout){
             uint8_t* input_ptr = const_cast<uint8_t*>(input);
             Shape input_padded_shape;
-            input_padded_shape = GetPaddedShape(method, k_shape);
+            input_padded_shape = GetPaddedShape(method, k_shape, true, LowPrecision::MatrixType::Weight);
             bool need_padding = input_padded_shape != k_shape;
             if (need_padding){
                 input_ptr = ::LowPrecision::allocate<uint8_t>(input_padded_shape.flatsize);
@@ -512,7 +522,7 @@ namespace LowPrecision{
         Status QuantizeInput(LowPrecision::Method method, const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){
             int8_t* input_ptr = const_cast<int8_t*>(input);
             Shape input_padded_shape;
-            input_padded_shape = GetPaddedShape(method, shape);
+            input_padded_shape = GetPaddedShape(method, shape, true, LowPrecision::MatrixType::Input);
             bool need_padding = input_padded_shape != shape;
             if (need_padding){
                 input_ptr = ::LowPrecision::allocate<int8_t>(input_padded_shape.flatsize);
@@ -563,7 +573,7 @@ namespace LowPrecision{
         Status QuantizeInput(LowPrecision::Method method, const uint8_t* input, LowPrecision::Shape shape, uint8_t* output, LowPrecision::MemLayout layout){
             uint8_t* input_ptr = const_cast<uint8_t*>(input);
             Shape input_padded_shape;
-            input_padded_shape = GetPaddedShape(method, shape);
+            input_padded_shape = GetPaddedShape(method, shape, true, LowPrecision::MatrixType::Input);
             bool need_padding = input_padded_shape != shape;
             if (need_padding){
                 input_ptr = ::LowPrecision::allocate<uint8_t>(input_padded_shape.flatsize);
@@ -624,7 +634,7 @@ namespace LowPrecision{
             else if (method == LowPrecision::Method::kInt4ActInt8Weight)
                 ret = Status::NotImplemented;
             else if (method == LowPrecision::Method::kInt4ActInt4Weight)
-                ret = Status::NotImplemented;
+                ret = Status::NotNeeded;
             else if (method == LowPrecision::Method::kTernaryActInt8Weight)
                 ret = Status::NotImplemented;
             else if (method == LowPrecision::Method::kTernaryActTernaryWeight)
@@ -636,7 +646,7 @@ namespace LowPrecision{
             else if (method == LowPrecision::Method::kBinaryActBinaryWeightXOR)
                 ret = Status::NotImplemented;
             else if (method &  LowPrecision::Method::kULPPACK)
-                ret = Status::NotImplemented;
+                ret = Status::NotNeeded;
             return ret;
         }
         Status Multiply(
@@ -1818,10 +1828,11 @@ namespace LowPrecision{
         bool isvalid_scratchpad         = matrix.isScratchpadValid(),
              isvalid_padding_scratchpad = matrix.isPaddedDataValid();
 
+        Shape unpacked_shape, padded_shape;
         bool process_unsinged = !matrix.getSignStatus();
         int8_t* unpacked_data =  matrix.getData();
-        Shape unpacked_shape  =  matrix.getShape();
-        Shape padded_shape    =  FullyConnected::GetPaddedShape(method, matrix.getShape(), true, LowPrecision::MatrixType::Weight);
+        unpacked_shape        =  matrix.getShape();
+        padded_shape          =  FullyConnected::GetPaddedShape(method, matrix.getShape(), true, LowPrecision::MatrixType::Weight);
 
         struct timespec tstart = {0,0},
                         tend = {0,0};
@@ -1867,7 +1878,8 @@ namespace LowPrecision{
 
         TimingDetailes::SaveTimestamp(timing, tstart);
         if (requires_packing){
-            Shape packed_shape = unpacked_shape;
+            Shape packed_shape;
+            packed_shape = unpacked_shape;
             if (contain_scratchpad){
                 if (!isvalid_scratchpad){
                     packed_shape.flatsize = FullyConnected::TransformFilterShape(method, packed_shape.size, packed_shape.number_dims);
@@ -1891,10 +1903,11 @@ namespace LowPrecision{
                     else
                         matrix.setScratchpadValid();
                 }
-                matrix.setPreparedShape(packed_shape);
             } else {
                 return (Status)(((uint64_t)Status::NeedPackingScratchpad) | ((uint64_t)Status::PreparingFilter));
             }
+            // matrix.setPreparedShape(packed_shape);
+            matrix.setPreparedShape(unpacked_shape);
         }
         TimingDetailes::SaveTimestamp(timing, tend);
 
@@ -1976,7 +1989,8 @@ namespace LowPrecision{
 
         TimingDetailes::SaveTimestamp(timing, tstart);
         if (requires_packing){
-            Shape packed_shape = unpacked_shape;
+            Shape packed_shape;
+            packed_shape = unpacked_shape;
             if (contain_scratchpad){
                 if (!isvalid_scratchpad){
                     packed_shape.flatsize = FullyConnected::TransformInputShape(method, packed_shape.size, packed_shape.number_dims);
@@ -2000,10 +2014,11 @@ namespace LowPrecision{
                     else
                         matrix.setScratchpadValid();
                 }
-                matrix.setPreparedShape(packed_shape);
             } else {
                 return (Status)(((uint64_t)Status::NeedPackingScratchpad) | ((uint64_t)Status::PreparingInput));
             }
+            // matrix.setPreparedShape(packed_shape);
+            matrix.setPreparedShape(unpacked_shape);
         }
         TimingDetailes::SaveTimestamp(timing, tend);
 

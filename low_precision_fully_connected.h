@@ -669,6 +669,11 @@ namespace LowPrecision {
             uint8_t quantizeAndPackBitsStep(const int8_t& input, int shift_amount);
             void InputPackingStep(uint8_t* input_u, uint8_t* output, long long int size, long long int stride);
             void FilterPackingStep(uint8_t* input_u, uint8_t* output, long long int size, long long int stride);
+            LowPrecision::PreprocessType InputPreProcess();
+            LowPrecision::PreprocessType FilterPreProcess();
+            LowPrecision::PreprocessType OutputPreProcess();
+            LowPrecision::PreprocessType OutputPostProcess();
+            LowPrecision::GEMMType GEMMSupport();
         }
         namespace BinaryInputsInt8Weights {
             int8_t* PaddingWeightsIfNeeded(const int8_t* weight, Shape shape);

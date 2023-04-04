@@ -220,7 +220,7 @@ void doLowPrecisionWeightPackImpl(int8_t* src_ptr_1, int8_t* src_ptr_2,
         "3:\n"
         
         "cmp %w[i], #0\n"
-        "beq 7f\n"
+        "beq 5f\n"
 
         "dup v1.4s, wzr\n"
         "dup v2.4s, wzr\n"

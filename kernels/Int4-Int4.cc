@@ -53,13 +53,14 @@ namespace LowPrecision{
                 if (layout != MemLayout::kRowMajor)
                     return Status::WrongMemLayout;
                 if (GetVariableFromEnv("DismissFilterQuantization") == std::string("TRUE")){
-                    doLowPrecisionWeightPack(const_cast<int8_t*>(input), output, k_shape.size[0], k_shape.size[1] / 2);
+                    doLowPrecisionWeightPack(const_cast<int8_t*>(input), output, k_shape.size[0] / 2, k_shape.size[1]);
                 }
                 else {
-                    int new_weights_length = k_shape.size[0] * (k_shape.size[1] / 2);
+                    int new_weights_length = (k_shape.size[0] / 2) * k_shape.size[1];
                     int8_t* temp = LowPrecision::allocate<int8_t>(new_weights_length);
                     uint8_t* temp_u = get_pointer_as<uint8_t>(temp);
                     int i , size = k_shape.flatsize;
+                    /*
                     asm volatile(
                         "mov %w[i], wzr\n\t"
                         "movi v31.16b, #15\n\t"
@@ -136,7 +137,30 @@ namespace LowPrecision{
                           "v28", "v29", "v30", "v31",
                           "w3",  "w4",  "w5",  "w6"
                     );
-                    doLowPrecisionWeightPack(temp, output, k_shape.size[0], k_shape.size[1] / 2);
+                    */
+                    
+                    const uint8_t* input_u = get_pointer_as<uint8_t>(input);
+                    for (size_t i = 0; i < k_shape.size[0]; i += 32)
+                        for (size_t j = 0; j < 16; j++)
+                            for (size_t z = 0; z < k_shape.size[1]; z++)
+                                // TODO: This result needs to be transposed before saving in temp_u
+                                temp_u[((i / 2) + j) * k_shape.size[1] + z] = (input_u[z * k_shape.size[0] + (i + j     )] & 0x0F) | 
+                                                                             ((input_u[z * k_shape.size[0] + (i + j + 16)] & 0x0F) << 4);
+                    
+                    
+                    // std::cout << LowPrecision::get_shape_string(k_shape) << ": [ " << std::endl;
+                    // for (int i = 0; i < k_shape.size[0] / 2; i++)
+                    // {
+                    //     std::cout << "\t[ ";
+                    //     for (int j = 0; j < k_shape.size[1]; j++)
+                    //     {
+                    //         std::cout << int(temp[i * (k_shape.size[1]) + j]) << ", ";
+                    //     }
+                    //     std::cout << "]," << std::endl;
+                    // }
+                    // std::cout << "]," << std::endl;
+
+                    doLowPrecisionWeightPack(temp, output, k_shape.size[0] / 2, k_shape.size[1]);
                     LowPrecision::deallocate(temp);
                 }
                 return Status::Success;
@@ -257,11 +281,23 @@ namespace LowPrecision{
                           "w3",  "w4",  "w5",  "w6"
                     );
                     if (is_multibatched){
+                        // std::cout << LowPrecision::get_shape_string(shape) << ": [ " << std::endl;
+                        // for (int i = 0; i < shape.size[0]; i++)
+                        // {
+                        //     std::cout << "\t[ ";
+                        //     for (int j = 0; j < shape.size[1] / 2; j++)
+                        //     {
+                        //         std::cout << int(temp[i * (shape.size[1] / 2) + j]) << ", ";
+                        //     }
+                        //     std::cout << "]," << std::endl;
+                        // }
+                        // std::cout << "]," << std::endl;
                         #ifdef W4A4_DECREASE_CONCURRENT_BATCH
                         doLowPrecision2BatchInputPack(temp, output, shape.size[0], shape.size[1] / 2);
                         #else
                         doLowPrecisionWeightPack(temp, output, shape.size[0], shape.size[1] / 2);
                         #endif
+                        
                         LowPrecision::deallocate(temp);
                     }
                 }
@@ -492,13 +528,20 @@ namespace LowPrecision{
                     rhs_rows    = kernel_shape.size[0],
                     rhs_columns = kernel_shape.size[1];
                 
+                size_t M        = lhs_batches,
+                       K        = lhs_columns,
+                       N        = rhs_columns;
+                
                 int need_downcasting = (params.need_downcasting)?(0xff):(0x00);
                 
-                if (lhs_columns != rhs_columns)
+                // This might be the issue; had changed to work with `test-gemm-api` test
+                // if (lhs_columns != rhs_columns)
+                //     return Status::SizesMisMatch;
+                if (K != rhs_rows)
                     return Status::SizesMisMatch;
-                if(lhs_columns == 0 || rhs_rows == 0 || lhs_batches == 0)
+                if(K == 0 || N == 0 || M == 0)
                     return Status::Success;
-                if (lhs_batches % 4)
+                if (M % 4)
                     return Status::NotSupported;
                 
                 int8_t*         _kernel     = const_cast<int8_t*>(kernel);
@@ -508,10 +551,10 @@ namespace LowPrecision{
                 int i, j, k, end;
 #ifdef W4A4_USE_16_BIT_ACCUMULATOR
 
-                int32_t*        _output_1   = output + 0 * rhs_rows;
-                int32_t*        _output_2   = output + 1 * rhs_rows;
-                int32_t*        _output_3   = output + 2 * rhs_rows;
-                int32_t*        _output_4   = output + 3 * rhs_rows;
+                int32_t*        _output_1   = output + 0 * N;
+                int32_t*        _output_2   = output + 1 * N;
+                int32_t*        _output_3   = output + 2 * N;
+                int32_t*        _output_4   = output + 3 * N;
                 /* Vector assignments:
                     * W, WH     -> v0-3      (Weights, Weights High)
                     * A, AH     -> v4-7      (Activations, Activations High)
@@ -531,7 +574,22 @@ namespace LowPrecision{
                     "5:\n\t"
                     "mov %w[j], wzr\n\t"
 
+                    // Load Weights
+#ifdef DISABLE_KERNELS_MEM_ACCESS
+                    "ld1 {v0.16b, v1.16b, v2.16b, v3.16b},  [%[weights]]\n\t"
+#else
+                    "ld1 {v0.16b, v1.16b, v2.16b, v3.16b},  [%[weights]], #64\n\t"
+#endif
+
                     "0:\n\t"
+
+                    // Load Activations
+#ifdef DISABLE_KERNELS_MEM_ACCESS
+                    "ld1 {v4.16b, v5.16b, v6.16b, v7.16b},  [%[activation]]\n\t"
+#else
+                    "ld1 {v4.16b, v5.16b, v6.16b, v7.16b},  [%[activation]], #64\n\t"
+#endif
+
                     "mov %w[i], wzr\n\t"
                     "movi v16.4s, #0\n\t"
                     "movi v17.4s, #0\n\t"
@@ -551,20 +609,6 @@ namespace LowPrecision{
                     "movi v31.4s, #0\n\t"
 
                     // Start of Outer Loop Over Weights
-
-                    // Load Weights
-#ifdef DISABLE_KERNELS_MEM_ACCESS
-                    "ld1 {v0.16b, v1.16b, v2.16b, v3.16b},  [%[weights]]\n\t"
-#else
-                    "ld1 {v0.16b, v1.16b, v2.16b, v3.16b},  [%[weights]], #64\n\t"
-#endif
-
-                    // Load Activations
-#ifdef DISABLE_KERNELS_MEM_ACCESS
-                    "ld1 {v4.16b, v5.16b, v6.16b, v7.16b},  [%[activation]]\n\t"
-#else
-                    "ld1 {v4.16b, v5.16b, v6.16b, v7.16b},  [%[activation]], #64\n\t"
-#endif
 
                     "1:\n\t"
 
@@ -740,28 +784,28 @@ namespace LowPrecision{
                     "b.lt 1b\n\t"
 
                     // SADDLP ACC1, ACC1
-                    "sadalp v24.4s, v24.8h\n\t"
-                    "sadalp v25.4s, v25.8h\n\t"
-                    "sadalp v26.4s, v26.8h\n\t"
-                    "sadalp v27.4s, v27.8h\n\t"
+                    "saddlp v24.4s, v24.8h\n\t"
+                    "saddlp v25.4s, v25.8h\n\t"
+                    "saddlp v26.4s, v26.8h\n\t"
+                    "saddlp v27.4s, v27.8h\n\t"
                     
                     // SADDLP ACC2, ACC2
-                    "sadalp v28.4s, v28.8h\n\t"
-                    "sadalp v29.4s, v29.8h\n\t"
-                    "sadalp v30.4s, v30.8h\n\t"
-                    "sadalp v31.4s, v31.8h\n\t"
+                    "saddlp v28.4s, v28.8h\n\t"
+                    "saddlp v29.4s, v29.8h\n\t"
+                    "saddlp v30.4s, v30.8h\n\t"
+                    "saddlp v31.4s, v31.8h\n\t"
 
                     // SADDLP ACC3, ACC3
-                    "sadalp v16.4s, v16.8h\n\t"
-                    "sadalp v17.4s, v17.8h\n\t"
-                    "sadalp v18.4s, v18.8h\n\t"
-                    "sadalp v19.4s, v19.8h\n\t"
+                    "saddlp v16.4s, v16.8h\n\t"
+                    "saddlp v17.4s, v17.8h\n\t"
+                    "saddlp v18.4s, v18.8h\n\t"
+                    "saddlp v19.4s, v19.8h\n\t"
                     
                     // SADDLP ACC4, ACC4
-                    "sadalp v20.4s, v20.8h\n\t"
-                    "sadalp v21.4s, v21.8h\n\t"
-                    "sadalp v22.4s, v22.8h\n\t"
-                    "sadalp v23.4s, v23.8h\n\t"
+                    "saddlp v20.4s, v20.8h\n\t"
+                    "saddlp v21.4s, v21.8h\n\t"
+                    "saddlp v22.4s, v22.8h\n\t"
+                    "saddlp v23.4s, v23.8h\n\t"
 
                     // Accumulate the ACC1 to one int32
                     "addv s24, v24.4s\n\t"
@@ -878,7 +922,7 @@ namespace LowPrecision{
                     "beq 8f\n\t"
 
                     // Prepare the destination base for next 4 batches
-                    "mov %[dst_1], %[dst_3]\n\t"
+                    "mov %[dst_1], %[dst_4]\n\t"
                     "add %[dst_2], %[dst_1], %[rows], lsl #2\n\t"
                     "add %[dst_3], %[dst_2], %[rows], lsl #2\n\t"
                     "add %[dst_4], %[dst_3], %[rows], lsl #2\n\t"
@@ -910,8 +954,8 @@ namespace LowPrecision{
 
                     : [ activation ] "r"  (_input),      [ act_base ]    "r"  (_input_base),
                       [ weights ]    "r"  (_kernel),     [ wts_base ]    "r"  (_kernel_base),
-                      [ size ]       "r"  (lhs_columns), [ rows ]        "r"  (rhs_rows),
-                      [ batches ]    "r"  (lhs_batches), [ downcast ]    "r"  (need_downcasting)
+                      [ size ]       "r"  (K),           [ rows ]        "r"  (N),
+                      [ batches ]    "r"  (M),           [ downcast ]    "r"  (need_downcasting)
 
                     : "v0",  "v1",  "v2",  "v3",
                       "v4",  "v5",  "v6",  "v7",
@@ -5101,6 +5145,11 @@ namespace LowPrecision{
                 //     virc4t7(o + 4);
                 // }
             }
+            LowPrecision::PreprocessType InputPreProcess()  { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType FilterPreProcess() { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType OutputPreProcess() { return OutputPostProcess(); }
+            LowPrecision::PreprocessType OutputPostProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
+            LowPrecision::GEMMType GEMMSupport(){ return LowPrecision::GEMMType::SupportsGEMMAndGEMV; }
         }
     }
 }

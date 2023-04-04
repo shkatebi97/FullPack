@@ -488,6 +488,15 @@ public:
 
     Shape():number_dims(0),size(nullptr),flatsize(0){id = last_id; last_id++;}
     ~Shape(){}
+    Shape(const Shape& reference){
+        this->id = last_id;
+        last_id++;
+        this->number_dims = reference.number_dims;
+        this->flatsize = reference.flatsize;
+        this->size = new int[reference.number_dims];
+        for (int i = 0 ; i < reference.number_dims ; i++)
+            this->size[i] = reference.size[i];
+    }
     long int get_id(){return id;}
     void extend_dims(bool as_highest_dim=true){
         number_dims++;
