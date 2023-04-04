@@ -1,0 +1,1380 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [10]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/f32i8/ResNet152V2.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/f32i8/ResNet152V2.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (64, 147, ), Input shape (52900, 3, ), and Output shape (12544, 64, ), and the ID is 0
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 48)
+	Allocating LowPrecision Activations Tensors with Shape of (12544, 48)
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (3136, 64, ), and Output shape (3136, 256, ), and the ID is 1	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 16)
+
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 16)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (64, 64, ), Input shape (3136, 64, ), and Output shape (3136, 64, ), and the ID is 2
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 16)
+Applying Conv Low-Precision for Kernel shape (64, 576, ), Input shape (3364, 64, ), and Output shape (3136, 64, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 144)
+3
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 144)
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (3136, 64, ), and Output shape (3136, 256, ), and the ID is 4
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 16)
+Applying Conv Low-Precision for Kernel shape (64, 256, ), Input shape (3136, 256, ), and Output shape (3136, 64, ), and the ID is 5
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 64)
+Applying Conv Low-Precision for Kernel shape (64, 576, ), Input shape (3364, 64, ), and Output shape (3136, 64, ), and the ID is 6
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 144)
+	Changing Input Shape
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (3136, 64, ), and Output shape (3136, 256, ), and the ID is 7
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 16)
+Applying Conv Low-Precision for Kernel shape (64, 256, ), Input shape (3136, 256, ), and Output shape (3136, 64, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 64)
+8
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 64)
+Applying Conv Low-Precision for Kernel shape (64, 576, ), Input shape (3364, 64, ), and Output shape (784, 64, ), and the ID is 9
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 144)
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (784, 64, ), and Output shape (784, 256, ), and the ID is 10
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 16)
+Applying Conv Low-Precision for Kernel shape (512, 256, ), Input shape (784, 256, ), and Output shape (784, 512, ), and the ID is 11
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 64)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (128, 256, ), Input shape (784, 256, ), and Output shape (784, 128, ), and the ID is 12
+	Allocating LowPrecision Weight Tensors with Shape of (128, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 64)
+Applying Conv Low-Precision for Kernel shape (128, 1152, ), Input shape (900, 128, ), and Output shape (784, 128, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 288)
+, and the ID is 13
+	Allocating LowPrecision Activations Tensors with Shape of (784, 288)
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 14
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 15
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 128)
+Applying Conv Low-Precision for Kernel shape (128, 1152, ), Input shape (900, 128, ), and Output shape (784, 128, ), and the ID is 16
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 288)
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 17
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 18
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 128)
+Applying Conv Low-Precision for Kernel shape (128, 1152, ), Input shape (900, 128, ), and Output shape (784, 128, ), and the ID is 19
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 288)
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 20
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 21
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 128)
+Applying Conv Low-Precision for Kernel shape (128, 1152, ), Input shape (900, 128, ), and Output shape (784, 128, ), and the ID is 22
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 288)
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 23
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 24
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 128)
+Applying Conv Low-Precision for Kernel shape (128, 1152, ), Input shape (900, 128, ), and Output shape (784, 128, ), and the ID is 25
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 288)
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 26
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 27
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 128)
+Applying Conv Low-Precision for Kernel shape (128, 1152, ), Input shape (900, 128, ), and Output shape (784, 128, ), and the ID is 28
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 288)
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 29
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 30
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 128)
+Applying Conv Low-Precision for Kernel shape (128, 1152, ), Input shape (900, 128, ), and Output shape (784, 128, ), and the ID is 31
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 288)
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 32
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 33
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 128)
+Applying Conv Low-Precision for Kernel shape (128, 1152, ), Input shape (900, 128, ), and Output shape (196, 128, ), and the ID is 34
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 288)
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (196, 128, ), and Output shape (196, 512, ), and the ID is 35
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 32)
+Applying Conv Low-Precision for Kernel shape (1024, 512, ), Input shape (196, 512, ), and Output shape (196, 1024, ), and the ID is 36
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 128)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (256, 512, ), Input shape (196, 512, ), and Output shape (196, 256, ), and the ID is 37
+	Allocating LowPrecision Weight Tensors with Shape of (256, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 128)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 38
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 39
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 40
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 41
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 42
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 43
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 44
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 45
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 46
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 47
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 48
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 49
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 50
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 51
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 52
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 53
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 54
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 55
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 56
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 57
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 58
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 59
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 60
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 61
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 62
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 63
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 64
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 65
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 66
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 67
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 68
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 69
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+, and the ID is 70
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 71
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 72
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 73
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 74
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 75
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 76
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 77
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 78
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 79
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 80
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 81
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 82
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 83
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 84
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 85
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 86	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 87
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 88
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 89
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 90
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 91
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 92
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 93
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 94
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 95
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 96
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 97
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 98
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 99
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 100
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 101
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 102
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 103
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 104
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 105
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 106
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 107
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 108
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 109
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 110
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 111
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 112
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 113
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 114
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 115
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 116
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 117
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 118
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 119
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 120
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 121
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 122
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 123
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 124
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 125
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 126
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 127
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 128
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 129
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 130
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 131
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 132
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 133
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 134
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 135
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 136
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 137
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 138
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 139
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (196, 256, ), and the ID is 140
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 141
+	Allocating LowPrecision Activations Tensors with Shape of (196, 64)
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 142
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 256)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (256, 256, ), and Output shape (49, 256, ), and the ID is 143
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (49, 256, ), and Output shape (49, 1024, ), and the ID is 144
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 64)
+Applying Conv Low-Precision for Kernel shape (2048, 1024, ), Input shape (49, 1024, ), and Output shape (49, 2048, ), and the ID is 145
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (2048, 256)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 256)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 256)
+Applying Conv Low-Precision for Kernel shape (512, 1024, ), Input shape (49, 1024, ), and Output shape (49, 512, ), and the ID is 146
+	Allocating LowPrecision Activations Tensors with Shape of (52, 256)
+Applying Conv Low-Precision for Kernel shape (512, 4608, ), Input shape (81, 512, ), and Output shape (49, 512, ), and the ID is 147
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 1152)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 1152)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (2048, 512, ), Input shape (49, 512, ), and Output shape (49, 2048, ), and the ID is 148
+	Allocating LowPrecision Weight Tensors with Shape of (2048, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 128)
+Applying Conv Low-Precision for Kernel shape (512, 2048, ), Input shape (49, 2048, ), and Output shape (49, 512, ), and the ID is 149
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 512)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 512)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 1152)
+Applying Conv Low-Precision for Kernel shape (512, 4608, ), Input shape (81, 512, ), and Output shape (49, 512, ), and the ID is 150
+	Allocating LowPrecision Activations Tensors with Shape of (52, 1152)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (2048, 128)
+Applying Conv Low-Precision for Kernel shape (2048, 512, ), Input shape (49, 512, ), and Output shape (49, 2048, ), and the ID is 151
+	Allocating LowPrecision Activations Tensors with Shape of (52, 128)
+Applying Conv Low-Precision for Kernel shape (512, 2048, ), Input shape (49, 2048, ), and Output shape (49, 512, ), and the ID is 152
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 512)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 512)
+Applying Conv Low-Precision for Kernel shape (512, 4608, ), Input shape (81, 512, ), and Output shape (49, 512, ), and the ID is 153
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (512, 1152)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 1152)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (2048, 512, ), Input shape (49, 512, ), and Output shape (49, 2048, ), and the ID is 154
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (2048, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 128)
+Applying Low-Precision for shape (1000, 2048, ) and Input shape (1, 2048, ) With 7 Number of Temporaries Tensors
+	Transformed Filter Shape: (1000, 512)
+	Transformed Activation Shape From: (1, 2048) To: (1, 512)
+The input model file size (MB): 61.0954
+Initialized session in 283.812ms.
+Running benchmark for at least 10 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=10 first=8403821 curr=8334335 min=8331283 max=8403821 avg=8.34184e+06 std=20739
+
+Running benchmark for at least 20 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=18 first=8344253 curr=8347251 min=8340379 max=8347251 avg=8.34386e+06 std=1954
+
+Inference timings in us: Init: 283812, First inference: 8403821, Warmup (avg): 8.34184e+06, Inference (avg): 8.34386e+06
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=68.4375 overall=83.7578
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  258.604	  258.604	100.000%	100.000%	 57644.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  258.604	  258.604	100.000%	100.000%	 57644.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	   258.604	   100.000%	   100.000%	 57644.000	        1
+
+Timings (microseconds): count=1 curr=258604
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                     PAD	            0.026	    0.397	    0.429	  0.005%	  0.005%	     0.000	        1	[resnet152v2/conv1_pad/Pad]:0
+	                 CONV_2D	            0.464	  345.766	  346.142	  4.150%	  4.156%	     0.000	        1	[resnet152v2/conv1_conv/BiasAdd;resnet152v2/conv1_conv/BiasAdd/ReadVariableOp;resnet152v2/conv1_conv/Conv2D]:1
+	                     PAD	          346.618	    1.751	    1.683	  0.020%	  4.176%	     0.000	        1	[resnet152v2/pool1_pad/Pad]:2
+	             MAX_POOL_2D	          348.311	  109.643	  109.035	  1.307%	  5.483%	     0.000	        1	[resnet152v2/pool1_pool/MaxPool]:3
+	                     MUL	          457.358	    2.262	    2.141	  0.026%	  5.509%	     0.000	        1	[resnet152v2/conv2_block1_preact_bn/FusedBatchNormV3]:4
+	                     ADD	          459.510	    2.096	    2.061	  0.025%	  5.533%	     0.000	        1	[resnet152v2/conv2_block1_preact_relu/Relu;resnet152v2/conv2_block1_preact_bn/FusedBatchNormV3]:5
+	                 CONV_2D	          461.581	  292.254	  291.782	  3.499%	  9.032%	     0.000	        1	[resnet152v2/conv2_block1_0_conv/BiasAdd;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block1_0_conv/Conv2D]:6
+	                 CONV_2D	          753.378	   90.186	   89.521	  1.073%	 10.105%	     0.000	        1	[resnet152v2/conv2_block1_1_relu/Relu;resnet152v2/conv2_block1_1_bn/FusedBatchNormV3;resnet152v2/conv1_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block1_1_conv/Conv2D]:7
+	                     PAD	          842.912	    0.542	    0.544	  0.007%	 10.112%	     0.000	        1	[resnet152v2/conv2_block1_2_pad/Pad]:8
+	                 CONV_2D	          843.464	   96.174	   95.649	  1.147%	 11.259%	     0.000	        1	[resnet152v2/conv2_block1_2_relu/Relu;resnet152v2/conv2_block1_2_bn/FusedBatchNormV3;resnet152v2/conv1_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block1_2_conv/Conv2D]:9
+	                 CONV_2D	          939.125	  286.725	  287.139	  3.443%	 14.702%	     0.000	        1	[resnet152v2/conv2_block1_3_conv/BiasAdd;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block1_3_conv/Conv2D]:10
+	                     ADD	         1226.277	    7.565	    7.597	  0.091%	 14.793%	     0.000	        1	[resnet152v2/conv2_block1_out/add]:11
+	                     MUL	         1233.886	    7.727	    7.626	  0.091%	 14.884%	     0.000	        1	[resnet152v2/conv2_block2_preact_bn/FusedBatchNormV3]:12
+	                     ADD	         1241.523	    7.570	    7.609	  0.091%	 14.976%	     0.000	        1	[resnet152v2/conv2_block2_preact_relu/Relu;resnet152v2/conv2_block2_preact_bn/FusedBatchNormV3]:13
+	                 CONV_2D	         1249.144	   88.590	   88.611	  1.062%	 16.038%	     0.000	        1	[resnet152v2/conv2_block2_1_relu/Relu;resnet152v2/conv2_block2_1_bn/FusedBatchNormV3;resnet152v2/conv1_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block2_1_conv/Conv2D]:14
+	                     PAD	         1337.767	    0.566	    0.531	  0.006%	 16.044%	     0.000	        1	[resnet152v2/conv2_block2_2_pad/Pad]:15
+	                 CONV_2D	         1338.307	   95.534	   95.590	  1.146%	 17.191%	     0.000	        1	[resnet152v2/conv2_block2_2_relu/Relu;resnet152v2/conv2_block2_2_bn/FusedBatchNormV3;resnet152v2/conv1_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block2_2_conv/Conv2D]:16
+	                 CONV_2D	         1433.909	  289.180	  289.387	  3.470%	 20.660%	     0.000	        1	[resnet152v2/conv2_block2_3_conv/BiasAdd;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block2_3_conv/Conv2D]:17
+	                     ADD	         1723.308	    7.573	    7.551	  0.091%	 20.751%	     0.000	        1	[resnet152v2/conv2_block2_out/add]:18
+	             MAX_POOL_2D	         1730.871	   14.336	   14.239	  0.171%	 20.922%	     0.000	        1	[resnet152v2/max_pooling2d_8/MaxPool]:19
+	                     MUL	         1745.121	    7.639	    7.584	  0.091%	 21.013%	     0.000	        1	[resnet152v2/conv2_block3_preact_bn/FusedBatchNormV3]:20
+	                     ADD	         1752.719	    7.598	    7.591	  0.091%	 21.104%	     0.000	        1	[resnet152v2/conv2_block3_preact_relu/Relu;resnet152v2/conv2_block3_preact_bn/FusedBatchNormV3]:21
+	                 CONV_2D	         1760.323	   88.695	   88.753	  1.064%	 22.168%	     0.000	        1	[resnet152v2/conv2_block3_1_relu/Relu;resnet152v2/conv2_block3_1_bn/FusedBatchNormV3;resnet152v2/conv1_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block3_1_conv/Conv2D]:22
+	                     PAD	         1849.087	    0.547	    0.541	  0.006%	 22.174%	     0.000	        1	[resnet152v2/conv2_block3_2_pad/Pad]:23
+	                 CONV_2D	         1849.637	   24.336	   24.368	  0.292%	 22.467%	     0.000	        1	[resnet152v2/conv2_block3_2_relu/Relu;resnet152v2/conv2_block3_2_bn/FusedBatchNormV3;resnet152v2/conv1_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block3_2_conv/Conv2D]:24
+	                 CONV_2D	         1874.017	   71.834	   71.923	  0.862%	 23.329%	     0.000	        1	[resnet152v2/conv2_block3_3_conv/BiasAdd;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block3_3_conv/Conv2D]:25
+	                     ADD	         1945.951	    1.944	    1.912	  0.023%	 23.352%	     0.000	        1	[resnet152v2/conv2_block3_out/add]:26
+	                     MUL	         1947.876	    1.897	    1.933	  0.023%	 23.375%	     0.000	        1	[resnet152v2/conv3_block1_preact_bn/FusedBatchNormV3]:27
+	                     ADD	         1949.818	    1.959	    1.909	  0.023%	 23.398%	     0.000	        1	[resnet152v2/conv3_block1_preact_relu/Relu;resnet152v2/conv3_block1_preact_bn/FusedBatchNormV3]:28
+	                 CONV_2D	         1951.738	  137.338	  137.645	  1.650%	 25.048%	     0.000	        1	[resnet152v2/conv3_block1_0_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block1_0_conv/Conv2D]:29
+	                 CONV_2D	         2089.395	   39.303	   39.388	  0.472%	 25.521%	     0.000	        1	[resnet152v2/conv3_block1_1_relu/Relu;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block1_1_conv/Conv2D]:30
+	                     PAD	         2128.795	    0.240	    0.239	  0.003%	 25.524%	     0.000	        1	[resnet152v2/conv3_block1_2_pad/Pad]:31
+	                 CONV_2D	         2129.041	   43.905	   43.990	  0.527%	 26.051%	     0.000	        1	[resnet152v2/conv3_block1_2_relu/Relu;resnet152v2/conv3_block1_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block1_2_conv/Conv2D]:32
+	                 CONV_2D	         2173.043	  139.316	  139.335	  1.671%	 27.722%	     0.000	        1	[resnet152v2/conv3_block1_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block1_3_conv/Conv2D]:33
+	                     ADD	         2312.390	    3.819	    3.809	  0.046%	 27.767%	     0.000	        1	[resnet152v2/conv3_block1_out/add]:34
+	                     MUL	         2316.211	    3.947	    3.947	  0.047%	 27.815%	     0.000	        1	[resnet152v2/conv3_block2_preact_bn/FusedBatchNormV3]:35
+	                     ADD	         2320.170	    3.870	    3.860	  0.046%	 27.861%	     0.000	        1	[resnet152v2/conv3_block2_preact_relu/Relu;resnet152v2/conv3_block2_preact_bn/FusedBatchNormV3]:36
+	                 CONV_2D	         2324.041	   40.762	   40.914	  0.491%	 28.352%	     0.000	        1	[resnet152v2/conv3_block2_1_relu/Relu;resnet152v2/conv3_block2_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block2_1_conv/Conv2D]:37
+	                     PAD	         2364.966	    0.174	    0.204	  0.002%	 28.354%	     0.000	        1	[resnet152v2/conv3_block2_2_pad/Pad]:38
+	                 CONV_2D	         2365.178	   43.973	   44.125	  0.529%	 28.883%	     0.000	        1	[resnet152v2/conv3_block2_2_relu/Relu;resnet152v2/conv3_block2_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block2_2_conv/Conv2D]:39
+	                 CONV_2D	         2409.314	  137.563	  137.825	  1.653%	 30.536%	     0.000	        1	[resnet152v2/conv3_block2_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block2_3_conv/Conv2D]:40
+	                     ADD	         2547.152	    3.794	    3.810	  0.046%	 30.581%	     0.000	        1	[resnet152v2/conv3_block2_out/add]:41
+	                     MUL	         2550.975	    3.950	    3.951	  0.047%	 30.629%	     0.000	        1	[resnet152v2/conv3_block3_preact_bn/FusedBatchNormV3]:42
+	                     ADD	         2554.937	    3.877	    3.851	  0.046%	 30.675%	     0.000	        1	[resnet152v2/conv3_block3_preact_relu/Relu;resnet152v2/conv3_block3_preact_bn/FusedBatchNormV3]:43
+	                 CONV_2D	         2558.800	   40.869	   40.932	  0.491%	 31.166%	     0.000	        1	[resnet152v2/conv3_block3_1_relu/Relu;resnet152v2/conv3_block3_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block3_1_conv/Conv2D]:44
+	                     PAD	         2599.744	    0.217	    0.231	  0.003%	 31.168%	     0.000	        1	[resnet152v2/conv3_block3_2_pad/Pad]:45
+	                 CONV_2D	         2599.982	   43.912	   43.915	  0.527%	 31.695%	     0.000	        1	[resnet152v2/conv3_block3_2_relu/Relu;resnet152v2/conv3_block3_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block3_2_conv/Conv2D]:46
+	                 CONV_2D	         2643.909	  141.089	  141.024	  1.691%	 33.386%	     0.000	        1	[resnet152v2/conv3_block3_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block3_3_conv/Conv2D]:47
+	                     ADD	         2784.945	    3.777	    3.787	  0.045%	 33.431%	     0.000	        1	[resnet152v2/conv3_block3_out/add]:48
+	                     MUL	         2788.747	    3.970	    3.947	  0.047%	 33.479%	     0.000	        1	[resnet152v2/conv3_block4_preact_bn/FusedBatchNormV3]:49
+	                     ADD	         2792.706	    3.858	    3.851	  0.046%	 33.525%	     0.000	        1	[resnet152v2/conv3_block4_preact_relu/Relu;resnet152v2/conv3_block4_preact_bn/FusedBatchNormV3]:50
+	                 CONV_2D	         2796.569	   40.804	   40.880	  0.490%	 34.015%	     0.000	        1	[resnet152v2/conv3_block4_1_relu/Relu;resnet152v2/conv3_block4_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block4_1_conv/Conv2D]:51
+	                     PAD	         2837.461	    0.199	    0.197	  0.002%	 34.017%	     0.000	        1	[resnet152v2/conv3_block4_2_pad/Pad]:52
+	                 CONV_2D	         2837.665	   44.005	   44.028	  0.528%	 34.545%	     0.000	        1	[resnet152v2/conv3_block4_2_relu/Relu;resnet152v2/conv3_block4_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block4_2_conv/Conv2D]:53
+	                 CONV_2D	         2881.706	  136.809	  136.608	  1.638%	 36.183%	     0.000	        1	[resnet152v2/conv3_block4_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block4_3_conv/Conv2D]:54
+	                     ADD	         3018.326	    3.804	    3.810	  0.046%	 36.229%	     0.000	        1	[resnet152v2/conv3_block4_out/add]:55
+	                     MUL	         3022.147	    3.935	    3.953	  0.047%	 36.276%	     0.000	        1	[resnet152v2/conv3_block5_preact_bn/FusedBatchNormV3]:56
+	                     ADD	         3026.112	    3.857	    3.858	  0.046%	 36.323%	     0.000	        1	[resnet152v2/conv3_block5_preact_relu/Relu;resnet152v2/conv3_block5_preact_bn/FusedBatchNormV3]:57
+	                 CONV_2D	         3029.981	   40.750	   40.774	  0.489%	 36.812%	     0.000	        1	[resnet152v2/conv3_block5_1_relu/Relu;resnet152v2/conv3_block5_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block5_1_conv/Conv2D]:58
+	                     PAD	         3070.771	    0.200	    0.200	  0.002%	 36.814%	     0.000	        1	[resnet152v2/conv3_block5_2_pad/Pad]:59
+	                 CONV_2D	         3070.978	   44.010	   43.977	  0.527%	 37.341%	     0.000	        1	[resnet152v2/conv3_block5_2_relu/Relu;resnet152v2/conv3_block5_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block5_2_conv/Conv2D]:60
+	                 CONV_2D	         3114.968	  138.195	  137.185	  1.645%	 38.986%	     0.000	        1	[resnet152v2/conv3_block5_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block5_3_conv/Conv2D]:61
+	                     ADD	         3252.165	    3.861	    3.823	  0.046%	 39.032%	     0.000	        1	[resnet152v2/conv3_block5_out/add]:62
+	                     MUL	         3256.001	    3.942	    3.962	  0.048%	 39.080%	     0.000	        1	[resnet152v2/conv3_block6_preact_bn/FusedBatchNormV3]:63
+	                     ADD	         3259.975	    3.867	    3.847	  0.046%	 39.126%	     0.000	        1	[resnet152v2/conv3_block6_preact_relu/Relu;resnet152v2/conv3_block6_preact_bn/FusedBatchNormV3]:64
+	                 CONV_2D	         3263.833	   41.244	   40.868	  0.490%	 39.616%	     0.000	        1	[resnet152v2/conv3_block6_1_relu/Relu;resnet152v2/conv3_block6_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block6_1_conv/Conv2D]:65
+	                     PAD	         3304.714	    0.294	    0.221	  0.003%	 39.618%	     0.000	        1	[resnet152v2/conv3_block6_2_pad/Pad]:66
+	                 CONV_2D	         3304.942	   43.953	   44.075	  0.528%	 40.147%	     0.000	        1	[resnet152v2/conv3_block6_2_relu/Relu;resnet152v2/conv3_block6_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block6_2_conv/Conv2D]:67
+	                 CONV_2D	         3349.029	  137.768	  137.718	  1.651%	 41.798%	     0.000	        1	[resnet152v2/conv3_block6_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block6_3_conv/Conv2D]:68
+	                     ADD	         3486.760	    3.812	    3.819	  0.046%	 41.844%	     0.000	        1	[resnet152v2/conv3_block6_out/add]:69
+	                     MUL	         3490.589	    3.957	    3.945	  0.047%	 41.891%	     0.000	        1	[resnet152v2/conv3_block7_preact_bn/FusedBatchNormV3]:70
+	                     ADD	         3494.545	    3.838	    3.849	  0.046%	 41.937%	     0.000	        1	[resnet152v2/conv3_block7_preact_relu/Relu;resnet152v2/conv3_block7_preact_bn/FusedBatchNormV3]:71
+	                 CONV_2D	         3498.406	   40.725	   40.865	  0.490%	 42.427%	     0.000	        1	[resnet152v2/conv3_block7_1_relu/Relu;resnet152v2/conv3_block7_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block7_1_conv/Conv2D]:72
+	                     PAD	         3539.285	    0.229	    0.244	  0.003%	 42.430%	     0.000	        1	[resnet152v2/conv3_block7_2_pad/Pad]:73
+	                 CONV_2D	         3539.535	   43.822	   43.974	  0.527%	 42.958%	     0.000	        1	[resnet152v2/conv3_block7_2_relu/Relu;resnet152v2/conv3_block7_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block7_2_conv/Conv2D]:74
+	                 CONV_2D	         3583.521	  139.466	  139.758	  1.676%	 44.633%	     0.000	        1	[resnet152v2/conv3_block7_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block7_3_conv/Conv2D]:75
+	                     ADD	         3723.291	    3.781	    3.803	  0.046%	 44.679%	     0.000	        1	[resnet152v2/conv3_block7_out/add]:76
+	             MAX_POOL_2D	         3727.106	    6.795	    6.687	  0.080%	 44.759%	     0.000	        1	[resnet152v2/max_pooling2d_9/MaxPool]:77
+	                     MUL	         3733.803	    3.949	    3.957	  0.047%	 44.807%	     0.000	        1	[resnet152v2/conv3_block8_preact_bn/FusedBatchNormV3]:78
+	                     ADD	         3737.770	    3.813	    3.851	  0.046%	 44.853%	     0.000	        1	[resnet152v2/conv3_block8_preact_relu/Relu;resnet152v2/conv3_block8_preact_bn/FusedBatchNormV3]:79
+	                 CONV_2D	         3741.633	   40.816	   40.816	  0.489%	 45.342%	     0.000	        1	[resnet152v2/conv3_block8_1_relu/Relu;resnet152v2/conv3_block8_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block8_1_conv/Conv2D]:80
+	                     PAD	         3782.461	    0.183	    0.195	  0.002%	 45.344%	     0.000	        1	[resnet152v2/conv3_block8_2_pad/Pad]:81
+	                 CONV_2D	         3782.663	   11.319	   11.322	  0.136%	 45.480%	     0.000	        1	[resnet152v2/conv3_block8_2_relu/Relu;resnet152v2/conv3_block8_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152v2/conv3_block8_2_conv/Conv2D]:82
+	                 CONV_2D	         3793.997	   34.247	   34.329	  0.412%	 45.892%	     0.000	        1	[resnet152v2/conv3_block8_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block8_3_conv/Conv2D]:83
+	                     ADD	         3828.337	    0.916	    0.935	  0.011%	 45.903%	     0.000	        1	[resnet152v2/conv3_block8_out/add]:84
+	                     MUL	         3829.281	    1.012	    0.994	  0.012%	 45.915%	     0.000	        1	[resnet152v2/conv4_block1_preact_bn/FusedBatchNormV3]:85
+	                     ADD	         3830.282	    0.998	    0.974	  0.012%	 45.927%	     0.000	        1	[resnet152v2/conv4_block1_preact_relu/Relu;resnet152v2/conv4_block1_preact_bn/FusedBatchNormV3]:86
+	                 CONV_2D	         3831.264	   70.247	   70.323	  0.843%	 46.770%	     0.000	        1	[resnet152v2/conv4_block1_0_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block1_0_conv/Conv2D]:87
+	                 CONV_2D	         3901.602	   19.076	   19.071	  0.229%	 46.999%	     0.000	        1	[resnet152v2/conv4_block1_1_relu/Relu;resnet152v2/conv4_block1_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block1_1_conv/Conv2D]:88
+	                     PAD	         3920.684	    0.104	    0.110	  0.001%	 47.000%	     0.000	        1	[resnet152v2/conv4_block1_2_pad/Pad]:89
+	                 CONV_2D	         3920.800	   22.371	   22.412	  0.269%	 47.269%	     0.000	        1	[resnet152v2/conv4_block1_2_relu/Relu;resnet152v2/conv4_block1_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block1_2_conv/Conv2D]:90
+	                 CONV_2D	         3943.224	   68.002	   68.099	  0.817%	 48.085%	     0.000	        1	[resnet152v2/conv4_block1_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block1_3_conv/Conv2D]:91
+	                     ADD	         4011.335	    1.929	    1.922	  0.023%	 48.108%	     0.000	        1	[resnet152v2/conv4_block1_out/add]:92
+	                     MUL	         4013.268	    1.965	    1.965	  0.024%	 48.132%	     0.000	        1	[resnet152v2/conv4_block2_preact_bn/FusedBatchNormV3]:93
+	                     ADD	         4015.243	    1.928	    1.913	  0.023%	 48.155%	     0.000	        1	[resnet152v2/conv4_block2_preact_relu/Relu;resnet152v2/conv4_block2_preact_bn/FusedBatchNormV3]:94
+	                 CONV_2D	         4017.167	   20.344	   20.340	  0.244%	 48.399%	     0.000	        1	[resnet152v2/conv4_block2_1_relu/Relu;resnet152v2/conv4_block2_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block2_1_conv/Conv2D]:95
+	                     PAD	         4037.520	    0.086	    0.089	  0.001%	 48.400%	     0.000	        1	[resnet152v2/conv4_block2_2_pad/Pad]:96
+	                 CONV_2D	         4037.616	   22.305	   22.326	  0.268%	 48.667%	     0.000	        1	[resnet152v2/conv4_block2_2_relu/Relu;resnet152v2/conv4_block2_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block2_2_conv/Conv2D]:97
+	                 CONV_2D	         4059.953	   67.942	   67.963	  0.815%	 49.482%	     0.000	        1	[resnet152v2/conv4_block2_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block2_3_conv/Conv2D]:98
+	                     ADD	         4127.928	    1.929	    1.904	  0.023%	 49.505%	     0.000	        1	[resnet152v2/conv4_block2_out/add]:99
+	                     MUL	         4129.842	    1.971	    1.974	  0.024%	 49.529%	     0.000	        1	[resnet152v2/conv4_block3_preact_bn/FusedBatchNormV3]:100
+	                     ADD	         4131.826	    1.893	    1.911	  0.023%	 49.552%	     0.000	        1	[resnet152v2/conv4_block3_preact_relu/Relu;resnet152v2/conv4_block3_preact_bn/FusedBatchNormV3]:101
+	                 CONV_2D	         4133.748	   20.331	   20.340	  0.244%	 49.796%	     0.000	        1	[resnet152v2/conv4_block3_1_relu/Relu;resnet152v2/conv4_block3_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block3_1_conv/Conv2D]:102
+	                     PAD	         4154.100	    0.118	    0.127	  0.002%	 49.797%	     0.000	        1	[resnet152v2/conv4_block3_2_pad/Pad]:103
+	                 CONV_2D	         4154.233	   23.072	   23.078	  0.277%	 50.074%	     0.000	        1	[resnet152v2/conv4_block3_2_relu/Relu;resnet152v2/conv4_block3_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block3_2_conv/Conv2D]:104
+	                 CONV_2D	         4177.323	   68.393	   68.373	  0.820%	 50.894%	     0.000	        1	[resnet152v2/conv4_block3_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block3_3_conv/Conv2D]:105
+	                     ADD	         4245.708	    1.973	    1.917	  0.023%	 50.917%	     0.000	        1	[resnet152v2/conv4_block3_out/add]:106
+	                     MUL	         4247.634	    1.928	    1.975	  0.024%	 50.940%	     0.000	        1	[resnet152v2/conv4_block4_preact_bn/FusedBatchNormV3]:107
+	                     ADD	         4249.620	    1.952	    1.909	  0.023%	 50.963%	     0.000	        1	[resnet152v2/conv4_block4_preact_relu/Relu;resnet152v2/conv4_block4_preact_bn/FusedBatchNormV3]:108
+	                 CONV_2D	         4251.539	   20.639	   20.609	  0.247%	 51.210%	     0.000	        1	[resnet152v2/conv4_block4_1_relu/Relu;resnet152v2/conv4_block4_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block4_1_conv/Conv2D]:109
+	                     PAD	         4272.160	    0.090	    0.094	  0.001%	 51.211%	     0.000	        1	[resnet152v2/conv4_block4_2_pad/Pad]:110
+	                 CONV_2D	         4272.261	   22.563	   22.564	  0.271%	 51.482%	     0.000	        1	[resnet152v2/conv4_block4_2_relu/Relu;resnet152v2/conv4_block4_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block4_2_conv/Conv2D]:111
+	                 CONV_2D	         4294.837	   68.499	   68.583	  0.822%	 52.304%	     0.000	        1	[resnet152v2/conv4_block4_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block4_3_conv/Conv2D]:112
+	                     ADD	         4363.432	    1.927	    1.928	  0.023%	 52.327%	     0.000	        1	[resnet152v2/conv4_block4_out/add]:113
+	                     MUL	         4365.370	    1.966	    1.958	  0.023%	 52.351%	     0.000	        1	[resnet152v2/conv4_block5_preact_bn/FusedBatchNormV3]:114
+	                     ADD	         4367.338	    1.933	    1.921	  0.023%	 52.374%	     0.000	        1	[resnet152v2/conv4_block5_preact_relu/Relu;resnet152v2/conv4_block5_preact_bn/FusedBatchNormV3]:115
+	                 CONV_2D	         4369.269	   20.355	   20.394	  0.245%	 52.618%	     0.000	        1	[resnet152v2/conv4_block5_1_relu/Relu;resnet152v2/conv4_block5_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block5_1_conv/Conv2D]:116
+	                     PAD	         4389.675	    0.121	    0.119	  0.001%	 52.620%	     0.000	        1	[resnet152v2/conv4_block5_2_pad/Pad]:117
+	                 CONV_2D	         4389.801	   22.547	   22.579	  0.271%	 52.891%	     0.000	        1	[resnet152v2/conv4_block5_2_relu/Relu;resnet152v2/conv4_block5_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block5_2_conv/Conv2D]:118
+	                 CONV_2D	         4412.392	   68.254	   68.405	  0.820%	 53.711%	     0.000	        1	[resnet152v2/conv4_block5_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block5_3_conv/Conv2D]:119
+	                     ADD	         4480.809	    1.924	    1.912	  0.023%	 53.734%	     0.000	        1	[resnet152v2/conv4_block5_out/add]:120
+	                     MUL	         4482.730	    1.965	    1.986	  0.024%	 53.758%	     0.000	        1	[resnet152v2/conv4_block6_preact_bn/FusedBatchNormV3]:121
+	                     ADD	         4484.726	    1.931	    1.912	  0.023%	 53.780%	     0.000	        1	[resnet152v2/conv4_block6_preact_relu/Relu;resnet152v2/conv4_block6_preact_bn/FusedBatchNormV3]:122
+	                 CONV_2D	         4486.648	   20.322	   20.426	  0.245%	 54.025%	     0.000	        1	[resnet152v2/conv4_block6_1_relu/Relu;resnet152v2/conv4_block6_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block6_1_conv/Conv2D]:123
+	                     PAD	         4507.086	    0.129	    0.143	  0.002%	 54.027%	     0.000	        1	[resnet152v2/conv4_block6_2_pad/Pad]:124
+	                 CONV_2D	         4507.236	   22.411	   22.433	  0.269%	 54.296%	     0.000	        1	[resnet152v2/conv4_block6_2_relu/Relu;resnet152v2/conv4_block6_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block6_2_conv/Conv2D]:125
+	                 CONV_2D	         4529.680	   68.720	   68.831	  0.825%	 55.121%	     0.000	        1	[resnet152v2/conv4_block6_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block6_3_conv/Conv2D]:126
+	                     ADD	         4598.523	    1.959	    1.943	  0.023%	 55.145%	     0.000	        1	[resnet152v2/conv4_block6_out/add]:127
+	                     MUL	         4600.476	    1.926	    1.947	  0.023%	 55.168%	     0.000	        1	[resnet152v2/conv4_block7_preact_bn/FusedBatchNormV3]:128
+	                     ADD	         4602.432	    1.953	    1.929	  0.023%	 55.191%	     0.000	        1	[resnet152v2/conv4_block7_preact_relu/Relu;resnet152v2/conv4_block7_preact_bn/FusedBatchNormV3]:129
+	                 CONV_2D	         4604.374	   20.420	   20.563	  0.247%	 55.438%	     0.000	        1	[resnet152v2/conv4_block7_1_relu/Relu;resnet152v2/conv4_block7_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block7_1_conv/Conv2D]:130
+	                     PAD	         4624.949	    0.082	    0.117	  0.001%	 55.439%	     0.000	        1	[resnet152v2/conv4_block7_2_pad/Pad]:131
+	                 CONV_2D	         4625.072	   22.481	   22.590	  0.271%	 55.710%	     0.000	        1	[resnet152v2/conv4_block7_2_relu/Relu;resnet152v2/conv4_block7_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block7_2_conv/Conv2D]:132
+	                 CONV_2D	         4647.674	   69.727	   69.990	  0.839%	 56.549%	     0.000	        1	[resnet152v2/conv4_block7_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block7_3_conv/Conv2D]:133
+	                     ADD	         4717.678	    1.888	    1.926	  0.023%	 56.572%	     0.000	        1	[resnet152v2/conv4_block7_out/add]:134
+	                     MUL	         4719.614	    1.955	    1.963	  0.024%	 56.596%	     0.000	        1	[resnet152v2/conv4_block8_preact_bn/FusedBatchNormV3]:135
+	                     ADD	         4721.587	    1.932	    1.924	  0.023%	 56.619%	     0.000	        1	[resnet152v2/conv4_block8_preact_relu/Relu;resnet152v2/conv4_block8_preact_bn/FusedBatchNormV3]:136
+	                 CONV_2D	         4723.521	   20.711	   20.799	  0.249%	 56.868%	     0.000	        1	[resnet152v2/conv4_block8_1_relu/Relu;resnet152v2/conv4_block8_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block8_1_conv/Conv2D]:137
+	                     PAD	         4744.332	    0.083	    0.107	  0.001%	 56.870%	     0.000	        1	[resnet152v2/conv4_block8_2_pad/Pad]:138
+	                 CONV_2D	         4744.445	   22.779	   22.905	  0.275%	 57.144%	     0.000	        1	[resnet152v2/conv4_block8_2_relu/Relu;resnet152v2/conv4_block8_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block8_2_conv/Conv2D]:139
+	                 CONV_2D	         4767.362	   69.975	   70.256	  0.842%	 57.987%	     0.000	        1	[resnet152v2/conv4_block8_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block8_3_conv/Conv2D]:140
+	                     ADD	         4837.630	    1.878	    1.919	  0.023%	 58.010%	     0.000	        1	[resnet152v2/conv4_block8_out/add]:141
+	                     MUL	         4839.558	    2.009	    1.965	  0.024%	 58.033%	     0.000	        1	[resnet152v2/conv4_block9_preact_bn/FusedBatchNormV3]:142
+	                     ADD	         4841.533	    1.892	    1.920	  0.023%	 58.056%	     0.000	        1	[resnet152v2/conv4_block9_preact_relu/Relu;resnet152v2/conv4_block9_preact_bn/FusedBatchNormV3]:143
+	                 CONV_2D	         4843.463	   20.383	   20.444	  0.245%	 58.301%	     0.000	        1	[resnet152v2/conv4_block9_1_relu/Relu;resnet152v2/conv4_block9_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block9_1_conv/Conv2D]:144
+	                     PAD	         4863.919	    0.133	    0.129	  0.002%	 58.303%	     0.000	        1	[resnet152v2/conv4_block9_2_pad/Pad]:145
+	                 CONV_2D	         4864.054	   22.594	   22.609	  0.271%	 58.574%	     0.000	        1	[resnet152v2/conv4_block9_2_relu/Relu;resnet152v2/conv4_block9_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block9_2_conv/Conv2D]:146
+	                 CONV_2D	         4886.675	   68.813	   68.935	  0.827%	 59.401%	     0.000	        1	[resnet152v2/conv4_block9_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block9_3_conv/Conv2D]:147
+	                     ADD	         4955.622	    1.925	    1.930	  0.023%	 59.424%	     0.000	        1	[resnet152v2/conv4_block9_out/add]:148
+	                     MUL	         4957.561	    1.965	    1.959	  0.023%	 59.447%	     0.000	        1	[resnet152v2/conv4_block10_preact_bn/FusedBatchNormV3]:149
+	                     ADD	         4959.530	    1.927	    1.927	  0.023%	 59.470%	     0.000	        1	[resnet152v2/conv4_block10_preact_relu/Relu;resnet152v2/conv4_block10_preact_bn/FusedBatchNormV3]:150
+	                 CONV_2D	         4961.468	   20.992	   21.028	  0.252%	 59.722%	     0.000	        1	[resnet152v2/conv4_block10_1_relu/Relu;resnet152v2/conv4_block10_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block10_1_conv/Conv2D]:151
+	                     PAD	         4982.508	    0.113	    0.123	  0.001%	 59.724%	     0.000	        1	[resnet152v2/conv4_block10_2_pad/Pad]:152
+	                 CONV_2D	         4982.637	   22.846	   22.869	  0.274%	 59.998%	     0.000	        1	[resnet152v2/conv4_block10_2_relu/Relu;resnet152v2/conv4_block10_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block10_2_conv/Conv2D]:153
+	                 CONV_2D	         5005.518	   69.839	   69.874	  0.838%	 60.836%	     0.000	        1	[resnet152v2/conv4_block10_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block10_3_conv/Conv2D]:154
+	                     ADD	         5075.404	    1.923	    1.929	  0.023%	 60.859%	     0.000	        1	[resnet152v2/conv4_block10_out/add]:155
+	                     MUL	         5077.343	    1.924	    1.956	  0.023%	 60.883%	     0.000	        1	[resnet152v2/conv4_block11_preact_bn/FusedBatchNormV3]:156
+	                     ADD	         5079.309	    1.962	    1.925	  0.023%	 60.906%	     0.000	        1	[resnet152v2/conv4_block11_preact_relu/Relu;resnet152v2/conv4_block11_preact_bn/FusedBatchNormV3]:157
+	                 CONV_2D	         5081.244	   20.413	   20.430	  0.245%	 61.151%	     0.000	        1	[resnet152v2/conv4_block11_1_relu/Relu;resnet152v2/conv4_block11_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block11_1_conv/Conv2D]:158
+	                     PAD	         5101.685	    0.153	    0.125	  0.002%	 61.152%	     0.000	        1	[resnet152v2/conv4_block11_2_pad/Pad]:159
+	                 CONV_2D	         5101.817	   22.575	   22.638	  0.271%	 61.424%	     0.000	        1	[resnet152v2/conv4_block11_2_relu/Relu;resnet152v2/conv4_block11_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block11_2_conv/Conv2D]:160
+	                 CONV_2D	         5124.467	   68.993	   68.974	  0.827%	 62.251%	     0.000	        1	[resnet152v2/conv4_block11_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block11_3_conv/Conv2D]:161
+	                     ADD	         5193.453	    1.882	    1.913	  0.023%	 62.273%	     0.000	        1	[resnet152v2/conv4_block11_out/add]:162
+	                     MUL	         5195.376	    1.974	    1.964	  0.024%	 62.297%	     0.000	        1	[resnet152v2/conv4_block12_preact_bn/FusedBatchNormV3]:163
+	                     ADD	         5197.350	    1.929	    1.923	  0.023%	 62.320%	     0.000	        1	[resnet152v2/conv4_block12_preact_relu/Relu;resnet152v2/conv4_block12_preact_bn/FusedBatchNormV3]:164
+	                 CONV_2D	         5199.283	   19.998	   20.045	  0.240%	 62.560%	     0.000	        1	[resnet152v2/conv4_block12_1_relu/Relu;resnet152v2/conv4_block12_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block12_1_conv/Conv2D]:165
+	                     PAD	         5219.339	    0.116	    0.119	  0.001%	 62.562%	     0.000	        1	[resnet152v2/conv4_block12_2_pad/Pad]:166
+	                 CONV_2D	         5219.465	   22.551	   22.586	  0.271%	 62.833%	     0.000	        1	[resnet152v2/conv4_block12_2_relu/Relu;resnet152v2/conv4_block12_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block12_2_conv/Conv2D]:167
+	                 CONV_2D	         5242.063	   68.808	   68.801	  0.825%	 63.658%	     0.000	        1	[resnet152v2/conv4_block12_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block12_3_conv/Conv2D]:168
+	                     ADD	         5310.876	    1.916	    1.917	  0.023%	 63.681%	     0.000	        1	[resnet152v2/conv4_block12_out/add]:169
+	                     MUL	         5312.804	    1.923	    1.953	  0.023%	 63.704%	     0.000	        1	[resnet152v2/conv4_block13_preact_bn/FusedBatchNormV3]:170
+	                     ADD	         5314.766	    1.924	    1.920	  0.023%	 63.727%	     0.000	        1	[resnet152v2/conv4_block13_preact_relu/Relu;resnet152v2/conv4_block13_preact_bn/FusedBatchNormV3]:171
+	                 CONV_2D	         5316.696	   21.086	   21.104	  0.253%	 63.980%	     0.000	        1	[resnet152v2/conv4_block13_1_relu/Relu;resnet152v2/conv4_block13_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block13_1_conv/Conv2D]:172
+	                     PAD	         5337.812	    0.083	    0.090	  0.001%	 63.981%	     0.000	        1	[resnet152v2/conv4_block13_2_pad/Pad]:173
+	                 CONV_2D	         5337.909	   22.626	   22.609	  0.271%	 64.252%	     0.000	        1	[resnet152v2/conv4_block13_2_relu/Relu;resnet152v2/conv4_block13_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block13_2_conv/Conv2D]:174
+	                 CONV_2D	         5360.530	   69.094	   68.631	  0.823%	 65.075%	     0.000	        1	[resnet152v2/conv4_block13_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block13_3_conv/Conv2D]:175
+	                     ADD	         5429.173	    1.885	    1.914	  0.023%	 65.098%	     0.000	        1	[resnet152v2/conv4_block13_out/add]:176
+	                     MUL	         5431.096	    2.033	    1.965	  0.024%	 65.122%	     0.000	        1	[resnet152v2/conv4_block14_preact_bn/FusedBatchNormV3]:177
+	                     ADD	         5433.071	    1.892	    1.911	  0.023%	 65.145%	     0.000	        1	[resnet152v2/conv4_block14_preact_relu/Relu;resnet152v2/conv4_block14_preact_bn/FusedBatchNormV3]:178
+	                 CONV_2D	         5434.992	   20.437	   20.466	  0.245%	 65.390%	     0.000	        1	[resnet152v2/conv4_block14_1_relu/Relu;resnet152v2/conv4_block14_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block14_1_conv/Conv2D]:179
+	                     PAD	         5455.470	    0.117	    0.124	  0.001%	 65.392%	     0.000	        1	[resnet152v2/conv4_block14_2_pad/Pad]:180
+	                 CONV_2D	         5455.601	   22.719	   22.748	  0.273%	 65.664%	     0.000	        1	[resnet152v2/conv4_block14_2_relu/Relu;resnet152v2/conv4_block14_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block14_2_conv/Conv2D]:181
+	                 CONV_2D	         5478.362	   69.799	   69.353	  0.832%	 66.496%	     0.000	        1	[resnet152v2/conv4_block14_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block14_3_conv/Conv2D]:182
+	                     ADD	         5547.726	    1.971	    1.923	  0.023%	 66.519%	     0.000	        1	[resnet152v2/conv4_block14_out/add]:183
+	                     MUL	         5549.659	    1.920	    1.951	  0.023%	 66.542%	     0.000	        1	[resnet152v2/conv4_block15_preact_bn/FusedBatchNormV3]:184
+	                     ADD	         5551.619	    1.900	    1.930	  0.023%	 66.565%	     0.000	        1	[resnet152v2/conv4_block15_preact_relu/Relu;resnet152v2/conv4_block15_preact_bn/FusedBatchNormV3]:185
+	                 CONV_2D	         5553.560	   20.533	   20.343	  0.244%	 66.809%	     0.000	        1	[resnet152v2/conv4_block15_1_relu/Relu;resnet152v2/conv4_block15_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block15_1_conv/Conv2D]:186
+	                     PAD	         5573.914	    0.175	    0.128	  0.002%	 66.811%	     0.000	        1	[resnet152v2/conv4_block15_2_pad/Pad]:187
+	                 CONV_2D	         5574.048	   22.990	   22.799	  0.273%	 67.084%	     0.000	        1	[resnet152v2/conv4_block15_2_relu/Relu;resnet152v2/conv4_block15_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block15_2_conv/Conv2D]:188
+	                 CONV_2D	         5596.858	   69.817	   69.385	  0.832%	 67.916%	     0.000	        1	[resnet152v2/conv4_block15_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block15_3_conv/Conv2D]:189
+	                     ADD	         5666.256	    1.929	    1.934	  0.023%	 67.939%	     0.000	        1	[resnet152v2/conv4_block15_out/add]:190
+	                     MUL	         5668.203	    1.929	    1.947	  0.023%	 67.963%	     0.000	        1	[resnet152v2/conv4_block16_preact_bn/FusedBatchNormV3]:191
+	                     ADD	         5670.159	    1.982	    1.930	  0.023%	 67.986%	     0.000	        1	[resnet152v2/conv4_block16_preact_relu/Relu;resnet152v2/conv4_block16_preact_bn/FusedBatchNormV3]:192
+	                 CONV_2D	         5672.100	   20.850	   20.639	  0.247%	 68.233%	     0.000	        1	[resnet152v2/conv4_block16_1_relu/Relu;resnet152v2/conv4_block16_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block16_1_conv/Conv2D]:193
+	                     PAD	         5692.751	    0.175	    0.105	  0.001%	 68.235%	     0.000	        1	[resnet152v2/conv4_block16_2_pad/Pad]:194
+	                 CONV_2D	         5692.862	   22.643	   22.534	  0.270%	 68.505%	     0.000	        1	[resnet152v2/conv4_block16_2_relu/Relu;resnet152v2/conv4_block16_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block16_2_conv/Conv2D]:195
+	                 CONV_2D	         5715.410	   70.232	   69.848	  0.838%	 69.342%	     0.000	        1	[resnet152v2/conv4_block16_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block16_3_conv/Conv2D]:196
+	                     ADD	         5785.271	    1.925	    1.916	  0.023%	 69.365%	     0.000	        1	[resnet152v2/conv4_block16_out/add]:197
+	                     MUL	         5787.196	    1.964	    1.980	  0.024%	 69.389%	     0.000	        1	[resnet152v2/conv4_block17_preact_bn/FusedBatchNormV3]:198
+	                     ADD	         5789.186	    1.927	    1.919	  0.023%	 69.412%	     0.000	        1	[resnet152v2/conv4_block17_preact_relu/Relu;resnet152v2/conv4_block17_preact_bn/FusedBatchNormV3]:199
+	                 CONV_2D	         5791.115	   20.571	   20.617	  0.247%	 69.659%	     0.000	        1	[resnet152v2/conv4_block17_1_relu/Relu;resnet152v2/conv4_block17_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block17_1_conv/Conv2D]:200
+	                     PAD	         5811.748	    0.149	    0.117	  0.001%	 69.661%	     0.000	        1	[resnet152v2/conv4_block17_2_pad/Pad]:201
+	                 CONV_2D	         5811.872	   22.466	   22.521	  0.270%	 69.931%	     0.000	        1	[resnet152v2/conv4_block17_2_relu/Relu;resnet152v2/conv4_block17_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block17_2_conv/Conv2D]:202
+	                 CONV_2D	         5834.405	   70.285	   70.446	  0.845%	 70.775%	     0.000	        1	[resnet152v2/conv4_block17_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block17_3_conv/Conv2D]:203
+	                     ADD	         5904.863	    1.959	    1.919	  0.023%	 70.798%	     0.000	        1	[resnet152v2/conv4_block17_out/add]:204
+	                     MUL	         5906.791	    1.923	    1.973	  0.024%	 70.822%	     0.000	        1	[resnet152v2/conv4_block18_preact_bn/FusedBatchNormV3]:205
+	                     ADD	         5908.775	    1.963	    1.909	  0.023%	 70.845%	     0.000	        1	[resnet152v2/conv4_block18_preact_relu/Relu;resnet152v2/conv4_block18_preact_bn/FusedBatchNormV3]:206
+	                 CONV_2D	         5910.693	   20.571	   20.633	  0.247%	 71.092%	     0.000	        1	[resnet152v2/conv4_block18_1_relu/Relu;resnet152v2/conv4_block18_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block18_1_conv/Conv2D]:207
+	                     PAD	         5931.338	    0.120	    0.138	  0.002%	 71.094%	     0.000	        1	[resnet152v2/conv4_block18_2_pad/Pad]:208
+	                 CONV_2D	         5931.482	   22.623	   22.733	  0.273%	 71.367%	     0.000	        1	[resnet152v2/conv4_block18_2_relu/Relu;resnet152v2/conv4_block18_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block18_2_conv/Conv2D]:209
+	                 CONV_2D	         5954.226	   69.075	   69.259	  0.830%	 72.197%	     0.000	        1	[resnet152v2/conv4_block18_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block18_3_conv/Conv2D]:210
+	                     ADD	         6023.497	    1.887	    1.938	  0.023%	 72.220%	     0.000	        1	[resnet152v2/conv4_block18_out/add]:211
+	                     MUL	         6025.444	    1.965	    1.950	  0.023%	 72.244%	     0.000	        1	[resnet152v2/conv4_block19_preact_bn/FusedBatchNormV3]:212
+	                     ADD	         6027.404	    1.916	    1.922	  0.023%	 72.267%	     0.000	        1	[resnet152v2/conv4_block19_preact_relu/Relu;resnet152v2/conv4_block19_preact_bn/FusedBatchNormV3]:213
+	                 CONV_2D	         6029.336	   20.347	   20.428	  0.245%	 72.512%	     0.000	        1	[resnet152v2/conv4_block19_1_relu/Relu;resnet152v2/conv4_block19_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block19_1_conv/Conv2D]:214
+	                     PAD	         6049.776	    0.085	    0.104	  0.001%	 72.513%	     0.000	        1	[resnet152v2/conv4_block19_2_pad/Pad]:215
+	                 CONV_2D	         6049.886	   23.205	   23.272	  0.279%	 72.792%	     0.000	        1	[resnet152v2/conv4_block19_2_relu/Relu;resnet152v2/conv4_block19_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block19_2_conv/Conv2D]:216
+	                 CONV_2D	         6073.170	   69.456	   69.566	  0.834%	 73.626%	     0.000	        1	[resnet152v2/conv4_block19_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block19_3_conv/Conv2D]:217
+	                     ADD	         6142.748	    1.905	    1.915	  0.023%	 73.649%	     0.000	        1	[resnet152v2/conv4_block19_out/add]:218
+	                     MUL	         6144.673	    1.963	    1.956	  0.023%	 73.672%	     0.000	        1	[resnet152v2/conv4_block20_preact_bn/FusedBatchNormV3]:219
+	                     ADD	         6146.639	    1.927	    1.934	  0.023%	 73.696%	     0.000	        1	[resnet152v2/conv4_block20_preact_relu/Relu;resnet152v2/conv4_block20_preact_bn/FusedBatchNormV3]:220
+	                 CONV_2D	         6148.583	   20.500	   20.459	  0.245%	 73.941%	     0.000	        1	[resnet152v2/conv4_block20_1_relu/Relu;resnet152v2/conv4_block20_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block20_1_conv/Conv2D]:221
+	                     PAD	         6169.053	    0.128	    0.118	  0.001%	 73.942%	     0.000	        1	[resnet152v2/conv4_block20_2_pad/Pad]:222
+	                 CONV_2D	         6169.178	   23.087	   23.091	  0.277%	 74.219%	     0.000	        1	[resnet152v2/conv4_block20_2_relu/Relu;resnet152v2/conv4_block20_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block20_2_conv/Conv2D]:223
+	                 CONV_2D	         6192.280	   68.725	   68.616	  0.823%	 75.042%	     0.000	        1	[resnet152v2/conv4_block20_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block20_3_conv/Conv2D]:224
+	                     ADD	         6260.909	    1.930	    1.900	  0.023%	 75.065%	     0.000	        1	[resnet152v2/conv4_block20_out/add]:225
+	                     MUL	         6262.818	    1.990	    1.983	  0.024%	 75.089%	     0.000	        1	[resnet152v2/conv4_block21_preact_bn/FusedBatchNormV3]:226
+	                     ADD	         6264.812	    1.893	    1.910	  0.023%	 75.111%	     0.000	        1	[resnet152v2/conv4_block21_preact_relu/Relu;resnet152v2/conv4_block21_preact_bn/FusedBatchNormV3]:227
+	                 CONV_2D	         6266.732	   20.504	   20.447	  0.245%	 75.357%	     0.000	        1	[resnet152v2/conv4_block21_1_relu/Relu;resnet152v2/conv4_block21_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block21_1_conv/Conv2D]:228
+	                     PAD	         6287.190	    0.124	    0.116	  0.001%	 75.358%	     0.000	        1	[resnet152v2/conv4_block21_2_pad/Pad]:229
+	                 CONV_2D	         6287.313	   22.590	   22.617	  0.271%	 75.629%	     0.000	        1	[resnet152v2/conv4_block21_2_relu/Relu;resnet152v2/conv4_block21_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block21_2_conv/Conv2D]:230
+	                 CONV_2D	         6309.942	   69.107	   69.120	  0.829%	 76.458%	     0.000	        1	[resnet152v2/conv4_block21_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block21_3_conv/Conv2D]:231
+	                     ADD	         6379.074	    1.922	    1.913	  0.023%	 76.481%	     0.000	        1	[resnet152v2/conv4_block21_out/add]:232
+	                     MUL	         6380.997	    1.922	    1.955	  0.023%	 76.504%	     0.000	        1	[resnet152v2/conv4_block22_preact_bn/FusedBatchNormV3]:233
+	                     ADD	         6382.961	    1.916	    1.920	  0.023%	 76.527%	     0.000	        1	[resnet152v2/conv4_block22_preact_relu/Relu;resnet152v2/conv4_block22_preact_bn/FusedBatchNormV3]:234
+	                 CONV_2D	         6384.891	   20.723	   20.672	  0.248%	 76.775%	     0.000	        1	[resnet152v2/conv4_block22_1_relu/Relu;resnet152v2/conv4_block22_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block22_1_conv/Conv2D]:235
+	                     PAD	         6405.575	    0.114	    0.121	  0.001%	 76.777%	     0.000	        1	[resnet152v2/conv4_block22_2_pad/Pad]:236
+	                 CONV_2D	         6405.702	   22.779	   22.777	  0.273%	 77.050%	     0.000	        1	[resnet152v2/conv4_block22_2_relu/Relu;resnet152v2/conv4_block22_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block22_2_conv/Conv2D]:237
+	                 CONV_2D	         6428.490	   68.734	   68.789	  0.825%	 77.875%	     0.000	        1	[resnet152v2/conv4_block22_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block22_3_conv/Conv2D]:238
+	                     ADD	         6497.291	    1.970	    1.921	  0.023%	 77.898%	     0.000	        1	[resnet152v2/conv4_block22_out/add]:239
+	                     MUL	         6499.221	    1.925	    1.969	  0.024%	 77.921%	     0.000	        1	[resnet152v2/conv4_block23_preact_bn/FusedBatchNormV3]:240
+	                     ADD	         6501.200	    1.963	    1.913	  0.023%	 77.944%	     0.000	        1	[resnet152v2/conv4_block23_preact_relu/Relu;resnet152v2/conv4_block23_preact_bn/FusedBatchNormV3]:241
+	                 CONV_2D	         6503.123	   20.498	   20.528	  0.246%	 78.190%	     0.000	        1	[resnet152v2/conv4_block23_1_relu/Relu;resnet152v2/conv4_block23_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block23_1_conv/Conv2D]:242
+	                     PAD	         6523.663	    0.108	    0.122	  0.001%	 78.192%	     0.000	        1	[resnet152v2/conv4_block23_2_pad/Pad]:243
+	                 CONV_2D	         6523.792	   22.634	   22.658	  0.272%	 78.464%	     0.000	        1	[resnet152v2/conv4_block23_2_relu/Relu;resnet152v2/conv4_block23_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block23_2_conv/Conv2D]:244
+	                 CONV_2D	         6546.463	   69.988	   70.044	  0.840%	 79.303%	     0.000	        1	[resnet152v2/conv4_block23_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block23_3_conv/Conv2D]:245
+	                     ADD	         6616.520	    1.881	    1.911	  0.023%	 79.326%	     0.000	        1	[resnet152v2/conv4_block23_out/add]:246
+	                     MUL	         6618.440	    2.010	    1.959	  0.023%	 79.350%	     0.000	        1	[resnet152v2/conv4_block24_preact_bn/FusedBatchNormV3]:247
+	                     ADD	         6620.409	    1.891	    1.933	  0.023%	 79.373%	     0.000	        1	[resnet152v2/conv4_block24_preact_relu/Relu;resnet152v2/conv4_block24_preact_bn/FusedBatchNormV3]:248
+	                 CONV_2D	         6622.352	   20.746	   20.742	  0.249%	 79.622%	     0.000	        1	[resnet152v2/conv4_block24_1_relu/Relu;resnet152v2/conv4_block24_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block24_1_conv/Conv2D]:249
+	                     PAD	         6643.105	    0.122	    0.126	  0.002%	 79.623%	     0.000	        1	[resnet152v2/conv4_block24_2_pad/Pad]:250
+	                 CONV_2D	         6643.238	   22.779	   22.834	  0.274%	 79.897%	     0.000	        1	[resnet152v2/conv4_block24_2_relu/Relu;resnet152v2/conv4_block24_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block24_2_conv/Conv2D]:251
+	                 CONV_2D	         6666.083	   69.066	   69.047	  0.828%	 80.725%	     0.000	        1	[resnet152v2/conv4_block24_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block24_3_conv/Conv2D]:252
+	                     ADD	         6735.141	    1.889	    1.917	  0.023%	 80.748%	     0.000	        1	[resnet152v2/conv4_block24_out/add]:253
+	                     MUL	         6737.068	    1.959	    1.952	  0.023%	 80.771%	     0.000	        1	[resnet152v2/conv4_block25_preact_bn/FusedBatchNormV3]:254
+	                     ADD	         6739.029	    1.894	    1.932	  0.023%	 80.794%	     0.000	        1	[resnet152v2/conv4_block25_preact_relu/Relu;resnet152v2/conv4_block25_preact_bn/FusedBatchNormV3]:255
+	                 CONV_2D	         6740.972	   20.490	   20.530	  0.246%	 81.041%	     0.000	        1	[resnet152v2/conv4_block25_1_relu/Relu;resnet152v2/conv4_block25_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block25_1_conv/Conv2D]:256
+	                     PAD	         6761.514	    0.082	    0.099	  0.001%	 81.042%	     0.000	        1	[resnet152v2/conv4_block25_2_pad/Pad]:257
+	                 CONV_2D	         6761.619	   22.677	   22.698	  0.272%	 81.314%	     0.000	        1	[resnet152v2/conv4_block25_2_relu/Relu;resnet152v2/conv4_block25_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block25_2_conv/Conv2D]:258
+	                 CONV_2D	         6784.331	   70.246	   70.441	  0.845%	 82.159%	     0.000	        1	[resnet152v2/conv4_block25_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block25_3_conv/Conv2D]:259
+	                     ADD	         6854.785	    1.954	    1.939	  0.023%	 82.182%	     0.000	        1	[resnet152v2/conv4_block25_out/add]:260
+	                     MUL	         6856.736	    1.923	    1.940	  0.023%	 82.205%	     0.000	        1	[resnet152v2/conv4_block26_preact_bn/FusedBatchNormV3]:261
+	                     ADD	         6858.684	    1.964	    1.932	  0.023%	 82.228%	     0.000	        1	[resnet152v2/conv4_block26_preact_relu/Relu;resnet152v2/conv4_block26_preact_bn/FusedBatchNormV3]:262
+	                 CONV_2D	         6860.627	   20.702	   20.790	  0.249%	 82.477%	     0.000	        1	[resnet152v2/conv4_block26_1_relu/Relu;resnet152v2/conv4_block26_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block26_1_conv/Conv2D]:263
+	                     PAD	         6881.429	    0.131	    0.128	  0.002%	 82.479%	     0.000	        1	[resnet152v2/conv4_block26_2_pad/Pad]:264
+	                 CONV_2D	         6881.564	   22.812	   22.865	  0.274%	 82.753%	     0.000	        1	[resnet152v2/conv4_block26_2_relu/Relu;resnet152v2/conv4_block26_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block26_2_conv/Conv2D]:265
+	                 CONV_2D	         6904.442	   68.580	   68.823	  0.825%	 83.578%	     0.000	        1	[resnet152v2/conv4_block26_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block26_3_conv/Conv2D]:266
+	                     ADD	         6973.278	    1.883	    1.923	  0.023%	 83.601%	     0.000	        1	[resnet152v2/conv4_block26_out/add]:267
+	                     MUL	         6975.215	    1.963	    1.955	  0.023%	 83.625%	     0.000	        1	[resnet152v2/conv4_block27_preact_bn/FusedBatchNormV3]:268
+	                     ADD	         6977.181	    1.935	    1.920	  0.023%	 83.648%	     0.000	        1	[resnet152v2/conv4_block27_preact_relu/Relu;resnet152v2/conv4_block27_preact_bn/FusedBatchNormV3]:269
+	                 CONV_2D	         6979.110	   21.051	   21.177	  0.254%	 83.902%	     0.000	        1	[resnet152v2/conv4_block27_1_relu/Relu;resnet152v2/conv4_block27_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block27_1_conv/Conv2D]:270
+	                     PAD	         7000.298	    0.109	    0.134	  0.002%	 83.903%	     0.000	        1	[resnet152v2/conv4_block27_2_pad/Pad]:271
+	                 CONV_2D	         7000.438	   22.863	   23.025	  0.276%	 84.180%	     0.000	        1	[resnet152v2/conv4_block27_2_relu/Relu;resnet152v2/conv4_block27_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block27_2_conv/Conv2D]:272
+	                 CONV_2D	         7023.475	   68.947	   69.145	  0.829%	 85.009%	     0.000	        1	[resnet152v2/conv4_block27_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block27_3_conv/Conv2D]:273
+	                     ADD	         7092.632	    1.887	    1.911	  0.023%	 85.032%	     0.000	        1	[resnet152v2/conv4_block27_out/add]:274
+	                     MUL	         7094.553	    1.993	    1.975	  0.024%	 85.055%	     0.000	        1	[resnet152v2/conv4_block28_preact_bn/FusedBatchNormV3]:275
+	                     ADD	         7096.538	    1.893	    1.924	  0.023%	 85.078%	     0.000	        1	[resnet152v2/conv4_block28_preact_relu/Relu;resnet152v2/conv4_block28_preact_bn/FusedBatchNormV3]:276
+	                 CONV_2D	         7098.472	   20.393	   20.492	  0.246%	 85.324%	     0.000	        1	[resnet152v2/conv4_block28_1_relu/Relu;resnet152v2/conv4_block28_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block28_1_conv/Conv2D]:277
+	                     PAD	         7118.975	    0.143	    0.142	  0.002%	 85.326%	     0.000	        1	[resnet152v2/conv4_block28_2_pad/Pad]:278
+	                 CONV_2D	         7119.124	   22.577	   22.586	  0.271%	 85.596%	     0.000	        1	[resnet152v2/conv4_block28_2_relu/Relu;resnet152v2/conv4_block28_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block28_2_conv/Conv2D]:279
+	                 CONV_2D	         7141.722	   70.248	   70.422	  0.844%	 86.441%	     0.000	        1	[resnet152v2/conv4_block28_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block28_3_conv/Conv2D]:280
+	                     ADD	         7212.155	    1.952	    1.917	  0.023%	 86.464%	     0.000	        1	[resnet152v2/conv4_block28_out/add]:281
+	                     MUL	         7214.082	    1.922	    1.965	  0.024%	 86.487%	     0.000	        1	[resnet152v2/conv4_block29_preact_bn/FusedBatchNormV3]:282
+	                     ADD	         7216.057	    1.912	    1.924	  0.023%	 86.510%	     0.000	        1	[resnet152v2/conv4_block29_preact_relu/Relu;resnet152v2/conv4_block29_preact_bn/FusedBatchNormV3]:283
+	                 CONV_2D	         7217.991	   20.481	   20.551	  0.246%	 86.757%	     0.000	        1	[resnet152v2/conv4_block29_1_relu/Relu;resnet152v2/conv4_block29_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block29_1_conv/Conv2D]:284
+	                     PAD	         7238.554	    0.080	    0.101	  0.001%	 86.758%	     0.000	        1	[resnet152v2/conv4_block29_2_pad/Pad]:285
+	                 CONV_2D	         7238.662	   22.440	   22.494	  0.270%	 87.028%	     0.000	        1	[resnet152v2/conv4_block29_2_relu/Relu;resnet152v2/conv4_block29_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block29_2_conv/Conv2D]:286
+	                 CONV_2D	         7261.168	   70.085	   70.093	  0.840%	 87.868%	     0.000	        1	[resnet152v2/conv4_block29_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block29_3_conv/Conv2D]:287
+	                     ADD	         7331.272	    1.922	    1.926	  0.023%	 87.891%	     0.000	        1	[resnet152v2/conv4_block29_out/add]:288
+	                     MUL	         7333.208	    1.925	    1.949	  0.023%	 87.915%	     0.000	        1	[resnet152v2/conv4_block30_preact_bn/FusedBatchNormV3]:289
+	                     ADD	         7335.167	    1.964	    1.923	  0.023%	 87.938%	     0.000	        1	[resnet152v2/conv4_block30_preact_relu/Relu;resnet152v2/conv4_block30_preact_bn/FusedBatchNormV3]:290
+	                 CONV_2D	         7337.101	   20.481	   20.529	  0.246%	 88.184%	     0.000	        1	[resnet152v2/conv4_block30_1_relu/Relu;resnet152v2/conv4_block30_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block30_1_conv/Conv2D]:291
+	                     PAD	         7357.641	    0.113	    0.121	  0.001%	 88.185%	     0.000	        1	[resnet152v2/conv4_block30_2_pad/Pad]:292
+	                 CONV_2D	         7357.769	   22.468	   22.490	  0.270%	 88.455%	     0.000	        1	[resnet152v2/conv4_block30_2_relu/Relu;resnet152v2/conv4_block30_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block30_2_conv/Conv2D]:293
+	                 CONV_2D	         7380.270	   69.508	   69.523	  0.834%	 89.289%	     0.000	        1	[resnet152v2/conv4_block30_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block30_3_conv/Conv2D]:294
+	                     ADD	         7449.806	    1.882	    1.914	  0.023%	 89.312%	     0.000	        1	[resnet152v2/conv4_block30_out/add]:295
+	                     MUL	         7451.730	    2.002	    1.962	  0.024%	 89.335%	     0.000	        1	[resnet152v2/conv4_block31_preact_bn/FusedBatchNormV3]:296
+	                     ADD	         7453.703	    1.891	    1.921	  0.023%	 89.358%	     0.000	        1	[resnet152v2/conv4_block31_preact_relu/Relu;resnet152v2/conv4_block31_preact_bn/FusedBatchNormV3]:297
+	                 CONV_2D	         7455.634	   20.504	   20.523	  0.246%	 89.604%	     0.000	        1	[resnet152v2/conv4_block31_1_relu/Relu;resnet152v2/conv4_block31_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block31_1_conv/Conv2D]:298
+	                     PAD	         7476.168	    0.098	    0.089	  0.001%	 89.605%	     0.000	        1	[resnet152v2/conv4_block31_2_pad/Pad]:299
+	                 CONV_2D	         7476.264	   22.467	   22.517	  0.270%	 89.875%	     0.000	        1	[resnet152v2/conv4_block31_2_relu/Relu;resnet152v2/conv4_block31_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block31_2_conv/Conv2D]:300
+	                 CONV_2D	         7498.793	   69.473	   69.635	  0.835%	 90.710%	     0.000	        1	[resnet152v2/conv4_block31_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block31_3_conv/Conv2D]:301
+	                     ADD	         7568.440	    1.925	    1.909	  0.023%	 90.733%	     0.000	        1	[resnet152v2/conv4_block31_out/add]:302
+	                     MUL	         7570.358	    1.964	    1.964	  0.024%	 90.757%	     0.000	        1	[resnet152v2/conv4_block32_preact_bn/FusedBatchNormV3]:303
+	                     ADD	         7572.332	    1.916	    1.922	  0.023%	 90.780%	     0.000	        1	[resnet152v2/conv4_block32_preact_relu/Relu;resnet152v2/conv4_block32_preact_bn/FusedBatchNormV3]:304
+	                 CONV_2D	         7574.264	   20.502	   20.476	  0.246%	 91.025%	     0.000	        1	[resnet152v2/conv4_block32_1_relu/Relu;resnet152v2/conv4_block32_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block32_1_conv/Conv2D]:305
+	                     PAD	         7594.751	    0.113	    0.117	  0.001%	 91.027%	     0.000	        1	[resnet152v2/conv4_block32_2_pad/Pad]:306
+	                 CONV_2D	         7594.875	   22.455	   22.473	  0.269%	 91.296%	     0.000	        1	[resnet152v2/conv4_block32_2_relu/Relu;resnet152v2/conv4_block32_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block32_2_conv/Conv2D]:307
+	                 CONV_2D	         7617.360	   69.534	   69.695	  0.836%	 92.132%	     0.000	        1	[resnet152v2/conv4_block32_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block32_3_conv/Conv2D]:308
+	                     ADD	         7687.067	    1.923	    1.906	  0.023%	 92.155%	     0.000	        1	[resnet152v2/conv4_block32_out/add]:309
+	                     MUL	         7688.983	    1.966	    1.968	  0.024%	 92.178%	     0.000	        1	[resnet152v2/conv4_block33_preact_bn/FusedBatchNormV3]:310
+	                     ADD	         7690.960	    1.894	    1.917	  0.023%	 92.201%	     0.000	        1	[resnet152v2/conv4_block33_preact_relu/Relu;resnet152v2/conv4_block33_preact_bn/FusedBatchNormV3]:311
+	                 CONV_2D	         7692.887	   20.460	   20.458	  0.245%	 92.447%	     0.000	        1	[resnet152v2/conv4_block33_1_relu/Relu;resnet152v2/conv4_block33_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block33_1_conv/Conv2D]:312
+	                     PAD	         7713.359	    0.118	    0.120	  0.001%	 92.448%	     0.000	        1	[resnet152v2/conv4_block33_2_pad/Pad]:313
+	                 CONV_2D	         7713.485	   23.334	   23.333	  0.280%	 92.728%	     0.000	        1	[resnet152v2/conv4_block33_2_relu/Relu;resnet152v2/conv4_block33_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block33_2_conv/Conv2D]:314
+	                 CONV_2D	         7736.830	   70.264	   70.060	  0.840%	 93.568%	     0.000	        1	[resnet152v2/conv4_block33_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block33_3_conv/Conv2D]:315
+	                     ADD	         7806.902	    1.881	    1.923	  0.023%	 93.591%	     0.000	        1	[resnet152v2/conv4_block33_out/add]:316
+	                     MUL	         7808.835	    1.981	    1.956	  0.023%	 93.614%	     0.000	        1	[resnet152v2/conv4_block34_preact_bn/FusedBatchNormV3]:317
+	                     ADD	         7810.801	    1.918	    1.933	  0.023%	 93.638%	     0.000	        1	[resnet152v2/conv4_block34_preact_relu/Relu;resnet152v2/conv4_block34_preact_bn/FusedBatchNormV3]:318
+	                 CONV_2D	         7812.745	   20.443	   20.423	  0.245%	 93.882%	     0.000	        1	[resnet152v2/conv4_block34_1_relu/Relu;resnet152v2/conv4_block34_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block34_1_conv/Conv2D]:319
+	                     PAD	         7833.179	    0.134	    0.129	  0.002%	 93.884%	     0.000	        1	[resnet152v2/conv4_block34_2_pad/Pad]:320
+	                 CONV_2D	         7833.314	   22.680	   22.727	  0.273%	 94.156%	     0.000	        1	[resnet152v2/conv4_block34_2_relu/Relu;resnet152v2/conv4_block34_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block34_2_conv/Conv2D]:321
+	                 CONV_2D	         7856.053	   70.490	   70.331	  0.843%	 95.000%	     0.000	        1	[resnet152v2/conv4_block34_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block34_3_conv/Conv2D]:322
+	                     ADD	         7926.397	    1.881	    1.917	  0.023%	 95.023%	     0.000	        1	[resnet152v2/conv4_block34_out/add]:323
+	                     MUL	         7928.324	    2.006	    1.963	  0.024%	 95.046%	     0.000	        1	[resnet152v2/conv4_block35_preact_bn/FusedBatchNormV3]:324
+	                     ADD	         7930.297	    1.944	    1.927	  0.023%	 95.069%	     0.000	        1	[resnet152v2/conv4_block35_preact_relu/Relu;resnet152v2/conv4_block35_preact_bn/FusedBatchNormV3]:325
+	                 CONV_2D	         7932.234	   20.625	   20.422	  0.245%	 95.314%	     0.000	        1	[resnet152v2/conv4_block35_1_relu/Relu;resnet152v2/conv4_block35_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block35_1_conv/Conv2D]:326
+	                     PAD	         7952.666	    0.202	    0.130	  0.002%	 95.316%	     0.000	        1	[resnet152v2/conv4_block35_2_pad/Pad]:327
+	                 CONV_2D	         7952.803	   22.747	   22.635	  0.271%	 95.587%	     0.000	        1	[resnet152v2/conv4_block35_2_relu/Relu;resnet152v2/conv4_block35_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block35_2_conv/Conv2D]:328
+	                 CONV_2D	         7975.450	   69.545	   68.950	  0.827%	 96.414%	     0.000	        1	[resnet152v2/conv4_block35_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block35_3_conv/Conv2D]:329
+	                     ADD	         8044.412	    1.939	    1.909	  0.023%	 96.437%	     0.000	        1	[resnet152v2/conv4_block35_out/add]:330
+	                     MUL	         8046.331	    1.959	    1.967	  0.024%	 96.460%	     0.000	        1	[resnet152v2/conv4_block36_preact_bn/FusedBatchNormV3]:331
+	                     ADD	         8048.311	    1.946	    1.930	  0.023%	 96.484%	     0.000	        1	[resnet152v2/conv4_block36_preact_relu/Relu;resnet152v2/conv4_block36_preact_bn/FusedBatchNormV3]:332
+	                 CONV_2D	         8050.251	   21.035	   20.938	  0.251%	 96.735%	     0.000	        1	[resnet152v2/conv4_block36_1_relu/Relu;resnet152v2/conv4_block36_1_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block36_1_conv/Conv2D]:333
+	                     PAD	         8071.200	    0.151	    0.107	  0.001%	 96.736%	     0.000	        1	[resnet152v2/conv4_block36_2_pad/Pad]:334
+	                 CONV_2D	         8071.313	    6.125	    6.032	  0.072%	 96.808%	     0.000	        1	[resnet152v2/conv4_block36_2_relu/Relu;resnet152v2/conv4_block36_2_bn/FusedBatchNormV3;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block36_2_conv/Conv2D]:335
+	                 CONV_2D	         8077.355	   17.778	   17.694	  0.212%	 97.020%	     0.000	        1	[resnet152v2/conv4_block36_3_conv/BiasAdd;resnet152v2/conv4_block10_3_conv/BiasAdd/ReadVariableOp;resnet152v2/conv4_block36_3_conv/Conv2D]:336
+	             MAX_POOL_2D	         8095.062	    3.240	    3.227	  0.039%	 97.059%	     0.000	        1	[resnet152v2/max_pooling2d_10/MaxPool]:337
+	                     ADD	         8098.297	    0.480	    0.479	  0.006%	 97.065%	     0.000	        1	[resnet152v2/conv4_block36_out/add]:338
+	                     MUL	         8098.783	    0.495	    0.503	  0.006%	 97.071%	     0.000	        1	[resnet152v2/conv5_block1_preact_bn/FusedBatchNormV31]:339
+	                     ADD	         8099.293	    0.504	    0.480	  0.006%	 97.077%	     0.000	        1	[resnet152v2/conv5_block1_preact_relu/Relu;resnet152v2/conv5_block1_preact_bn/FusedBatchNormV3]:340
+	                 CONV_2D	         8099.780	   37.637	   37.656	  0.452%	 97.528%	     0.000	        1	[resnet152v2/conv5_block1_0_conv/BiasAdd;resnet152v2/conv5_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block1_0_conv/Conv2D]:341
+	                 CONV_2D	         8137.448	    9.603	    9.559	  0.115%	 97.643%	     0.000	        1	[resnet152v2/conv5_block1_1_relu/Relu;resnet152v2/conv5_block1_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block1_1_conv/Conv2D]:342
+	                     PAD	         8147.017	    0.159	    0.075	  0.001%	 97.644%	     0.000	        1	[resnet152v2/conv5_block1_2_pad/Pad]:343
+	                 CONV_2D	         8147.098	   13.113	   12.858	  0.154%	 97.798%	     0.000	        1	[resnet152v2/conv5_block1_2_relu/Relu;resnet152v2/conv5_block1_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block1_2_conv/Conv2D]:344
+	                 CONV_2D	         8159.966	   35.736	   35.661	  0.428%	 98.225%	     0.000	        1	[resnet152v2/conv5_block1_3_conv/BiasAdd;resnet152v2/conv5_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block1_3_conv/Conv2D]:345
+	                     ADD	         8195.642	    0.948	    0.973	  0.012%	 98.237%	     0.000	        1	[resnet152v2/conv5_block1_out/add]:346
+	                     MUL	         8196.624	    0.977	    0.981	  0.012%	 98.249%	     0.000	        1	[resnet152v2/conv5_block2_preact_bn/FusedBatchNormV3]:347
+	                     ADD	         8197.612	    0.913	    0.930	  0.011%	 98.260%	     0.000	        1	[resnet152v2/conv5_block2_preact_relu/Relu;resnet152v2/conv5_block2_preact_bn/FusedBatchNormV3]:348
+	                 CONV_2D	         8198.550	   11.166	   11.203	  0.134%	 98.394%	     0.000	        1	[resnet152v2/conv5_block2_1_relu/Relu;resnet152v2/conv5_block2_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block2_1_conv/Conv2D]:349
+	                     PAD	         8209.765	    0.066	    0.074	  0.001%	 98.395%	     0.000	        1	[resnet152v2/conv5_block2_2_pad/Pad]:350
+	                 CONV_2D	         8209.845	   13.455	   13.457	  0.161%	 98.557%	     0.000	        1	[resnet152v2/conv5_block2_2_relu/Relu;resnet152v2/conv5_block2_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block2_2_conv/Conv2D]:351
+	                 CONV_2D	         8223.313	   36.297	   36.398	  0.436%	 98.993%	     0.000	        1	[resnet152v2/conv5_block2_3_conv/BiasAdd;resnet152v2/conv5_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block2_3_conv/Conv2D]:352
+	                     ADD	         8259.723	    0.921	    0.965	  0.012%	 99.005%	     0.000	        1	[resnet152v2/conv5_block2_out/add]:353
+	                     MUL	         8260.697	    0.971	    0.985	  0.012%	 99.016%	     0.000	        1	[resnet152v2/conv5_block3_preact_bn/FusedBatchNormV3]:354
+	                     ADD	         8261.689	    0.907	    0.919	  0.011%	 99.027%	     0.000	        1	[resnet152v2/conv5_block3_preact_relu/Relu;resnet152v2/conv5_block3_preact_bn/FusedBatchNormV3]:355
+	                 CONV_2D	         8262.616	   11.031	   10.997	  0.132%	 99.159%	     0.000	        1	[resnet152v2/conv5_block3_1_relu/Relu;resnet152v2/conv5_block3_1_bn/FusedBatchNormV3;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block3_1_conv/Conv2D]:356
+	                     PAD	         8273.624	    0.073	    0.072	  0.001%	 99.160%	     0.000	        1	[resnet152v2/conv5_block3_2_pad/Pad]:357
+	                 CONV_2D	         8273.702	   13.470	   13.479	  0.162%	 99.322%	     0.000	        1	[resnet152v2/conv5_block3_2_relu/Relu;resnet152v2/conv5_block3_2_bn/FusedBatchNormV3;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block3_2_conv/Conv2D]:358
+	                 CONV_2D	         8287.192	   36.079	   36.209	  0.434%	 99.756%	     0.000	        1	[resnet152v2/conv5_block3_3_conv/BiasAdd;resnet152v2/conv5_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv5_block3_3_conv/Conv2D]:359
+	                     ADD	         8323.412	    0.967	    0.978	  0.012%	 99.768%	     0.000	        1	[resnet152v2/conv5_block3_out/add]:360
+	                     MUL	         8324.400	    0.980	    0.990	  0.012%	 99.779%	     0.000	        1	[resnet152v2/post_bn/FusedBatchNormV31]:361
+	                     ADD	         8325.397	    0.906	    0.915	  0.011%	 99.790%	     0.000	        1	[resnet152v2/post_relu/Relu;resnet152v2/post_bn/FusedBatchNormV3]:362
+	                    MEAN	         8326.320	   16.395	   16.413	  0.197%	 99.987%	     0.000	        1	[resnet152v2/avg_pool/Mean]:363
+	         FULLY_CONNECTED	         8342.743	    0.503	    0.466	  0.006%	 99.993%	     0.000	        1	[resnet152v2/predictions/MatMul;resnet152v2/predictions/BiasAdd]:364
+	                 SOFTMAX	         8343.216	    0.637	    0.596	  0.007%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:365
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	            0.464	  345.766	  346.142	  4.150%	  4.150%	     0.000	        1	[resnet152v2/conv1_conv/BiasAdd;resnet152v2/conv1_conv/BiasAdd/ReadVariableOp;resnet152v2/conv1_conv/Conv2D]:1
+	                 CONV_2D	          461.581	  292.254	  291.782	  3.499%	  7.649%	     0.000	        1	[resnet152v2/conv2_block1_0_conv/BiasAdd;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block1_0_conv/Conv2D]:6
+	                 CONV_2D	         1433.909	  289.180	  289.387	  3.470%	 11.119%	     0.000	        1	[resnet152v2/conv2_block2_3_conv/BiasAdd;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block2_3_conv/Conv2D]:17
+	                 CONV_2D	          939.125	  286.725	  287.139	  3.443%	 14.562%	     0.000	        1	[resnet152v2/conv2_block1_3_conv/BiasAdd;resnet152v2/conv2_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv2_block1_3_conv/Conv2D]:10
+	                 CONV_2D	         2643.909	  141.089	  141.024	  1.691%	 16.253%	     0.000	        1	[resnet152v2/conv3_block3_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block3_3_conv/Conv2D]:47
+	                 CONV_2D	         3583.521	  139.466	  139.758	  1.676%	 17.929%	     0.000	        1	[resnet152v2/conv3_block7_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block7_3_conv/Conv2D]:75
+	                 CONV_2D	         2173.043	  139.316	  139.335	  1.671%	 19.599%	     0.000	        1	[resnet152v2/conv3_block1_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block1_3_conv/Conv2D]:33
+	                 CONV_2D	         2409.314	  137.563	  137.825	  1.653%	 21.252%	     0.000	        1	[resnet152v2/conv3_block2_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block2_3_conv/Conv2D]:40
+	                 CONV_2D	         3349.029	  137.768	  137.718	  1.651%	 22.903%	     0.000	        1	[resnet152v2/conv3_block6_3_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block6_3_conv/Conv2D]:68
+	                 CONV_2D	         1951.738	  137.338	  137.645	  1.650%	 24.554%	     0.000	        1	[resnet152v2/conv3_block1_0_conv/BiasAdd;resnet152v2/conv3_block1_0_conv/BiasAdd/ReadVariableOp;resnet152v2/conv3_block1_0_conv/Conv2D]:29
+
+Number of nodes executed: 366
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	      155	  7826.392	    93.844%	    93.844%	     0.000	      155
+	                     ADD	      101	   232.798	     2.791%	    96.636%	     0.000	      101
+	             MAX_POOL_2D	        4	   133.185	     1.597%	    98.233%	     0.000	        4
+	                     MUL	       51	   120.043	     1.439%	    99.672%	     0.000	       51
+	                    MEAN	        1	    16.412	     0.197%	    99.869%	     0.000	        1
+	                     PAD	       52	     9.889	     0.119%	    99.987%	     0.000	       52
+	                 SOFTMAX	        1	     0.596	     0.007%	    99.994%	     0.000	        1
+	         FULLY_CONNECTED	        1	     0.465	     0.006%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=18 first=8340311 curr=8343413 min=8336543 max=8343413 avg=8.33996e+06 std=1949
+Memory (bytes): count=0
+366 nodes observed
+
+
+

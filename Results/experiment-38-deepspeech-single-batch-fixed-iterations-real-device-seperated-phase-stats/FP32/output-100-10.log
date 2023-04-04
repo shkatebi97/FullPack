@@ -1,0 +1,305 @@
+deepspeech-0.9.3-default-none-INT8
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [100]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [10]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/data/local/tmp/deepspeech-0.9.3-none-none-none.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /data/local/tmp/deepspeech-0.9.3-none-none-none.tflite
+The input model file size (MB): 188.957
+Initialized session in 26.189ms.
+Running benchmark for at least 10 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=10 first=1057486 curr=661678 min=661636 max=1057486 avg=703342 std=118072
+
+Running benchmark for at least 100 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=100 first=670350 curr=664135 min=663186 max=690496 avg=667088 std=4836
+
+Inference timings in us: Init: 26189, First inference: 1057486, Warmup (avg): 703342, Inference (avg): 667088
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=0.660156 overall=326.109
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    3.248	    3.248	100.000%	100.000%	   264.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    3.248	    3.248	100.000%	100.000%	   264.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	     3.248	   100.000%	   100.000%	   264.000	        1
+
+Timings (microseconds): count=1 curr=3248
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 RESHAPE	            0.006	    0.014	    0.004	  0.001%	  0.001%	     0.000	        1	[Reshape]:0
+	        AudioSpectrogram	            0.010	    0.191	    0.193	  0.029%	  0.030%	     0.000	        1	[AudioSpectrogram]:1
+	                    Mfcc	            0.205	    0.332	    0.342	  0.051%	  0.081%	     0.000	        1	[Mfcc]:2
+	                 RESHAPE	            0.548	    0.002	    0.001	  0.000%	  0.081%	     0.000	        1	[mfccs]:3
+	         FULLY_CONNECTED	            0.550	    5.051	    5.219	  0.783%	  0.864%	     0.000	        1	[Relu6]:4
+	         FULLY_CONNECTED	            5.773	   18.641	   18.835	  2.825%	  3.689%	     0.000	        1	[Relu6_1]:5
+	         FULLY_CONNECTED	           24.613	   18.646	   18.841	  2.826%	  6.514%	     0.000	        1	[Relu6_2]:6
+	                 RESHAPE	           43.459	    0.033	    0.035	  0.005%	  6.520%	     0.000	        1	[Reshape_3]:7
+	           STRIDED_SLICE	           43.495	    0.014	    0.015	  0.002%	  6.522%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice]:8
+	           STRIDED_SLICE	           43.510	    0.004	    0.004	  0.001%	  6.522%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_1]:9
+	           STRIDED_SLICE	           43.515	    0.004	    0.004	  0.001%	  6.523%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_2]:10
+	           STRIDED_SLICE	           43.520	    0.004	    0.004	  0.001%	  6.523%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_3]:11
+	           STRIDED_SLICE	           43.525	    0.004	    0.004	  0.001%	  6.524%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_4]:12
+	           STRIDED_SLICE	           43.529	    0.004	    0.004	  0.001%	  6.525%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_5]:13
+	           STRIDED_SLICE	           43.533	    0.004	    0.004	  0.001%	  6.525%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_6]:14
+	           STRIDED_SLICE	           43.538	    0.004	    0.004	  0.001%	  6.526%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_7]:15
+	           STRIDED_SLICE	           43.542	    0.003	    0.004	  0.001%	  6.526%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_8]:16
+	           STRIDED_SLICE	           43.547	    0.003	    0.004	  0.001%	  6.527%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_9]:17
+	           STRIDED_SLICE	           43.551	    0.004	    0.004	  0.001%	  6.527%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_10]:18
+	           STRIDED_SLICE	           43.556	    0.004	    0.004	  0.001%	  6.528%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_11]:19
+	           STRIDED_SLICE	           43.561	    0.004	    0.004	  0.001%	  6.529%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_12]:20
+	           STRIDED_SLICE	           43.566	    0.005	    0.004	  0.001%	  6.529%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_13]:21
+	           STRIDED_SLICE	           43.570	    0.004	    0.005	  0.001%	  6.530%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_14]:22
+	           STRIDED_SLICE	           43.576	    0.004	    0.004	  0.001%	  6.531%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/strided_slice_15]:23
+	           CONCATENATION	           43.581	    0.018	    0.018	  0.003%	  6.533%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat]:24
+	         FULLY_CONNECTED	           43.601	   36.268	   36.495	  5.474%	 12.007%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd]:25
+	                   SPLIT	           80.101	    0.026	    0.027	  0.004%	 12.011%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split:3]:26
+	                LOGISTIC	           80.129	    0.267	    0.269	  0.040%	 12.051%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid]:27
+	                     MUL	           80.399	    0.026	    0.027	  0.004%	 12.055%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul]:28
+	                LOGISTIC	           80.427	    0.252	    0.256	  0.038%	 12.094%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_1]:29
+	                    TANH	           80.684	    0.234	    0.236	  0.035%	 12.129%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh]:30
+	                     MUL	           80.921	    0.021	    0.022	  0.003%	 12.132%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_1]:31
+	                     ADD	           80.944	    0.024	    0.026	  0.004%	 12.136%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_1]:32
+	                LOGISTIC	           80.971	    0.251	    0.255	  0.038%	 12.174%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_2]:33
+	                    TANH	           81.227	    0.231	    0.234	  0.035%	 12.209%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_1]:34
+	                     MUL	           81.461	    0.022	    0.023	  0.003%	 12.213%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_2]:35
+	           CONCATENATION	           81.485	    0.007	    0.007	  0.001%	 12.214%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_1]:36
+	         FULLY_CONNECTED	           81.493	   36.142	   36.361	  5.453%	 17.667%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_1]:37
+	                   SPLIT	          117.859	    0.026	    0.027	  0.004%	 17.671%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_1:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_1:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_1:3]:38
+	                LOGISTIC	          117.887	    0.266	    0.270	  0.040%	 17.712%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_3]:39
+	                     MUL	          118.158	    0.026	    0.026	  0.004%	 17.716%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_3]:40
+	                LOGISTIC	          118.185	    0.252	    0.255	  0.038%	 17.754%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_4]:41
+	                    TANH	          118.442	    0.243	    0.239	  0.036%	 17.790%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_2]:42
+	                     MUL	          118.681	    0.022	    0.022	  0.003%	 17.793%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_4]:43
+	                     ADD	          118.704	    0.024	    0.024	  0.004%	 17.797%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_3]:44
+	                LOGISTIC	          118.729	    0.251	    0.253	  0.038%	 17.835%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_5]:45
+	                    TANH	          118.983	    0.230	    0.232	  0.035%	 17.869%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_3]:46
+	                     MUL	          119.215	    0.022	    0.022	  0.003%	 17.873%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_5]:47
+	           CONCATENATION	          119.239	    0.007	    0.007	  0.001%	 17.874%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_2]:48
+	         FULLY_CONNECTED	          119.247	   36.008	   36.329	  5.449%	 23.322%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_2]:49
+	                   SPLIT	          155.582	    0.025	    0.026	  0.004%	 23.326%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_2:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_2:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_2:3]:50
+	                LOGISTIC	          155.609	    0.267	    0.269	  0.040%	 23.367%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_6]:51
+	                     MUL	          155.879	    0.026	    0.026	  0.004%	 23.371%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_6]:52
+	                LOGISTIC	          155.906	    0.252	    0.254	  0.038%	 23.409%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_7]:53
+	                    TANH	          156.162	    0.234	    0.237	  0.036%	 23.444%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_4]:54
+	                     MUL	          156.400	    0.021	    0.021	  0.003%	 23.447%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_7]:55
+	                     ADD	          156.422	    0.024	    0.024	  0.004%	 23.451%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_5]:56
+	                LOGISTIC	          156.447	    0.251	    0.257	  0.039%	 23.490%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_8]:57
+	                    TANH	          156.705	    0.230	    0.232	  0.035%	 23.524%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_5]:58
+	                     MUL	          156.938	    0.021	    0.021	  0.003%	 23.528%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_8]:59
+	           CONCATENATION	          156.961	    0.007	    0.007	  0.001%	 23.529%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_3]:60
+	         FULLY_CONNECTED	          156.969	   36.073	   36.277	  5.441%	 28.970%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_3]:61
+	                   SPLIT	          193.251	    0.027	    0.027	  0.004%	 28.974%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_3, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_3:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_3:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_3:3]:62
+	                LOGISTIC	          193.279	    0.265	    0.267	  0.040%	 29.014%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_9]:63
+	                     MUL	          193.548	    0.026	    0.027	  0.004%	 29.018%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_9]:64
+	                LOGISTIC	          193.575	    0.251	    0.252	  0.038%	 29.055%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_10]:65
+	                    TANH	          193.828	    0.233	    0.238	  0.036%	 29.091%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_6]:66
+	                     MUL	          194.066	    0.021	    0.021	  0.003%	 29.094%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_10]:67
+	                     ADD	          194.089	    0.023	    0.024	  0.004%	 29.098%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_7]:68
+	                LOGISTIC	          194.113	    0.252	    0.255	  0.038%	 29.136%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_11]:69
+	                    TANH	          194.369	    0.230	    0.231	  0.035%	 29.171%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_7]:70
+	                     MUL	          194.601	    0.022	    0.022	  0.003%	 29.174%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_11]:71
+	           CONCATENATION	          194.624	    0.007	    0.007	  0.001%	 29.175%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_4]:72
+	         FULLY_CONNECTED	          194.632	   37.213	   36.285	  5.442%	 34.617%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_4]:73
+	                   SPLIT	          230.922	    0.043	    0.026	  0.004%	 34.621%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_4, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_4:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_4:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_4:3]:74
+	                LOGISTIC	          230.950	    0.277	    0.270	  0.040%	 34.661%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_12]:75
+	                     MUL	          231.220	    0.028	    0.026	  0.004%	 34.665%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_12]:76
+	                LOGISTIC	          231.247	    0.254	    0.257	  0.039%	 34.704%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_13]:77
+	                    TANH	          231.506	    0.237	    0.237	  0.036%	 34.739%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_8]:78
+	                     MUL	          231.744	    0.021	    0.022	  0.003%	 34.743%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_13]:79
+	                     ADD	          231.767	    0.024	    0.024	  0.004%	 34.746%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_9]:80
+	                LOGISTIC	          231.793	    0.251	    0.253	  0.038%	 34.784%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_14]:81
+	                    TANH	          232.047	    0.229	    0.236	  0.035%	 34.820%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_9]:82
+	                     MUL	          232.285	    0.022	    0.022	  0.003%	 34.823%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_14]:83
+	           CONCATENATION	          232.307	    0.007	    0.007	  0.001%	 34.824%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_5]:84
+	         FULLY_CONNECTED	          232.315	   38.787	   36.315	  5.446%	 40.271%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_5]:85
+	                   SPLIT	          268.635	    0.028	    0.026	  0.004%	 40.275%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_5, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_5:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_5:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_5:3]:86
+	                LOGISTIC	          268.662	    0.283	    0.273	  0.041%	 40.316%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_15]:87
+	                     MUL	          268.936	    0.028	    0.026	  0.004%	 40.319%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_15]:88
+	                LOGISTIC	          268.963	    0.262	    0.255	  0.038%	 40.358%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_16]:89
+	                    TANH	          269.219	    0.243	    0.237	  0.036%	 40.393%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_10]:90
+	                     MUL	          269.458	    0.026	    0.022	  0.003%	 40.397%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_16]:91
+	                     ADD	          269.481	    0.026	    0.024	  0.004%	 40.400%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_11]:92
+	                LOGISTIC	          269.506	    0.262	    0.252	  0.038%	 40.438%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_17]:93
+	                    TANH	          269.759	    0.240	    0.232	  0.035%	 40.473%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_11]:94
+	                     MUL	          269.992	    0.024	    0.022	  0.003%	 40.476%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_17]:95
+	           CONCATENATION	          270.015	    0.012	    0.008	  0.001%	 40.477%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_6]:96
+	         FULLY_CONNECTED	          270.024	   37.107	   36.372	  5.455%	 45.932%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_6]:97
+	                   SPLIT	          306.401	    0.028	    0.027	  0.004%	 45.936%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_6, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_6:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_6:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_6:3]:98
+	                LOGISTIC	          306.429	    0.276	    0.271	  0.041%	 45.977%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_18]:99
+	                     MUL	          306.701	    0.027	    0.026	  0.004%	 45.981%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_18]:100
+	                LOGISTIC	          306.728	    0.261	    0.254	  0.038%	 46.019%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_19]:101
+	                    TANH	          306.983	    0.244	    0.241	  0.036%	 46.055%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_12]:102
+	                     MUL	          307.224	    0.023	    0.022	  0.003%	 46.058%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_19]:103
+	                     ADD	          307.247	    0.025	    0.024	  0.004%	 46.062%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_13]:104
+	                LOGISTIC	          307.272	    0.263	    0.255	  0.038%	 46.100%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_20]:105
+	                    TANH	          307.528	    0.241	    0.234	  0.035%	 46.135%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_13]:106
+	                     MUL	          307.763	    0.023	    0.023	  0.003%	 46.139%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_20]:107
+	           CONCATENATION	          307.787	    0.010	    0.008	  0.001%	 46.140%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_7]:108
+	         FULLY_CONNECTED	          307.796	   37.185	   36.351	  5.452%	 51.592%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_7]:109
+	                   SPLIT	          344.152	    0.028	    0.026	  0.004%	 51.596%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_7, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_7:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_7:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_7:3]:110
+	                LOGISTIC	          344.179	    0.277	    0.268	  0.040%	 51.636%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_21]:111
+	                     MUL	          344.448	    0.027	    0.028	  0.004%	 51.640%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_21]:112
+	                LOGISTIC	          344.477	    0.251	    0.253	  0.038%	 51.678%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_22]:113
+	                    TANH	          344.731	    0.234	    0.238	  0.036%	 51.714%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_14]:114
+	                     MUL	          344.970	    0.022	    0.022	  0.003%	 51.717%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_22]:115
+	                     ADD	          344.993	    0.023	    0.024	  0.004%	 51.721%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_15]:116
+	                LOGISTIC	          345.018	    0.251	    0.253	  0.038%	 51.759%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_23]:117
+	                    TANH	          345.272	    0.229	    0.232	  0.035%	 51.793%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_15]:118
+	                     MUL	          345.505	    0.022	    0.022	  0.003%	 51.797%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_23]:119
+	           CONCATENATION	          345.528	    0.007	    0.008	  0.001%	 51.798%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_8]:120
+	         FULLY_CONNECTED	          345.537	   36.632	   36.423	  5.463%	 57.261%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_8]:121
+	                   SPLIT	          381.965	    0.028	    0.026	  0.004%	 57.264%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_8, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_8:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_8:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_8:3]:122
+	                LOGISTIC	          381.992	    0.265	    0.269	  0.040%	 57.305%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_24]:123
+	                     MUL	          382.262	    0.025	    0.026	  0.004%	 57.309%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_24]:124
+	                LOGISTIC	          382.289	    0.251	    0.255	  0.038%	 57.347%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_25]:125
+	                    TANH	          382.546	    0.234	    0.236	  0.035%	 57.382%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_16]:126
+	                     MUL	          382.783	    0.022	    0.022	  0.003%	 57.386%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_25]:127
+	                     ADD	          382.806	    0.023	    0.025	  0.004%	 57.390%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_17]:128
+	                LOGISTIC	          382.832	    0.327	    0.259	  0.039%	 57.428%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_26]:129
+	                    TANH	          383.091	    0.239	    0.232	  0.035%	 57.463%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_17]:130
+	                     MUL	          383.324	    0.022	    0.023	  0.004%	 57.467%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_26]:131
+	           CONCATENATION	          383.349	    0.008	    0.008	  0.001%	 57.468%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_9]:132
+	         FULLY_CONNECTED	          383.357	   36.520	   36.394	  5.458%	 62.926%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_9]:133
+	                   SPLIT	          419.756	    0.025	    0.026	  0.004%	 62.930%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_9, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_9:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_9:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_9:3]:134
+	                LOGISTIC	          419.783	    0.266	    0.269	  0.040%	 62.970%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_27]:135
+	                     MUL	          420.053	    0.026	    0.027	  0.004%	 62.974%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_27]:136
+	                LOGISTIC	          420.081	    0.251	    0.252	  0.038%	 63.012%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_28]:137
+	                    TANH	          420.334	    0.236	    0.237	  0.036%	 63.048%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_18]:138
+	                     MUL	          420.571	    0.022	    0.022	  0.003%	 63.051%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_28]:139
+	                     ADD	          420.594	    0.024	    0.024	  0.004%	 63.055%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_19]:140
+	                LOGISTIC	          420.620	    0.251	    0.253	  0.038%	 63.092%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_29]:141
+	                    TANH	          420.874	    0.229	    0.233	  0.035%	 63.127%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_19]:142
+	                     MUL	          421.108	    0.022	    0.022	  0.003%	 63.131%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_29]:143
+	           CONCATENATION	          421.130	    0.007	    0.008	  0.001%	 63.132%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_10]:144
+	         FULLY_CONNECTED	          421.139	   36.374	   36.372	  5.455%	 68.587%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_10]:145
+	                   SPLIT	          457.516	    0.026	    0.027	  0.004%	 68.591%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_10, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_10:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_10:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_10:3]:146
+	                LOGISTIC	          457.544	    0.266	    0.270	  0.041%	 68.631%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_30]:147
+	                     MUL	          457.815	    0.027	    0.027	  0.004%	 68.635%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_30]:148
+	                LOGISTIC	          457.843	    0.251	    0.253	  0.038%	 68.673%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_31]:149
+	                    TANH	          458.097	    0.233	    0.237	  0.036%	 68.709%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_20]:150
+	                     MUL	          458.335	    0.021	    0.022	  0.003%	 68.712%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_31]:151
+	                     ADD	          458.358	    0.024	    0.024	  0.004%	 68.716%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_21]:152
+	                LOGISTIC	          458.383	    0.251	    0.257	  0.039%	 68.754%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_32]:153
+	                    TANH	          458.641	    0.229	    0.233	  0.035%	 68.789%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_21]:154
+	                     MUL	          458.875	    0.021	    0.021	  0.003%	 68.793%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_32]:155
+	           CONCATENATION	          458.898	    0.008	    0.007	  0.001%	 68.794%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_11]:156
+	         FULLY_CONNECTED	          458.906	   36.498	   36.371	  5.455%	 74.249%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_11]:157
+	                   SPLIT	          495.282	    0.027	    0.027	  0.004%	 74.253%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_11, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_11:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_11:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_11:3]:158
+	                LOGISTIC	          495.310	    0.265	    0.269	  0.040%	 74.293%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_33]:159
+	                     MUL	          495.580	    0.026	    0.027	  0.004%	 74.297%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_33]:160
+	                LOGISTIC	          495.607	    0.251	    0.255	  0.038%	 74.335%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_34]:161
+	                    TANH	          495.863	    0.234	    0.236	  0.035%	 74.370%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_22]:162
+	                     MUL	          496.100	    0.022	    0.023	  0.003%	 74.374%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_34]:163
+	                     ADD	          496.124	    0.023	    0.024	  0.004%	 74.377%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_23]:164
+	                LOGISTIC	          496.149	    0.251	    0.255	  0.038%	 74.416%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_35]:165
+	                    TANH	          496.405	    0.229	    0.233	  0.035%	 74.451%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_23]:166
+	                     MUL	          496.639	    0.022	    0.022	  0.003%	 74.454%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_35]:167
+	           CONCATENATION	          496.662	    0.007	    0.007	  0.001%	 74.455%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_12]:168
+	         FULLY_CONNECTED	          496.670	   36.477	   36.388	  5.457%	 79.912%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_12]:169
+	                   SPLIT	          533.063	    0.026	    0.026	  0.004%	 79.916%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_12, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_12:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_12:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_12:3]:170
+	                LOGISTIC	          533.090	    0.266	    0.270	  0.041%	 79.957%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_36]:171
+	                     MUL	          533.361	    0.026	    0.027	  0.004%	 79.961%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_36]:172
+	                LOGISTIC	          533.389	    0.251	    0.255	  0.038%	 79.999%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_37]:173
+	                    TANH	          533.646	    0.233	    0.240	  0.036%	 80.035%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_24]:174
+	                     MUL	          533.887	    0.022	    0.022	  0.003%	 80.038%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_37]:175
+	                     ADD	          533.910	    0.023	    0.024	  0.004%	 80.042%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_25]:176
+	                LOGISTIC	          533.935	    0.252	    0.257	  0.039%	 80.081%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_38]:177
+	                    TANH	          534.193	    0.231	    0.232	  0.035%	 80.115%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_25]:178
+	                     MUL	          534.426	    0.021	    0.022	  0.003%	 80.119%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_38]:179
+	           CONCATENATION	          534.449	    0.007	    0.007	  0.001%	 80.120%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_13]:180
+	         FULLY_CONNECTED	          534.457	   36.108	   36.358	  5.453%	 85.573%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_13]:181
+	                   SPLIT	          570.821	    0.027	    0.026	  0.004%	 85.577%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_13, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_13:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_13:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_13:3]:182
+	                LOGISTIC	          570.848	    0.265	    0.270	  0.041%	 85.617%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_39]:183
+	                     MUL	          571.120	    0.026	    0.028	  0.004%	 85.622%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_39]:184
+	                LOGISTIC	          571.148	    0.251	    0.252	  0.038%	 85.659%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_40]:185
+	                    TANH	          571.402	    0.235	    0.238	  0.036%	 85.695%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_26]:186
+	                     MUL	          571.640	    0.021	    0.021	  0.003%	 85.698%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_40]:187
+	                     ADD	          571.662	    0.023	    0.024	  0.004%	 85.702%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_27]:188
+	                LOGISTIC	          571.687	    0.252	    0.256	  0.038%	 85.740%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_41]:189
+	                    TANH	          571.944	    0.230	    0.232	  0.035%	 85.775%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_27]:190
+	                     MUL	          572.177	    0.022	    0.022	  0.003%	 85.778%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_41]:191
+	           CONCATENATION	          572.200	    0.007	    0.007	  0.001%	 85.779%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_14]:192
+	         FULLY_CONNECTED	          572.208	   36.223	   36.391	  5.458%	 91.237%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_14]:193
+	                   SPLIT	          608.604	    0.026	    0.027	  0.004%	 91.241%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_14, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_14:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_14:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_14:3]:194
+	                LOGISTIC	          608.632	    0.266	    0.272	  0.041%	 91.282%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_42]:195
+	                     MUL	          608.905	    0.026	    0.026	  0.004%	 91.286%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_42]:196
+	                LOGISTIC	          608.932	    0.251	    0.254	  0.038%	 91.324%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_43]:197
+	                    TANH	          609.187	    0.235	    0.242	  0.036%	 91.360%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_28]:198
+	                     MUL	          609.430	    0.022	    0.022	  0.003%	 91.364%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_43]:199
+	                     ADD	          609.452	    0.025	    0.024	  0.004%	 91.367%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/add_29]:200
+	                LOGISTIC	          609.477	    0.251	    0.256	  0.038%	 91.406%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_44]:201
+	                    TANH	          609.734	    0.229	    0.232	  0.035%	 91.440%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_29]:202
+	                     MUL	          609.967	    0.021	    0.021	  0.003%	 91.444%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_44]:203
+	           CONCATENATION	          609.990	    0.008	    0.008	  0.001%	 91.445%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/concat_15]:204
+	         FULLY_CONNECTED	          609.998	   36.264	   36.367	  5.454%	 96.899%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_15]:205
+	                   SPLIT	          646.370	    0.026	    0.027	  0.004%	 96.903%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_15, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_15:1, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_15:2, cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/split_15:3]:206
+	                LOGISTIC	          646.398	    0.267	    0.269	  0.040%	 96.943%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_45]:207
+	                     MUL	          646.669	    0.026	    0.026	  0.004%	 96.947%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_45]:208
+	                LOGISTIC	          646.696	    0.251	    0.253	  0.038%	 96.985%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_46]:209
+	                    TANH	          646.950	    0.234	    0.236	  0.035%	 97.021%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_30]:210
+	                     MUL	          647.186	    0.022	    0.022	  0.003%	 97.024%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/mul_46]:211
+	                     ADD	          647.209	    0.024	    0.025	  0.004%	 97.028%	     0.000	        1	[new_state_c]:212
+	                LOGISTIC	          647.234	    0.252	    0.252	  0.038%	 97.065%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Sigmoid_47]:213
+	                    TANH	          647.487	    0.230	    0.232	  0.035%	 97.100%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/Tanh_31]:214
+	                     MUL	          647.720	    0.022	    0.022	  0.003%	 97.103%	     0.000	        1	[new_state_h]:215
+	           CONCATENATION	          647.743	    0.027	    0.030	  0.005%	 97.108%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/concat]:216
+	         FULLY_CONNECTED	          647.775	   18.486	   18.634	  2.795%	 99.903%	     0.000	        1	[Relu6_3]:217
+	         FULLY_CONNECTED	          666.414	    0.402	    0.418	  0.063%	 99.965%	     0.000	        1	[BiasAdd_4]:218
+	                 SOFTMAX	          666.833	    0.229	    0.231	  0.035%	100.000%	     0.000	        1	[logits]:219
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	           43.601	   36.268	   36.495	  5.474%	  5.474%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd]:25
+	         FULLY_CONNECTED	          345.537	   36.632	   36.423	  5.463%	 10.936%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_8]:121
+	         FULLY_CONNECTED	          383.357	   36.520	   36.394	  5.458%	 16.395%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_9]:133
+	         FULLY_CONNECTED	          572.208	   36.223	   36.391	  5.458%	 21.852%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_14]:193
+	         FULLY_CONNECTED	          496.670	   36.477	   36.388	  5.457%	 27.310%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_12]:169
+	         FULLY_CONNECTED	          270.024	   37.107	   36.372	  5.455%	 32.765%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_6]:97
+	         FULLY_CONNECTED	          421.139	   36.374	   36.372	  5.455%	 38.220%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_10]:145
+	         FULLY_CONNECTED	          458.906	   36.498	   36.371	  5.455%	 43.675%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_11]:157
+	         FULLY_CONNECTED	          609.998	   36.264	   36.367	  5.454%	 49.129%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_15]:205
+	         FULLY_CONNECTED	           81.493	   36.142	   36.361	  5.453%	 54.583%	     0.000	        1	[cudnn_lstm/rnn/multi_rnn_cell/cell_0/cudnn_compatible_lstm_cell/BiasAdd_1]:37
+
+Number of nodes executed: 220
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	       21	   643.782	    96.570%	    96.570%	     0.000	       21
+	                LOGISTIC	       48	    12.434	     1.865%	    98.435%	     0.000	       48
+	                    TANH	       32	     7.511	     1.127%	    99.562%	     0.000	       32
+	                     MUL	       48	     1.102	     0.165%	    99.727%	     0.000	       48
+	                   SPLIT	       16	     0.420	     0.063%	    99.790%	     0.000	       16
+	                     ADD	       16	     0.382	     0.057%	    99.847%	     0.000	       16
+	                    Mfcc	        1	     0.342	     0.051%	    99.898%	     0.000	        1
+	                 SOFTMAX	        1	     0.230	     0.035%	    99.933%	     0.000	        1
+	        AudioSpectrogram	        1	     0.193	     0.029%	    99.962%	     0.000	        1
+	           CONCATENATION	       17	     0.153	     0.023%	    99.985%	     0.000	       17
+	           STRIDED_SLICE	       16	     0.063	     0.009%	    99.994%	     0.000	       16
+	                 RESHAPE	        3	     0.038	     0.006%	   100.000%	     0.000	        3
+
+Timings (microseconds): count=100 first=670036 curr=663803 min=662859 max=690187 avg=666758 std=4843
+Memory (bytes): count=0
+220 nodes observed
+
+
+

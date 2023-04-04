@@ -1,0 +1,1353 @@
+
+\begin{figure*}[t]
+	\newcommand{\CreateGradientColorCell}[3]{%
+		\ifdim #1 pt > \MidNumber pt
+			\pgfmathsetmacro{\PercentColor}{max(min(100.0*(#1 - \MidNumber)/(\MaxNumber-\MidNumber),100.0),0.00)} %
+			\node[draw=#3, Node, fill=\MaxColor!\PercentColor!\MidColor] at #2 {\scalebox{0.5}{#1}};
+		\else
+			\pgfmathsetmacro{\PercentColor}{max(min(100.0*(\MidNumber - #1)/(\MidNumber-\MinNumber),100.0),0.00)} %
+			\node[draw=#3, Node, fill=\MinColor!\PercentColor!\MidColor] at #2 {\scalebox{0.5}{#1}};
+		\fi
+	}
+	\newcommand{\CreateGradientColorCellWithName}[5]{%
+		\ifdim #1 pt > \MidNumber pt
+			\pgfmathsetmacro{\PercentColor}{max(min(100.0*(#1 - \MidNumber)/(\MaxNumber-\MidNumber),100.0),0.00)} %
+			\node[draw=#3, #5, fill=\MaxColor!\PercentColor!\MidColor] at #2 {\setstretch{0.8}\scalebox{0.6}{#4}\\\scalebox{0.6}{#1}};
+		\else
+			\pgfmathsetmacro{\PercentColor}{max(min(100.0*(\MidNumber - #1)/(\MidNumber-\MinNumber),100.0),0.00)} %
+			\node[draw=#3, #5, fill=\MinColor!\PercentColor!\MidColor] at #2 {\setstretch{0.8}\scalebox{0.6}{#4}\\\scalebox{0.6}{#1}};
+		\fi
+	}
+	\newcommand{\CreateLogTwoGradientColorCell}[3]{%
+		\ifdim #1 pt > \MidNumber pt
+			\pgfmathsetmacro{\PercentColor}{max(min(100.0*(#1 - \MidNumber)/(\MaxNumber-\MidNumber),100.0),0.00)} %
+			\node[draw=#3, Node, fill=\MaxColor!\PercentColor!\MidColor] at #2 {\scalebox{0.5}{$2^{#1}$}};
+		\else
+			\pgfmathsetmacro{\PercentColor}{max(min(100.0*(\MidNumber - #1)/(\MidNumber-\MinNumber),100.0),0.00)} %
+			\node[draw=#3, Node, fill=\MinColor!\PercentColor!\MidColor] at #2 {\scalebox{0.5}{$2^{#1}$}};
+		\fi
+	}
+	\centering
+	\newcommand*{\HighlighColor}{black}
+	\newcommand*{\MaxNumber}{76.226}
+	\newcommand*{\MidNumber}{1}
+	\newcommand*{\MinNumber}{0.403}
+	\newcommand*{\MaxColor}{red}
+	\newcommand*{\MidColor}{white}
+	\newcommand*{\MinColor}{maxGreen}
+	\newcommand*{\baseX}{0}
+	\newcommand*{\baseY}{0}
+	\newcommand*{\MinWidth}{0.5}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{0.689}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.726}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.778}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.830}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.874}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.904}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.922}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{0.683}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.742}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.808}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.865}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.904}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.930}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.944}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{0.668}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.750}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.826}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.883}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.921}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.944}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.955}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{0.654}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.753}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.837}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.895}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.931}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.951}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.961}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{0.645}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.755}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.843}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.902}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.936}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.954}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.964}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{0.639}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.757}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.847}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.905}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.938}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.956}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.966}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{0.636}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.758}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.849}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.907}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.940}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.957}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{0.966}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ourmethod{} for $W4A8$
+		}
+		\label{fig:appendix:instructions:ourW4A8}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{0.677}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.697}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.722}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.750}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.772}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.787}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.796}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{0.658}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.691}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.730}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.764}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.789}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.803}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.811}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{0.625}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.679}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.729}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.770}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.795}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.810}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.818}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{0.596}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.669}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.730}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.774}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.800}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.814}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.822}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{0.574}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.661}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.730}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.775}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.802}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.816}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.824}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{0.563}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.658}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.730}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.776}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.803}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.817}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.825}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{0.557}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.656}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.730}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.777}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.804}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.818}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{0.825}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ourmethod{} for $W8A4$
+		}
+		\label{fig:appendix:instructions:w8a4}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{0.710}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.753}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.807}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.866}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.914}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.948}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.967}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{0.709}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.771}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.842}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.904}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.949}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.975}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.990}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{0.694}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.781}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.861}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.925}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.966}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.989}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.002}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{0.681}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.786}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.876}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.938}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.976}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.997}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.008}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{0.671}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.789}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.883}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.945}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.981}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.001}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.011}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{0.666}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.792}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.887}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.948}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.984}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.003}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.013}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{0.664}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.793}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.889}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.950}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.985}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.004}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{1.013}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ourmethod{} for $W4A4$
+		}
+		\label{fig:appendix:instructions:w4a4}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{0.702}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.741}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.792}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.843}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.887}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.917}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.934}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{0.695}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.755}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.820}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.877}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.918}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.942}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.956}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{0.680}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.760}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.836}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.896}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.933}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.955}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.967}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{0.665}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.764}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.848}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.907}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.943}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.962}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.973}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{0.652}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.765}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.854}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.913}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.947}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.966}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.976}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{0.647}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.766}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.857}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.916}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.950}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.968}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.977}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{0.643}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.767}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.859}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.918}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.951}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.969}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{0.978}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ourmethod{} for $W2A2$
+		}
+		\label{fig:appendix:instructions:w2a2}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{0.769}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.848}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.953}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.063}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.154}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.217}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.255}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{0.797}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.906}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.030}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.141}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.218}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.266}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.292}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{0.810}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.951}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.084}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.188}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.253}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.291}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.312}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{0.826}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.985}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.120}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.216}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.273}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.305}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.322}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{0.834}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.005}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.141}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.231}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.283}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.312}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.327}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{0.840}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.017}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.152}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.239}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.289}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.315}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.329}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{0.844}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.024}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.158}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.243}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.291}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{1.317}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{1.331}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ourmethod{} for $W1A1$
+		}
+		\label{fig:appendix:instructions:w1a1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{0.403}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.468}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.552}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.640}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.713}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.764}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.794}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{0.440}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.526}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.621}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.704}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.763}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.800}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.820}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{0.478}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.578}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.673}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.746}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.793}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.820}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.834}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{0.511}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.617}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.708}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.771}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.809}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.831}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.842}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{0.533}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.642}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.728}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.785}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.818}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.836}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.846}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{0.547}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.656}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.738}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.792}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.822}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.839}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.847}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{0.554}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.663}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.744}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.795}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.825}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{0.840}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{0.848}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\xnnpackint{}
+		}
+		\label{fig:appendix:instructions:xnnpack-w8a8}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{12.54}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{20.65}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{31.18}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{42.19}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{51.37}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{57.67}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{61.46}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{19.11}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.35}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{40.63}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{50.53}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{57.60}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{61.96}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{64.40}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{26.05}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{37.28}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{47.93}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{56.08}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{61.33}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{64.35}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{65.98}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{31.90}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{43.13}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{52.67}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{59.34}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{63.38}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{65.62}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{66.81}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{35.95}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{46.81}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{55.42}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{61.12}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{64.46}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{66.27}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{67.22}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{38.39}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{48.90}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{56.90}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{62.05}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{65.01}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{66.61}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{67.43}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{39.74}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{50.02}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{57.67}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{62.53}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{65.29}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{66.77}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{67.54}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\tfliteint{}
+		}
+		\label{fig:appendix:instructions:tflite-w8a8}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{10.54}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{15.99}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.08}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.48}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{36.88}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{41.23}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{43.85}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{15.67}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{22.24}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.49}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{35.86}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{40.67}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{43.64}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{45.20}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{21.09}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.94}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{34.45}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{39.45}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{42.95}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{44.94}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{45.93}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{25.66}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{32.15}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{37.68}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{41.58}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{44.20}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{45.64}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{46.31}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{28.83}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{34.81}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{39.56}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{42.73}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{44.85}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{46.00}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{46.43}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{30.75}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{36.32}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{40.57}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{43.34}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{45.20}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{46.11}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{46.53}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{31.81}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{37.13}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{41.10}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{43.64}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{45.36}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{46.20}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{46.56}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\gemmlowpint{}
+		}
+		\label{fig:appendix:instructions:gemmlowp-w8a8}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{2.229}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{3.113}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{4.261}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{5.461}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.461}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.148}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.560}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{2.873}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{3.982}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{5.203}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.274}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.040}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.512}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.776}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{3.554}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{4.774}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{5.931}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.816}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.386}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.715}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.892}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{4.128}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{5.358}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.404}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.134}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.577}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.823}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.952}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{4.525}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{5.726}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.678}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.308}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.677}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.878}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.983}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{4.765}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{5.935}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.826}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.399}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.729}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.906}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.998}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{4.897}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.046}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.903}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.445}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.755}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{7.920}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{8.006}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ruyfp{}
+		}
+		\label{fig:appendix:instructions:ruy-fp32}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{3.787}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{6.171}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{9.268}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{12.50}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{15.20}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{17.06}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{18.17}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{5.655}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{8.678}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{12.01}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{14.93}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{17.02}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{18.31}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.03}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{7.628}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{10.96}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{14.13}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{16.54}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{18.10}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.00}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.49}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{9.291}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{12.65}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{15.50}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{17.49}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{18.70}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.37}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.73}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{10.44}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{13.71}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{16.30}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{18.01}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.02}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.56}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.85}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{11.14}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{14.31}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{16.73}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{18.28}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.18}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.66}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.91}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{11.52}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{14.63}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{16.95}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{18.42}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.26}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.71}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{19.94}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\xnnpackfp{}
+		}
+		\label{fig:appendix:instructions:xnnpack-fp32}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{6.823}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{11.06}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{16.56}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{22.32}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.11}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.41}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{32.39}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{10.28}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{15.63}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{21.52}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.68}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.38}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{32.65}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{33.93}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{13.94}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.79}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.35}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.59}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{32.33}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{33.91}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{34.76}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{17.02}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{22.86}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.83}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{31.30}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{33.40}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{34.57}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{35.19}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{19.15}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{24.80}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.27}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{32.23}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{33.97}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{34.91}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{35.40}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{20.44}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.89}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.05}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{32.72}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{34.26}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{35.08}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{35.51}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{21.16}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.48}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.45}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{32.97}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{34.40}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{35.17}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{35.57}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\tflitefp{}
+		}
+		\label{fig:appendix:instructions:tflite-fp32}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{13.83}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{22.46}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{33.66}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{45.38}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{55.14}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{61.85}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{69.38}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{20.94}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{31.81}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{43.79}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{54.29}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{61.80}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{66.43}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{72.70}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{28.46}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{40.33}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{51.61}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{60.23}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{65.78}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{68.98}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{74.48}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{34.79}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{46.63}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{56.69}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{63.72}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{67.97}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{70.34}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{75.40}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{39.18}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{50.59}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{59.63}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{65.62}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{69.13}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{71.03}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{75.87}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{41.82}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{52.83}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{61.22}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{66.61}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{69.72}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{71.39}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{76.11}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{43.29}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{54.04}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{62.05}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{67.12}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{70.02}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{71.57}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{76.23}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\eigenfp{}
+		}
+		\label{fig:appendix:instructions:eigen-fp32}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{7.543}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{11.17}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{15.89}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{21.04}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.33}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.28}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.04}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{10.59}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{14.73}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.29}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.56}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.61}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.49}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.54}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{13.81}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{17.97}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{21.92}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.24}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.37}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.60}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.27}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{16.52}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{20.37}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.63}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.22}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.80}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.67}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.13}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{18.40}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{21.87}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{24.62}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.76}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.02}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.70}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.06}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{19.53}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{22.73}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.16}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.04}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.13}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.72}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.02}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{20.16}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.18}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.43}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.19}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.19}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.72}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{29.00}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ulppackwa{1}
+		}
+		\label{fig:appendix:instructions:ulppack-w1a1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{7.543}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{11.17}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{15.89}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{21.04}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.33}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.28}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.04}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{10.59}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{14.73}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.29}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.56}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.61}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.49}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.54}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{13.81}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{17.97}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{21.92}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.24}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.37}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.60}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.27}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{16.52}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{20.37}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.63}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.22}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.80}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.67}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.13}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{18.40}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{21.87}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{24.62}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.76}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.02}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.70}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.06}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{19.53}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{22.73}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.16}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.04}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.13}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.72}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.02}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{20.16}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.18}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.43}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.19}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.19}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.72}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{29.00}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ulppackwa{2}
+		}
+		\label{fig:appendix:instructions:ulppack-w2a2}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.245\linewidth}
+		\centering
+		\begin{tikzpicture}[
+			Node/.style = {minimum width=\MinWidth cm, minimum height=\MinWidth cm, inner sep=0,outer sep=0},
+		]
+			\node[Node] at (\baseX + 0 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX + 1 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX + 2 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX + 3 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX + 4 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX + 5 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX + 6 * \MinWidth,\baseY + \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 0 * \MinWidth) {\scalebox{\MinWidth}{128}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 1 * \MinWidth) {\scalebox{\MinWidth}{256}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 2 * \MinWidth) {\scalebox{\MinWidth}{512}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 3 * \MinWidth) {\scalebox{\MinWidth}{1024}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 4 * \MinWidth) {\scalebox{\MinWidth}{2048}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 5 * \MinWidth) {\scalebox{\MinWidth}{4096}};
+			\node[Node] at (\baseX - \MinWidth,\baseY - 6 * \MinWidth) {\scalebox{\MinWidth}{8192}};
+			\renewcommand{\baseY}{-1 * 0 * \MinWidth}%
+			\CreateGradientColorCell{7.922}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{11.83}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{16.91}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{22.42}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.02}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.18}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{32.08}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 1 * \MinWidth}%
+			\CreateGradientColorCell{11.17}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{15.67}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{20.62}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.22}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.51}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.53}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{31.67}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 2 * \MinWidth}%
+			\CreateGradientColorCell{14.61}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{19.17}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.49}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.08}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.40}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.73}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{31.45}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 3 * \MinWidth}%
+			\CreateGradientColorCell{17.50}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{21.75}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{25.36}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.18}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.89}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.84}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{31.34}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 4 * \MinWidth}%
+			\CreateGradientColorCell{19.51}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{23.37}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{26.44}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{28.77}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.14}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.89}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{31.28}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 5 * \MinWidth}%
+			\CreateGradientColorCell{20.72}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{24.30}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.02}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.09}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.28}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.92}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{31.25}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+			\renewcommand{\baseY}{-1 * 6 * \MinWidth}%
+			\CreateGradientColorCell{21.39}{(\baseX + 0 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{24.79}{(\baseX + 1 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{27.32}{(\baseX + 2 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{29.25}{(\baseX + 3 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.34}{(\baseX + 4 * \MinWidth,\baseY - 0.0)}{none}
+			\CreateGradientColorCell{30.93}{(\baseX + 5 * \MinWidth,\baseY - 0.0)}{\HighlighColor}
+			\CreateGradientColorCell{31.23}{(\baseX + 6 * \MinWidth,\baseY - 0.0)}{none}
+
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (\MinWidth * 7 - \MinWidth / 2,\MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (\MinWidth * 7 / 2 - \MinWidth / 2,0.75) {\scalebox{\MinWidth}{Input Size}};
+			\draw[->] (-1 * \MinWidth / 2,\MinWidth / 2) -- (-1 * \MinWidth / 2,-1 * \MinWidth * 7 + \MinWidth / 2);
+			\node[minimum height=\MinWidth cm, inner sep=0,outer sep=0] at (-0.2,-1 * \MinWidth * 7) {\scalebox{\MinWidth}{Output Size}};
+		\end{tikzpicture}
+		\caption{
+			\centering
+			\ulppackwa{3}
+		}
+		\label{fig:appendix:instructions:ulppack-w3a3}
+	\end{subfigure}
+	\caption{
+		\centering
+		Instruction Count comparison (Increase; $I_{case} / I_{baseline}$) of different
+		methods on various IO sizes of a \texttt{FullyConnected} layer against the baseline (\ruyint{}).
+		The number of cells reports the increase multiplier. 
+	}
+	\label{fig:appendix:instructions:mainFig}
+\end{figure*}

@@ -1,0 +1,140 @@
+16x32x32
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.3748 * 55786319) / (0.4172 * 45894469) = 1.09 (0.01)
+		I8-I4:	(0.7493 * 30775732) / (0.5685 * 32055818) = 1.27 (0.04)
+
+
+16x64x64
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.6293 * 87449146) / (0.6356 * 69565968) = 1.24 (0.03)
+		I8-I4:	(0.9344 * 58074730) / (0.8564 * 53047354) = 1.19 (0.05)
+
+
+16x128x128
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.8801 * 196083485) / (0.8308 * 149400018) = 1.39 (0.07)
+		I8-I4:	(0.9650 * 159954623) / (0.9592 * 139503145) = 1.15 (0.09)
+
+
+32x32x32
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.6106 * 73898065) / (0.6223 * 58008622) = 1.25 (0.02)
+		I8-I4:	(0.7822 * 42394513) / (0.8454 * 39732912) = 0.99 (0.03)
+
+
+32x64x64
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.7103 * 137215364) / (0.7396 * 105841496) = 1.25 (0.06)
+		I8-I4:	(0.9254 * 96978265) / (0.9198 * 84852352) = 1.15 (0.07)
+
+
+32x128x128
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.9124 * 354479598) / (0.8769 * 263722827) = 1.40 (0.12)
+		I8-I4:	(0.9725 * 300655806) / (0.9632 * 253634675) = 1.20 (0.13)
+
+
+64x32x32
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.6330 * 110125439) / (0.6713 * 83039209) = 1.25 (0.04)
+		I8-I4:	(0.8995 * 65713720) / (0.8446 * 58353967) = 1.20 (0.04)
+
+
+64x64x64
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.8680 * 236757498) / (0.8390 * 174277058) = 1.41 (0.09)
+		I8-I4:	(0.9648 * 174786436) / (0.9546 * 148473661) = 1.19 (0.09)
+
+
+64x128x128
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.9575 * 671280170) / (0.9497 * 493770063) = 1.37 (0.25)
+		I8-I4:	(0.9852 * 581963934) / (0.9793 * 484658860) = 1.21 (0.24)
+
+
+512x512x512
+
+	IPC:		= (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		I8-I8:	(0.9836 * 3386901563) / (0.9737 * 2537278333) = 1.35 (1.09)
+		I8-I4:	(0.9996 * 3328419634) / (0.9989 * 2793454590) = 1.19 (1.21)
+
+
+16x32x32
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.5092 * 255130) / (0.1876 * 30105029) * 100 = 2.30 %
+		I8-I4:	(0.6646 * 248810) / (0.4547 * 16936996) * 100 = 2.15 %
+
+
+16x64x64
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.5777 * 398084) / (0.4579 * 40564359) * 100 = 1.24 %
+		I8-I4:	(0.7401 * 345398) / (0.7218 * 23572024) * 100 = 1.50 %
+
+
+16x128x128
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.7651 * 828233) / (0.7793 * 75472965) * 100 = 1.08 %
+		I8-I4:	(0.8766 * 631621) / (0.8710 * 48651437) * 100 = 1.31 %
+
+
+32x32x32
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.6073 * 380459) / (0.3586 * 37256643) * 100 = 1.73 %
+		I8-I4:	(0.9102 * 316596) / (0.6959 * 20369671) * 100 = 2.03 %
+
+
+32x64x64
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.6448 * 661681) / (0.5890 * 58394197) * 100 = 1.24 %
+		I8-I4:	(0.8619 * 555943) / (0.8480 * 35848391) * 100 = 1.58 %
+
+
+32x128x128
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.8042 * 1452785) / (0.8891 * 127541255) * 100 = 1.03 %
+		I8-I4:	(0.9035 * 1116197) / (0.9468 * 85833751) * 100 = 1.24 %
+
+
+64x32x32
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.6416 * 617744) / (0.5231 * 52157184) * 100 = 1.45 %
+		I8-I4:	(0.9160 * 523580) / (0.7766 * 29640080) * 100 = 2.08 %
+
+
+64x64x64
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.6858 * 1157596) / (0.7333 * 94009170) * 100 = 1.15 %
+		I8-I4:	(0.9031 * 979697) / (0.9066 * 60588685) * 100 = 1.61 %
+
+
+64x128x128
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.7922 * 2930089) / (0.8929 * 233582189) * 100 = 1.11 %
+		I8-I4:	(0.9343 * 1975086) / (0.9564 * 156540381) * 100 = 1.23 %
+
+
+512x512x512
+
+	CMR:		= (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		I8-I8:	(0.9556 * 14481140) / (0.9723 * 1085429825) * 100 = 1.31 %
+		I8-I4:	(0.9991 * 39484791) / (0.9994 * 896461876) * 100 = 4.40 %
+
+

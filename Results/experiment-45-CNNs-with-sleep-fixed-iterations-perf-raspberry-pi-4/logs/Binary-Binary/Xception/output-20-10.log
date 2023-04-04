@@ -1,0 +1,433 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [10]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/Xception.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/Xception.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (32, 27, ), Input shape (89401, 3, ), and Output shape (22201, 32, ), and the ID is 0
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (22204, 16)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 48)
+Applying Conv Low-Precision for Kernel shape (64, 288, ), Input shape (22201, 32, ), and Output shape (21609, 64, ), and the ID is 1
+	Allocating LowPrecision Activations Tensors with Shape of (21612, 48)
+Applying Conv Low-Precision for Kernel shape (128, 64, ), Input shape (21609, 64, ), and Output shape (21609, 128, ), and the ID is 2
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (21612, 16)
+Applying Conv Low-Precision for Kernel shape (128, 128, ), Input shape (21609, 128, ), and Output shape (21609, 128, ), and the ID is 3
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (21612, 16)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 16)
+Applying Conv Low-Precision for Kernel shape (128, 64, ), Input shape (21609, 64, ), and Output shape (5476, 128, ), and the ID is 4
+	Allocating LowPrecision Activations Tensors with Shape of (5476, 16)
+Applying Conv Low-Precision for Kernel shape (256, 128, ), Input shape (5476, 128, ), and Output shape (5476, 256, ), and the ID is 5
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (5476, 16)
+Applying Conv Low-Precision for Kernel shape (256, 256, ), Input shape (5476, 256, ), and Output shape (5476, 256, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 32)
+, and the ID is 6
+	Allocating LowPrecision Activations Tensors with Shape of (5476, 32)
+Applying Conv Low-Precision for Kernel shape (256, 128, ), Input shape (5476, 128, ), and Output shape (1369, 256, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 16)
+7
+	Allocating LowPrecision Activations Tensors with Shape of (1372, 16)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 32)
+Applying Conv Low-Precision for Kernel shape (728, 256, ), Input shape (1369, 256, ), and Output shape (1369, 728, ), and the ID is 8
+	Allocating LowPrecision Activations Tensors with Shape of (1372, 32)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (1369, 728, ), and Output shape (1369, 728, ), and the ID is 9	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+
+	Allocating LowPrecision Activations Tensors with Shape of (1372, 96)
+Applying Conv Low-Precision for Kernel shape (728, 256, ), Input shape (1369, 256, ), and Output shape (361, 728, ), and the ID is 10
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 32)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+(361, 728, ), and the ID is 11
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 12
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 13
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 14
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 15
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+(361, 728, ), and Output shape (361, 728, ), and the ID is 16
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 17
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 18
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+(728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 19
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 20
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 21
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 22
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 23
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and Output shape (361, 728, ), and the ID is 24
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 25
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 26
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 27
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 28
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 29	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(361, 728, ), and the ID is 30
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 31
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+, Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 32
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 33	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 34
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (728, 728, ), Input shape (361, 728, ), and Output shape (361, 728, ), and the ID is 35
+	Allocating LowPrecision Weight Tensors with Shape of (728, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (1024, 728, ), Input shape (361, 728, ), and Output shape (361, 1024, ), and the ID is 36	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (364, 96)
+Applying Conv Low-Precision for Kernel shape (1024, 728, ), Input shape (361, 728, ), and Output shape (100, 1024, ), and the ID is 37
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1024, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (100, 96)
+Applying Conv Low-Precision for Kernel shape (1536, 1024, ), Input shape (100, 1024, ), and Output shape (100, 1536, ), and the ID is 38
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1536, 128)
+	Allocating LowPrecision Activations Tensors with Shape of (100, 128)
+Applying Conv Low-Precision for Kernel shape (2048, 1536, ), Input shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(100, 1536, ), and Output shape (100, 2048, ), and the ID is 39
+	Allocating LowPrecision Weight Tensors with Shape of (2048, 192)
+	Allocating LowPrecision Activations Tensors with Shape of (100, 192)
+Applying Low-Precision for shape (1000, 2048, ) and Input shape (1, 2048, ) With 7 Number of Temporaries Tensors
+	Transformed Filter Shape: (1000, 256)
+	Transformed Activation Shape From: (1, 2048) To: (1, 256)
+The input model file size (MB): 24.0822
+Initialized session in 122.083ms.
+Running benchmark for at least 10 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=10 first=1604656 curr=1588143 min=1569638 max=1604656 avg=1.58476e+06 std=11040
+
+Running benchmark for at least 20 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=20 first=1577319 curr=1583588 min=1569430 max=1589717 avg=1.58027e+06 std=6418
+
+Inference timings in us: Init: 122083, First inference: 1604656, Warmup (avg): 1.58476e+06, Inference (avg): 1.58027e+06
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=30.6719 overall=133.711
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	   90.762	   90.762	100.000%	100.000%	 24004.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	   90.762	   90.762	100.000%	100.000%	 24004.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	    90.762	   100.000%	   100.000%	 24004.000	        1
+
+Timings (microseconds): count=1 curr=90762
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	            0.021	   63.897	   63.753	  4.037%	  4.037%	     0.000	        1	[xception/block1_conv1_act/Relu;xception/block1_conv1_bn/FusedBatchNormV3;xception/block1_conv1_bn/FusedBatchNormV3/ReadVariableOp;xception/block1_conv1/Conv2D]:0
+	                 CONV_2D	           63.789	   65.092	   65.290	  4.134%	  8.172%	     0.000	        1	[xception/block1_conv2_act/Relu;xception/block1_conv2_bn/FusedBatchNormV3;xception/block1_conv2_bn/FusedBatchNormV3/ReadVariableOp;xception/block1_conv2/Conv2D]:1
+	       DEPTHWISE_CONV_2D	          129.095	    5.417	    5.427	  0.344%	  8.515%	     0.000	        1	[xception/block2_sepconv1/separable_conv2d/depthwise1]:2
+	                 CONV_2D	          134.534	   98.285	   98.400	  6.231%	 14.746%	     0.000	        1	[xception/block2_sepconv2_act/Relu;xception/block2_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_297/FusedBatchNormV3/ReadVariableOp;xception/block2_sepconv1/separable_conv2d]:3
+	       DEPTHWISE_CONV_2D	          232.947	   13.954	   13.969	  0.885%	 15.631%	     0.000	        1	[xception/block2_sepconv2/separable_conv2d/depthwise1]:4
+	                 CONV_2D	          246.929	   98.578	   98.763	  6.254%	 21.885%	     0.000	        1	[xception/block2_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_297/FusedBatchNormV3/ReadVariableOp;xception/block2_sepconv2/separable_conv2d]:5
+	             MAX_POOL_2D	          345.705	   16.593	   16.734	  1.060%	 22.945%	     0.000	        1	[xception/block2_pool/MaxPool]:6
+	                 CONV_2D	          362.452	   25.809	   25.868	  1.638%	 24.583%	     0.000	        1	[xception/batch_normalization_297/FusedBatchNormV3;xception/batch_normalization_297/FusedBatchNormV3/ReadVariableOp;xception/conv2d_297/Conv2D]:7
+	                     ADD	          388.332	   65.287	   65.660	  4.158%	 28.741%	     0.000	        1	[xception/add_4/add]:8
+	                    RELU	          454.004	   88.480	   88.707	  5.617%	 34.358%	     0.000	        1	[xception/block3_sepconv1_act/Relu]:9
+	       DEPTHWISE_CONV_2D	          542.723	    3.595	    3.603	  0.228%	 34.586%	     0.000	        1	[xception/block3_sepconv1/separable_conv2d/depthwise1]:10
+	                 CONV_2D	          546.338	   40.168	   40.427	  2.560%	 37.146%	     0.000	        1	[xception/block3_sepconv2_act/Relu;xception/block3_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_298/FusedBatchNormV3/ReadVariableOp;xception/block3_sepconv1/separable_conv2d]:11
+	       DEPTHWISE_CONV_2D	          586.779	    7.164	    7.194	  0.456%	 37.602%	     0.000	        1	[xception/block3_sepconv2/separable_conv2d/depthwise1]:12
+	                 CONV_2D	          593.986	   39.114	   39.254	  2.486%	 40.087%	     0.000	        1	[xception/block3_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_298/FusedBatchNormV3/ReadVariableOp;xception/block3_sepconv2/separable_conv2d]:13
+	             MAX_POOL_2D	          633.252	    8.221	    8.315	  0.527%	 40.614%	     0.000	        1	[xception/block3_pool/MaxPool]:14
+	                 CONV_2D	          641.578	   10.366	   10.399	  0.659%	 41.272%	     0.000	        1	[xception/batch_normalization_298/FusedBatchNormV3;xception/batch_normalization_298/FusedBatchNormV3/ReadVariableOp;xception/conv2d_298/Conv2D]:15
+	                     ADD	          651.987	   32.625	   32.732	  2.073%	 43.345%	     0.000	        1	[xception/add_5/add]:16
+	                    RELU	          684.730	   43.756	   43.777	  2.772%	 46.117%	     0.000	        1	[xception/block4_sepconv1_act/Relu]:17
+	       DEPTHWISE_CONV_2D	          728.518	    1.675	    1.714	  0.109%	 46.226%	     0.000	        1	[xception/block4_sepconv1/separable_conv2d/depthwise1]:18
+	                 CONV_2D	          730.241	   24.112	   24.209	  1.533%	 47.759%	     0.000	        1	[xception/block4_sepconv2_act/Relu;xception/block4_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block4_sepconv1/separable_conv2d]:19
+	       DEPTHWISE_CONV_2D	          754.461	    5.305	    5.412	  0.343%	 48.102%	     0.000	        1	[xception/block4_sepconv2/separable_conv2d/depthwise1]:20
+	                 CONV_2D	          759.886	   23.063	   23.078	  1.461%	 49.563%	     0.000	        1	[xception/block4_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block4_sepconv2/separable_conv2d]:21
+	             MAX_POOL_2D	          782.976	    6.419	    6.480	  0.410%	 49.973%	     0.000	        1	[xception/block4_pool/MaxPool]:22
+	                 CONV_2D	          789.468	    6.701	    6.620	  0.419%	 50.393%	     0.000	        1	[xception/batch_normalization_299/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/conv2d_299/Conv2D]:23
+	                     ADD	          796.099	   24.431	   24.612	  1.559%	 51.951%	     0.000	        1	[xception/add_6/add]:24
+	                    RELU	          820.721	   33.301	   33.392	  2.115%	 54.066%	     0.000	        1	[xception/block5_sepconv1_act/Relu]:25
+	       DEPTHWISE_CONV_2D	          854.124	    1.309	    1.367	  0.087%	 54.152%	     0.000	        1	[xception/block5_sepconv1/separable_conv2d/depthwise1]:26
+	                 CONV_2D	          855.500	    6.127	    6.146	  0.389%	 54.541%	     0.000	        1	[xception/block5_sepconv2_act/Relu;xception/block5_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block5_sepconv1/separable_conv2d]:27
+	       DEPTHWISE_CONV_2D	          861.655	    1.218	    1.318	  0.083%	 54.625%	     0.000	        1	[xception/block5_sepconv2/separable_conv2d/depthwise1]:28
+	                 CONV_2D	          862.982	    6.127	    6.143	  0.389%	 55.014%	     0.000	        1	[xception/block5_sepconv3_act/Relu;xception/block5_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block5_sepconv2/separable_conv2d]:29
+	       DEPTHWISE_CONV_2D	          869.133	    1.209	    1.298	  0.082%	 55.096%	     0.000	        1	[xception/block5_sepconv3/separable_conv2d/depthwise1]:30
+	                 CONV_2D	          870.439	    6.116	    6.141	  0.389%	 55.485%	     0.000	        1	[xception/block5_sepconv3_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block5_sepconv3/separable_conv2d]:31
+	                     ADD	          876.589	   24.452	   24.569	  1.556%	 57.041%	     0.000	        1	[xception/add_7/add]:32
+	                    RELU	          901.169	   33.271	   33.505	  2.122%	 59.162%	     0.000	        1	[xception/block6_sepconv1_act/Relu]:33
+	       DEPTHWISE_CONV_2D	          934.684	    1.309	    1.353	  0.086%	 59.248%	     0.000	        1	[xception/block6_sepconv1/separable_conv2d/depthwise1]:34
+	                 CONV_2D	          936.046	    6.103	    6.170	  0.391%	 59.639%	     0.000	        1	[xception/block6_sepconv2_act/Relu;xception/block6_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block6_sepconv1/separable_conv2d]:35
+	       DEPTHWISE_CONV_2D	          942.226	    1.230	    1.325	  0.084%	 59.723%	     0.000	        1	[xception/block6_sepconv2/separable_conv2d/depthwise1]:36
+	                 CONV_2D	          943.559	    6.103	    6.135	  0.388%	 60.111%	     0.000	        1	[xception/block6_sepconv3_act/Relu;xception/block6_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block6_sepconv2/separable_conv2d]:37
+	       DEPTHWISE_CONV_2D	          949.704	    1.181	    1.308	  0.083%	 60.194%	     0.000	        1	[xception/block6_sepconv3/separable_conv2d/depthwise1]:38
+	                 CONV_2D	          951.020	    6.112	    6.144	  0.389%	 60.583%	     0.000	        1	[xception/block6_sepconv3_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block6_sepconv3/separable_conv2d]:39
+	                     ADD	          957.173	   24.496	   24.593	  1.557%	 62.140%	     0.000	        1	[xception/add_8/add]:40
+	                    RELU	          981.778	   33.285	   33.561	  2.125%	 64.266%	     0.000	        1	[xception/block7_sepconv1_act/Relu]:41
+	       DEPTHWISE_CONV_2D	         1015.348	    1.359	    1.392	  0.088%	 64.354%	     0.000	        1	[xception/block7_sepconv1/separable_conv2d/depthwise1]:42
+	                 CONV_2D	         1016.749	    6.107	    6.175	  0.391%	 64.745%	     0.000	        1	[xception/block7_sepconv2_act/Relu;xception/block7_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block7_sepconv1/separable_conv2d]:43
+	       DEPTHWISE_CONV_2D	         1022.933	    1.211	    1.359	  0.086%	 64.831%	     0.000	        1	[xception/block7_sepconv2/separable_conv2d/depthwise1]:44
+	                 CONV_2D	         1024.301	    6.158	    6.139	  0.389%	 65.220%	     0.000	        1	[xception/block7_sepconv3_act/Relu;xception/block7_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block7_sepconv2/separable_conv2d]:45
+	       DEPTHWISE_CONV_2D	         1030.449	    1.280	    1.335	  0.085%	 65.304%	     0.000	        1	[xception/block7_sepconv3/separable_conv2d/depthwise1]:46
+	                 CONV_2D	         1031.794	    6.109	    6.148	  0.389%	 65.693%	     0.000	        1	[xception/block7_sepconv3_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block7_sepconv3/separable_conv2d]:47
+	                     ADD	         1037.951	   24.424	   24.619	  1.559%	 67.252%	     0.000	        1	[xception/add_9/add]:48
+	                    RELU	         1062.580	   33.261	   33.375	  2.113%	 69.366%	     0.000	        1	[xception/block8_sepconv1_act/Relu]:49
+	       DEPTHWISE_CONV_2D	         1095.966	    1.303	    1.375	  0.087%	 69.453%	     0.000	        1	[xception/block8_sepconv1/separable_conv2d/depthwise1]:50
+	                 CONV_2D	         1097.349	    6.104	    6.156	  0.390%	 69.843%	     0.000	        1	[xception/block8_sepconv2_act/Relu;xception/block8_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block8_sepconv1/separable_conv2d]:51
+	       DEPTHWISE_CONV_2D	         1103.514	    1.189	    1.300	  0.082%	 69.925%	     0.000	        1	[xception/block8_sepconv2/separable_conv2d/depthwise1]:52
+	                 CONV_2D	         1104.822	    6.099	    6.143	  0.389%	 70.314%	     0.000	        1	[xception/block8_sepconv3_act/Relu;xception/block8_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block8_sepconv2/separable_conv2d]:53
+	       DEPTHWISE_CONV_2D	         1110.974	    1.174	    1.320	  0.084%	 70.398%	     0.000	        1	[xception/block8_sepconv3/separable_conv2d/depthwise1]:54
+	                 CONV_2D	         1112.303	    6.110	    6.135	  0.388%	 70.786%	     0.000	        1	[xception/block8_sepconv3_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block8_sepconv3/separable_conv2d]:55
+	                     ADD	         1118.446	   24.439	   24.591	  1.557%	 72.343%	     0.000	        1	[xception/add_10/add]:56
+	                    RELU	         1143.048	   33.256	   33.397	  2.115%	 74.458%	     0.000	        1	[xception/block9_sepconv1_act/Relu]:57
+	       DEPTHWISE_CONV_2D	         1176.456	    1.254	    1.345	  0.085%	 74.543%	     0.000	        1	[xception/block9_sepconv1/separable_conv2d/depthwise1]:58
+	                 CONV_2D	         1177.811	    6.126	    6.172	  0.391%	 74.934%	     0.000	        1	[xception/block9_sepconv2_act/Relu;xception/block9_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block9_sepconv1/separable_conv2d]:59
+	       DEPTHWISE_CONV_2D	         1183.992	    1.199	    1.324	  0.084%	 75.018%	     0.000	        1	[xception/block9_sepconv2/separable_conv2d/depthwise1]:60
+	                 CONV_2D	         1185.324	    6.098	    6.156	  0.390%	 75.408%	     0.000	        1	[xception/block9_sepconv3_act/Relu;xception/block9_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block9_sepconv2/separable_conv2d]:61
+	       DEPTHWISE_CONV_2D	         1191.490	    1.175	    1.326	  0.084%	 75.492%	     0.000	        1	[xception/block9_sepconv3/separable_conv2d/depthwise1]:62
+	                 CONV_2D	         1192.824	    6.084	    6.145	  0.389%	 75.881%	     0.000	        1	[xception/block9_sepconv3_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block9_sepconv3/separable_conv2d]:63
+	                     ADD	         1198.978	   24.382	   24.624	  1.559%	 77.440%	     0.000	        1	[xception/add_11/add]:64
+	                    RELU	         1223.614	   33.506	   33.403	  2.115%	 79.556%	     0.000	        1	[xception/block10_sepconv1_act/Relu]:65
+	       DEPTHWISE_CONV_2D	         1257.027	    1.344	    1.408	  0.089%	 79.645%	     0.000	        1	[xception/block10_sepconv1/separable_conv2d/depthwise1]:66
+	                 CONV_2D	         1258.444	    6.212	    6.167	  0.391%	 80.035%	     0.000	        1	[xception/block10_sepconv2_act/Relu;xception/block10_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block10_sepconv1/separable_conv2d]:67
+	       DEPTHWISE_CONV_2D	         1264.621	    1.434	    1.354	  0.086%	 80.121%	     0.000	        1	[xception/block10_sepconv2/separable_conv2d/depthwise1]:68
+	                 CONV_2D	         1265.984	    6.169	    6.150	  0.389%	 80.510%	     0.000	        1	[xception/block10_sepconv3_act/Relu;xception/block10_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block10_sepconv2/separable_conv2d]:69
+	       DEPTHWISE_CONV_2D	         1272.145	    1.295	    1.342	  0.085%	 80.595%	     0.000	        1	[xception/block10_sepconv3/separable_conv2d/depthwise1]:70
+	                 CONV_2D	         1273.496	    6.123	    6.145	  0.389%	 80.985%	     0.000	        1	[xception/block10_sepconv3_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block10_sepconv3/separable_conv2d]:71
+	                     ADD	         1279.650	   24.556	   24.746	  1.567%	 82.552%	     0.000	        1	[xception/add_12/add]:72
+	                    RELU	         1304.407	   33.344	   33.399	  2.115%	 84.667%	     0.000	        1	[xception/block11_sepconv1_act/Relu]:73
+	       DEPTHWISE_CONV_2D	         1337.816	    1.361	    1.357	  0.086%	 84.752%	     0.000	        1	[xception/block11_sepconv1/separable_conv2d/depthwise1]:74
+	                 CONV_2D	         1339.182	    6.109	    6.159	  0.390%	 85.142%	     0.000	        1	[xception/block11_sepconv2_act/Relu;xception/block11_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block11_sepconv1/separable_conv2d]:75
+	       DEPTHWISE_CONV_2D	         1345.349	    1.197	    1.317	  0.083%	 85.226%	     0.000	        1	[xception/block11_sepconv2/separable_conv2d/depthwise1]:76
+	                 CONV_2D	         1346.675	    6.137	    6.152	  0.390%	 85.615%	     0.000	        1	[xception/block11_sepconv3_act/Relu;xception/block11_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block11_sepconv2/separable_conv2d]:77
+	       DEPTHWISE_CONV_2D	         1352.839	    1.181	    1.308	  0.083%	 85.698%	     0.000	        1	[xception/block11_sepconv3/separable_conv2d/depthwise1]:78
+	                 CONV_2D	         1354.155	    6.164	    6.146	  0.389%	 86.087%	     0.000	        1	[xception/block11_sepconv3_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block11_sepconv3/separable_conv2d]:79
+	                     ADD	         1360.310	   24.643	   24.606	  1.558%	 87.646%	     0.000	        1	[xception/add_13/add]:80
+	                    RELU	         1384.927	   33.436	   33.385	  2.114%	 89.760%	     0.000	        1	[xception/block12_sepconv1_act/Relu]:81
+	       DEPTHWISE_CONV_2D	         1418.323	    1.508	    1.377	  0.087%	 89.847%	     0.000	        1	[xception/block12_sepconv1/separable_conv2d/depthwise1]:82
+	                 CONV_2D	         1419.709	    6.230	    6.169	  0.391%	 90.238%	     0.000	        1	[xception/block12_sepconv2_act/Relu;xception/block12_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block12_sepconv1/separable_conv2d]:83
+	       DEPTHWISE_CONV_2D	         1425.888	    1.598	    1.355	  0.086%	 90.323%	     0.000	        1	[xception/block12_sepconv2/separable_conv2d/depthwise1]:84
+	                 CONV_2D	         1427.252	    6.206	    6.149	  0.389%	 90.713%	     0.000	        1	[xception/block12_sepconv3_act/Relu;xception/block12_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block12_sepconv2/separable_conv2d]:85
+	       DEPTHWISE_CONV_2D	         1433.413	    1.703	    1.339	  0.085%	 90.798%	     0.000	        1	[xception/block12_sepconv3/separable_conv2d/depthwise1]:86
+	                 CONV_2D	         1434.761	    6.233	    6.170	  0.391%	 91.188%	     0.000	        1	[xception/block12_sepconv3_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block12_sepconv3/separable_conv2d]:87
+	                     ADD	         1440.940	   24.807	   24.631	  1.560%	 92.748%	     0.000	        1	[xception/add_14/add]:88
+	                    RELU	         1465.582	   33.820	   33.437	  2.117%	 94.865%	     0.000	        1	[xception/block13_sepconv1_act/Relu]:89
+	       DEPTHWISE_CONV_2D	         1499.029	    1.586	    1.400	  0.089%	 94.954%	     0.000	        1	[xception/block13_sepconv1/separable_conv2d/depthwise1]:90
+	                 CONV_2D	         1500.438	    6.238	    6.176	  0.391%	 95.345%	     0.000	        1	[xception/block13_sepconv2_act/Relu;xception/block13_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_299/FusedBatchNormV3/ReadVariableOp;xception/block13_sepconv1/separable_conv2d]:91
+	       DEPTHWISE_CONV_2D	         1506.623	    1.530	    1.356	  0.086%	 95.431%	     0.000	        1	[xception/block13_sepconv2/separable_conv2d/depthwise1]:92
+	                 CONV_2D	         1507.988	    8.635	    8.549	  0.541%	 95.972%	     0.000	        1	[xception/block13_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_300/FusedBatchNormV3/ReadVariableOp;xception/block13_sepconv2/separable_conv2d]:93
+	             MAX_POOL_2D	         1516.547	    2.518	    2.400	  0.152%	 96.124%	     0.000	        1	[xception/block13_pool/MaxPool]:94
+	                 CONV_2D	         1518.955	    2.539	    2.503	  0.159%	 96.283%	     0.000	        1	[xception/batch_normalization_300/FusedBatchNormV3;xception/batch_normalization_300/FusedBatchNormV3/ReadVariableOp;xception/conv2d_300/Conv2D]:95
+	                     ADD	         1521.467	    9.702	    9.591	  0.607%	 96.890%	     0.000	        1	[xception/add_15/add]:96
+	       DEPTHWISE_CONV_2D	         1531.066	    0.589	    0.525	  0.033%	 96.923%	     0.000	        1	[xception/block14_sepconv1/separable_conv2d/depthwise1]:97
+	                 CONV_2D	         1531.599	    3.714	    3.473	  0.220%	 97.143%	     0.000	        1	[xception/block14_sepconv1_act/Relu;xception/block14_sepconv1_bn/FusedBatchNormV3;xception/block14_sepconv1_bn/FusedBatchNormV3/ReadVariableOp;xception/block14_sepconv1/separable_conv2d]:98
+	       DEPTHWISE_CONV_2D	         1535.081	    0.928	    0.795	  0.050%	 97.194%	     0.000	        1	[xception/block14_sepconv2/separable_conv2d/depthwise1]:99
+	                 CONV_2D	         1535.884	    8.991	    8.730	  0.553%	 97.746%	     0.000	        1	[xception/block14_sepconv2_act/Relu;xception/block14_sepconv2_bn/FusedBatchNormV3;xception/block14_sepconv2_bn/FusedBatchNormV3/ReadVariableOp;xception/block14_sepconv2/separable_conv2d]:100
+	                    MEAN	         1544.623	   35.313	   34.941	  2.213%	 99.959%	     0.000	        1	[xception/avg_pool/Mean]:101
+	         FULLY_CONNECTED	         1579.573	    0.608	    0.561	  0.036%	 99.995%	     0.000	        1	[xception/predictions/MatMul;xception/predictions/BiasAdd]:102
+	                 SOFTMAX	         1580.141	    0.088	    0.086	  0.005%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:103
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	          246.929	   98.578	   98.763	  6.254%	  6.254%	     0.000	        1	[xception/block2_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_297/FusedBatchNormV3/ReadVariableOp;xception/block2_sepconv2/separable_conv2d]:5
+	                 CONV_2D	          134.534	   98.285	   98.400	  6.231%	 12.485%	     0.000	        1	[xception/block2_sepconv2_act/Relu;xception/block2_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_297/FusedBatchNormV3/ReadVariableOp;xception/block2_sepconv1/separable_conv2d]:3
+	                    RELU	          454.004	   88.480	   88.707	  5.617%	 18.103%	     0.000	        1	[xception/block3_sepconv1_act/Relu]:9
+	                     ADD	          388.332	   65.287	   65.660	  4.158%	 22.260%	     0.000	        1	[xception/add_4/add]:8
+	                 CONV_2D	           63.789	   65.092	   65.290	  4.134%	 26.395%	     0.000	        1	[xception/block1_conv2_act/Relu;xception/block1_conv2_bn/FusedBatchNormV3;xception/block1_conv2_bn/FusedBatchNormV3/ReadVariableOp;xception/block1_conv2/Conv2D]:1
+	                 CONV_2D	            0.021	   63.897	   63.753	  4.037%	 30.432%	     0.000	        1	[xception/block1_conv1_act/Relu;xception/block1_conv1_bn/FusedBatchNormV3;xception/block1_conv1_bn/FusedBatchNormV3/ReadVariableOp;xception/block1_conv1/Conv2D]:0
+	                    RELU	          684.730	   43.756	   43.777	  2.772%	 33.204%	     0.000	        1	[xception/block4_sepconv1_act/Relu]:17
+	                 CONV_2D	          546.338	   40.168	   40.427	  2.560%	 35.764%	     0.000	        1	[xception/block3_sepconv2_act/Relu;xception/block3_sepconv1_bn/FusedBatchNormV3;xception/batch_normalization_298/FusedBatchNormV3/ReadVariableOp;xception/block3_sepconv1/separable_conv2d]:11
+	                 CONV_2D	          593.986	   39.114	   39.254	  2.486%	 38.250%	     0.000	        1	[xception/block3_sepconv2_bn/FusedBatchNormV3;xception/batch_normalization_298/FusedBatchNormV3/ReadVariableOp;xception/block3_sepconv2/separable_conv2d]:13
+	                    MEAN	         1544.623	   35.313	   34.941	  2.213%	 40.462%	     0.000	        1	[xception/avg_pool/Mean]:101
+
+Number of nodes executed: 104
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       40	   673.131	    42.627%	    42.627%	     0.000	       40
+	                    RELU	       11	   433.331	    27.441%	    70.068%	     0.000	       11
+	                     ADD	       12	   329.571	    20.870%	    90.938%	     0.000	       12
+	       DEPTHWISE_CONV_2D	       34	    73.581	     4.660%	    95.598%	     0.000	       34
+	                    MEAN	        1	    34.940	     2.213%	    97.811%	     0.000	        1
+	             MAX_POOL_2D	        4	    33.926	     2.148%	    99.959%	     0.000	        4
+	         FULLY_CONNECTED	        1	     0.560	     0.035%	    99.995%	     0.000	        1
+	                 SOFTMAX	        1	     0.086	     0.005%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=20 first=1576252 curr=1582392 min=1568389 max=1588480 avg=1.57917e+06 std=6352
+Memory (bytes): count=0
+104 nodes observed
+
+
+
+[ perf record: Woken up 138 times to write data ]
+[ perf record: Captured and wrote 34.488 MB /tmp/data.record (190262 samples) ]
+
+48.604
+

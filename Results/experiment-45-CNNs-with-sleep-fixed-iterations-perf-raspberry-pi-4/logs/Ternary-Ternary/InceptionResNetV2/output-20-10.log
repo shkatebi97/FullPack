@@ -1,0 +1,1888 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [10]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/InceptionResNetV2.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/InceptionResNetV2.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (32, 27, ), Input shape (89401, 3, ), and Output shape (22201, 32, ), and the ID is 0	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 16)
+
+	Allocating LowPrecision Activations Tensors with Shape of (22204, 16)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (21612, 80)
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (22201, 32, ), and Output shape (21609, 32, ), and the ID is 1
+Applying Conv Low-Precision for Kernel shape (64, 288, ), Input shape (21609, 32, ), and Output shape (21609, 64, ), and the ID is 2	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 80)
+
+	Allocating LowPrecision Activations Tensors with Shape of (21612, 80)
+Applying Conv Low-Precision for Kernel shape (80, 64, ), Input shape (5329, 64, ), and Output shape (5329, 80, ), and the ID is 3
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (80, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (5332, 16)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (192, 720, ), Input shape (5329, 80, ), and Output shape (5041, 192, ), and the ID is 4
+	Allocating LowPrecision Weight Tensors with Shape of (192, 192)
+	Allocating LowPrecision Activations Tensors with Shape of (5044, 192)
+Applying Conv Low-Precision for Kernel shape (64, 192, ), Input shape (1225, 192, ), and Output shape (1225, 64, ), and the ID is 5
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 48)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 48)
+Applying Conv Low-Precision for Kernel shape (48, 192, ), Input shape (1225, 192, ), and Output shape (1225, 48, ), and the ID is 6
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 48)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 48)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 304)
+Applying Conv Low-Precision for Kernel shape (64, 1200, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 7
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 304)
+Applying Conv Low-Precision for Kernel shape (64, 192, ), Input shape (1225, 192, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(1225, 64, ), and the ID is 8
+	Allocating LowPrecision Weight Tensors with Shape of (64, 48)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 48)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (96, 576, ), Input shape (1225, 64, ), and Output shape (1225, 96, ), and the ID is 9
+	Allocating LowPrecision Weight Tensors with Shape of (96, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 144)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 224)
+Applying Conv Low-Precision for Kernel shape (96, 864, ), Input shape (1225, 96, ), and Output shape (1225, 96, ), and the ID is 10
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 224)
+	Changing Input Shape
+Applying Conv Low-Precision for Kernel shape (96, 192, ), Input shape (1225, 192, ), and Output shape (1225, 96, ), and the ID is 11
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 48)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 48)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 12
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 13
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 14
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+, and the ID is 15
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 16
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 17
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, ), and the ID is 18
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 19	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 20
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 21
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 22
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 23
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 24	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+(1225, 320, ), and the ID is 25
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 26
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 27
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 28
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 29
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 30
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 31
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+, and the ID is 32
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and Output shape (1225, 32, ), and the ID is 33
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 34
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 35
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 36
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 37
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 38
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, ), and the ID is 39
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 40
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 41
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 42
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 43
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 44
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 45
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, ), and the ID is 46
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 47
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+, and the ID is 48
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+49
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 50
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 51
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+, and the ID is 52
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, ), and the ID is 53
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 54
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 55
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 56
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 57
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 58
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 59
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, ), and the ID is 60
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 61
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 62
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+, and the ID is 63
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+(1225, 320, ), and Output shape (1225, 32, ), and the ID is 64
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 65
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 66
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, ), and the ID is 67
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 68
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 69
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 70
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 71
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 72
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 73	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, ), and the ID is 74
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 75
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 76
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (32, 288, ), Input shape (1225, 32, ), and Output shape (1225, 32, ), and the ID is 77
+Applying Conv Low-Precision for Kernel shape (32, 320, ), Input shape (1225, 320, ), and Output shape (1225, 32, ), and the ID is 78
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (48, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (48, 288, ), Input shape (1225, 32, ), and Output shape (1225, 48, ), and the ID is 79
+Applying Conv Low-Precision for Kernel shape (64, 432, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 80
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 112)
+Applying Conv Low-Precision for Kernel shape (320, 128, ), Input shape (1225, 128, ), and Output shape (1225, 320, ), and the ID is 81
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 32)
+Applying Conv Low-Precision for Kernel shape (384, 2880, ), Input shape (1225, 320, ), and Output shape (289, 384, ), and the ID is 82
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 720)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 720)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (256, 320, ), Input shape (1225, 320, ), and Output shape (1225, 256, ), and the ID is 83
+	Allocating LowPrecision Weight Tensors with Shape of (256, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 80)
+Applying Conv Low-Precision for Kernel shape (256, 2304, ), Input shape (1225, 256, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and Output shape (1225, 256, ), and the ID is 84
+	Allocating LowPrecision Weight Tensors with Shape of (256, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (1228, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 576)
+Applying Conv Low-Precision for Kernel shape (384, 2304, ), Input shape (1225, 256, ), and Output shape (289, 384, ), and the ID is 85
+	Allocating LowPrecision Activations Tensors with Shape of (292, 576)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+86
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 87
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 88
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+, and the ID is 89
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(289, 1088, ), and the ID is 90
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 91
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 92
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+93
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 94
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+95
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 96
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 97
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 98
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 99
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 100	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 101
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 102
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(289, 160, ), and the ID is 103
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 104
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 105
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+	Changing Input Shape
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 106
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 107	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 108
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 109
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+110
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 111
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 112
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 113
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+114
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and the ID is 115
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 116
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 117
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 118
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 119
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 120
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 121
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 122
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 123
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+124
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+125
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 126
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+, and the ID is 127
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 128	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 129
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 130	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 131	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 132
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 133
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 134
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 135
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 136
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 137
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 138
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+(289, 192, ), and the ID is 139
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 140	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 141
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 142
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 143
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 144
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+145
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 146	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+, and the ID is 147
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 148
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+(289, 192, ), and the ID is 149
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and the ID is 150
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+151
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 152
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 153
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 154
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(289, 1088, ), and the ID is 155
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 156	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+, and the ID is 157
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+158
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+, and the ID is 159
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and Output shape (289, 1088, ), and the ID is 160
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 161	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 162
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 163
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 164
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 165
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 166
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 167
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 168
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 169	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and Output shape (289, 1088, ), and the ID is 170
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 171
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 172
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 173
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 174
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 175
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 176
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 177
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape (289, 160, ), and the ID is 178
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+, and the ID is 179
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+, and Output shape (289, 1088, ), and the ID is 180
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+Applying Conv Low-Precision for Kernel shape (192, 1088, ), Input shape (289, 1088, ), and Output shape (289, 192, ), and the ID is 181
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (128, 1088, ), Input shape (289, 1088, ), and Output shape (289, 128, ), and the ID is 182
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (128, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (160, 896, ), Input shape (289, 128, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 224)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 224)
+(289, 160, ), and the ID is 183
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 288)
+Applying Conv Low-Precision for Kernel shape (192, 1120, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 184
+	Allocating LowPrecision Activations Tensors with Shape of (292, 288)
+Applying Conv Low-Precision for Kernel shape (1088, 384, ), Input shape (289, 384, ), and Output shape (289, 1088, ), and the ID is 185	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (1088, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 576)
+Applying Conv Low-Precision for Kernel shape (256, 1088, ), Input shape (289, 1088, ), and Output shape (289, 256, ), and the ID is 186
+Applying Conv Low-Precision for Kernel shape (384, 2304, ), Input shape (289, 256, ), and Output shape (64, 384, ), and the ID is 187
+	Allocating LowPrecision Activations Tensors with Shape of (64, 576)
+Applying Conv Low-Precision for Kernel shape (256, 1088, ), Input shape (289, 1088, ), and Output shape (289, 256, ), and the ID is 188
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (288, 2304, ), Input shape (289, 256, ), and Output shape (64, 288, ), and the ID is 189
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (288, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 576)
+Applying Conv Low-Precision for Kernel shape (256, 1088, ), Input shape (289, 1088, ), and Output shape (289, 256, ), and the ID is 190
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 272)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 272)
+Applying Conv Low-Precision for Kernel shape (288, 2304, ), Input shape (289, 256, ), and Output shape (289, 288, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+191
+	Allocating LowPrecision Weight Tensors with Shape of (288, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (292, 576)
+Applying Conv Low-Precision for Kernel shape (320, 2592, ), Input shape (289, 288, ), and Output shape (64, 320, ), and the ID is 192
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 656)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 656)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 193
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 194
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 195
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 196
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape (64, 448, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and Output shape (64, 2080, ), and the ID is 197
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 198
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 199
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 200
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 201
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape (64, 448, ), and Output shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(64, 2080, ), and the ID is 202
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 203
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 204
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 205
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 206	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(64, 448, ), and Output shape (64, 2080, ), and the ID is 207
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 208
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 209
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 210
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 211	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape (64, 448, ), and Output shape (64, 2080, ), and the ID is 212
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 213
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 214
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 215
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 216
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape (64, 448, ), and Output shape (64, 2080, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+217
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 218
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 219
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 220
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 221
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape (64, 448, ), and Output shape (64, 2080, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and the ID is 222
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 223
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 224
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 225
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 226
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(64, 448, ), and Output shape (64, 2080, ), and the ID is 227
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 228
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 229
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 230	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+(64, 224, ), and Output shape (64, 256, ), and the ID is 231
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+(64, 448, ), and Output shape (64, 2080, ), and the ID is 232
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 233
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 234
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 235
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 236
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape (64, 448, ), and Output shape (64, 2080, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+237
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 238
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 528)
+Applying Conv Low-Precision for Kernel shape (192, 2080, ), Input shape (64, 2080, ), and Output shape (64, 192, ), and the ID is 239
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Conv Low-Precision for Kernel shape (224, 576, ), Input shape (64, 192, ), and Output shape (64, 224, ), and the ID is 240
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (224, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 144)
+Applying Conv Low-Precision for Kernel shape (256, 672, ), Input shape (64, 224, ), and Output shape (64, 256, ), and the ID is 241
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (256, 176)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 176)
+Applying Conv Low-Precision for Kernel shape (2080, 448, ), Input shape (64, 448, ), and Output shape (64, 2080, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+, and the ID is 242
+	Allocating LowPrecision Weight Tensors with Shape of (2080, 112)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 112)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (1536, 2080, ), Input shape (64, 2080, ), and Output shape (64, 1536, ), and the ID is 243
+	Allocating LowPrecision Weight Tensors with Shape of (1536, 528)
+	Allocating LowPrecision Activations Tensors with Shape of (64, 528)
+Applying Low-Precision for shape (1000, 1536, ) and Input shape (1, 1536, ) With 7 Number of Temporaries Tensors
+	Transformed Filter Shape: (1000, 384)
+	Transformed Activation Shape From: (1, 1536) To: (1, 384)
+The input model file size (MB): 57.7798
+Initialized session in 217.559ms.
+Running benchmark for at least 10 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=10 first=2060304 curr=2037239 min=2034715 max=2060304 avg=2.04155e+06 std=6650
+
+Running benchmark for at least 20 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=20 first=2046550 curr=2047584 min=2038874 max=2052910 avg=2.04633e+06 std=3447
+
+Inference timings in us: Init: 217559, First inference: 2060304, Warmup (avg): 2.04155e+06, Inference (avg): 2.04633e+06
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=74.1367 overall=85.8672
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  168.404	  168.404	100.000%	100.000%	 57072.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  168.404	  168.404	100.000%	100.000%	 57072.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	   168.404	   100.000%	   100.000%	 57072.000	        1
+
+Timings (microseconds): count=1 curr=168404
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	            0.026	   30.291	   30.185	  1.477%	  1.477%	     0.000	        1	[inception_resnet_v2/activation_94/Relu;inception_resnet_v2/batch_normalization_94/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_94/Conv2D]:0
+	                 CONV_2D	           30.223	   38.810	   39.355	  1.926%	  3.403%	     0.000	        1	[inception_resnet_v2/activation_95/Relu;inception_resnet_v2/batch_normalization_95/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_95/Conv2D]:1
+	                 CONV_2D	           69.590	   52.605	   52.938	  2.591%	  5.994%	     0.000	        1	[inception_resnet_v2/activation_96/Relu;inception_resnet_v2/batch_normalization_96/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_96/Conv2D]:2
+	             MAX_POOL_2D	          122.540	    8.837	    8.874	  0.434%	  6.428%	     0.000	        1	[inception_resnet_v2/max_pooling2d_4/MaxPool]:3
+	                 CONV_2D	          131.426	    8.800	    8.929	  0.437%	  6.865%	     0.000	        1	[inception_resnet_v2/activation_97/Relu;inception_resnet_v2/batch_normalization_97/FusedBatchNormV3;inception_resnet_v2/batch_normalization_97/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_97/Conv2D]:4
+	                 CONV_2D	          140.365	   33.006	   33.241	  1.627%	  8.492%	     0.000	        1	[inception_resnet_v2/activation_98/Relu;inception_resnet_v2/batch_normalization_98/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_98/Conv2D]:5
+	             MAX_POOL_2D	          173.618	    5.599	    5.645	  0.276%	  8.768%	     0.000	        1	[inception_resnet_v2/max_pooling2d_5/MaxPool]:6
+	         AVERAGE_POOL_2D	          179.273	   45.080	   45.215	  2.213%	 10.981%	     0.000	        1	[inception_resnet_v2/average_pooling2d_9/AvgPool]:7
+	                 CONV_2D	          224.497	    1.291	    1.338	  0.065%	 11.047%	     0.000	        1	[inception_resnet_v2/activation_105/Relu;inception_resnet_v2/batch_normalization_105/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_105/Conv2D]:8
+	                 CONV_2D	          225.844	    1.038	    1.082	  0.053%	 11.100%	     0.000	        1	[inception_resnet_v2/activation_100/Relu;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_100/Conv2D]:9
+	                 CONV_2D	          226.934	    5.782	    5.948	  0.291%	 11.391%	     0.000	        1	[inception_resnet_v2/activation_101/Relu;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_101/Conv2D]:10
+	                 CONV_2D	          232.893	    1.287	    1.323	  0.065%	 11.456%	     0.000	        1	[inception_resnet_v2/activation_102/Relu;inception_resnet_v2/batch_normalization_102/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_102/Conv2D]:11
+	                 CONV_2D	          234.224	    5.052	    5.079	  0.249%	 11.704%	     0.000	        1	[inception_resnet_v2/activation_103/Relu;inception_resnet_v2/batch_normalization_103/FusedBatchNormV3;inception_resnet_v2/batch_normalization_103/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_103/Conv2D]:12
+	                 CONV_2D	          239.314	    6.269	    6.281	  0.307%	 12.012%	     0.000	        1	[inception_resnet_v2/activation_104/Relu;inception_resnet_v2/batch_normalization_104/FusedBatchNormV3;inception_resnet_v2/batch_normalization_103/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_104/Conv2D]:13
+	                 CONV_2D	          245.606	    1.711	    1.764	  0.086%	 12.098%	     0.000	        1	[inception_resnet_v2/activation_99/Relu;inception_resnet_v2/batch_normalization_99/FusedBatchNormV3;inception_resnet_v2/batch_normalization_103/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_99/Conv2D]:14
+	           CONCATENATION	          247.378	    0.489	    0.494	  0.024%	 12.122%	     0.000	        1	[inception_resnet_v2/mixed_5b/concat]:15
+	                 CONV_2D	          247.881	    1.865	    1.857	  0.091%	 12.213%	     0.000	        1	[inception_resnet_v2/activation_106/Relu;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_106/Conv2D]:16
+	                 CONV_2D	          249.747	    1.769	    1.819	  0.089%	 12.302%	     0.000	        1	[inception_resnet_v2/activation_107/Relu;inception_resnet_v2/batch_normalization_107/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_107/Conv2D]:17
+	                 CONV_2D	          251.574	    2.139	    2.135	  0.104%	 12.406%	     0.000	        1	[inception_resnet_v2/activation_108/Relu;inception_resnet_v2/batch_normalization_108/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_108/Conv2D]:18
+	                 CONV_2D	          253.718	    1.770	    1.815	  0.089%	 12.495%	     0.000	        1	[inception_resnet_v2/activation_109/Relu;inception_resnet_v2/batch_normalization_109/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_109/Conv2D]:19
+	                 CONV_2D	          255.540	    2.460	    2.486	  0.122%	 12.617%	     0.000	        1	[inception_resnet_v2/activation_110/Relu;inception_resnet_v2/batch_normalization_110/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_110/Conv2D]:20
+	                 CONV_2D	          258.035	    2.408	    2.429	  0.119%	 12.736%	     0.000	        1	[inception_resnet_v2/activation_111/Relu;inception_resnet_v2/batch_normalization_111/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_111/Conv2D]:21
+	           CONCATENATION	          260.474	    0.255	    0.245	  0.012%	 12.748%	     0.000	        1	[inception_resnet_v2/block35_1_mixed/concat]:22
+	                 CONV_2D	          260.726	    4.972	    5.004	  0.245%	 12.993%	     0.000	        1	[inception_resnet_v2/block35_1/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_1_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_1_conv/Conv2D]:23
+	                     ADD	          265.740	   37.310	   37.351	  1.828%	 14.821%	     0.000	        1	[inception_resnet_v2/block35_1_ac/Relu;inception_resnet_v2/block35_1/add]:24
+	                 CONV_2D	          303.104	    1.879	    1.853	  0.091%	 14.911%	     0.000	        1	[inception_resnet_v2/activation_112/Relu;inception_resnet_v2/batch_normalization_112/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_112/Conv2D]:25
+	                 CONV_2D	          304.965	    1.825	    1.812	  0.089%	 15.000%	     0.000	        1	[inception_resnet_v2/activation_113/Relu;inception_resnet_v2/batch_normalization_113/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_113/Conv2D]:26
+	                 CONV_2D	          306.786	    2.213	    2.103	  0.103%	 15.103%	     0.000	        1	[inception_resnet_v2/activation_114/Relu;inception_resnet_v2/batch_normalization_114/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_114/Conv2D]:27
+	                 CONV_2D	          308.897	    1.817	    1.816	  0.089%	 15.192%	     0.000	        1	[inception_resnet_v2/activation_115/Relu;inception_resnet_v2/batch_normalization_115/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_115/Conv2D]:28
+	                 CONV_2D	          310.722	    2.495	    2.504	  0.123%	 15.314%	     0.000	        1	[inception_resnet_v2/activation_116/Relu;inception_resnet_v2/batch_normalization_116/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_116/Conv2D]:29
+	                 CONV_2D	          313.235	    2.357	    2.448	  0.120%	 15.434%	     0.000	        1	[inception_resnet_v2/activation_117/Relu;inception_resnet_v2/batch_normalization_117/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_117/Conv2D]:30
+	           CONCATENATION	          315.693	    0.220	    0.221	  0.011%	 15.445%	     0.000	        1	[inception_resnet_v2/block35_2_mixed/concat]:31
+	                 CONV_2D	          315.922	    4.999	    5.010	  0.245%	 15.690%	     0.000	        1	[inception_resnet_v2/block35_2/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_2_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_2_conv/Conv2D]:32
+	                     ADD	          320.941	   37.243	   37.421	  1.831%	 17.522%	     0.000	        1	[inception_resnet_v2/block35_2_ac/Relu;inception_resnet_v2/block35_2/add]:33
+	                 CONV_2D	          358.374	    1.811	    1.858	  0.091%	 17.613%	     0.000	        1	[inception_resnet_v2/activation_118/Relu;inception_resnet_v2/batch_normalization_118/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_118/Conv2D]:34
+	                 CONV_2D	          360.240	    1.792	    1.812	  0.089%	 17.701%	     0.000	        1	[inception_resnet_v2/activation_119/Relu;inception_resnet_v2/batch_normalization_119/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_119/Conv2D]:35
+	                 CONV_2D	          362.060	    2.046	    2.124	  0.104%	 17.805%	     0.000	        1	[inception_resnet_v2/activation_120/Relu;inception_resnet_v2/batch_normalization_120/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_120/Conv2D]:36
+	                 CONV_2D	          364.194	    1.809	    1.819	  0.089%	 17.894%	     0.000	        1	[inception_resnet_v2/activation_121/Relu;inception_resnet_v2/batch_normalization_121/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_121/Conv2D]:37
+	                 CONV_2D	          366.020	    2.426	    2.492	  0.122%	 18.016%	     0.000	        1	[inception_resnet_v2/activation_122/Relu;inception_resnet_v2/batch_normalization_122/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_122/Conv2D]:38
+	                 CONV_2D	          368.521	    2.504	    2.420	  0.118%	 18.135%	     0.000	        1	[inception_resnet_v2/activation_123/Relu;inception_resnet_v2/batch_normalization_123/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_123/Conv2D]:39
+	           CONCATENATION	          370.951	    0.223	    0.251	  0.012%	 18.147%	     0.000	        1	[inception_resnet_v2/block35_3_mixed/concat]:40
+	                 CONV_2D	          371.209	    4.979	    5.005	  0.245%	 18.392%	     0.000	        1	[inception_resnet_v2/block35_3/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_3_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_3_conv/Conv2D]:41
+	                     ADD	          376.224	   37.438	   37.367	  1.829%	 20.221%	     0.000	        1	[inception_resnet_v2/block35_3_ac/Relu;inception_resnet_v2/block35_3/add]:42
+	                 CONV_2D	          413.602	    1.851	    1.852	  0.091%	 20.311%	     0.000	        1	[inception_resnet_v2/activation_124/Relu;inception_resnet_v2/batch_normalization_124/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_124/Conv2D]:43
+	                 CONV_2D	          415.461	    1.786	    1.799	  0.088%	 20.399%	     0.000	        1	[inception_resnet_v2/activation_125/Relu;inception_resnet_v2/batch_normalization_125/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_125/Conv2D]:44
+	                 CONV_2D	          417.270	    2.059	    2.096	  0.103%	 20.502%	     0.000	        1	[inception_resnet_v2/activation_126/Relu;inception_resnet_v2/batch_normalization_126/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_126/Conv2D]:45
+	                 CONV_2D	          419.376	    1.854	    1.808	  0.088%	 20.590%	     0.000	        1	[inception_resnet_v2/activation_127/Relu;inception_resnet_v2/batch_normalization_127/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_127/Conv2D]:46
+	                 CONV_2D	          421.192	    2.513	    2.478	  0.121%	 20.712%	     0.000	        1	[inception_resnet_v2/activation_128/Relu;inception_resnet_v2/batch_normalization_128/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_128/Conv2D]:47
+	                 CONV_2D	          423.679	    2.461	    2.411	  0.118%	 20.830%	     0.000	        1	[inception_resnet_v2/activation_129/Relu;inception_resnet_v2/batch_normalization_129/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_129/Conv2D]:48
+	           CONCATENATION	          426.101	    0.214	    0.219	  0.011%	 20.840%	     0.000	        1	[inception_resnet_v2/block35_4_mixed/concat]:49
+	                 CONV_2D	          426.327	    5.036	    5.002	  0.245%	 21.085%	     0.000	        1	[inception_resnet_v2/block35_4/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_4_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_4_conv/Conv2D]:50
+	                     ADD	          431.338	   37.320	   37.364	  1.829%	 22.914%	     0.000	        1	[inception_resnet_v2/block35_4_ac/Relu;inception_resnet_v2/block35_4/add]:51
+	                 CONV_2D	          468.713	    1.856	    1.847	  0.090%	 23.004%	     0.000	        1	[inception_resnet_v2/activation_130/Relu;inception_resnet_v2/batch_normalization_130/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_130/Conv2D]:52
+	                 CONV_2D	          470.569	    1.770	    1.813	  0.089%	 23.093%	     0.000	        1	[inception_resnet_v2/activation_131/Relu;inception_resnet_v2/batch_normalization_131/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_131/Conv2D]:53
+	                 CONV_2D	          472.391	    2.093	    2.093	  0.102%	 23.195%	     0.000	        1	[inception_resnet_v2/activation_132/Relu;inception_resnet_v2/batch_normalization_132/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_132/Conv2D]:54
+	                 CONV_2D	          474.492	    1.793	    1.823	  0.089%	 23.284%	     0.000	        1	[inception_resnet_v2/activation_133/Relu;inception_resnet_v2/batch_normalization_133/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_133/Conv2D]:55
+	                 CONV_2D	          476.324	    2.506	    2.491	  0.122%	 23.406%	     0.000	        1	[inception_resnet_v2/activation_134/Relu;inception_resnet_v2/batch_normalization_134/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_134/Conv2D]:56
+	                 CONV_2D	          478.824	    2.435	    2.424	  0.119%	 23.525%	     0.000	        1	[inception_resnet_v2/activation_135/Relu;inception_resnet_v2/batch_normalization_135/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_135/Conv2D]:57
+	           CONCATENATION	          481.259	    0.246	    0.242	  0.012%	 23.537%	     0.000	        1	[inception_resnet_v2/block35_5_mixed/concat]:58
+	                 CONV_2D	          481.509	    4.969	    5.025	  0.246%	 23.783%	     0.000	        1	[inception_resnet_v2/block35_5/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_5_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_5_conv/Conv2D]:59
+	                     ADD	          486.543	   37.321	   37.358	  1.828%	 25.611%	     0.000	        1	[inception_resnet_v2/block35_5_ac/Relu;inception_resnet_v2/block35_5/add]:60
+	                 CONV_2D	          523.913	    1.900	    1.860	  0.091%	 25.702%	     0.000	        1	[inception_resnet_v2/activation_136/Relu;inception_resnet_v2/batch_normalization_136/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_136/Conv2D]:61
+	                 CONV_2D	          525.781	    1.818	    1.814	  0.089%	 25.791%	     0.000	        1	[inception_resnet_v2/activation_137/Relu;inception_resnet_v2/batch_normalization_137/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_137/Conv2D]:62
+	                 CONV_2D	          527.603	    2.211	    2.107	  0.103%	 25.894%	     0.000	        1	[inception_resnet_v2/activation_138/Relu;inception_resnet_v2/batch_normalization_138/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_138/Conv2D]:63
+	                 CONV_2D	          529.720	    1.806	    1.821	  0.089%	 25.983%	     0.000	        1	[inception_resnet_v2/activation_139/Relu;inception_resnet_v2/batch_normalization_139/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_139/Conv2D]:64
+	                 CONV_2D	          531.549	    2.553	    2.493	  0.122%	 26.105%	     0.000	        1	[inception_resnet_v2/activation_140/Relu;inception_resnet_v2/batch_normalization_140/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_140/Conv2D]:65
+	                 CONV_2D	          534.051	    2.355	    2.444	  0.120%	 26.225%	     0.000	        1	[inception_resnet_v2/activation_141/Relu;inception_resnet_v2/batch_normalization_141/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_141/Conv2D]:66
+	           CONCATENATION	          536.506	    0.279	    0.220	  0.011%	 26.236%	     0.000	        1	[inception_resnet_v2/block35_6_mixed/concat]:67
+	                 CONV_2D	          536.733	    4.969	    4.993	  0.244%	 26.480%	     0.000	        1	[inception_resnet_v2/block35_6/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_6_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_6_conv/Conv2D]:68
+	                     ADD	          541.735	   37.422	   37.355	  1.828%	 28.308%	     0.000	        1	[inception_resnet_v2/block35_6_ac/Relu;inception_resnet_v2/block35_6/add]:69
+	                 CONV_2D	          579.101	    1.902	    1.870	  0.092%	 28.400%	     0.000	        1	[inception_resnet_v2/activation_142/Relu;inception_resnet_v2/batch_normalization_142/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_142/Conv2D]:70
+	                 CONV_2D	          580.979	    1.869	    1.813	  0.089%	 28.488%	     0.000	        1	[inception_resnet_v2/activation_143/Relu;inception_resnet_v2/batch_normalization_143/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_143/Conv2D]:71
+	                 CONV_2D	          582.801	    2.197	    2.118	  0.104%	 28.592%	     0.000	        1	[inception_resnet_v2/activation_144/Relu;inception_resnet_v2/batch_normalization_144/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_144/Conv2D]:72
+	                 CONV_2D	          584.929	    1.862	    1.818	  0.089%	 28.681%	     0.000	        1	[inception_resnet_v2/activation_145/Relu;inception_resnet_v2/batch_normalization_145/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_145/Conv2D]:73
+	                 CONV_2D	          586.756	    2.551	    2.510	  0.123%	 28.804%	     0.000	        1	[inception_resnet_v2/activation_146/Relu;inception_resnet_v2/batch_normalization_146/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_146/Conv2D]:74
+	                 CONV_2D	          589.276	    2.502	    2.414	  0.118%	 28.922%	     0.000	        1	[inception_resnet_v2/activation_147/Relu;inception_resnet_v2/batch_normalization_147/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_147/Conv2D]:75
+	           CONCATENATION	          591.700	    0.245	    0.237	  0.012%	 28.933%	     0.000	        1	[inception_resnet_v2/block35_7_mixed/concat]:76
+	                 CONV_2D	          591.944	    5.102	    5.018	  0.246%	 29.179%	     0.000	        1	[inception_resnet_v2/block35_7/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_7_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_7_conv/Conv2D]:77
+	                     ADD	          596.972	   37.549	   37.360	  1.828%	 31.007%	     0.000	        1	[inception_resnet_v2/block35_7_ac/Relu;inception_resnet_v2/block35_7/add]:78
+	                 CONV_2D	          634.343	    1.941	    1.860	  0.091%	 31.098%	     0.000	        1	[inception_resnet_v2/activation_148/Relu;inception_resnet_v2/batch_normalization_148/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_148/Conv2D]:79
+	                 CONV_2D	          636.211	    1.859	    1.815	  0.089%	 31.187%	     0.000	        1	[inception_resnet_v2/activation_149/Relu;inception_resnet_v2/batch_normalization_149/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_149/Conv2D]:80
+	                 CONV_2D	          638.034	    2.213	    2.113	  0.103%	 31.291%	     0.000	        1	[inception_resnet_v2/activation_150/Relu;inception_resnet_v2/batch_normalization_150/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_150/Conv2D]:81
+	                 CONV_2D	          640.156	    1.834	    1.820	  0.089%	 31.380%	     0.000	        1	[inception_resnet_v2/activation_151/Relu;inception_resnet_v2/batch_normalization_151/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_151/Conv2D]:82
+	                 CONV_2D	          641.985	    2.576	    2.497	  0.122%	 31.502%	     0.000	        1	[inception_resnet_v2/activation_152/Relu;inception_resnet_v2/batch_normalization_152/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_152/Conv2D]:83
+	                 CONV_2D	          644.491	    2.517	    2.440	  0.119%	 31.621%	     0.000	        1	[inception_resnet_v2/activation_153/Relu;inception_resnet_v2/batch_normalization_153/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_153/Conv2D]:84
+	           CONCATENATION	          646.940	    0.248	    0.227	  0.011%	 31.633%	     0.000	        1	[inception_resnet_v2/block35_8_mixed/concat]:85
+	                 CONV_2D	          647.174	    5.082	    5.005	  0.245%	 31.877%	     0.000	        1	[inception_resnet_v2/block35_8/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_8_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_8_conv/Conv2D]:86
+	                     ADD	          652.189	   37.734	   37.396	  1.830%	 33.708%	     0.000	        1	[inception_resnet_v2/block35_8_ac/Relu;inception_resnet_v2/block35_8/add]:87
+	                 CONV_2D	          689.596	    1.908	    1.869	  0.091%	 33.799%	     0.000	        1	[inception_resnet_v2/activation_154/Relu;inception_resnet_v2/batch_normalization_154/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_154/Conv2D]:88
+	                 CONV_2D	          691.473	    1.863	    1.815	  0.089%	 33.888%	     0.000	        1	[inception_resnet_v2/activation_155/Relu;inception_resnet_v2/batch_normalization_155/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_155/Conv2D]:89
+	                 CONV_2D	          693.297	    2.161	    2.114	  0.103%	 33.991%	     0.000	        1	[inception_resnet_v2/activation_156/Relu;inception_resnet_v2/batch_normalization_156/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_156/Conv2D]:90
+	                 CONV_2D	          695.420	    1.853	    1.812	  0.089%	 34.080%	     0.000	        1	[inception_resnet_v2/activation_157/Relu;inception_resnet_v2/batch_normalization_157/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_157/Conv2D]:91
+	                 CONV_2D	          697.240	    2.652	    2.502	  0.122%	 34.203%	     0.000	        1	[inception_resnet_v2/activation_158/Relu;inception_resnet_v2/batch_normalization_158/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_158/Conv2D]:92
+	                 CONV_2D	          699.752	    2.455	    2.413	  0.118%	 34.321%	     0.000	        1	[inception_resnet_v2/activation_159/Relu;inception_resnet_v2/batch_normalization_159/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_159/Conv2D]:93
+	           CONCATENATION	          702.175	    0.218	    0.238	  0.012%	 34.332%	     0.000	        1	[inception_resnet_v2/block35_9_mixed/concat]:94
+	                 CONV_2D	          702.421	    5.109	    5.011	  0.245%	 34.578%	     0.000	        1	[inception_resnet_v2/block35_9/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_9_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_9_conv/Conv2D]:95
+	                     ADD	          707.442	   37.567	   37.360	  1.828%	 36.406%	     0.000	        1	[inception_resnet_v2/block35_9_ac/Relu;inception_resnet_v2/block35_9/add]:96
+	                 CONV_2D	          744.813	    1.941	    1.888	  0.092%	 36.498%	     0.000	        1	[inception_resnet_v2/activation_160/Relu;inception_resnet_v2/batch_normalization_160/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_160/Conv2D]:97
+	                 CONV_2D	          746.710	    1.853	    1.816	  0.089%	 36.587%	     0.000	        1	[inception_resnet_v2/activation_161/Relu;inception_resnet_v2/batch_normalization_161/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_161/Conv2D]:98
+	                 CONV_2D	          748.533	    2.209	    2.116	  0.104%	 36.691%	     0.000	        1	[inception_resnet_v2/activation_162/Relu;inception_resnet_v2/batch_normalization_162/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_162/Conv2D]:99
+	                 CONV_2D	          750.659	    1.856	    1.837	  0.090%	 36.781%	     0.000	        1	[inception_resnet_v2/activation_163/Relu;inception_resnet_v2/batch_normalization_163/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_163/Conv2D]:100
+	                 CONV_2D	          752.504	    2.578	    2.514	  0.123%	 36.904%	     0.000	        1	[inception_resnet_v2/activation_164/Relu;inception_resnet_v2/batch_normalization_164/FusedBatchNormV3;inception_resnet_v2/batch_normalization_100/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_164/Conv2D]:101
+	                 CONV_2D	          755.028	    2.519	    2.451	  0.120%	 37.024%	     0.000	        1	[inception_resnet_v2/activation_165/Relu;inception_resnet_v2/batch_normalization_165/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_165/Conv2D]:102
+	           CONCATENATION	          757.496	    0.229	    0.226	  0.011%	 37.035%	     0.000	        1	[inception_resnet_v2/block35_10_mixed/concat]:103
+	                 CONV_2D	          757.729	    5.074	    5.013	  0.245%	 37.280%	     0.000	        1	[inception_resnet_v2/block35_10/mul;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/block35_10_conv/BiasAdd;inception_resnet_v2/block35_1/mul/y;inception_resnet_v2/block35_10_conv/Conv2D]:104
+	                     ADD	          762.751	   37.654	   37.504	  1.835%	 39.115%	     0.000	        1	[inception_resnet_v2/block35_10_ac/Relu;inception_resnet_v2/block35_10/add]:105
+	                 CONV_2D	          800.266	   13.532	   13.491	  0.660%	 39.776%	     0.000	        1	[inception_resnet_v2/activation_166/Relu;inception_resnet_v2/batch_normalization_166/FusedBatchNormV3;inception_resnet_v2/batch_normalization_166/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_166/Conv2D]:106
+	                 CONV_2D	          813.769	    7.446	    7.330	  0.359%	 40.134%	     0.000	        1	[inception_resnet_v2/activation_167/Relu;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_167/Conv2D]:107
+	                 CONV_2D	          821.108	   30.472	   30.285	  1.482%	 41.617%	     0.000	        1	[inception_resnet_v2/activation_168/Relu;inception_resnet_v2/batch_normalization_168/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_168/Conv2D]:108
+	                 CONV_2D	          851.404	   10.385	   10.069	  0.493%	 42.109%	     0.000	        1	[inception_resnet_v2/activation_169/Relu;inception_resnet_v2/batch_normalization_169/FusedBatchNormV3;inception_resnet_v2/batch_normalization_166/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_169/Conv2D]:109
+	             MAX_POOL_2D	          861.483	    2.345	    2.321	  0.114%	 42.223%	     0.000	        1	[inception_resnet_v2/max_pooling2d_6/MaxPool]:110
+	           CONCATENATION	          863.812	    0.332	    0.288	  0.014%	 42.237%	     0.000	        1	[inception_resnet_v2/mixed_6a/concat]:111
+	                 CONV_2D	          864.109	    3.032	    2.981	  0.146%	 42.383%	     0.000	        1	[inception_resnet_v2/activation_170/Relu;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_170/Conv2D]:112
+	                 CONV_2D	          867.099	    2.138	    2.056	  0.101%	 42.484%	     0.000	        1	[inception_resnet_v2/activation_171/Relu;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_171/Conv2D]:113
+	                 CONV_2D	          869.164	    2.185	    2.176	  0.106%	 42.590%	     0.000	        1	[inception_resnet_v2/activation_172/Relu;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_172/Conv2D]:114
+	                 CONV_2D	          871.348	    3.214	    3.075	  0.150%	 42.740%	     0.000	        1	[inception_resnet_v2/activation_173/Relu;inception_resnet_v2/batch_normalization_173/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_173/Conv2D]:115
+	           CONCATENATION	          874.432	    0.121	    0.140	  0.007%	 42.747%	     0.000	        1	[inception_resnet_v2/block17_1_mixed/concat]:116
+	                 CONV_2D	          874.578	    6.598	    6.552	  0.321%	 43.068%	     0.000	        1	[inception_resnet_v2/block17_1/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_1_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_1_conv/Conv2D]:117
+	                     ADD	          881.141	   30.278	   29.970	  1.467%	 44.535%	     0.000	        1	[inception_resnet_v2/block17_1_ac/Relu;inception_resnet_v2/block17_1/add]:118
+	                 CONV_2D	          911.122	    3.060	    2.975	  0.146%	 44.680%	     0.000	        1	[inception_resnet_v2/activation_174/Relu;inception_resnet_v2/batch_normalization_174/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_174/Conv2D]:119
+	                 CONV_2D	          914.105	    2.082	    2.078	  0.102%	 44.782%	     0.000	        1	[inception_resnet_v2/activation_175/Relu;inception_resnet_v2/batch_normalization_175/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_175/Conv2D]:120
+	                 CONV_2D	          916.192	    2.248	    2.166	  0.106%	 44.888%	     0.000	        1	[inception_resnet_v2/activation_176/Relu;inception_resnet_v2/batch_normalization_176/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_176/Conv2D]:121
+	                 CONV_2D	          918.367	    3.133	    3.075	  0.151%	 45.038%	     0.000	        1	[inception_resnet_v2/activation_177/Relu;inception_resnet_v2/batch_normalization_177/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_177/Conv2D]:122
+	           CONCATENATION	          921.451	    0.135	    0.129	  0.006%	 45.045%	     0.000	        1	[inception_resnet_v2/block17_2_mixed/concat]:123
+	                 CONV_2D	          921.587	    6.583	    6.585	  0.322%	 45.367%	     0.000	        1	[inception_resnet_v2/block17_2/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_2_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_2_conv/Conv2D]:124
+	                     ADD	          928.182	   30.121	   29.986	  1.468%	 46.835%	     0.000	        1	[inception_resnet_v2/block17_2_ac/Relu;inception_resnet_v2/block17_2/add]:125
+	                 CONV_2D	          958.178	    3.018	    2.993	  0.146%	 46.981%	     0.000	        1	[inception_resnet_v2/activation_178/Relu;inception_resnet_v2/batch_normalization_178/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_178/Conv2D]:126
+	                 CONV_2D	          961.180	    2.064	    2.058	  0.101%	 47.082%	     0.000	        1	[inception_resnet_v2/activation_179/Relu;inception_resnet_v2/batch_normalization_179/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_179/Conv2D]:127
+	                 CONV_2D	          963.246	    2.174	    2.143	  0.105%	 47.187%	     0.000	        1	[inception_resnet_v2/activation_180/Relu;inception_resnet_v2/batch_normalization_180/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_180/Conv2D]:128
+	                 CONV_2D	          965.398	    3.179	    3.081	  0.151%	 47.337%	     0.000	        1	[inception_resnet_v2/activation_181/Relu;inception_resnet_v2/batch_normalization_181/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_181/Conv2D]:129
+	           CONCATENATION	          968.488	    0.101	    0.130	  0.006%	 47.344%	     0.000	        1	[inception_resnet_v2/block17_3_mixed/concat]:130
+	                 CONV_2D	          968.624	    6.560	    6.566	  0.321%	 47.665%	     0.000	        1	[inception_resnet_v2/block17_3/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_3_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_3_conv/Conv2D]:131
+	                     ADD	          975.199	   30.085	   29.987	  1.468%	 49.133%	     0.000	        1	[inception_resnet_v2/block17_3_ac/Relu;inception_resnet_v2/block17_3/add]:132
+	                 CONV_2D	         1005.197	    2.999	    2.974	  0.146%	 49.278%	     0.000	        1	[inception_resnet_v2/activation_182/Relu;inception_resnet_v2/batch_normalization_182/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_182/Conv2D]:133
+	                 CONV_2D	         1008.179	    2.065	    2.095	  0.103%	 49.381%	     0.000	        1	[inception_resnet_v2/activation_183/Relu;inception_resnet_v2/batch_normalization_183/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_183/Conv2D]:134
+	                 CONV_2D	         1010.283	    2.176	    2.136	  0.105%	 49.485%	     0.000	        1	[inception_resnet_v2/activation_184/Relu;inception_resnet_v2/batch_normalization_184/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_184/Conv2D]:135
+	                 CONV_2D	         1012.428	    3.080	    3.069	  0.150%	 49.636%	     0.000	        1	[inception_resnet_v2/activation_185/Relu;inception_resnet_v2/batch_normalization_185/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_185/Conv2D]:136
+	           CONCATENATION	         1015.506	    0.128	    0.131	  0.006%	 49.642%	     0.000	        1	[inception_resnet_v2/block17_4_mixed/concat]:137
+	                 CONV_2D	         1015.644	    6.642	    6.571	  0.322%	 49.964%	     0.000	        1	[inception_resnet_v2/block17_4/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_4_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_4_conv/Conv2D]:138
+	                     ADD	         1022.224	   30.100	   29.998	  1.468%	 51.432%	     0.000	        1	[inception_resnet_v2/block17_4_ac/Relu;inception_resnet_v2/block17_4/add]:139
+	                 CONV_2D	         1052.232	    2.940	    2.968	  0.145%	 51.577%	     0.000	        1	[inception_resnet_v2/activation_186/Relu;inception_resnet_v2/batch_normalization_186/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_186/Conv2D]:140
+	                 CONV_2D	         1055.209	    2.096	    2.054	  0.101%	 51.677%	     0.000	        1	[inception_resnet_v2/activation_187/Relu;inception_resnet_v2/batch_normalization_187/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_187/Conv2D]:141
+	                 CONV_2D	         1057.271	    2.135	    2.148	  0.105%	 51.783%	     0.000	        1	[inception_resnet_v2/activation_188/Relu;inception_resnet_v2/batch_normalization_188/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_188/Conv2D]:142
+	                 CONV_2D	         1059.428	    3.127	    3.073	  0.150%	 51.933%	     0.000	        1	[inception_resnet_v2/activation_189/Relu;inception_resnet_v2/batch_normalization_189/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_189/Conv2D]:143
+	           CONCATENATION	         1062.510	    0.112	    0.137	  0.007%	 51.940%	     0.000	        1	[inception_resnet_v2/block17_5_mixed/concat]:144
+	                 CONV_2D	         1062.654	    6.615	    6.564	  0.321%	 52.261%	     0.000	        1	[inception_resnet_v2/block17_5/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_5_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_5_conv/Conv2D]:145
+	                     ADD	         1069.227	   30.053	   29.983	  1.467%	 53.728%	     0.000	        1	[inception_resnet_v2/block17_5_ac/Relu;inception_resnet_v2/block17_5/add]:146
+	                 CONV_2D	         1099.220	    3.068	    2.981	  0.146%	 53.874%	     0.000	        1	[inception_resnet_v2/activation_190/Relu;inception_resnet_v2/batch_normalization_190/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_190/Conv2D]:147
+	                 CONV_2D	         1102.211	    2.114	    2.069	  0.101%	 53.975%	     0.000	        1	[inception_resnet_v2/activation_191/Relu;inception_resnet_v2/batch_normalization_191/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_191/Conv2D]:148
+	                 CONV_2D	         1104.288	    2.136	    2.158	  0.106%	 54.081%	     0.000	        1	[inception_resnet_v2/activation_192/Relu;inception_resnet_v2/batch_normalization_192/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_192/Conv2D]:149
+	                 CONV_2D	         1106.455	    3.128	    3.081	  0.151%	 54.232%	     0.000	        1	[inception_resnet_v2/activation_193/Relu;inception_resnet_v2/batch_normalization_193/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_193/Conv2D]:150
+	           CONCATENATION	         1109.545	    0.108	    0.130	  0.006%	 54.238%	     0.000	        1	[inception_resnet_v2/block17_6_mixed/concat]:151
+	                 CONV_2D	         1109.682	    6.646	    6.589	  0.322%	 54.561%	     0.000	        1	[inception_resnet_v2/block17_6/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_6_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_6_conv/Conv2D]:152
+	                     ADD	         1116.281	   30.153	   30.015	  1.469%	 56.030%	     0.000	        1	[inception_resnet_v2/block17_6_ac/Relu;inception_resnet_v2/block17_6/add]:153
+	                 CONV_2D	         1146.309	    2.996	    2.985	  0.146%	 56.176%	     0.000	        1	[inception_resnet_v2/activation_194/Relu;inception_resnet_v2/batch_normalization_194/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_194/Conv2D]:154
+	                 CONV_2D	         1149.305	    2.110	    2.067	  0.101%	 56.277%	     0.000	        1	[inception_resnet_v2/activation_195/Relu;inception_resnet_v2/batch_normalization_195/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_195/Conv2D]:155
+	                 CONV_2D	         1151.381	    2.199	    2.172	  0.106%	 56.383%	     0.000	        1	[inception_resnet_v2/activation_196/Relu;inception_resnet_v2/batch_normalization_196/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_196/Conv2D]:156
+	                 CONV_2D	         1153.562	    3.105	    3.075	  0.150%	 56.534%	     0.000	        1	[inception_resnet_v2/activation_197/Relu;inception_resnet_v2/batch_normalization_197/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_197/Conv2D]:157
+	           CONCATENATION	         1156.646	    0.146	    0.136	  0.007%	 56.540%	     0.000	        1	[inception_resnet_v2/block17_7_mixed/concat]:158
+	                 CONV_2D	         1156.788	    6.644	    6.564	  0.321%	 56.862%	     0.000	        1	[inception_resnet_v2/block17_7/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_7_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_7_conv/Conv2D]:159
+	                     ADD	         1163.361	   30.095	   29.977	  1.467%	 58.329%	     0.000	        1	[inception_resnet_v2/block17_7_ac/Relu;inception_resnet_v2/block17_7/add]:160
+	                 CONV_2D	         1193.349	    3.012	    2.999	  0.147%	 58.475%	     0.000	        1	[inception_resnet_v2/activation_198/Relu;inception_resnet_v2/batch_normalization_198/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_198/Conv2D]:161
+	                 CONV_2D	         1196.356	    2.074	    2.082	  0.102%	 58.577%	     0.000	        1	[inception_resnet_v2/activation_199/Relu;inception_resnet_v2/batch_normalization_199/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_199/Conv2D]:162
+	                 CONV_2D	         1198.446	    2.167	    2.152	  0.105%	 58.683%	     0.000	        1	[inception_resnet_v2/activation_200/Relu;inception_resnet_v2/batch_normalization_200/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_200/Conv2D]:163
+	                 CONV_2D	         1200.607	    3.201	    3.079	  0.151%	 58.833%	     0.000	        1	[inception_resnet_v2/activation_201/Relu;inception_resnet_v2/batch_normalization_201/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_201/Conv2D]:164
+	           CONCATENATION	         1203.695	    0.106	    0.130	  0.006%	 58.840%	     0.000	        1	[inception_resnet_v2/block17_8_mixed/concat]:165
+	                 CONV_2D	         1203.832	    6.582	    6.578	  0.322%	 59.162%	     0.000	        1	[inception_resnet_v2/block17_8/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_8_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_8_conv/Conv2D]:166
+	                     ADD	         1210.420	   30.171	   30.016	  1.469%	 60.631%	     0.000	        1	[inception_resnet_v2/block17_8_ac/Relu;inception_resnet_v2/block17_8/add]:167
+	                 CONV_2D	         1240.446	    3.024	    2.969	  0.145%	 60.776%	     0.000	        1	[inception_resnet_v2/activation_202/Relu;inception_resnet_v2/batch_normalization_202/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_202/Conv2D]:168
+	                 CONV_2D	         1243.423	    2.075	    2.081	  0.102%	 60.878%	     0.000	        1	[inception_resnet_v2/activation_203/Relu;inception_resnet_v2/batch_normalization_203/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_203/Conv2D]:169
+	                 CONV_2D	         1245.514	    2.298	    2.159	  0.106%	 60.983%	     0.000	        1	[inception_resnet_v2/activation_204/Relu;inception_resnet_v2/batch_normalization_204/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_204/Conv2D]:170
+	                 CONV_2D	         1247.681	    3.121	    3.088	  0.151%	 61.134%	     0.000	        1	[inception_resnet_v2/activation_205/Relu;inception_resnet_v2/batch_normalization_205/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_205/Conv2D]:171
+	           CONCATENATION	         1250.778	    0.133	    0.137	  0.007%	 61.141%	     0.000	        1	[inception_resnet_v2/block17_9_mixed/concat]:172
+	                 CONV_2D	         1250.923	    6.565	    6.573	  0.322%	 61.463%	     0.000	        1	[inception_resnet_v2/block17_9/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_9_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_9_conv/Conv2D]:173
+	                     ADD	         1257.505	   30.053	   29.972	  1.467%	 62.930%	     0.000	        1	[inception_resnet_v2/block17_9_ac/Relu;inception_resnet_v2/block17_9/add]:174
+	                 CONV_2D	         1287.488	    2.994	    2.973	  0.145%	 63.075%	     0.000	        1	[inception_resnet_v2/activation_206/Relu;inception_resnet_v2/batch_normalization_206/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_206/Conv2D]:175
+	                 CONV_2D	         1290.469	    2.067	    2.050	  0.100%	 63.176%	     0.000	        1	[inception_resnet_v2/activation_207/Relu;inception_resnet_v2/batch_normalization_207/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_207/Conv2D]:176
+	                 CONV_2D	         1292.527	    2.200	    2.163	  0.106%	 63.281%	     0.000	        1	[inception_resnet_v2/activation_208/Relu;inception_resnet_v2/batch_normalization_208/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_208/Conv2D]:177
+	                 CONV_2D	         1294.698	    3.138	    3.078	  0.151%	 63.432%	     0.000	        1	[inception_resnet_v2/activation_209/Relu;inception_resnet_v2/batch_normalization_209/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_209/Conv2D]:178
+	           CONCATENATION	         1297.785	    0.093	    0.133	  0.007%	 63.439%	     0.000	        1	[inception_resnet_v2/block17_10_mixed/concat]:179
+	                 CONV_2D	         1297.925	    6.610	    6.555	  0.321%	 63.759%	     0.000	        1	[inception_resnet_v2/block17_10/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_10_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_10_conv/Conv2D]:180
+	                     ADD	         1304.489	   30.114	   29.997	  1.468%	 65.227%	     0.000	        1	[inception_resnet_v2/block17_10_ac/Relu;inception_resnet_v2/block17_10/add]:181
+	                 CONV_2D	         1334.497	    2.960	    2.995	  0.147%	 65.374%	     0.000	        1	[inception_resnet_v2/activation_210/Relu;inception_resnet_v2/batch_normalization_210/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_210/Conv2D]:182
+	                 CONV_2D	         1337.501	    2.174	    2.059	  0.101%	 65.475%	     0.000	        1	[inception_resnet_v2/activation_211/Relu;inception_resnet_v2/batch_normalization_211/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_211/Conv2D]:183
+	                 CONV_2D	         1339.568	    2.121	    2.160	  0.106%	 65.581%	     0.000	        1	[inception_resnet_v2/activation_212/Relu;inception_resnet_v2/batch_normalization_212/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_212/Conv2D]:184
+	                 CONV_2D	         1341.740	    3.123	    3.058	  0.150%	 65.730%	     0.000	        1	[inception_resnet_v2/activation_213/Relu;inception_resnet_v2/batch_normalization_213/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_213/Conv2D]:185
+	           CONCATENATION	         1344.807	    0.132	    0.137	  0.007%	 65.737%	     0.000	        1	[inception_resnet_v2/block17_11_mixed/concat]:186
+	                 CONV_2D	         1344.951	    6.637	    6.575	  0.322%	 66.059%	     0.000	        1	[inception_resnet_v2/block17_11/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_11_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_11_conv/Conv2D]:187
+	                     ADD	         1351.535	   29.977	   30.003	  1.468%	 67.527%	     0.000	        1	[inception_resnet_v2/block17_11_ac/Relu;inception_resnet_v2/block17_11/add]:188
+	                 CONV_2D	         1381.549	    2.944	    2.980	  0.146%	 67.673%	     0.000	        1	[inception_resnet_v2/activation_214/Relu;inception_resnet_v2/batch_normalization_214/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_214/Conv2D]:189
+	                 CONV_2D	         1384.538	    2.134	    2.060	  0.101%	 67.774%	     0.000	        1	[inception_resnet_v2/activation_215/Relu;inception_resnet_v2/batch_normalization_215/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_215/Conv2D]:190
+	                 CONV_2D	         1386.605	    2.127	    2.156	  0.106%	 67.879%	     0.000	        1	[inception_resnet_v2/activation_216/Relu;inception_resnet_v2/batch_normalization_216/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_216/Conv2D]:191
+	                 CONV_2D	         1388.770	    3.025	    3.080	  0.151%	 68.030%	     0.000	        1	[inception_resnet_v2/activation_217/Relu;inception_resnet_v2/batch_normalization_217/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_217/Conv2D]:192
+	           CONCATENATION	         1391.859	    0.136	    0.132	  0.006%	 68.036%	     0.000	        1	[inception_resnet_v2/block17_12_mixed/concat]:193
+	                 CONV_2D	         1391.998	    6.555	    6.564	  0.321%	 68.358%	     0.000	        1	[inception_resnet_v2/block17_12/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_12_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_12_conv/Conv2D]:194
+	                     ADD	         1398.571	   29.930	   29.995	  1.468%	 69.826%	     0.000	        1	[inception_resnet_v2/block17_12_ac/Relu;inception_resnet_v2/block17_12/add]:195
+	                 CONV_2D	         1428.577	    2.944	    2.972	  0.145%	 69.971%	     0.000	        1	[inception_resnet_v2/activation_218/Relu;inception_resnet_v2/batch_normalization_218/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_218/Conv2D]:196
+	                 CONV_2D	         1431.557	    2.011	    2.076	  0.102%	 70.073%	     0.000	        1	[inception_resnet_v2/activation_219/Relu;inception_resnet_v2/batch_normalization_219/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_219/Conv2D]:197
+	                 CONV_2D	         1433.644	    2.137	    2.151	  0.105%	 70.178%	     0.000	        1	[inception_resnet_v2/activation_220/Relu;inception_resnet_v2/batch_normalization_220/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_220/Conv2D]:198
+	                 CONV_2D	         1435.804	    3.001	    3.071	  0.150%	 70.328%	     0.000	        1	[inception_resnet_v2/activation_221/Relu;inception_resnet_v2/batch_normalization_221/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_221/Conv2D]:199
+	           CONCATENATION	         1438.883	    0.134	    0.134	  0.007%	 70.335%	     0.000	        1	[inception_resnet_v2/block17_13_mixed/concat]:200
+	                 CONV_2D	         1439.025	    6.527	    6.570	  0.322%	 70.656%	     0.000	        1	[inception_resnet_v2/block17_13/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_13_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_13_conv/Conv2D]:201
+	                     ADD	         1445.604	   29.855	   29.997	  1.468%	 72.124%	     0.000	        1	[inception_resnet_v2/block17_13_ac/Relu;inception_resnet_v2/block17_13/add]:202
+	                 CONV_2D	         1475.611	    2.990	    2.968	  0.145%	 72.270%	     0.000	        1	[inception_resnet_v2/activation_222/Relu;inception_resnet_v2/batch_normalization_222/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_222/Conv2D]:203
+	                 CONV_2D	         1478.588	    2.035	    2.076	  0.102%	 72.371%	     0.000	        1	[inception_resnet_v2/activation_223/Relu;inception_resnet_v2/batch_normalization_223/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_223/Conv2D]:204
+	                 CONV_2D	         1480.672	    2.141	    2.140	  0.105%	 72.476%	     0.000	        1	[inception_resnet_v2/activation_224/Relu;inception_resnet_v2/batch_normalization_224/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_224/Conv2D]:205
+	                 CONV_2D	         1482.820	    2.990	    3.058	  0.150%	 72.626%	     0.000	        1	[inception_resnet_v2/activation_225/Relu;inception_resnet_v2/batch_normalization_225/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_225/Conv2D]:206
+	           CONCATENATION	         1485.887	    0.119	    0.129	  0.006%	 72.632%	     0.000	        1	[inception_resnet_v2/block17_14_mixed/concat]:207
+	                 CONV_2D	         1486.023	    6.533	    6.556	  0.321%	 72.953%	     0.000	        1	[inception_resnet_v2/block17_14/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_14_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_14_conv/Conv2D]:208
+	                     ADD	         1492.589	   29.859	   29.967	  1.467%	 74.419%	     0.000	        1	[inception_resnet_v2/block17_14_ac/Relu;inception_resnet_v2/block17_14/add]:209
+	                 CONV_2D	         1522.567	    2.928	    2.971	  0.145%	 74.565%	     0.000	        1	[inception_resnet_v2/activation_226/Relu;inception_resnet_v2/batch_normalization_226/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_226/Conv2D]:210
+	                 CONV_2D	         1525.546	    2.030	    2.057	  0.101%	 74.665%	     0.000	        1	[inception_resnet_v2/activation_227/Relu;inception_resnet_v2/batch_normalization_227/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_227/Conv2D]:211
+	                 CONV_2D	         1527.611	    2.099	    2.155	  0.105%	 74.771%	     0.000	        1	[inception_resnet_v2/activation_228/Relu;inception_resnet_v2/batch_normalization_228/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_228/Conv2D]:212
+	                 CONV_2D	         1529.775	    3.036	    3.068	  0.150%	 74.921%	     0.000	        1	[inception_resnet_v2/activation_229/Relu;inception_resnet_v2/batch_normalization_229/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_229/Conv2D]:213
+	           CONCATENATION	         1532.852	    0.146	    0.139	  0.007%	 74.928%	     0.000	        1	[inception_resnet_v2/block17_15_mixed/concat]:214
+	                 CONV_2D	         1532.998	    6.512	    6.575	  0.322%	 75.250%	     0.000	        1	[inception_resnet_v2/block17_15/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_15_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_15_conv/Conv2D]:215
+	                     ADD	         1539.583	   29.824	   29.970	  1.467%	 76.716%	     0.000	        1	[inception_resnet_v2/block17_15_ac/Relu;inception_resnet_v2/block17_15/add]:216
+	                 CONV_2D	         1569.563	    2.951	    2.964	  0.145%	 76.861%	     0.000	        1	[inception_resnet_v2/activation_230/Relu;inception_resnet_v2/batch_normalization_230/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_230/Conv2D]:217
+	                 CONV_2D	         1572.535	    2.023	    2.060	  0.101%	 76.962%	     0.000	        1	[inception_resnet_v2/activation_231/Relu;inception_resnet_v2/batch_normalization_231/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_231/Conv2D]:218
+	                 CONV_2D	         1574.603	    2.207	    2.154	  0.105%	 77.068%	     0.000	        1	[inception_resnet_v2/activation_232/Relu;inception_resnet_v2/batch_normalization_232/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_232/Conv2D]:219
+	                 CONV_2D	         1576.765	    3.141	    3.063	  0.150%	 77.218%	     0.000	        1	[inception_resnet_v2/activation_233/Relu;inception_resnet_v2/batch_normalization_233/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_233/Conv2D]:220
+	           CONCATENATION	         1579.838	    0.140	    0.129	  0.006%	 77.224%	     0.000	        1	[inception_resnet_v2/block17_16_mixed/concat]:221
+	                 CONV_2D	         1579.975	    6.535	    6.561	  0.321%	 77.545%	     0.000	        1	[inception_resnet_v2/block17_16/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_16_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_16_conv/Conv2D]:222
+	                     ADD	         1586.544	   29.827	   29.984	  1.467%	 79.012%	     0.000	        1	[inception_resnet_v2/block17_16_ac/Relu;inception_resnet_v2/block17_16/add]:223
+	                 CONV_2D	         1616.541	    2.958	    2.983	  0.146%	 79.158%	     0.000	        1	[inception_resnet_v2/activation_234/Relu;inception_resnet_v2/batch_normalization_234/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_234/Conv2D]:224
+	                 CONV_2D	         1619.532	    2.011	    2.058	  0.101%	 79.259%	     0.000	        1	[inception_resnet_v2/activation_235/Relu;inception_resnet_v2/batch_normalization_235/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_235/Conv2D]:225
+	                 CONV_2D	         1621.598	    2.136	    2.159	  0.106%	 79.365%	     0.000	        1	[inception_resnet_v2/activation_236/Relu;inception_resnet_v2/batch_normalization_236/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_236/Conv2D]:226
+	                 CONV_2D	         1623.766	    3.002	    3.071	  0.150%	 79.515%	     0.000	        1	[inception_resnet_v2/activation_237/Relu;inception_resnet_v2/batch_normalization_237/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_237/Conv2D]:227
+	           CONCATENATION	         1626.846	    0.139	    0.140	  0.007%	 79.522%	     0.000	        1	[inception_resnet_v2/block17_17_mixed/concat]:228
+	                 CONV_2D	         1626.993	    6.522	    6.567	  0.321%	 79.843%	     0.000	        1	[inception_resnet_v2/block17_17/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_17_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_17_conv/Conv2D]:229
+	                     ADD	         1633.569	   29.810	   29.986	  1.468%	 81.311%	     0.000	        1	[inception_resnet_v2/block17_17_ac/Relu;inception_resnet_v2/block17_17/add]:230
+	                 CONV_2D	         1663.567	    2.928	    2.971	  0.145%	 81.456%	     0.000	        1	[inception_resnet_v2/activation_238/Relu;inception_resnet_v2/batch_normalization_238/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_238/Conv2D]:231
+	                 CONV_2D	         1666.546	    2.033	    2.060	  0.101%	 81.557%	     0.000	        1	[inception_resnet_v2/activation_239/Relu;inception_resnet_v2/batch_normalization_239/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_239/Conv2D]:232
+	                 CONV_2D	         1668.614	    2.104	    2.143	  0.105%	 81.662%	     0.000	        1	[inception_resnet_v2/activation_240/Relu;inception_resnet_v2/batch_normalization_240/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_240/Conv2D]:233
+	                 CONV_2D	         1670.765	    2.996	    3.064	  0.150%	 81.812%	     0.000	        1	[inception_resnet_v2/activation_241/Relu;inception_resnet_v2/batch_normalization_241/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_241/Conv2D]:234
+	           CONCATENATION	         1673.838	    0.136	    0.125	  0.006%	 81.818%	     0.000	        1	[inception_resnet_v2/block17_18_mixed/concat]:235
+	                 CONV_2D	         1673.970	    6.627	    6.562	  0.321%	 82.139%	     0.000	        1	[inception_resnet_v2/block17_18/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_18_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_18_conv/Conv2D]:236
+	                     ADD	         1680.541	   29.932	   29.973	  1.467%	 83.606%	     0.000	        1	[inception_resnet_v2/block17_18_ac/Relu;inception_resnet_v2/block17_18/add]:237
+	                 CONV_2D	         1710.525	    2.945	    2.964	  0.145%	 83.751%	     0.000	        1	[inception_resnet_v2/activation_242/Relu;inception_resnet_v2/batch_normalization_242/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_242/Conv2D]:238
+	                 CONV_2D	         1713.499	    2.011	    2.064	  0.101%	 83.852%	     0.000	        1	[inception_resnet_v2/activation_243/Relu;inception_resnet_v2/batch_normalization_243/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_243/Conv2D]:239
+	                 CONV_2D	         1715.571	    2.137	    2.143	  0.105%	 83.957%	     0.000	        1	[inception_resnet_v2/activation_244/Relu;inception_resnet_v2/batch_normalization_244/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_244/Conv2D]:240
+	                 CONV_2D	         1717.723	    3.087	    3.049	  0.149%	 84.106%	     0.000	        1	[inception_resnet_v2/activation_245/Relu;inception_resnet_v2/batch_normalization_245/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_245/Conv2D]:241
+	           CONCATENATION	         1720.781	    0.142	    0.129	  0.006%	 84.113%	     0.000	        1	[inception_resnet_v2/block17_19_mixed/concat]:242
+	                 CONV_2D	         1720.917	    6.515	    6.552	  0.321%	 84.433%	     0.000	        1	[inception_resnet_v2/block17_19/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_19_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_19_conv/Conv2D]:243
+	                     ADD	         1727.478	   29.823	   29.952	  1.466%	 85.899%	     0.000	        1	[inception_resnet_v2/block17_19_ac/Relu;inception_resnet_v2/block17_19/add]:244
+	                 CONV_2D	         1757.441	    2.945	    2.962	  0.145%	 86.044%	     0.000	        1	[inception_resnet_v2/activation_246/Relu;inception_resnet_v2/batch_normalization_246/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_246/Conv2D]:245
+	                 CONV_2D	         1760.411	    2.011	    2.072	  0.101%	 86.146%	     0.000	        1	[inception_resnet_v2/activation_247/Relu;inception_resnet_v2/batch_normalization_247/FusedBatchNormV3;inception_resnet_v2/batch_normalization_171/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_247/Conv2D]:246
+	                 CONV_2D	         1762.490	    2.121	    2.134	  0.104%	 86.250%	     0.000	        1	[inception_resnet_v2/activation_248/Relu;inception_resnet_v2/batch_normalization_248/FusedBatchNormV3;inception_resnet_v2/batch_normalization_172/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_248/Conv2D]:247
+	                 CONV_2D	         1764.632	    3.008	    3.079	  0.151%	 86.401%	     0.000	        1	[inception_resnet_v2/activation_249/Relu;inception_resnet_v2/batch_normalization_249/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_249/Conv2D]:248
+	           CONCATENATION	         1767.720	    0.126	    0.130	  0.006%	 86.407%	     0.000	        1	[inception_resnet_v2/block17_20_mixed/concat]:249
+	                 CONV_2D	         1767.857	    6.538	    6.563	  0.321%	 86.728%	     0.000	        1	[inception_resnet_v2/block17_20/mul;inception_resnet_v2/block17_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block17_20_conv/BiasAdd;inception_resnet_v2/block17_1/mul/y;inception_resnet_v2/block17_20_conv/Conv2D]:250
+	                     ADD	         1774.430	   29.848	   30.019	  1.469%	 88.197%	     0.000	        1	[inception_resnet_v2/block17_20_ac/Relu;inception_resnet_v2/block17_20/add]:251
+	                 CONV_2D	         1804.460	    3.845	    3.876	  0.190%	 88.387%	     0.000	        1	[inception_resnet_v2/activation_250/Relu;inception_resnet_v2/batch_normalization_250/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_250/Conv2D]:252
+	                 CONV_2D	         1808.344	    2.173	    2.220	  0.109%	 88.496%	     0.000	        1	[inception_resnet_v2/activation_251/Relu;inception_resnet_v2/batch_normalization_251/FusedBatchNormV3;inception_resnet_v2/batch_normalization_166/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_251/Conv2D]:253
+	                 CONV_2D	         1810.573	    3.785	    3.860	  0.189%	 88.685%	     0.000	        1	[inception_resnet_v2/activation_252/Relu;inception_resnet_v2/batch_normalization_252/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_252/Conv2D]:254
+	                 CONV_2D	         1814.442	    1.624	    1.676	  0.082%	 88.767%	     0.000	        1	[inception_resnet_v2/activation_253/Relu;inception_resnet_v2/batch_normalization_253/FusedBatchNormV3;inception_resnet_v2/batch_normalization_253/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_253/Conv2D]:255
+	                 CONV_2D	         1816.126	    3.836	    3.846	  0.188%	 88.955%	     0.000	        1	[inception_resnet_v2/activation_254/Relu;inception_resnet_v2/batch_normalization_254/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_254/Conv2D]:256
+	                 CONV_2D	         1819.981	    7.605	    7.643	  0.374%	 89.329%	     0.000	        1	[inception_resnet_v2/activation_255/Relu;inception_resnet_v2/batch_normalization_255/FusedBatchNormV3;inception_resnet_v2/batch_normalization_253/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_255/Conv2D]:257
+	                 CONV_2D	         1827.637	    2.238	    2.296	  0.112%	 89.441%	     0.000	        1	[inception_resnet_v2/activation_256/Relu;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3;inception_resnet_v2/batch_normalization_256/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_256/Conv2D]:258
+	             MAX_POOL_2D	         1829.942	    1.783	    1.804	  0.088%	 89.530%	     0.000	        1	[inception_resnet_v2/max_pooling2d_7/MaxPool]:259
+	           CONCATENATION	         1831.754	    0.092	    0.109	  0.005%	 89.535%	     0.000	        1	[inception_resnet_v2/mixed_7a/concat]:260
+	                 CONV_2D	         1831.870	    1.166	    1.169	  0.057%	 89.592%	     0.000	        1	[inception_resnet_v2/activation_257/Relu;inception_resnet_v2/batch_normalization_257/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_257/Conv2D]:261
+	                 CONV_2D	         1833.047	    1.103	    1.131	  0.055%	 89.647%	     0.000	        1	[inception_resnet_v2/activation_258/Relu;inception_resnet_v2/batch_normalization_258/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_258/Conv2D]:262
+	                 CONV_2D	         1834.186	    0.504	    0.534	  0.026%	 89.674%	     0.000	        1	[inception_resnet_v2/activation_259/Relu;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_259/Conv2D]:263
+	                 CONV_2D	         1834.728	    0.533	    0.561	  0.027%	 89.701%	     0.000	        1	[inception_resnet_v2/activation_260/Relu;inception_resnet_v2/batch_normalization_260/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_260/Conv2D]:264
+	           CONCATENATION	         1835.296	    0.031	    0.042	  0.002%	 89.703%	     0.000	        1	[inception_resnet_v2/block8_1_mixed/concat]:265
+	                 CONV_2D	         1835.345	    2.695	    2.720	  0.133%	 89.836%	     0.000	        1	[inception_resnet_v2/block8_1/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_1_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_1_conv/Conv2D]:266
+	                     ADD	         1838.073	   12.594	   12.690	  0.621%	 90.457%	     0.000	        1	[inception_resnet_v2/block8_1_ac/Relu;inception_resnet_v2/block8_1/add]:267
+	                 CONV_2D	         1850.772	    1.117	    1.159	  0.057%	 90.514%	     0.000	        1	[inception_resnet_v2/activation_261/Relu;inception_resnet_v2/batch_normalization_261/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_261/Conv2D]:268
+	                 CONV_2D	         1851.941	    1.121	    1.128	  0.055%	 90.569%	     0.000	        1	[inception_resnet_v2/activation_262/Relu;inception_resnet_v2/batch_normalization_262/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_262/Conv2D]:269
+	                 CONV_2D	         1853.076	    0.506	    0.533	  0.026%	 90.595%	     0.000	        1	[inception_resnet_v2/activation_263/Relu;inception_resnet_v2/batch_normalization_263/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_263/Conv2D]:270
+	                 CONV_2D	         1853.617	    0.532	    0.551	  0.027%	 90.622%	     0.000	        1	[inception_resnet_v2/activation_264/Relu;inception_resnet_v2/batch_normalization_264/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_264/Conv2D]:271
+	           CONCATENATION	         1854.175	    0.030	    0.042	  0.002%	 90.624%	     0.000	        1	[inception_resnet_v2/block8_2_mixed/concat]:272
+	                 CONV_2D	         1854.224	    2.692	    2.724	  0.133%	 90.758%	     0.000	        1	[inception_resnet_v2/block8_2/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_2_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_2_conv/Conv2D]:273
+	                     ADD	         1856.956	   12.579	   12.691	  0.621%	 91.379%	     0.000	        1	[inception_resnet_v2/block8_2_ac/Relu;inception_resnet_v2/block8_2/add]:274
+	                 CONV_2D	         1869.657	    1.148	    1.157	  0.057%	 91.435%	     0.000	        1	[inception_resnet_v2/activation_265/Relu;inception_resnet_v2/batch_normalization_265/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_265/Conv2D]:275
+	                 CONV_2D	         1870.822	    1.114	    1.131	  0.055%	 91.491%	     0.000	        1	[inception_resnet_v2/activation_266/Relu;inception_resnet_v2/batch_normalization_266/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_266/Conv2D]:276
+	                 CONV_2D	         1871.960	    0.504	    0.520	  0.025%	 91.516%	     0.000	        1	[inception_resnet_v2/activation_267/Relu;inception_resnet_v2/batch_normalization_267/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_267/Conv2D]:277
+	                 CONV_2D	         1872.488	    0.543	    0.551	  0.027%	 91.543%	     0.000	        1	[inception_resnet_v2/activation_268/Relu;inception_resnet_v2/batch_normalization_268/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_268/Conv2D]:278
+	           CONCATENATION	         1873.046	    0.030	    0.040	  0.002%	 91.545%	     0.000	        1	[inception_resnet_v2/block8_3_mixed/concat]:279
+	                 CONV_2D	         1873.094	    2.685	    2.719	  0.133%	 91.678%	     0.000	        1	[inception_resnet_v2/block8_3/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_3_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_3_conv/Conv2D]:280
+	                     ADD	         1875.820	   12.619	   12.777	  0.625%	 92.303%	     0.000	        1	[inception_resnet_v2/block8_3_ac/Relu;inception_resnet_v2/block8_3/add]:281
+	                 CONV_2D	         1888.606	    1.140	    1.147	  0.056%	 92.360%	     0.000	        1	[inception_resnet_v2/activation_269/Relu;inception_resnet_v2/batch_normalization_269/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_269/Conv2D]:282
+	                 CONV_2D	         1889.760	    1.113	    1.129	  0.055%	 92.415%	     0.000	        1	[inception_resnet_v2/activation_270/Relu;inception_resnet_v2/batch_normalization_270/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_270/Conv2D]:283
+	                 CONV_2D	         1890.897	    0.503	    0.525	  0.026%	 92.441%	     0.000	        1	[inception_resnet_v2/activation_271/Relu;inception_resnet_v2/batch_normalization_271/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_271/Conv2D]:284
+	                 CONV_2D	         1891.430	    0.534	    0.555	  0.027%	 92.468%	     0.000	        1	[inception_resnet_v2/activation_272/Relu;inception_resnet_v2/batch_normalization_272/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_272/Conv2D]:285
+	           CONCATENATION	         1891.994	    0.032	    0.041	  0.002%	 92.470%	     0.000	        1	[inception_resnet_v2/block8_4_mixed/concat]:286
+	                 CONV_2D	         1892.041	    2.701	    2.724	  0.133%	 92.603%	     0.000	        1	[inception_resnet_v2/block8_4/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_4_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_4_conv/Conv2D]:287
+	                     ADD	         1894.773	   12.598	   12.682	  0.621%	 93.224%	     0.000	        1	[inception_resnet_v2/block8_4_ac/Relu;inception_resnet_v2/block8_4/add]:288
+	                 CONV_2D	         1907.465	    1.153	    1.164	  0.057%	 93.281%	     0.000	        1	[inception_resnet_v2/activation_273/Relu;inception_resnet_v2/batch_normalization_273/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_273/Conv2D]:289
+	                 CONV_2D	         1908.637	    1.163	    1.131	  0.055%	 93.336%	     0.000	        1	[inception_resnet_v2/activation_274/Relu;inception_resnet_v2/batch_normalization_274/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_274/Conv2D]:290
+	                 CONV_2D	         1909.775	    0.506	    0.524	  0.026%	 93.362%	     0.000	        1	[inception_resnet_v2/activation_275/Relu;inception_resnet_v2/batch_normalization_275/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_275/Conv2D]:291
+	                 CONV_2D	         1910.307	    0.534	    0.548	  0.027%	 93.388%	     0.000	        1	[inception_resnet_v2/activation_276/Relu;inception_resnet_v2/batch_normalization_276/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_276/Conv2D]:292
+	           CONCATENATION	         1910.862	    0.045	    0.042	  0.002%	 93.390%	     0.000	        1	[inception_resnet_v2/block8_5_mixed/concat]:293
+	                 CONV_2D	         1910.911	    2.695	    2.717	  0.133%	 93.523%	     0.000	        1	[inception_resnet_v2/block8_5/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_5_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_5_conv/Conv2D]:294
+	                     ADD	         1913.637	   12.604	   12.688	  0.621%	 94.144%	     0.000	        1	[inception_resnet_v2/block8_5_ac/Relu;inception_resnet_v2/block8_5/add]:295
+	                 CONV_2D	         1926.334	    1.123	    1.145	  0.056%	 94.200%	     0.000	        1	[inception_resnet_v2/activation_277/Relu;inception_resnet_v2/batch_normalization_277/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_277/Conv2D]:296
+	                 CONV_2D	         1927.487	    1.102	    1.129	  0.055%	 94.256%	     0.000	        1	[inception_resnet_v2/activation_278/Relu;inception_resnet_v2/batch_normalization_278/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_278/Conv2D]:297
+	                 CONV_2D	         1928.623	    0.506	    0.523	  0.026%	 94.281%	     0.000	        1	[inception_resnet_v2/activation_279/Relu;inception_resnet_v2/batch_normalization_279/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_279/Conv2D]:298
+	                 CONV_2D	         1929.154	    0.582	    0.558	  0.027%	 94.309%	     0.000	        1	[inception_resnet_v2/activation_280/Relu;inception_resnet_v2/batch_normalization_280/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_280/Conv2D]:299
+	           CONCATENATION	         1929.720	    0.033	    0.040	  0.002%	 94.311%	     0.000	        1	[inception_resnet_v2/block8_6_mixed/concat]:300
+	                 CONV_2D	         1929.769	    2.690	    2.723	  0.133%	 94.444%	     0.000	        1	[inception_resnet_v2/block8_6/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_6_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_6_conv/Conv2D]:301
+	                     ADD	         1932.500	   12.714	   12.695	  0.621%	 95.065%	     0.000	        1	[inception_resnet_v2/block8_6_ac/Relu;inception_resnet_v2/block8_6/add]:302
+	                 CONV_2D	         1945.204	    1.160	    1.150	  0.056%	 95.121%	     0.000	        1	[inception_resnet_v2/activation_281/Relu;inception_resnet_v2/batch_normalization_281/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_281/Conv2D]:303
+	                 CONV_2D	         1946.362	    1.109	    1.136	  0.056%	 95.177%	     0.000	        1	[inception_resnet_v2/activation_282/Relu;inception_resnet_v2/batch_normalization_282/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_282/Conv2D]:304
+	                 CONV_2D	         1947.505	    0.506	    0.533	  0.026%	 95.203%	     0.000	        1	[inception_resnet_v2/activation_283/Relu;inception_resnet_v2/batch_normalization_283/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_283/Conv2D]:305
+	                 CONV_2D	         1948.046	    0.540	    0.548	  0.027%	 95.230%	     0.000	        1	[inception_resnet_v2/activation_284/Relu;inception_resnet_v2/batch_normalization_284/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_284/Conv2D]:306
+	           CONCATENATION	         1948.602	    0.037	    0.040	  0.002%	 95.232%	     0.000	        1	[inception_resnet_v2/block8_7_mixed/concat]:307
+	                 CONV_2D	         1948.648	    2.738	    2.720	  0.133%	 95.365%	     0.000	        1	[inception_resnet_v2/block8_7/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_7_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_7_conv/Conv2D]:308
+	                     ADD	         1951.377	   12.592	   12.687	  0.621%	 95.986%	     0.000	        1	[inception_resnet_v2/block8_7_ac/Relu;inception_resnet_v2/block8_7/add]:309
+	                 CONV_2D	         1964.073	    1.121	    1.159	  0.057%	 96.043%	     0.000	        1	[inception_resnet_v2/activation_285/Relu;inception_resnet_v2/batch_normalization_285/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_285/Conv2D]:310
+	                 CONV_2D	         1965.240	    1.178	    1.132	  0.055%	 96.098%	     0.000	        1	[inception_resnet_v2/activation_286/Relu;inception_resnet_v2/batch_normalization_286/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_286/Conv2D]:311
+	                 CONV_2D	         1966.379	    0.506	    0.523	  0.026%	 96.124%	     0.000	        1	[inception_resnet_v2/activation_287/Relu;inception_resnet_v2/batch_normalization_287/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_287/Conv2D]:312
+	                 CONV_2D	         1966.910	    0.534	    0.548	  0.027%	 96.150%	     0.000	        1	[inception_resnet_v2/activation_288/Relu;inception_resnet_v2/batch_normalization_288/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_288/Conv2D]:313
+	           CONCATENATION	         1967.465	    0.043	    0.039	  0.002%	 96.152%	     0.000	        1	[inception_resnet_v2/block8_8_mixed/concat]:314
+	                 CONV_2D	         1967.511	    2.709	    2.731	  0.134%	 96.286%	     0.000	        1	[inception_resnet_v2/block8_8/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_8_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_8_conv/Conv2D]:315
+	                     ADD	         1970.251	   12.624	   12.677	  0.620%	 96.906%	     0.000	        1	[inception_resnet_v2/block8_8_ac/Relu;inception_resnet_v2/block8_8/add]:316
+	                 CONV_2D	         1982.936	    1.147	    1.153	  0.056%	 96.963%	     0.000	        1	[inception_resnet_v2/activation_289/Relu;inception_resnet_v2/batch_normalization_289/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_289/Conv2D]:317
+	                 CONV_2D	         1984.098	    1.102	    1.132	  0.055%	 97.018%	     0.000	        1	[inception_resnet_v2/activation_290/Relu;inception_resnet_v2/batch_normalization_290/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_290/Conv2D]:318
+	                 CONV_2D	         1985.237	    0.506	    0.521	  0.025%	 97.044%	     0.000	        1	[inception_resnet_v2/activation_291/Relu;inception_resnet_v2/batch_normalization_291/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_291/Conv2D]:319
+	                 CONV_2D	         1985.766	    0.553	    0.545	  0.027%	 97.070%	     0.000	        1	[inception_resnet_v2/activation_292/Relu;inception_resnet_v2/batch_normalization_292/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_292/Conv2D]:320
+	           CONCATENATION	         1986.318	    0.047	    0.043	  0.002%	 97.073%	     0.000	        1	[inception_resnet_v2/block8_9_mixed/concat]:321
+	                 CONV_2D	         1986.368	    2.682	    2.719	  0.133%	 97.206%	     0.000	        1	[inception_resnet_v2/block8_9/mul;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_9_conv/BiasAdd;inception_resnet_v2/block8_1/mul/y;inception_resnet_v2/block8_9_conv/Conv2D]:322
+	                     ADD	         1989.095	   12.640	   12.693	  0.621%	 97.827%	     0.000	        1	[inception_resnet_v2/block8_9_ac/Relu;inception_resnet_v2/block8_9/add]:323
+	                 CONV_2D	         2001.797	    1.153	    1.155	  0.057%	 97.883%	     0.000	        1	[inception_resnet_v2/activation_293/Relu;inception_resnet_v2/batch_normalization_293/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_293/Conv2D]:324
+	                 CONV_2D	         2002.960	    1.104	    1.131	  0.055%	 97.939%	     0.000	        1	[inception_resnet_v2/activation_294/Relu;inception_resnet_v2/batch_normalization_294/FusedBatchNormV3;inception_resnet_v2/batch_normalization_170/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_294/Conv2D]:325
+	                 CONV_2D	         2004.100	    0.506	    0.530	  0.026%	 97.965%	     0.000	        1	[inception_resnet_v2/activation_295/Relu;inception_resnet_v2/batch_normalization_295/FusedBatchNormV3;inception_resnet_v2/batch_normalization_259/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_295/Conv2D]:326
+	                 CONV_2D	         2004.637	    0.538	    0.550	  0.027%	 97.992%	     0.000	        1	[inception_resnet_v2/activation_296/Relu;inception_resnet_v2/batch_normalization_296/FusedBatchNormV3;inception_resnet_v2/batch_normalization_167/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_296/Conv2D]:327
+	           CONCATENATION	         2005.195	    0.049	    0.045	  0.002%	 97.994%	     0.000	        1	[inception_resnet_v2/block8_10_mixed/concat]:328
+	                 CONV_2D	         2005.247	    2.690	    2.717	  0.133%	 98.127%	     0.000	        1	[inception_resnet_v2/block8_10_conv/BiasAdd;inception_resnet_v2/block8_10_conv/BiasAdd/ReadVariableOp;inception_resnet_v2/block8_10_conv/Conv2D]:329
+	                     ADD	         2007.973	   12.613	   12.673	  0.620%	 98.747%	     0.000	        1	[inception_resnet_v2/block8_10/add]:330
+	                 CONV_2D	         2020.655	    8.295	    8.380	  0.410%	 99.157%	     0.000	        1	[inception_resnet_v2/conv_7b_ac/Relu;inception_resnet_v2/conv_7b_bn/FusedBatchNormV3;inception_resnet_v2/conv_7b_bn/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv_7b/Conv2D]:331
+	                    MEAN	         2029.044	   16.660	   16.770	  0.821%	 99.978%	     0.000	        1	[inception_resnet_v2/avg_pool/Mean]:332
+	         FULLY_CONNECTED	         2045.823	    0.341	    0.367	  0.018%	 99.996%	     0.000	        1	[inception_resnet_v2/predictions/MatMul;inception_resnet_v2/predictions/BiasAdd]:333
+	                 SOFTMAX	         2046.197	    0.088	    0.087	  0.004%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:334
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	           69.590	   52.605	   52.938	  2.591%	  2.591%	     0.000	        1	[inception_resnet_v2/activation_96/Relu;inception_resnet_v2/batch_normalization_96/FusedBatchNormV3;inception_resnet_v2/batch_normalization_101/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_96/Conv2D]:2
+	         AVERAGE_POOL_2D	          179.273	   45.080	   45.215	  2.213%	  4.804%	     0.000	        1	[inception_resnet_v2/average_pooling2d_9/AvgPool]:7
+	                 CONV_2D	           30.223	   38.810	   39.355	  1.926%	  6.730%	     0.000	        1	[inception_resnet_v2/activation_95/Relu;inception_resnet_v2/batch_normalization_95/FusedBatchNormV3;inception_resnet_v2/batch_normalization_106/FusedBatchNormV3/ReadVariableOp;inception_resnet_v2/conv2d_95/Conv2D]:1
+	                     ADD	          762.751	   37.654	   37.504	  1.835%	  8.565%	     0.000	        1	[inception_resnet_v2/block35_10_ac/Relu;inception_resnet_v2/block35_10/add]:105
+	                     ADD	          320.941	   37.243	   37.421	  1.831%	 10.396%	     0.000	        1	[inception_resnet_v2/block35_2_ac/Relu;inception_resnet_v2/block35_2/add]:33
+	                     ADD	          652.189	   37.734	   37.396	  1.830%	 12.227%	     0.000	        1	[inception_resnet_v2/block35_8_ac/Relu;inception_resnet_v2/block35_8/add]:87
+	                     ADD	          376.224	   37.438	   37.367	  1.829%	 14.055%	     0.000	        1	[inception_resnet_v2/block35_3_ac/Relu;inception_resnet_v2/block35_3/add]:42
+	                     ADD	          431.338	   37.320	   37.364	  1.829%	 15.884%	     0.000	        1	[inception_resnet_v2/block35_4_ac/Relu;inception_resnet_v2/block35_4/add]:51
+	                     ADD	          596.972	   37.549	   37.360	  1.828%	 17.712%	     0.000	        1	[inception_resnet_v2/block35_7_ac/Relu;inception_resnet_v2/block35_7/add]:78
+	                     ADD	          707.442	   37.567	   37.360	  1.828%	 19.541%	     0.000	        1	[inception_resnet_v2/block35_9_ac/Relu;inception_resnet_v2/block35_9/add]:96
+
+Number of nodes executed: 335
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                     ADD	       40	  1100.517	    53.864%	    53.864%	     0.000	       40
+	                 CONV_2D	      244	   855.281	    41.861%	    95.725%	     0.000	      244
+	         AVERAGE_POOL_2D	        1	    45.214	     2.213%	    97.938%	     0.000	        1
+	             MAX_POOL_2D	        4	    18.641	     0.912%	    98.850%	     0.000	        4
+	                    MEAN	        1	    16.769	     0.821%	    99.671%	     0.000	        1
+	           CONCATENATION	       43	     6.271	     0.307%	    99.978%	     0.000	       43
+	         FULLY_CONNECTED	        1	     0.367	     0.018%	    99.996%	     0.000	        1
+	                 SOFTMAX	        1	     0.086	     0.004%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=20 first=2043434 curr=2044544 min=2036050 max=2049711 avg=2.04331e+06 std=3367
+Memory (bytes): count=0
+335 nodes observed
+
+
+
+[ perf record: Woken up 175 times to write data ]
+[ perf record: Captured and wrote 43.693 MB /tmp/data.record (246563 samples) ]
+
+62.643
+

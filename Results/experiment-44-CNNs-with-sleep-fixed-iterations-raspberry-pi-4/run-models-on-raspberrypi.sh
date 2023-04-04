@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+REMOTE_PREFIX_DIR="/home/pi/Desktop/run-CNNs"
+REMOTE_II_DIR="$REMOTE_PREFIX_DIR/models/f32i8"
+REMOTE_MODEL_RUNNER_PATH="$REMOTE_PREFIX_DIR/benchmark_model"
+REMOTE_MODEL_RUNNER_NON_RUY_PATH="$REMOTE_PREFIX_DIR/benchmark_model"
+
+II_DIR="/home/user/Project/models/CNNs/f32i8"
+MODEL_RUNNER_PATH="/home/user/Project/Experiments/tensorflow-fullpack/bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model"
+MODEL_RUNNER_NON_RUY_PATH="/home/user/Project/Experiments/tensorflow-fullpack/bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model"
+
+run-on-raspberry mkdir -p $REMOTE_PREFIX_DIR
+run-on-raspberry mkdir -p $REMOTE_II_DIR
+
+if [[ `ls $II_DIR | wc -l` != `run-on-raspberry ls $REMOTE_II_DIR | wc -l` ]]; then
+    push-to-raspberry $II_DIR $REMOTE_II_DIR
+else
+    echo "[+] Models exist on remote device, not sending."
+fi
+if [[ $DISCARD_PUSHING_TOOLS = 0 ]]; then
+    push-to-raspberry $MODEL_RUNNER_PATH $REMOTE_MODEL_RUNNER_PATH
+    push-to-raspberry $MODEL_RUNNER_NON_RUY_PATH $REMOTE_MODEL_RUNNER_NON_RUY_PATH
+else
+    echo "[!] Discarding sending tools."
+fi
+
+bash run-template-tflite.sh \
+    --num-iterations 20 \
+    --num-warmup-iterations 10 \
+    --min-secs 0.000000001 \
+    --warmup-min-secs 0.000000001 \
+    --models-dir $REMOTE_II_DIR \
+    --clear-methods \
+    --add-method I8-I8 \
+    --add-method I4-I4 \
+    --add-method Ternary-Ternary \
+    --add-method Binary-Binary \
+    --record-report-stat logs \
+    --sleep-multiply-coeff 3 \
+    --sleep-between-runs \
+    --disbale-perf \
+    --model-runner $REMOTE_MODEL_RUNNER_PATH \
+    --add-taskset-mode f \
+    --use-less-storage-space \
+    --run-on-remote run-on-raspberry push-to-raspberry pull-from-raspberry \
+    --save-per-operation-profile \
+    $II_DIR
+
+# --enable_XNNPACK_W8A8 \
+# --enable_TFLITE_W8A8 \
+# --enable_GEMMLOWP \
+# --enable_RUY_FP32 \
+# --enable_XNNPACK_FP32 \
+# --enable_TFLITE_FP32 \
+# --enable_EIGEN \
+# --enable_ULPPACK1 \
+# --enable_ULPPACK2 \
+# --enable_ULPPACK3 \

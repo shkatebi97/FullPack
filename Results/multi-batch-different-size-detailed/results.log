@@ -1,0 +1,20 @@
+16x32x32:
+
+	IPC: 							      = (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		Int4: (0.7493 * 30775751) / (0.5685 * 29953951)       = 1.354190641
+		Int8: (0.3748 * 55784792) / (0.4172 * 45906292)       = 1.091688878
+
+	CMR (Cache Miss Ratio):					      = (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		Int4: (0.6646 * 209946)   / (0.4547 * 15618998) * 100 = 1.964670925
+		Int8: (0.5092 * 255968)   / (0.1876 * 29967147) * 100 = 2.318439876
+
+
+512x512x512:
+
+	IPC: 							          = (kernel_percent * instructions) / (kernel_percent * cpu-cycles)
+		Int4: (0.9996 * 3328440651) / (0.9989 * 2793975045)       = 1.192127013
+		Int8: (0.9836 * 3386900855) / (0.9737 * 2537929764)       = 1.348081767
+
+	CMR (Cache Miss Ratio):					          = (kernel_percent * cache-misses) / (kernel_percent * cache-loads) * 100
+		Int4: (0.9991 * 39452605)   / (0.9994 * 0896848231) * 100 = 4.397707522
+		Int8: (0.9556 * 14507740)   / (0.9723 * 1085397085) * 100 = 1.313672075

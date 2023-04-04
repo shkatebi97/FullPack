@@ -1,0 +1,438 @@
+
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\pgfplotsset{compat=1.8}
+\begin{document}
+    \begin{figure*}[t]
+        \begin{tikzpicture}
+            \begin{axis}[
+                xbar=0pt,
+                xmin=0.6,
+                xmax=3,
+                width=0.995\linewidth,
+                height=2*\axisdefaultheight,
+                tick label style={font=\footnotesize},
+                legend style={font=\tiny},
+                label style={font=\footnotesize},
+                symbolic y coords={I4-I4, Ternary-Ternary, Binary-Binary, No-Caching, GEMMLOWP, ULPPACK-W1A1, ULPPACK-W2A2, ULPPACK-W3A3},
+                ytick=data,
+                xtick={0.60,0.80,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0},
+                align={center},
+                bar width=0.149ex,
+                legend columns=7,
+                legend style={at={(0.49,-0.2)},anchor=north,font=\footnotesize},
+                title=\textbf{DenseNet201},
+                xmajorgrids,
+                yminorgrids = true,
+                minor tick num=1
+                ]
+                \addplot coordinates { (1.32,I4-I4) (1.60,Ternary-Ternary) (0.61,Binary-Binary) (1.02,No-Caching) (0.12,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (0.84,Ternary-Ternary) (0.41,Binary-Binary) (1.01,No-Caching) (0.06,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (1.81,I4-I4) (2.05,Ternary-Ternary) (1.67,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.38,I4-I4) (1.22,Ternary-Ternary) (0.53,Binary-Binary) (1.02,No-Caching) (0.08,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.79,I4-I4) (2.06,Ternary-Ternary) (1.48,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (1.46,Ternary-Ternary) (0.63,Binary-Binary) (0.99,No-Caching) (0.09,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.80,I4-I4) (2.06,Ternary-Ternary) (1.67,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.51,I4-I4) (1.95,Ternary-Ternary) (0.79,Binary-Binary) (1.02,No-Caching) (0.10,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.77,I4-I4) (2.06,Ternary-Ternary) (1.63,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (2.22,Ternary-Ternary) (0.91,Binary-Binary) (1.00,No-Caching) (0.11,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.80,I4-I4) (2.06,Ternary-Ternary) (1.64,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.58,I4-I4) (3.05,Ternary-Ternary) (1.03,Binary-Binary) (0.98,No-Caching) (0.13,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.78,I4-I4) (2.09,Ternary-Ternary) (1.63,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.01,I4-I4) (3.41,Ternary-Ternary) (1.15,Binary-Binary) (0.98,No-Caching) (0.14,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (1.47,Ternary-Ternary) (0.65,Binary-Binary) (1.01,No-Caching) (0.09,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.34,Ternary-Ternary) (1.84,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.52,I4-I4) (1.95,Ternary-Ternary) (0.81,Binary-Binary) (1.02,No-Caching) (0.11,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.96,I4-I4) (2.32,Ternary-Ternary) (1.84,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.01,I4-I4) (2.23,Ternary-Ternary) (0.92,Binary-Binary) (1.01,No-Caching) (0.12,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (2.34,Ternary-Ternary) (1.85,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.58,I4-I4) (2.95,Ternary-Ternary) (1.04,Binary-Binary) (0.98,No-Caching) (0.13,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.37,Ternary-Ternary) (1.87,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.96,I4-I4) (3.34,Ternary-Ternary) (1.15,Binary-Binary) (0.98,No-Caching) (0.14,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.95,I4-I4) (2.38,Ternary-Ternary) (1.84,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.65,I4-I4) (1.64,Ternary-Ternary) (1.36,Binary-Binary) (0.99,No-Caching) (0.15,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.36,Ternary-Ternary) (1.84,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.04,I4-I4) (1.82,Ternary-Ternary) (1.51,Binary-Binary) (1.01,No-Caching) (0.16,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.35,Ternary-Ternary) (1.85,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.76,I4-I4) (2.16,Ternary-Ternary) (1.67,Binary-Binary) (1.01,No-Caching) (0.17,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.98,I4-I4) (2.37,Ternary-Ternary) (1.86,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.02,I4-I4) (2.27,Ternary-Ternary) (1.75,Binary-Binary) (0.99,No-Caching) (0.18,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.94,I4-I4) (2.37,Ternary-Ternary) (1.79,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.77,I4-I4) (2.64,Ternary-Ternary) (2.00,Binary-Binary) (1.00,No-Caching) (0.19,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.95,I4-I4) (2.35,Ternary-Ternary) (1.78,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.02,I4-I4) (2.84,Ternary-Ternary) (2.15,Binary-Binary) (1.00,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.34,Ternary-Ternary) (1.58,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.78,I4-I4) (3.38,Ternary-Ternary) (2.29,Binary-Binary) (1.01,No-Caching) (0.21,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.95,I4-I4) (2.40,Ternary-Ternary) (1.81,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.04,I4-I4) (3.52,Ternary-Ternary) (2.72,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.02,I4-I4) (3.24,Ternary-Ternary) (1.21,Binary-Binary) (0.98,No-Caching) (0.14,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.33,Ternary-Ternary) (1.73,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.72,I4-I4) (1.70,Ternary-Ternary) (1.41,Binary-Binary) (1.00,No-Caching) (0.15,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.34,Ternary-Ternary) (1.82,Binary-Binary) (1.02,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (1.86,Ternary-Ternary) (1.53,Binary-Binary) (1.02,No-Caching) (0.16,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.36,Ternary-Ternary) (1.81,Binary-Binary) (1.03,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.78,I4-I4) (2.17,Ternary-Ternary) (1.72,Binary-Binary) (1.01,No-Caching) (0.17,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.01,I4-I4) (2.40,Ternary-Ternary) (1.77,Binary-Binary) (1.04,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.03,I4-I4) (2.29,Ternary-Ternary) (1.76,Binary-Binary) (1.00,No-Caching) (0.18,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (2.40,Ternary-Ternary) (1.79,Binary-Binary) (0.97,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.78,I4-I4) (2.63,Ternary-Ternary) (2.01,Binary-Binary) (1.00,No-Caching) (0.19,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.96,I4-I4) (2.28,Ternary-Ternary) (1.80,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (2.80,Ternary-Ternary) (2.16,Binary-Binary) (1.00,No-Caching) (0.19,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (2.40,Ternary-Ternary) (1.84,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.83,I4-I4) (3.33,Ternary-Ternary) (2.29,Binary-Binary) (0.98,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (2.33,Ternary-Ternary) (1.79,Binary-Binary) (0.98,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (3.48,Ternary-Ternary) (2.42,Binary-Binary) (0.98,No-Caching) (0.21,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.40,Ternary-Ternary) (1.83,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.87,I4-I4) (2.24,Ternary-Ternary) (2.73,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.95,I4-I4) (2.40,Ternary-Ternary) (1.81,Binary-Binary) (0.99,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (2.32,Ternary-Ternary) (2.88,Binary-Binary) (0.98,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.03,I4-I4) (2.43,Ternary-Ternary) (1.86,Binary-Binary) (1.01,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.86,I4-I4) (2.54,Ternary-Ternary) (2.99,Binary-Binary) (0.98,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.44,Ternary-Ternary) (1.86,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.02,I4-I4) (2.65,Ternary-Ternary) (3.08,Binary-Binary) (1.00,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (2.42,Ternary-Ternary) (1.84,Binary-Binary) (1.01,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.90,I4-I4) (3.00,Ternary-Ternary) (3.57,Binary-Binary) (1.02,No-Caching) (0.24,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.39,Ternary-Ternary) (1.83,Binary-Binary) (1.00,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (3.05,Ternary-Ternary) (3.62,Binary-Binary) (1.00,No-Caching) (0.24,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.94,I4-I4) (2.33,Ternary-Ternary) (1.81,Binary-Binary) (0.99,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.88,I4-I4) (3.42,Ternary-Ternary) (3.79,Binary-Binary) (0.98,No-Caching) (0.25,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.95,I4-I4) (2.30,Ternary-Ternary) (1.63,Binary-Binary) (0.97,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (3.57,Ternary-Ternary) (3.94,Binary-Binary) (1.00,No-Caching) (0.25,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (2.31,Ternary-Ternary) (1.61,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.91,I4-I4) (2.52,Ternary-Ternary) (4.31,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (2.31,Ternary-Ternary) (1.77,Binary-Binary) (0.98,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.09,I4-I4) (2.59,Ternary-Ternary) (4.49,Binary-Binary) (1.02,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (2.43,Ternary-Ternary) (1.68,Binary-Binary) (1.05,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (2.81,Ternary-Ternary) (4.77,Binary-Binary) (1.03,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (2.30,Ternary-Ternary) (1.62,Binary-Binary) (0.99,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (2.85,Ternary-Ternary) (4.77,Binary-Binary) (1.01,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.04,I4-I4) (2.43,Ternary-Ternary) (1.86,Binary-Binary) (1.05,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.88,I4-I4) (3.05,Ternary-Ternary) (5.35,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.88,I4-I4) (2.30,Ternary-Ternary) (1.66,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.02,I4-I4) (3.14,Ternary-Ternary) (5.51,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.01,I4-I4) (2.42,Ternary-Ternary) (1.73,Binary-Binary) (0.99,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.90,I4-I4) (3.44,Ternary-Ternary) (5.68,Binary-Binary) (0.99,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.90,I4-I4) (2.29,Ternary-Ternary) (1.77,Binary-Binary) (0.97,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.03,I4-I4) (3.56,Ternary-Ternary) (5.83,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.95,I4-I4) (2.33,Ternary-Ternary) (1.60,Binary-Binary) (0.98,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.77,Ternary-Ternary) (2.74,Binary-Binary) (1.05,No-Caching) (0.29,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.96,I4-I4) (2.33,Ternary-Ternary) (1.76,Binary-Binary) (0.99,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.03,I4-I4) (2.77,Ternary-Ternary) (2.62,Binary-Binary) (0.99,No-Caching) (0.28,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (2.34,Ternary-Ternary) (1.72,Binary-Binary) (0.96,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.89,I4-I4) (2.91,Ternary-Ternary) (2.69,Binary-Binary) (1.00,No-Caching) (0.28,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (2.35,Ternary-Ternary) (1.74,Binary-Binary) (0.99,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.04,I4-I4) (2.95,Ternary-Ternary) (2.76,Binary-Binary) (1.00,No-Caching) (0.29,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.94,I4-I4) (2.41,Ternary-Ternary) (1.76,Binary-Binary) (1.00,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (3.21,Ternary-Ternary) (2.98,Binary-Binary) (1.00,No-Caching) (0.29,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.38,Ternary-Ternary) (1.79,Binary-Binary) (0.99,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (3.27,Ternary-Ternary) (3.00,Binary-Binary) (0.99,No-Caching) (0.29,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.94,I4-I4) (2.40,Ternary-Ternary) (1.72,Binary-Binary) (0.97,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.91,I4-I4) (3.52,Ternary-Ternary) (3.07,Binary-Binary) (1.00,No-Caching) (0.30,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.46,Ternary-Ternary) (1.80,Binary-Binary) (1.03,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.08,I4-I4) (3.66,Ternary-Ternary) (3.18,Binary-Binary) (1.00,No-Caching) (0.30,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.01,I4-I4) (2.46,Ternary-Ternary) (1.75,Binary-Binary) (0.99,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.81,I4-I4) (2.82,Ternary-Ternary) (3.28,Binary-Binary) (0.99,No-Caching) (0.30,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.91,I4-I4) (2.33,Ternary-Ternary) (1.76,Binary-Binary) (0.98,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (2.87,Ternary-Ternary) (3.40,Binary-Binary) (1.00,No-Caching) (0.31,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.21,Ternary-Ternary) (1.73,Binary-Binary) (1.02,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.95,I4-I4) (3.06,Ternary-Ternary) (3.37,Binary-Binary) (1.01,No-Caching) (0.31,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (2.39,Ternary-Ternary) (1.75,Binary-Binary) (0.99,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.08,I4-I4) (3.13,Ternary-Ternary) (3.58,Binary-Binary) (1.01,No-Caching) (0.31,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.01,I4-I4) (2.44,Ternary-Ternary) (1.78,Binary-Binary) (1.01,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (3.23,Ternary-Ternary) (3.70,Binary-Binary) (1.01,No-Caching) (0.31,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.98,I4-I4) (2.39,Ternary-Ternary) (1.72,Binary-Binary) (1.02,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.04,I4-I4) (3.32,Ternary-Ternary) (3.77,Binary-Binary) (1.00,No-Caching) (0.31,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.96,I4-I4) (2.38,Ternary-Ternary) (1.77,Binary-Binary) (1.00,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.90,I4-I4) (3.52,Ternary-Ternary) (3.89,Binary-Binary) (1.01,No-Caching) (0.31,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.94,I4-I4) (2.36,Ternary-Ternary) (1.75,Binary-Binary) (1.02,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (3.59,Ternary-Ternary) (3.84,Binary-Binary) (1.00,No-Caching) (0.31,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.94,I4-I4) (2.43,Ternary-Ternary) (1.72,Binary-Binary) (1.01,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.90,I4-I4) (2.88,Ternary-Ternary) (4.16,Binary-Binary) (1.00,No-Caching) (0.31,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.97,I4-I4) (2.34,Ternary-Ternary) (1.77,Binary-Binary) (1.02,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (2.99,Ternary-Ternary) (4.25,Binary-Binary) (1.01,No-Caching) (0.31,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (2.35,Ternary-Ternary) (1.73,Binary-Binary) (0.99,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (3.09,Ternary-Ternary) (4.30,Binary-Binary) (1.00,No-Caching) (0.31,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (2.31,Ternary-Ternary) (1.74,Binary-Binary) (1.00,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (3.14,Ternary-Ternary) (4.44,Binary-Binary) (1.00,No-Caching) (0.32,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (2.36,Ternary-Ternary) (1.73,Binary-Binary) (1.01,No-Caching) (0.22,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (3.28,Ternary-Ternary) (4.64,Binary-Binary) (1.01,No-Caching) (0.32,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (2.33,Ternary-Ternary) (1.77,Binary-Binary) (1.02,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.07,I4-I4) (3.35,Ternary-Ternary) (4.73,Binary-Binary) (1.01,No-Caching) (0.32,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (2.37,Ternary-Ternary) (1.76,Binary-Binary) (1.02,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (3.52,Ternary-Ternary) (4.81,Binary-Binary) (1.00,No-Caching) (0.32,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (1.92,I4-I4) (2.38,Ternary-Ternary) (1.77,Binary-Binary) (1.04,No-Caching) (0.23,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.07,I4-I4) (3.59,Ternary-Ternary) (5.44,Binary-Binary) (1.00,No-Caching) (0.30,GEMMLOWP) (0.06,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.21,I4-I4) (2.96,Ternary-Ternary) (4.60,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.93,I4-I4) (2.36,Ternary-Ternary) (1.83,Binary-Binary) (0.97,No-Caching) (0.19,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.98,I4-I4) (3.08,Ternary-Ternary) (5.25,Binary-Binary) (1.00,No-Caching) (0.24,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.07,I4-I4) (2.40,Ternary-Ternary) (1.93,Binary-Binary) (1.06,No-Caching) (0.20,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.13,I4-I4) (3.19,Ternary-Ternary) (5.38,Binary-Binary) (1.00,No-Caching) (0.24,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.04,I4-I4) (2.43,Ternary-Ternary) (1.87,Binary-Binary) (1.00,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (3.47,Ternary-Ternary) (5.44,Binary-Binary) (1.00,No-Caching) (0.24,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.43,Ternary-Ternary) (1.94,Binary-Binary) (1.01,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.20,I4-I4) (3.60,Ternary-Ternary) (5.60,Binary-Binary) (1.01,No-Caching) (0.25,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.13,I4-I4) (2.55,Ternary-Ternary) (1.92,Binary-Binary) (1.02,No-Caching) (0.20,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.01,I4-I4) (2.75,Ternary-Ternary) (2.71,Binary-Binary) (1.00,No-Caching) (0.25,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.13,I4-I4) (2.57,Ternary-Ternary) (1.91,Binary-Binary) (1.04,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.15,I4-I4) (2.84,Ternary-Ternary) (2.83,Binary-Binary) (1.00,No-Caching) (0.25,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.36,Ternary-Ternary) (1.86,Binary-Binary) (1.00,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.04,I4-I4) (2.97,Ternary-Ternary) (2.83,Binary-Binary) (0.99,No-Caching) (0.25,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.03,I4-I4) (2.42,Ternary-Ternary) (1.93,Binary-Binary) (1.00,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.20,I4-I4) (3.08,Ternary-Ternary) (2.99,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.13,I4-I4) (2.40,Ternary-Ternary) (1.91,Binary-Binary) (0.97,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.04,I4-I4) (3.25,Ternary-Ternary) (3.05,Binary-Binary) (0.97,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.07,I4-I4) (2.49,Ternary-Ternary) (1.92,Binary-Binary) (1.00,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.25,I4-I4) (3.38,Ternary-Ternary) (3.27,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.03,I4-I4) (2.51,Ternary-Ternary) (1.96,Binary-Binary) (0.98,No-Caching) (0.20,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (3.54,Ternary-Ternary) (3.26,Binary-Binary) (1.02,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (2.39,Ternary-Ternary) (1.91,Binary-Binary) (1.00,No-Caching) (0.20,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.22,I4-I4) (3.77,Ternary-Ternary) (3.40,Binary-Binary) (1.03,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.12,I4-I4) (2.49,Ternary-Ternary) (1.95,Binary-Binary) (1.02,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.07,I4-I4) (2.95,Ternary-Ternary) (3.57,Binary-Binary) (1.02,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.02,I4-I4) (2.47,Ternary-Ternary) (1.94,Binary-Binary) (1.02,No-Caching) (0.20,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.19,I4-I4) (2.98,Ternary-Ternary) (3.58,Binary-Binary) (1.01,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (2.41,Ternary-Ternary) (1.89,Binary-Binary) (1.02,No-Caching) (0.20,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.99,I4-I4) (3.09,Ternary-Ternary) (3.57,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (1.98,I4-I4) (2.39,Ternary-Ternary) (1.79,Binary-Binary) (0.96,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.16,I4-I4) (3.10,Ternary-Ternary) (3.57,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.10,I4-I4) (2.50,Ternary-Ternary) (1.83,Binary-Binary) (1.01,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (3.33,Ternary-Ternary) (3.89,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (2.56,Ternary-Ternary) (1.90,Binary-Binary) (0.98,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.21,I4-I4) (3.32,Ternary-Ternary) (3.96,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (2.49,Ternary-Ternary) (1.97,Binary-Binary) (1.00,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.02,I4-I4) (3.56,Ternary-Ternary) (3.92,Binary-Binary) (0.98,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.15,I4-I4) (2.48,Ternary-Ternary) (1.93,Binary-Binary) (1.01,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.21,I4-I4) (3.68,Ternary-Ternary) (4.09,Binary-Binary) (0.99,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.10,I4-I4) (2.36,Ternary-Ternary) (1.91,Binary-Binary) (0.96,No-Caching) (0.20,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.07,I4-I4) (2.93,Ternary-Ternary) (4.10,Binary-Binary) (1.00,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.12,I4-I4) (2.55,Ternary-Ternary) (1.88,Binary-Binary) (1.01,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.19,I4-I4) (3.04,Ternary-Ternary) (4.30,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (2.25,Ternary-Ternary) (1.81,Binary-Binary) (0.97,No-Caching) (0.20,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.08,I4-I4) (3.19,Ternary-Ternary) (4.45,Binary-Binary) (1.02,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.09,I4-I4) (2.34,Ternary-Ternary) (1.86,Binary-Binary) (0.97,No-Caching) (0.20,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.13,I4-I4) (3.11,Ternary-Ternary) (4.30,Binary-Binary) (0.99,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (2.26,Ternary-Ternary) (1.88,Binary-Binary) (1.01,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.08,I4-I4) (3.30,Ternary-Ternary) (4.60,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.06,I4-I4) (2.46,Ternary-Ternary) (1.91,Binary-Binary) (0.97,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.23,I4-I4) (3.53,Ternary-Ternary) (4.87,Binary-Binary) (1.02,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.12,I4-I4) (2.60,Ternary-Ternary) (1.98,Binary-Binary) (1.01,No-Caching) (0.22,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.09,I4-I4) (3.69,Ternary-Ternary) (4.78,Binary-Binary) (1.01,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.10,I4-I4) (2.50,Ternary-Ternary) (1.90,Binary-Binary) (0.98,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.13,I4-I4) (3.63,Ternary-Ternary) (4.88,Binary-Binary) (0.97,No-Caching) (0.26,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.06,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.10,I4-I4) (2.46,Ternary-Ternary) (1.99,Binary-Binary) (0.98,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.09,I4-I4) (3.10,Ternary-Ternary) (5.22,Binary-Binary) (1.00,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.07,ULPPACK-W3A3) };
+                \addplot coordinates { (2.13,I4-I4) (2.51,Ternary-Ternary) (1.90,Binary-Binary) (1.00,No-Caching) (0.21,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.18,I4-I4) (3.16,Ternary-Ternary) (5.00,Binary-Binary) (0.97,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.27,I4-I4) (2.60,Ternary-Ternary) (2.04,Binary-Binary) (1.01,No-Caching) (0.22,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.05,I4-I4) (3.16,Ternary-Ternary) (5.30,Binary-Binary) (0.98,No-Caching) (0.27,GEMMLOWP) (0.07,ULPPACK-W1A1) (0.07,ULPPACK-W2A2) (0.06,ULPPACK-W3A3) };
+                \addplot coordinates { (2.18,I4-I4) (2.65,Ternary-Ternary) (1.99,Binary-Binary) (1.02,No-Caching) (0.22,GEMMLOWP) (0.08,ULPPACK-W1A1) (0.08,ULPPACK-W2A2) (0.08,ULPPACK-W3A3) };
+                \addplot coordinates { (2.00,I4-I4) (2.08,Ternary-Ternary) (1.63,Binary-Binary) (1.05,No-Caching) (0.01,GEMMLOWP) (0.03,ULPPACK-W1A1) (0.03,ULPPACK-W2A2) (0.03,ULPPACK-W3A3) };
+                \legend{
+                    CONV-1,
+                    CONV-2,
+                    CONV-3,
+                    CONV-4,
+                    CONV-5,
+                    CONV-6,
+                    CONV-7,
+                    CONV-8,
+                    CONV-9,
+                    CONV-10,
+                    CONV-11,
+                    CONV-12,
+                    CONV-13,
+                    CONV-14,
+                    CONV-15,
+                    CONV-16,
+                    CONV-17,
+                    CONV-18,
+                    CONV-19,
+                    CONV-20,
+                    CONV-21,
+                    CONV-22,
+                    CONV-23,
+                    CONV-24,
+                    CONV-25,
+                    CONV-26,
+                    CONV-27,
+                    CONV-28,
+                    CONV-29,
+                    CONV-30,
+                    CONV-31,
+                    CONV-32,
+                    CONV-33,
+                    CONV-34,
+                    CONV-35,
+                    CONV-36,
+                    CONV-37,
+                    CONV-38,
+                    CONV-39,
+                    CONV-40,
+                    CONV-41,
+                    CONV-42,
+                    CONV-43,
+                    CONV-44,
+                    CONV-45,
+                    CONV-46,
+                    CONV-47,
+                    CONV-48,
+                    CONV-49,
+                    CONV-50,
+                    CONV-51,
+                    CONV-52,
+                    CONV-53,
+                    CONV-54,
+                    CONV-55,
+                    CONV-56,
+                    CONV-57,
+                    CONV-58,
+                    CONV-59,
+                    CONV-60,
+                    CONV-61,
+                    CONV-62,
+                    CONV-63,
+                    CONV-64,
+                    CONV-65,
+                    CONV-66,
+                    CONV-67,
+                    CONV-68,
+                    CONV-69,
+                    CONV-70,
+                    CONV-71,
+                    CONV-72,
+                    CONV-73,
+                    CONV-74,
+                    CONV-75,
+                    CONV-76,
+                    CONV-77,
+                    CONV-78,
+                    CONV-79,
+                    CONV-80,
+                    CONV-81,
+                    CONV-82,
+                    CONV-83,
+                    CONV-84,
+                    CONV-85,
+                    CONV-86,
+                    CONV-87,
+                    CONV-88,
+                    CONV-89,
+                    CONV-90,
+                    CONV-91,
+                    CONV-92,
+                    CONV-93,
+                    CONV-94,
+                    CONV-95,
+                    CONV-96,
+                    CONV-97,
+                    CONV-98,
+                    CONV-99,
+                    CONV-100,
+                    CONV-101,
+                    CONV-102,
+                    CONV-103,
+                    CONV-104,
+                    CONV-105,
+                    CONV-106,
+                    CONV-107,
+                    CONV-108,
+                    CONV-109,
+                    CONV-110,
+                    CONV-111,
+                    CONV-112,
+                    CONV-113,
+                    CONV-114,
+                    CONV-115,
+                    CONV-116,
+                    CONV-117,
+                    CONV-118,
+                    CONV-119,
+                    CONV-120,
+                    CONV-121,
+                    CONV-122,
+                    CONV-123,
+                    CONV-124,
+                    CONV-125,
+                    CONV-126,
+                    CONV-127,
+                    CONV-128,
+                    CONV-129,
+                    CONV-130,
+                    CONV-131,
+                    CONV-132,
+                    CONV-133,
+                    CONV-134,
+                    CONV-135,
+                    CONV-136,
+                    CONV-137,
+                    CONV-138,
+                    CONV-139,
+                    CONV-140,
+                    CONV-141,
+                    CONV-142,
+                    CONV-143,
+                    CONV-144,
+                    CONV-145,
+                    CONV-146,
+                    CONV-147,
+                    CONV-148,
+                    CONV-149,
+                    CONV-150,
+                    CONV-151,
+                    CONV-152,
+                    CONV-153,
+                    CONV-154,
+                    CONV-155,
+                    CONV-156,
+                    CONV-157,
+                    CONV-158,
+                    CONV-159,
+                    CONV-160,
+                    CONV-161,
+                    CONV-162,
+                    CONV-163,
+                    CONV-164,
+                    CONV-165,
+                    CONV-166,
+                    CONV-167,
+                    CONV-168,
+                    CONV-169,
+                    CONV-170,
+                    CONV-171,
+                    CONV-172,
+                    CONV-173,
+                    CONV-174,
+                    CONV-175,
+                    CONV-176,
+                    CONV-177,
+                    CONV-178,
+                    CONV-179,
+                    CONV-180,
+                    CONV-181,
+                    CONV-182,
+                    CONV-183,
+                    CONV-184,
+                    CONV-185,
+                    CONV-186,
+                    CONV-187,
+                    CONV-188,
+                    CONV-189,
+                    CONV-190,
+                    CONV-191,
+                    CONV-192,
+                    CONV-193,
+                    CONV-194,
+                    CONV-195,
+                    CONV-196,
+                    CONV-197,
+                    CONV-198,
+                    CONV-199,
+                    CONV-200,
+                    FC-1,
+                };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure*}
+\end{document}

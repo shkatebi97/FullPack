@@ -1,0 +1,99 @@
+I8-I8:
+    Overall: '40.60'
+    Conv:
+        Overall: '27.14'
+        GEMM: 
+            Overall: '25.93'
+            Kernel:  '23.57'
+            Packing: '2.10'
+        Others (Im2Col):
+            Overall: '1.17
+'
+No-Caching:
+    Overall: '40.38'
+    Conv:
+        Overall: '26.98'
+        GEMM: 
+            Overall: '25.79'
+            Kernel:  '23.51'
+            Packing: '2.02'
+        Others (Im2Col):
+            Overall: '1.14
+'
+GEMMLOWP:
+    Overall: '127.56'
+    Conv:
+        Overall: '112.43'
+        GEMM: 
+            Overall: '111.29'
+            Kernel:  '111.29'
+            Packing: '111.29'
+        Others (Im2Col):
+            Overall: '1.09
+'
+ULPPACK-W1A1:
+    Overall: '298.89'
+    Conv:
+        Overall: '288.71'
+        GEMM: 
+            Overall: '288.62'
+            Kernel:  '277.70'
+            Packing: '10.89'
+        Others (Im2Col):
+            Overall: '0.81
+'
+ULPPACK-W2A2:
+    Overall: '299.93'
+    Conv:
+        Overall: '289.72'
+        GEMM: 
+            Overall: '289.63'
+            Kernel:  '278.73'
+            Packing: '10.90'
+        Others (Im2Col):
+            Overall: '0.78
+'
+ULPPACK-W3A3:
+    Overall: '290.99'
+    Conv:
+        Overall: '281.20'
+        GEMM: 
+            Overall: '281.09'
+            Kernel:  '270.63'
+            Packing: '10.46'
+        Others (Im2Col):
+            Overall: '0.76
+'
+I4-I4:
+    Overall: '28.51'
+    Conv:
+        Overall: '14.93'
+        GEMM: 
+            Overall: '13.83'
+            Kernel:  '12.33'
+            Packing: '1.49'
+        Others (Im2Col):
+            Overall: '1.06
+'
+Ternary-Ternary:
+    Overall: '25.44'
+    Conv:
+        Overall: '12.02'
+        GEMM: 
+            Overall: '10.91'
+            Kernel:  '8.34'
+            Packing: '2.56'
+        Others (Im2Col):
+            Overall: '1.06
+'
+Binary-Binary:
+    Overall: '27.44'
+    Conv:
+        Overall: '13.67'
+        GEMM: 
+            Overall: '12.54'
+            Kernel:  '7.73'
+            Packing: '4.80'
+        Others (Im2Col):
+            Overall: '1.09
+'

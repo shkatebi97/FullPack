@@ -1,0 +1,66 @@
+I8-I8:
+    Overall: '323.63'
+    Conv:
+        Overall: '33.11'
+        GEMM: 
+            Overall: '33.01'
+            Kernel:  '31.23'
+            Packing: '1.49'
+        Others (Im2Col):
+            Overall: '0.06
+'
+No-Caching:
+    Overall: '324.66'
+    Conv:
+        Overall: '33.25'
+        GEMM: 
+            Overall: '33.15'
+            Kernel:  '31.36'
+            Packing: '1.50'
+        Others (Im2Col):
+            Overall: '0.07
+'
+GEMMLOWP:
+    Overall: '400.69'
+    Conv:
+        Overall: '146.02'
+        GEMM: 
+            Overall: '145.94'
+            Kernel:  '145.94'
+            Packing: '145.94'
+        Others (Im2Col):
+            Overall: '0.04
+'
+I4-I4:
+    Overall: '309.42'
+    Conv:
+        Overall: '18.25'
+        GEMM: 
+            Overall: '17.26'
+            Kernel:  '16.61'
+            Packing: '0.65'
+        Others (Im2Col):
+            Overall: '0.06
+'
+Ternary-Ternary:
+    Overall: '361.57'
+    Conv:
+        Overall: '15.57'
+        GEMM: 
+            Overall: '14.37'
+            Kernel:  '13.14'
+            Packing: '1.23'
+        Others (Im2Col):
+            Overall: '0.07
+'
+Binary-Binary:
+    Overall: '306.45'
+    Conv:
+        Overall: '15.53'
+        GEMM: 
+            Overall: '14.52'
+            Kernel:  '11.51'
+            Packing: '2.98'
+        Others (Im2Col):
+            Overall: '0.06
+'

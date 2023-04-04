@@ -1,0 +1,96 @@
+W8AF32:
+    Conv:
+        Others:
+            - 0.7860 * 146.28 = 114.98
+        GEMM:
+            - 16.78
+            Kernel:
+                - 0.1054 * 146.28 = 15.42
+            Packing:
+                - 0.0081 * 146.28 = 1.19
+
+W4AF32:
+    Conv:
+        Others:
+            - 0.8235 * 140.47 = 115.68
+        GEMM:
+            - 10.46
+            Kernel:
+                - 0.0594 * 140.47 = 8.34
+            Packing (And Quantization):
+                - 0.0151 * 140.47 = 2.12
+
+W8A8:
+    Conv:
+        Others (Im2Col):
+            - 0.0113 * 34.78 = 0.39
+        GEMM:
+            - 17.18
+            Kernel:
+                - 0.4521 * 34.78 = 15.72
+            Packing:
+                - 0.0305 * 34.78 = 1.06
+
+W4A4:
+    Conv:
+        Others (Im2Col):
+            - 0.0115 * 33.72 = 0.39
+        GEMM:
+            - 16.23
+            Kernel:
+                - 0.2411 * 33.72 = 8.13
+            Packing (And Quantization):
+                - 0.0615 * 33.72 = 2.07
+            Downcast:
+                - 0.1787 * 33.72 = 6.02
+
+W4A4-FusedDownCasting:
+    Conv:
+        Others (Im2Col):
+            - 0.0141 * 27.84 = 0.39
+        GEMM:
+            - 10.24
+            Kernel:
+                - 0.2935 * 27.84 = 8.17
+            Packing (And Quantization):
+                - 0.0743 * 27.84 = 2.07
+
+W4A4-FusedDownCasting-OptimizedPacking:
+    Conv:
+        Others (Im2Col):
+            - 0.0145 * 25.77 = 0.37
+        GEMM:
+            - 8.65
+            Kernel:
+                - 0.3204 * 25.77 = 8.23
+            Packing (And Quantization):
+                - 0.0149 * 25.77 = 0.38
+
+Speedups:
+    Conv:
+        W8A8 / W4A4:
+            Overall: 1.06
+            GEMM:
+                Overall: 1.06
+                Kernel:
+                    - 1.93
+                Kernel with Downcast:
+                    - 1.11
+        W8A8 / W4A4-FusedDownCasting:
+            Overall: 1.65
+            GEMM:
+                Overall: 1.68
+                Kernel:
+                    - 1.92
+        W8A8 / W4A4-FusedDownCasting-OptimizedPacking:
+            Overall: 1.95
+            GEMM:
+                Overall: 1.99
+                Kernel:
+                    - 1.91
+        W8AFP32 / W4AFP32:
+            Overall: 1.05
+            GEMM:
+                Overall: 1.61
+                Kernel:
+                    - 1.85

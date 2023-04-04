@@ -1,0 +1,54 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [10]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/NASNetLarge.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/NASNetLarge.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (96, 27, ), Input shape (109561, 3, ), and Output shape (27225, 96, ), and the ID is 0
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (27232, 32)
+NOT Applying Conv Low-Precision for Kernel shape (42, 96, ), Input shape (27225, 96, ), and Output shape (27225, 42, ), and the ID is 1
+	Changing Input Shape
+NOT Applying Conv Low-Precision for Kernel shape (42, 42, ), Input shape (6889, 42, ), and Output shape 	Changing Input Shape
+(6889, 42, ), and the ID is 2
+NOT Applying Conv Low-Precision for Kernel shape (42, 42, ), Input shape (6889, 42, ), and Output shape (6889, 42, ), and the ID is 	Changing Input Shape
+3
+NOT Applying Conv Low-Precision for Kernel shape 	Changing Input Shape
+(42, 96, ), Input shape (6889, 96, ), and Output shape (6889, 42, ), and the ID is 4
+NOT Applying Conv Low-Precision for Kernel shape (42, 42, ), Input shape (6889, 42, ), and Output shape 	Changing Input Shape
+(6889, 42, ), and the ID is 5
+NOT Applying Conv Low-Precision for Kernel shape (42, 42, ), Input shape (6889, 42, ), and Output shape (6889, 42, ), and the ID is 6	Changing Input Shape
+
+NOT Applying Conv Low-Precision for Kernel shape (42, 42, ), Input shape (6889, 42, ), and Output shape (6889, 42, ), and the ID is 7
+	Changing Input Shape
+NOT Applying Conv Low-Precision for Kernel shape (42, 96, ), Input shape (6889, 96, ), and Output shape (6889, 42, )	Changing Input Shape
+, and the ID is 8
+NOT Applying Conv Low-Precision for Kernel shape (42, 42, ), Input shape (6889, 42, ), and Output shape (6889, 42, ), and the ID is 9
+	Changing Input Shape
+NOT Applying Conv Low-Precision for Kernel shape (42, 96, ), Input shape (6889, 96, ), and Output shape (6889, 42, ), and the ID is 10
+	Changing Input Shape
+NOT Applying Conv Low-Precision for Kernel shape (42, 42, ), Input shape (6889, 42, ), and Output shape (6889, 42, ), and the ID is 	Changing Input Shape
+11
+Applying Conv Low-Precision for Kernel shape (84, 168, ), Input shape (6889, 168, ), and Output shape (6889, 84, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (84, 176)
+, and the ID is 12
+ret didn't equal LowPrecision::Status::Success
+[ perf record: Woken up 1 times to write data ]
+[ perf record: Captured and wrote 0.077 MB /tmp/data.record (480 samples) ]
+
+1.904
+

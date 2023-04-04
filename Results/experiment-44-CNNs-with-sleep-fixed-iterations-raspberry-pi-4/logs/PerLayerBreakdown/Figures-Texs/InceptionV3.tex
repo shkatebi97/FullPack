@@ -1,0 +1,226 @@
+
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\pgfplotsset{compat=1.8}
+\begin{document}
+    \begin{figure*}[t]
+        \begin{tikzpicture}
+            \begin{axis}[
+                xbar=0pt,
+                xmin=0.6,
+                xmax=3,
+                width=0.995\linewidth,
+                height=2*\axisdefaultheight,
+                tick label style={font=\footnotesize},
+                legend style={font=\tiny},
+                label style={font=\footnotesize},
+                symbolic y coords={I4-I4, Ternary-Ternary, Binary-Binary},
+                ytick=data,
+                xtick={0.60,0.80,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0},
+                align={center},
+                bar width=0.316ex,
+                legend columns=7,
+                legend style={at={(0.49,-0.2)},anchor=north,font=\footnotesize},
+                title=\textbf{InceptionV3},
+                xmajorgrids,
+                yminorgrids = true,
+                minor tick num=1
+                ]
+                \addplot coordinates { (0.99,I4-I4) (0.99,Ternary-Ternary) (0.98,Binary-Binary) };
+                \addplot coordinates { (1.00,I4-I4) (0.98,Ternary-Ternary) (0.95,Binary-Binary) };
+                \addplot coordinates { (1.02,I4-I4) (1.01,Ternary-Ternary) (1.00,Binary-Binary) };
+                \addplot coordinates { (1.02,I4-I4) (0.98,Ternary-Ternary) (0.93,Binary-Binary) };
+                \addplot coordinates { (1.07,I4-I4) (1.15,Ternary-Ternary) (1.18,Binary-Binary) };
+                \addplot coordinates { (1.01,I4-I4) (1.02,Ternary-Ternary) (0.92,Binary-Binary) };
+                \addplot coordinates { (1.02,I4-I4) (1.03,Ternary-Ternary) (0.96,Binary-Binary) };
+                \addplot coordinates { (1.01,I4-I4) (1.02,Ternary-Ternary) (0.94,Binary-Binary) };
+                \addplot coordinates { (1.06,I4-I4) (1.18,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.02,I4-I4) (1.01,Ternary-Ternary) (0.95,Binary-Binary) };
+                \addplot coordinates { (1.06,I4-I4) (1.08,Ternary-Ternary) (1.11,Binary-Binary) };
+                \addplot coordinates { (1.05,I4-I4) (1.14,Ternary-Ternary) (1.20,Binary-Binary) };
+                \addplot coordinates { (1.01,I4-I4) (1.04,Ternary-Ternary) (0.97,Binary-Binary) };
+                \addplot coordinates { (1.02,I4-I4) (1.05,Ternary-Ternary) (0.97,Binary-Binary) };
+                \addplot coordinates { (1.01,I4-I4) (1.05,Ternary-Ternary) (0.97,Binary-Binary) };
+                \addplot coordinates { (1.06,I4-I4) (1.18,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.02,I4-I4) (1.05,Ternary-Ternary) (0.98,Binary-Binary) };
+                \addplot coordinates { (1.06,I4-I4) (1.08,Ternary-Ternary) (1.11,Binary-Binary) };
+                \addplot coordinates { (1.05,I4-I4) (1.13,Ternary-Ternary) (1.21,Binary-Binary) };
+                \addplot coordinates { (1.00,I4-I4) (1.01,Ternary-Ternary) (0.98,Binary-Binary) };
+                \addplot coordinates { (1.01,I4-I4) (1.04,Ternary-Ternary) (0.99,Binary-Binary) };
+                \addplot coordinates { (1.00,I4-I4) (1.03,Ternary-Ternary) (0.97,Binary-Binary) };
+                \addplot coordinates { (1.05,I4-I4) (1.20,Ternary-Ternary) (1.16,Binary-Binary) };
+                \addplot coordinates { (1.00,I4-I4) (1.03,Ternary-Ternary) (0.99,Binary-Binary) };
+                \addplot coordinates { (1.06,I4-I4) (1.09,Ternary-Ternary) (1.10,Binary-Binary) };
+                \addplot coordinates { (1.04,I4-I4) (1.14,Ternary-Ternary) (1.19,Binary-Binary) };
+                \addplot coordinates { (1.24,I4-I4) (1.46,Ternary-Ternary) (1.62,Binary-Binary) };
+                \addplot coordinates { (1.00,I4-I4) (1.01,Ternary-Ternary) (0.97,Binary-Binary) };
+                \addplot coordinates { (1.04,I4-I4) (1.08,Ternary-Ternary) (1.11,Binary-Binary) };
+                \addplot coordinates { (1.05,I4-I4) (1.14,Ternary-Ternary) (1.19,Binary-Binary) };
+                \addplot coordinates { (1.10,I4-I4) (1.18,Ternary-Ternary) (1.19,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.16,Ternary-Ternary) (1.18,Binary-Binary) };
+                \addplot coordinates { (1.07,I4-I4) (1.16,Ternary-Ternary) (1.18,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.19,Ternary-Ternary) (1.26,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.17,Ternary-Ternary) (1.23,Binary-Binary) };
+                \addplot coordinates { (1.07,I4-I4) (1.16,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.08,I4-I4) (1.17,Ternary-Ternary) (1.23,Binary-Binary) };
+                \addplot coordinates { (1.10,I4-I4) (1.17,Ternary-Ternary) (1.24,Binary-Binary) };
+                \addplot coordinates { (1.08,I4-I4) (1.17,Ternary-Ternary) (1.23,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.18,Ternary-Ternary) (1.24,Binary-Binary) };
+                \addplot coordinates { (1.08,I4-I4) (1.17,Ternary-Ternary) (1.19,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.18,Ternary-Ternary) (1.19,Binary-Binary) };
+                \addplot coordinates { (1.07,I4-I4) (1.19,Ternary-Ternary) (1.18,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.21,Ternary-Ternary) (1.20,Binary-Binary) };
+                \addplot coordinates { (1.10,I4-I4) (1.23,Ternary-Ternary) (1.21,Binary-Binary) };
+                \addplot coordinates { (1.08,I4-I4) (1.18,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.21,Ternary-Ternary) (1.21,Binary-Binary) };
+                \addplot coordinates { (1.12,I4-I4) (1.23,Ternary-Ternary) (1.22,Binary-Binary) };
+                \addplot coordinates { (1.13,I4-I4) (1.27,Ternary-Ternary) (1.24,Binary-Binary) };
+                \addplot coordinates { (1.12,I4-I4) (1.22,Ternary-Ternary) (1.21,Binary-Binary) };
+                \addplot coordinates { (1.06,I4-I4) (1.21,Ternary-Ternary) (1.18,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.17,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.18,Ternary-Ternary) (1.18,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.20,Ternary-Ternary) (1.19,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.21,Ternary-Ternary) (1.20,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.20,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.21,Ternary-Ternary) (1.21,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.21,Ternary-Ternary) (1.21,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.21,Ternary-Ternary) (1.20,Binary-Binary) };
+                \addplot coordinates { (1.11,I4-I4) (1.21,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.19,Ternary-Ternary) (1.19,Binary-Binary) };
+                \addplot coordinates { (1.06,I4-I4) (1.18,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.07,I4-I4) (1.19,Ternary-Ternary) (1.20,Binary-Binary) };
+                \addplot coordinates { (1.13,I4-I4) (1.24,Ternary-Ternary) (1.28,Binary-Binary) };
+                \addplot coordinates { (1.13,I4-I4) (1.24,Ternary-Ternary) (1.29,Binary-Binary) };
+                \addplot coordinates { (1.09,I4-I4) (1.16,Ternary-Ternary) (1.19,Binary-Binary) };
+                \addplot coordinates { (1.14,I4-I4) (1.24,Ternary-Ternary) (1.28,Binary-Binary) };
+                \addplot coordinates { (1.13,I4-I4) (1.23,Ternary-Ternary) (1.28,Binary-Binary) };
+                \addplot coordinates { (1.16,I4-I4) (1.26,Ternary-Ternary) (1.30,Binary-Binary) };
+                \addplot coordinates { (1.14,I4-I4) (1.24,Ternary-Ternary) (1.28,Binary-Binary) };
+                \addplot coordinates { (1.08,I4-I4) (1.19,Ternary-Ternary) (1.20,Binary-Binary) };
+                \addplot coordinates { (1.24,I4-I4) (1.38,Ternary-Ternary) (1.48,Binary-Binary) };
+                \addplot coordinates { (1.07,I4-I4) (1.16,Ternary-Ternary) (1.17,Binary-Binary) };
+                \addplot coordinates { (1.14,I4-I4) (1.24,Ternary-Ternary) (1.29,Binary-Binary) };
+                \addplot coordinates { (1.13,I4-I4) (1.24,Ternary-Ternary) (1.28,Binary-Binary) };
+                \addplot coordinates { (1.20,I4-I4) (1.34,Ternary-Ternary) (1.44,Binary-Binary) };
+                \addplot coordinates { (1.18,I4-I4) (1.34,Ternary-Ternary) (1.32,Binary-Binary) };
+                \addplot coordinates { (1.19,I4-I4) (1.34,Ternary-Ternary) (1.33,Binary-Binary) };
+                \addplot coordinates { (1.21,I4-I4) (1.37,Ternary-Ternary) (1.37,Binary-Binary) };
+                \addplot coordinates { (1.17,I4-I4) (1.27,Ternary-Ternary) (1.30,Binary-Binary) };
+                \addplot coordinates { (1.18,I4-I4) (1.27,Ternary-Ternary) (1.30,Binary-Binary) };
+                \addplot coordinates { (1.16,I4-I4) (1.32,Ternary-Ternary) (1.32,Binary-Binary) };
+                \addplot coordinates { (1.41,I4-I4) (1.75,Ternary-Ternary) (2.03,Binary-Binary) };
+                \addplot coordinates { (1.16,I4-I4) (1.27,Ternary-Ternary) (1.29,Binary-Binary) };
+                \addplot coordinates { (1.17,I4-I4) (1.27,Ternary-Ternary) (1.30,Binary-Binary) };
+                \addplot coordinates { (1.24,I4-I4) (1.44,Ternary-Ternary) (1.57,Binary-Binary) };
+                \addplot coordinates { (1.22,I4-I4) (1.41,Ternary-Ternary) (1.51,Binary-Binary) };
+                \addplot coordinates { (1.24,I4-I4) (1.43,Ternary-Ternary) (1.54,Binary-Binary) };
+                \addplot coordinates { (1.18,I4-I4) (1.27,Ternary-Ternary) (1.29,Binary-Binary) };
+                \addplot coordinates { (1.19,I4-I4) (1.25,Ternary-Ternary) (1.30,Binary-Binary) };
+                \addplot coordinates { (1.23,I4-I4) (1.41,Ternary-Ternary) (1.58,Binary-Binary) };
+                \addplot coordinates { (1.39,I4-I4) (1.74,Ternary-Ternary) (2.05,Binary-Binary) };
+                \addplot coordinates { (1.18,I4-I4) (1.27,Ternary-Ternary) (1.30,Binary-Binary) };
+                \addplot coordinates { (1.20,I4-I4) (1.30,Ternary-Ternary) (1.32,Binary-Binary) };
+                \addplot coordinates { (1.78,I4-I4) (1.84,Ternary-Ternary) (1.48,Binary-Binary) };
+                \legend{
+                    CONV-1,
+                    CONV-2,
+                    CONV-3,
+                    CONV-4,
+                    CONV-5,
+                    CONV-6,
+                    CONV-7,
+                    CONV-8,
+                    CONV-9,
+                    CONV-10,
+                    CONV-11,
+                    CONV-12,
+                    CONV-13,
+                    CONV-14,
+                    CONV-15,
+                    CONV-16,
+                    CONV-17,
+                    CONV-18,
+                    CONV-19,
+                    CONV-20,
+                    CONV-21,
+                    CONV-22,
+                    CONV-23,
+                    CONV-24,
+                    CONV-25,
+                    CONV-26,
+                    CONV-27,
+                    CONV-28,
+                    CONV-29,
+                    CONV-30,
+                    CONV-31,
+                    CONV-32,
+                    CONV-33,
+                    CONV-34,
+                    CONV-35,
+                    CONV-36,
+                    CONV-37,
+                    CONV-38,
+                    CONV-39,
+                    CONV-40,
+                    CONV-41,
+                    CONV-42,
+                    CONV-43,
+                    CONV-44,
+                    CONV-45,
+                    CONV-46,
+                    CONV-47,
+                    CONV-48,
+                    CONV-49,
+                    CONV-50,
+                    CONV-51,
+                    CONV-52,
+                    CONV-53,
+                    CONV-54,
+                    CONV-55,
+                    CONV-56,
+                    CONV-57,
+                    CONV-58,
+                    CONV-59,
+                    CONV-60,
+                    CONV-61,
+                    CONV-62,
+                    CONV-63,
+                    CONV-64,
+                    CONV-65,
+                    CONV-66,
+                    CONV-67,
+                    CONV-68,
+                    CONV-69,
+                    CONV-70,
+                    CONV-71,
+                    CONV-72,
+                    CONV-73,
+                    CONV-74,
+                    CONV-75,
+                    CONV-76,
+                    CONV-77,
+                    CONV-78,
+                    CONV-79,
+                    CONV-80,
+                    CONV-81,
+                    CONV-82,
+                    CONV-83,
+                    CONV-84,
+                    CONV-85,
+                    CONV-86,
+                    CONV-87,
+                    CONV-88,
+                    CONV-89,
+                    CONV-90,
+                    CONV-91,
+                    CONV-92,
+                    CONV-93,
+                    CONV-94,
+                    FC-1,
+                };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure*}
+\end{document}

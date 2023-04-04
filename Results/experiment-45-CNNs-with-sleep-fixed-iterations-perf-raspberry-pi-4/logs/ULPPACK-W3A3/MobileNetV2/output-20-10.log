@@ -1,0 +1,236 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [10]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/MobileNetV2.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/MobileNetV2.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (32, 27, ), Input shape (50176, 3, ), and Output shape (12544, 32, ), and the ID is 0
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (12544, 32)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (16, 32)
+Applying Conv Low-Precision for Kernel shape (16, 32, ), Input shape (12544, 32, ), and Output shape (12544, 16, ), and the ID is 1
+	Allocating LowPrecision Activations Tensors with Shape of (12544, 32)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 16)
+Applying Conv Low-Precision for Kernel shape (96, 16, ), Input shape (12544, 16, ), and Output shape (12544, 96, ), and the ID is 2
+	Allocating LowPrecision Activations Tensors with Shape of (12544, 16)
+Applying Conv Low-Precision for Kernel shape (24, 96, ), Input shape (3136, 96, ), and Output shape (3136, 24, ), and the ID is 3
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (24, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (144, 32)
+Applying Conv Low-Precision for Kernel shape (144, 24, ), Input shape (3136, 24, ), and Output shape (3136, 144, ), and the ID is 4
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 32)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (24, 144)
+Applying Conv Low-Precision for Kernel shape (24, 144, ), Input shape (3136, 144, ), and Output shape (3136, 24, ), and the ID is 5
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 144)
+	Changing Input Shape
+Applying Conv Low-Precision for Kernel shape (144, 24, ), Input shape (3136, 24, ), and Output shape (3136, 144, ), and the ID is 6
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (144, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 32)
+Applying Conv Low-Precision for Kernel shape (32, 144, ), Input shape (784, 144, ), and Output shape (784, 32, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 144)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 144)
+7
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (784, 32, ), and Output shape (784, 192, ), and the ID is 8
+	Allocating LowPrecision Weight Tensors with Shape of (192, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (32, 192, ), Input shape (784, 192, ), and Output shape (784, 32, ), and the ID is 9
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 192)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 192)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (784, 32, ), and Output shape (784, 192, ), and the ID is 10
+	Allocating LowPrecision Weight Tensors with Shape of (192, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (32, 192, ), Input shape (784, 192, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 192)
+, and Output shape (784, 32, ), and the ID is 11
+	Allocating LowPrecision Activations Tensors with Shape of (784, 192)
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (784, 32, ), and Output shape (784, 192, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 32)
+, and the ID is 12
+	Allocating LowPrecision Activations Tensors with Shape of (784, 32)
+Applying Conv Low-Precision for Kernel shape (64, 192, ), Input shape (196, 192, ), and Output shape (196, 64, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 192)
+13
+	Allocating LowPrecision Activations Tensors with Shape of (200, 192)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 14
+	Allocating LowPrecision Weight Tensors with Shape of (384, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 64)
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 15
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 384)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 384)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 16
+	Allocating LowPrecision Weight Tensors with Shape of (384, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 64)
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 17
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 384)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 384)
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 18
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 64)
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 19
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 384)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 384)
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 20
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 64)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 64)
+Applying Conv Low-Precision for Kernel shape (96, 384, ), Input shape (196, 384, ), and Output shape (196, 96, ), and the ID is 21
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 384)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 384)
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 22
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (576, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 96)
+Applying Conv Low-Precision for Kernel shape (96, 576, ), Input shape (196, 576, ), and Output shape (196, 96, ), and the ID is 23
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 576)
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 24
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (576, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 96)
+Applying Conv Low-Precision for Kernel shape (96, 576, ), Input shape (196, 576, ), and Output shape (196, 96, ), and the ID is 25
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (200, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (576, 96)
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 26
+	Allocating LowPrecision Activations Tensors with Shape of (200, 96)
+Applying Conv Low-Precision for Kernel shape (160, 576, ), Input shape (49, 576, ), and Output shape (49, 160, ), and the ID is 27
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 576)
+	Allocating LowPrecision Activations Tensors with Shape of (56, 576)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (960, 160)
+Applying Conv Low-Precision for Kernel shape (960, 160, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 28
+	Allocating LowPrecision Activations Tensors with Shape of (56, 160)
+Applying Conv Low-Precision for Kernel shape (160, 960, ), Input shape (49, 960, ), and Output shape (49, 160, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 960)
+29
+	Allocating LowPrecision Activations Tensors with Shape of (56, 960)
+	Changing Input Shape
+Applying Conv Low-Precision for Kernel shape (960, 160, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 30
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (960, 160)
+	Allocating LowPrecision Activations Tensors with Shape of (56, 160)
+Applying Conv Low-Precision for Kernel shape (160, 960, ), Input shape (49, 960, ), and Output shape (49, 160, ), and the ID is 31
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 960)
+	Allocating LowPrecision Activations Tensors with Shape of (56, 960)
+Applying Conv Low-Precision for Kernel shape (960, 160, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 32
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (960, 160)
+	Allocating LowPrecision Activations Tensors with Shape of (56, 160)
+Applying Conv Low-Precision for Kernel shape (320, 960, ), Input shape (49, 960, ), and Output shape (49, 320, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+33
+	Allocating LowPrecision Weight Tensors with Shape of (320, 960)
+	Allocating LowPrecision Activations Tensors with Shape of (56, 960)
+Applying Conv Low-Precision for Kernel shape (1280, 320, ), Input shape (49, 320, ), and Output shape (49, 1280, ), and the ID is 34
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1280, 320)
+	Allocating LowPrecision Activations Tensors with Shape of (56, 320)
+Applying Low-Precision for shape (1000, 1280, ) and Input shape (1, 1280, ) With 7 Number of Temporaries Tensors
+	Transformed Filter Shape: (1000, 1280)
+	Transformed Activation Shape From: (1, 1280) To: (8, 1280)
+The input model file size (MB): 3.94093
+Initialized session in 71.274ms.
+Running benchmark for at least 10 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+[ perf record: Woken up 1 times to write data ]
+[ perf record: Captured and wrote 0.147 MB /tmp/data.record (798 samples) ]
+
+1.890
+

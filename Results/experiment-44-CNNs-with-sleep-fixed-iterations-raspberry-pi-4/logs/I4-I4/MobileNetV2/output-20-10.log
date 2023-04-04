@@ -1,0 +1,354 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [10]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/f32i8/MobileNetV2.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/f32i8/MobileNetV2.tflite
+INFO: Initialized TensorFlow Lite runtime.
+NOT Applying Conv Low-Precision for Kernel shape (32, 27, ), Input shape (50176, 3, ), and Output shape (12544, 32, ), and the ID is 0	Changing Input Shape
+	Changing Input Shape
+
+NOT Applying Conv Low-Precision for Kernel shape (16, 32, ), Input shape (12544, 32, ), and Output shape (12544, 16, ), and the ID is 1
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 16)
+Applying Conv Low-Precision for Kernel shape (96, 16, ), Input shape (12544, 16, ), and Output shape (12544, 96, ), and the ID is 2
+	Allocating LowPrecision Activations Tensors with Shape of (12544, 16)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (24, 48)
+Applying Conv Low-Precision for Kernel shape (24, 96, ), Input shape (3136, 96, ), and Output shape (3136, 24, ), and the ID is 3
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 48)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+Applying Conv Low-Precision for Kernel shape (144, 24, ), Input shape (3136, 24, ), and Output shape (3136, 144, ), and the ID is 4
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (144, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 16)
+Applying Conv Low-Precision for Kernel shape (24, 144, ), Input shape (3136, 144, ), and Output shape (3136, 24, )	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (24, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 80)
+, and the ID is 5
+Applying Conv Low-Precision for Kernel shape 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (144, 16)
+(144, 24, ), Input shape (3136, 24, ), and Output shape (3136, 144, ), and the ID is 6
+	Allocating LowPrecision Activations Tensors with Shape of (3136, 16)
+Applying Conv Low-Precision for Kernel shape (32, 144, ), Input shape (784, 144, ), and Output shape (784, 32, ), and the ID is 7
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 80)
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (784, 32, ), and Output shape (784, 192, ), and the ID is 8
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 16)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 96)
+Applying Conv Low-Precision for Kernel shape (32, 192, ), Input shape (784, 192, ), and Output shape (784, 32, ), and the ID is 9
+	Allocating LowPrecision Activations Tensors with Shape of (784, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 16)
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (784, 32, ), and Output shape (784, 192, ), and the ID is 10
+	Allocating LowPrecision Activations Tensors with Shape of (784, 16)
+Applying Conv Low-Precision for Kernel shape (32, 192, ), Input shape (784, 192, ), and Output shape (784, 32, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (32, 96)
+11
+	Allocating LowPrecision Activations Tensors with Shape of (784, 96)
+	Changing Input Shape
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (784, 32, ), and Output shape (784, 192, ), and the ID is 12
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (192, 16)
+	Allocating LowPrecision Activations Tensors with Shape of (784, 16)
+Applying Conv Low-Precision for Kernel shape (64, 192, ), Input shape (196, 192, ), and Output shape (196, 64, ), and the ID is 13
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 96)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 96)
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 32)
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 14
+	Allocating LowPrecision Activations Tensors with Shape of (196, 32)
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 15
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 192)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 192)
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 16
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 32)
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 17
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 192)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 192)
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 18
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 32)
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 19
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (64, 192)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 192)
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 20
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (384, 32)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 32)
+Applying Conv Low-Precision for Kernel shape (96, 384, ), Input shape (196, 384, ), and Output shape (196, 96, ), and the ID is 21
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 192)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 192)
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 22
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (576, 48)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 48)
+Applying Conv Low-Precision for Kernel shape (96, 576, ), Input shape (196, 576, ), and Output shape (196, 96, ), and the ID is 23
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 288)
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 24
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (576, 48)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 48)
+Applying Conv Low-Precision for Kernel shape (96, 576, ), Input shape (196, 576, ), and Output shape (196, 96, ), and the ID is 25
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (96, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 288)
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 26
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (576, 48)
+	Allocating LowPrecision Activations Tensors with Shape of (196, 48)
+Applying Conv Low-Precision for Kernel shape (160, 576, ), Input shape (49, 576, ), and Output shape (49, 160, ), and the ID is 27
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 288)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 288)
+Applying Conv Low-Precision for Kernel shape (960, 160, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 28
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (960, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 80)
+Applying Conv Low-Precision for Kernel shape (160, 960, ), Input shape (49, 960, ), and Output shape (49, 160, ), and the ID is 29
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 480)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 480)
+Applying Conv Low-Precision for Kernel shape (960, 160, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 30
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (960, 80)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 80)
+Applying Conv Low-Precision for Kernel shape (160, 960, ), Input shape (49, 960, ), and Output shape (49, 160, ), and the ID is 31	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (160, 480)
+
+	Allocating LowPrecision Activations Tensors with Shape of (52, 480)
+Applying Conv Low-Precision for Kernel shape (960, 160, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 32	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (960, 80)
+
+	Allocating LowPrecision Activations Tensors with Shape of (52, 80)
+Applying Conv Low-Precision for Kernel shape (320, 960, ), Input shape (49, 960, ), and Output shape (49, 320, ), and the ID is 	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (320, 480)
+33
+	Allocating LowPrecision Activations Tensors with Shape of (52, 480)
+Applying Conv Low-Precision for Kernel shape (1280, 320, ), Input shape (49, 320, ), and Output shape (49, 1280, ), and the ID is 34
+	Changing Input Shape
+	Reserving LowPrecision Weight Tensors
+	Reserving LowPrecision Activation Tensors
+	Allocating LowPrecision Weight Tensors with Shape of (1280, 160)
+	Allocating LowPrecision Activations Tensors with Shape of (52, 160)
+Applying Low-Precision for shape (1000, 1280, ) and Input shape (1, 1280, ) With 7 Number of Temporaries Tensors
+	Transformed Filter Shape: (1000, 640)
+	Transformed Activation Shape From: (1, 1280) To: (1, 640)
+The input model file size (MB): 3.73314
+Initialized session in 39.249ms.
+Running benchmark for at least 10 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=10 first=1620822 curr=1573661 min=1571585 max=1620822 avg=1.57829e+06 std=14214
+
+Running benchmark for at least 20 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=20 first=1573584 curr=1576249 min=1571768 max=1587107 avg=1.57554e+06 std=3572
+
+Inference timings in us: Init: 39249, First inference: 1620822, Warmup (avg): 1.57829e+06, Inference (avg): 1.57554e+06
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=5.8125 overall=19.9648
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	   32.358	   32.358	100.000%	100.000%	  3436.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	   32.358	   32.358	100.000%	100.000%	  3436.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	    32.358	   100.000%	   100.000%	  3436.000	        1
+
+Timings (microseconds): count=1 curr=32358
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	            0.023	    8.032	    8.075	  0.513%	  0.513%	     0.000	        1	[mobilenetv2_1.00_224/Conv1_relu/Relu6;mobilenetv2_1.00_224/bn_Conv1/FusedBatchNormV3;mobilenetv2_1.00_224/block_3_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/Conv1/Conv2D]:0
+	       DEPTHWISE_CONV_2D	            8.111	   34.972	   34.939	  2.219%	  2.731%	     0.000	        1	[mobilenetv2_1.00_224/expanded_conv_depthwise_relu/Relu6;mobilenetv2_1.00_224/expanded_conv_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_3_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/expanded_conv_depthwise/depthwise;mobilenetv2_1.00_224/block_5_project_BN/FusedBatchNormV3]:1
+	                 CONV_2D	           43.062	    4.461	    4.470	  0.284%	  3.015%	     0.000	        1	[mobilenetv2_1.00_224/expanded_conv_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/expanded_conv_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/expanded_conv_project/Conv2D]:2
+	                 CONV_2D	           47.546	  475.248	  475.264	 30.179%	 33.194%	     0.000	        1	[mobilenetv2_1.00_224/block_1_expand_relu/Relu6;mobilenetv2_1.00_224/block_1_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_1_expand/Conv2D]:3
+	                     PAD	          522.822	    2.370	    2.373	  0.151%	 33.345%	     0.000	        1	[mobilenetv2_1.00_224/block_1_pad/Pad]:4
+	       DEPTHWISE_CONV_2D	          525.205	   26.935	   26.918	  1.709%	 35.054%	     0.000	        1	[mobilenetv2_1.00_224/block_1_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_1_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_1_depthwise/depthwise;mobilenetv2_1.00_224/block_12_project_BN/FusedBatchNormV3]:5
+	                 CONV_2D	          552.135	   45.798	   45.837	  2.911%	 37.965%	     0.000	        1	[mobilenetv2_1.00_224/block_1_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_1_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_1_project/Conv2D]:6
+	                 CONV_2D	          597.984	  167.457	  167.824	 10.657%	 48.621%	     0.000	        1	[mobilenetv2_1.00_224/block_2_expand_relu/Relu6;mobilenetv2_1.00_224/block_2_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_2_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_2_expand/Conv2D]:7
+	       DEPTHWISE_CONV_2D	          765.820	    3.883	    3.927	  0.249%	 48.871%	     0.000	        1	[mobilenetv2_1.00_224/block_2_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_2_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_2_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_2_depthwise/depthwise;mobilenetv2_1.00_224/block_3_depthwise_BN/FusedBatchNormV3]:8
+	                 CONV_2D	          769.759	   47.727	   47.613	  3.023%	 51.894%	     0.000	        1	[mobilenetv2_1.00_224/block_2_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_1_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_2_project/Conv2D]:9
+	                     ADD	          817.384	    0.761	    0.739	  0.047%	 51.941%	     0.000	        1	[mobilenetv2_1.00_224/block_2_add/add]:10
+	                 CONV_2D	          818.131	  167.423	  167.950	 10.665%	 62.606%	     0.000	        1	[mobilenetv2_1.00_224/block_3_expand_relu/Relu6;mobilenetv2_1.00_224/block_3_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_2_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_3_expand/Conv2D]:11
+	                     PAD	          986.093	    1.156	    1.081	  0.069%	 62.674%	     0.000	        1	[mobilenetv2_1.00_224/block_3_pad/Pad]:12
+	       DEPTHWISE_CONV_2D	          987.185	    2.086	    2.191	  0.139%	 62.814%	     0.000	        1	[mobilenetv2_1.00_224/block_3_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_3_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_2_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_3_depthwise/depthwise]:13
+	                 CONV_2D	          989.390	   13.889	   13.972	  0.887%	 63.701%	     0.000	        1	[mobilenetv2_1.00_224/block_3_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_3_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_3_project/Conv2D]:14
+	                 CONV_2D	         1003.373	   54.310	   54.499	  3.461%	 67.161%	     0.000	        1	[mobilenetv2_1.00_224/block_4_expand_relu/Relu6;mobilenetv2_1.00_224/block_4_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_4_expand/Conv2D]:15
+	       DEPTHWISE_CONV_2D	         1057.883	    1.288	    1.276	  0.081%	 67.242%	     0.000	        1	[mobilenetv2_1.00_224/block_4_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_4_depthwise/depthwise;mobilenetv2_1.00_224/block_6_depthwise_BN/FusedBatchNormV3]:16
+	                 CONV_2D	         1059.171	   13.747	   13.863	  0.880%	 68.123%	     0.000	        1	[mobilenetv2_1.00_224/block_4_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_3_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_4_project/Conv2D]:17
+	                     ADD	         1073.048	    0.252	    0.257	  0.016%	 68.139%	     0.000	        1	[mobilenetv2_1.00_224/block_4_add/add]:18
+	                 CONV_2D	         1073.311	   54.877	   54.971	  3.491%	 71.630%	     0.000	        1	[mobilenetv2_1.00_224/block_5_expand_relu/Relu6;mobilenetv2_1.00_224/block_5_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_5_expand/Conv2D]:19
+	       DEPTHWISE_CONV_2D	         1128.294	    1.277	    1.279	  0.081%	 71.711%	     0.000	        1	[mobilenetv2_1.00_224/block_5_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_5_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_5_depthwise/depthwise;mobilenetv2_1.00_224/block_6_depthwise_BN/FusedBatchNormV3]:20
+	                 CONV_2D	         1129.583	   13.824	   13.788	  0.876%	 72.586%	     0.000	        1	[mobilenetv2_1.00_224/block_5_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_3_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_5_project/Conv2D]:21
+	                     ADD	         1143.383	    0.251	    0.260	  0.016%	 72.603%	     0.000	        1	[mobilenetv2_1.00_224/block_5_add/add]:22
+	                 CONV_2D	         1143.649	   54.296	   54.455	  3.458%	 76.061%	     0.000	        1	[mobilenetv2_1.00_224/block_6_expand_relu/Relu6;mobilenetv2_1.00_224/block_6_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_6_expand/Conv2D]:23
+	                     PAD	         1198.116	    0.359	    0.382	  0.024%	 76.085%	     0.000	        1	[mobilenetv2_1.00_224/block_6_pad/Pad]:24
+	       DEPTHWISE_CONV_2D	         1198.505	    0.743	    0.746	  0.047%	 76.132%	     0.000	        1	[mobilenetv2_1.00_224/block_6_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_6_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_6_depthwise/depthwise]:25
+	                 CONV_2D	         1199.261	    5.563	    5.548	  0.352%	 76.485%	     0.000	        1	[mobilenetv2_1.00_224/block_6_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_6_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_6_project/Conv2D]:26
+	                 CONV_2D	         1204.819	   25.944	   25.959	  1.648%	 78.133%	     0.000	        1	[mobilenetv2_1.00_224/block_7_expand_relu/Relu6;mobilenetv2_1.00_224/block_7_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_7_expand/Conv2D]:27
+	       DEPTHWISE_CONV_2D	         1230.789	    0.553	    0.560	  0.036%	 78.169%	     0.000	        1	[mobilenetv2_1.00_224/block_7_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_7_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_7_depthwise/depthwise;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3]:28
+	                 CONV_2D	         1231.358	    5.927	    5.873	  0.373%	 78.542%	     0.000	        1	[mobilenetv2_1.00_224/block_7_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_6_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_7_project/Conv2D]:29
+	                     ADD	         1237.240	    0.132	    0.132	  0.008%	 78.550%	     0.000	        1	[mobilenetv2_1.00_224/block_7_add/add]:30
+	                 CONV_2D	         1237.379	   26.190	   26.203	  1.664%	 80.214%	     0.000	        1	[mobilenetv2_1.00_224/block_8_expand_relu/Relu6;mobilenetv2_1.00_224/block_8_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_8_expand/Conv2D]:31
+	       DEPTHWISE_CONV_2D	         1263.592	    0.544	    0.538	  0.034%	 80.248%	     0.000	        1	[mobilenetv2_1.00_224/block_8_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_8_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_8_depthwise/depthwise;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3]:32
+	                 CONV_2D	         1264.138	    5.841	    5.855	  0.372%	 80.620%	     0.000	        1	[mobilenetv2_1.00_224/block_8_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_6_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_8_project/Conv2D]:33
+	                     ADD	         1270.002	    0.140	    0.135	  0.009%	 80.628%	     0.000	        1	[mobilenetv2_1.00_224/block_8_add/add]:34
+	                 CONV_2D	         1270.143	   26.041	   26.034	  1.653%	 82.282%	     0.000	        1	[mobilenetv2_1.00_224/block_9_expand_relu/Relu6;mobilenetv2_1.00_224/block_9_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_9_expand/Conv2D]:35
+	       DEPTHWISE_CONV_2D	         1296.188	    0.519	    0.532	  0.034%	 82.315%	     0.000	        1	[mobilenetv2_1.00_224/block_9_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_9_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_9_depthwise/depthwise;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3]:36
+	                 CONV_2D	         1296.727	    5.834	    5.856	  0.372%	 82.687%	     0.000	        1	[mobilenetv2_1.00_224/block_9_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_6_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_9_project/Conv2D]:37
+	                     ADD	         1302.593	    0.135	    0.133	  0.008%	 82.696%	     0.000	        1	[mobilenetv2_1.00_224/block_9_add/add]:38
+	                 CONV_2D	         1302.732	   26.140	   26.124	  1.659%	 84.354%	     0.000	        1	[mobilenetv2_1.00_224/block_10_expand_relu/Relu6;mobilenetv2_1.00_224/block_10_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_10_expand/Conv2D]:39
+	       DEPTHWISE_CONV_2D	         1328.867	    0.605	    0.539	  0.034%	 84.389%	     0.000	        1	[mobilenetv2_1.00_224/block_10_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_10_depthwise/depthwise]:40
+	                 CONV_2D	         1329.414	    7.984	    7.979	  0.507%	 84.895%	     0.000	        1	[mobilenetv2_1.00_224/block_10_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_10_project/Conv2D]:41
+	                 CONV_2D	         1337.403	   38.911	   38.917	  2.471%	 87.367%	     0.000	        1	[mobilenetv2_1.00_224/block_11_expand_relu/Relu6;mobilenetv2_1.00_224/block_11_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_11_expand/Conv2D]:42
+	       DEPTHWISE_CONV_2D	         1376.331	    0.836	    0.850	  0.054%	 87.421%	     0.000	        1	[mobilenetv2_1.00_224/block_11_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_11_depthwise/depthwise;mobilenetv2_1.00_224/block_13_depthwise_BN/FusedBatchNormV3]:43
+	                 CONV_2D	         1377.191	    8.427	    8.427	  0.535%	 87.956%	     0.000	        1	[mobilenetv2_1.00_224/block_11_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_11_project/Conv2D]:44
+	                     ADD	         1385.629	    0.194	    0.195	  0.012%	 87.968%	     0.000	        1	[mobilenetv2_1.00_224/block_11_add/add]:45
+	                 CONV_2D	         1385.831	   39.325	   39.390	  2.501%	 90.469%	     0.000	        1	[mobilenetv2_1.00_224/block_12_expand_relu/Relu6;mobilenetv2_1.00_224/block_12_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_12_expand/Conv2D]:46
+	       DEPTHWISE_CONV_2D	         1425.232	    0.835	    0.852	  0.054%	 90.523%	     0.000	        1	[mobilenetv2_1.00_224/block_12_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_12_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_12_depthwise/depthwise;mobilenetv2_1.00_224/block_13_depthwise_BN/FusedBatchNormV3]:47
+	                 CONV_2D	         1426.093	    8.423	    8.425	  0.535%	 91.058%	     0.000	        1	[mobilenetv2_1.00_224/block_12_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_12_project/Conv2D]:48
+	                     ADD	         1434.529	    0.193	    0.193	  0.012%	 91.071%	     0.000	        1	[mobilenetv2_1.00_224/block_12_add/add]:49
+	                 CONV_2D	         1434.727	   38.670	   38.761	  2.461%	 93.532%	     0.000	        1	[mobilenetv2_1.00_224/block_13_expand_relu/Relu6;mobilenetv2_1.00_224/block_13_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_13_expand/Conv2D]:50
+	                     PAD	         1473.500	    0.217	    0.227	  0.014%	 93.546%	     0.000	        1	[mobilenetv2_1.00_224/block_13_pad/Pad]:51
+	       DEPTHWISE_CONV_2D	         1473.735	    0.557	    0.569	  0.036%	 93.582%	     0.000	        1	[mobilenetv2_1.00_224/block_13_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_13_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_13_depthwise/depthwise]:52
+	                 CONV_2D	         1474.312	    3.311	    3.303	  0.210%	 93.792%	     0.000	        1	[mobilenetv2_1.00_224/block_13_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_13_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_13_project/Conv2D]:53
+	                 CONV_2D	         1477.625	   16.548	   16.577	  1.053%	 94.845%	     0.000	        1	[mobilenetv2_1.00_224/block_14_expand_relu/Relu6;mobilenetv2_1.00_224/block_14_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_14_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_14_expand/Conv2D]:54
+	       DEPTHWISE_CONV_2D	         1494.211	    0.354	    0.376	  0.024%	 94.869%	     0.000	        1	[mobilenetv2_1.00_224/block_14_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_14_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_14_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_14_depthwise/depthwise;mobilenetv2_1.00_224/block_16_depthwise_BN/FusedBatchNormV3]:55
+	                 CONV_2D	         1494.595	    3.540	    3.557	  0.226%	 95.095%	     0.000	        1	[mobilenetv2_1.00_224/block_14_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_13_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_14_project/Conv2D]:56
+	                     ADD	         1498.160	    0.088	    0.088	  0.006%	 95.100%	     0.000	        1	[mobilenetv2_1.00_224/block_14_add/add]:57
+	                 CONV_2D	         1498.255	   16.493	   16.526	  1.049%	 96.150%	     0.000	        1	[mobilenetv2_1.00_224/block_15_expand_relu/Relu6;mobilenetv2_1.00_224/block_15_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_14_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_15_expand/Conv2D]:58
+	       DEPTHWISE_CONV_2D	         1514.790	    0.339	    0.359	  0.023%	 96.172%	     0.000	        1	[mobilenetv2_1.00_224/block_15_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_15_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_14_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_15_depthwise/depthwise;mobilenetv2_1.00_224/block_16_depthwise_BN/FusedBatchNormV3]:59
+	                 CONV_2D	         1515.156	    3.529	    3.546	  0.225%	 96.398%	     0.000	        1	[mobilenetv2_1.00_224/block_15_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_13_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_15_project/Conv2D]:60
+	                     ADD	         1518.710	    0.084	    0.087	  0.006%	 96.403%	     0.000	        1	[mobilenetv2_1.00_224/block_15_add/add]:61
+	                 CONV_2D	         1518.804	   16.306	   16.375	  1.040%	 97.443%	     0.000	        1	[mobilenetv2_1.00_224/block_16_expand_relu/Relu6;mobilenetv2_1.00_224/block_16_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_14_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_16_expand/Conv2D]:62
+	       DEPTHWISE_CONV_2D	         1535.188	    0.360	    0.374	  0.024%	 97.467%	     0.000	        1	[mobilenetv2_1.00_224/block_16_depthwise_relu/Relu6;mobilenetv2_1.00_224/block_16_depthwise_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_14_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_16_depthwise/depthwise]:63
+	                 CONV_2D	         1535.568	    6.528	    6.548	  0.416%	 97.882%	     0.000	        1	[mobilenetv2_1.00_224/block_16_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_16_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_16_project/Conv2D]:64
+	                 CONV_2D	         1542.125	   22.148	   22.216	  1.411%	 99.293%	     0.000	        1	[mobilenetv2_1.00_224/out_relu/Relu6;mobilenetv2_1.00_224/Conv_1_bn/FusedBatchNormV3;mobilenetv2_1.00_224/Conv_1_bn/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/Conv_1/Conv2D]:65
+	                    MEAN	         1564.351	   10.255	   10.248	  0.651%	 99.944%	     0.000	        1	[mobilenetv2_1.00_224/global_average_pooling2d/Mean]:66
+	         FULLY_CONNECTED	         1574.606	    0.302	    0.304	  0.019%	 99.963%	     0.000	        1	[mobilenetv2_1.00_224/predictions/MatMul;mobilenetv2_1.00_224/predictions/BiasAdd]:67
+	                 SOFTMAX	         1574.918	    0.574	    0.579	  0.037%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:68
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	           47.546	  475.248	  475.264	 30.179%	 30.179%	     0.000	        1	[mobilenetv2_1.00_224/block_1_expand_relu/Relu6;mobilenetv2_1.00_224/block_1_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_10_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_1_expand/Conv2D]:3
+	                 CONV_2D	          818.131	  167.423	  167.950	 10.665%	 40.844%	     0.000	        1	[mobilenetv2_1.00_224/block_3_expand_relu/Relu6;mobilenetv2_1.00_224/block_3_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_2_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_3_expand/Conv2D]:11
+	                 CONV_2D	          597.984	  167.457	  167.824	 10.657%	 51.500%	     0.000	        1	[mobilenetv2_1.00_224/block_2_expand_relu/Relu6;mobilenetv2_1.00_224/block_2_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_2_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_2_expand/Conv2D]:7
+	                 CONV_2D	         1073.311	   54.877	   54.971	  3.491%	 54.991%	     0.000	        1	[mobilenetv2_1.00_224/block_5_expand_relu/Relu6;mobilenetv2_1.00_224/block_5_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_5_expand/Conv2D]:19
+	                 CONV_2D	         1003.373	   54.310	   54.499	  3.461%	 58.452%	     0.000	        1	[mobilenetv2_1.00_224/block_4_expand_relu/Relu6;mobilenetv2_1.00_224/block_4_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_4_expand/Conv2D]:15
+	                 CONV_2D	         1143.649	   54.296	   54.455	  3.458%	 61.909%	     0.000	        1	[mobilenetv2_1.00_224/block_6_expand_relu/Relu6;mobilenetv2_1.00_224/block_6_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_4_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_6_expand/Conv2D]:23
+	                 CONV_2D	          769.759	   47.727	   47.613	  3.023%	 64.933%	     0.000	        1	[mobilenetv2_1.00_224/block_2_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_1_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_2_project/Conv2D]:9
+	                 CONV_2D	          552.135	   45.798	   45.837	  2.911%	 67.843%	     0.000	        1	[mobilenetv2_1.00_224/block_1_project_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_1_project_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_1_project/Conv2D]:6
+	                 CONV_2D	         1385.831	   39.325	   39.390	  2.501%	 70.345%	     0.000	        1	[mobilenetv2_1.00_224/block_12_expand_relu/Relu6;mobilenetv2_1.00_224/block_12_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_12_expand/Conv2D]:46
+	                 CONV_2D	         1337.403	   38.911	   38.917	  2.471%	 72.816%	     0.000	        1	[mobilenetv2_1.00_224/block_11_expand_relu/Relu6;mobilenetv2_1.00_224/block_11_expand_BN/FusedBatchNormV3;mobilenetv2_1.00_224/block_11_depthwise_BN/FusedBatchNormV3/ReadVariableOp;mobilenetv2_1.00_224/block_11_expand/Conv2D]:42
+
+Number of nodes executed: 69
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       35	  1480.564	    94.017%	    94.017%	     0.000	       35
+	       DEPTHWISE_CONV_2D	       17	    76.818	     4.878%	    98.895%	     0.000	       17
+	                    MEAN	        1	    10.248	     0.651%	    99.545%	     0.000	        1
+	                     PAD	        4	     4.062	     0.258%	    99.803%	     0.000	        4
+	                     ADD	       10	     2.214	     0.141%	    99.944%	     0.000	       10
+	                 SOFTMAX	        1	     0.579	     0.037%	    99.981%	     0.000	        1
+	         FULLY_CONNECTED	        1	     0.304	     0.019%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=20 first=1572861 curr=1575522 min=1571060 max=1586384 avg=1.57482e+06 std=3573
+Memory (bytes): count=0
+69 nodes observed
+
+
+

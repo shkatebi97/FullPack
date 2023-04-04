@@ -1,0 +1,43 @@
+
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\pgfplotsset{compat=1.8}
+\begin{document}
+    \begin{figure*}[t]
+        \begin{tikzpicture}
+            \begin{axis}[
+                ybar stacked,
+                ymin=0.0,
+                width=\linewidth,
+                height=\axisdefaultheight,
+                tick label style={font=\footnotesize},
+                legend style={font=\tiny},
+                label style={font=\footnotesize},
+                symbolic x coords={I8-I8, I4-I4, Ternary-Ternary, Binary-Binary},
+                xtick=data,
+                % ytick={0.60,0.80,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0},
+                align={center},
+                bar width=7.5ex,
+                legend columns=7,
+                legend style={at={(0.49,-0.2)},anchor=north,font=\footnotesize},
+                title=\textbf{ResNet152V2 Layers Detailed Comparison},
+                ymajorgrids,
+                xminorgrids = true,
+                minor tick num=1
+                ]
+                \addplot coordinates { (I8-I8,44.89) (I4-I4,22.62) (Ternary-Ternary,14.37) (Binary-Binary,16.93) };
+                \addplot coordinates { (I8-I8,2.82) (I4-I4,0.69) (Ternary-Ternary,0.97) (Binary-Binary,3.22) };
+                \addplot coordinates { (I8-I8,0.64) (I4-I4,0.53) (Ternary-Ternary,0.54) (Binary-Binary,0.58) };
+                \addplot coordinates { (I8-I8,102.51) (I4-I4,99.86) (Ternary-Ternary,99.74) (Binary-Binary,99.88) };
+                \legend{
+                    Kernel,
+                    Packing,
+                    Other in Conv,
+                    Other Layers,
+                };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure*}
+\end{document}
