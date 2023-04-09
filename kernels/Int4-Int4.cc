@@ -534,7 +534,7 @@ namespace LowPrecision{
                 
                 int need_downcasting = (params.need_downcasting)?(0xff):(0x00);
                 
-                // This might be the issue; had changed to work with `test-gemm-api` test
+                // This might cause issues; had changed to work with `test-gemm-api` test
                 // if (lhs_columns != rhs_columns)
                 //     return Status::SizesMisMatch;
                 if (K != rhs_rows)
