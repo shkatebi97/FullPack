@@ -10,7 +10,7 @@ CPU_LIB=ruy/bazel-bin/external/cpuinfo
 CPU_INC=ruy/third_party/cpuinfo/include
 CPU_LIB_LINK := -lcpuinfo_impl -lclog
 
-KERNELS_OBJS := kernels/Int8-Int8.o kernels/Int8-Int4.o kernels/Int4-Int8.o kernels/Int4-Int4.o kernels/Int8-Ternary.o kernels/Ternary-Int8.o kernels/Ternary-Ternary.o kernels/Int8-Binary.o kernels/Binary-Int8.o kernels/Binary-Binary.o kernels/Binary-Binary-XOR.o kernels/Int8-Quaternary.o kernels/Int3-Int3.o kernels/ULPPACK.o kernels/ULPPACK/4x8-neon-multipack-type2.o kernels/ULPPACK/4x8-neon-multipack.o
+KERNELS_OBJS := kernels/Int8-Int8.o kernels/Int8-Int4.o kernels/Int4-Int8.o kernels/Int4-Int4.o kernels/Int8-Ternary.o kernels/Ternary-Int8.o kernels/Ternary-Ternary.o kernels/Int8-Binary.o kernels/Binary-Int8.o kernels/Binary-Binary.o kernels/Binary-Binary-XOR.o kernels/Int8-Quaternary.o kernels/Int3-Int3.o kernels/ULPPACK.o kernels/ULPPACK/4x8-neon-multipack-type2.o kernels/ULPPACK/4x8-neon-multipack.o kernels/SelfDependent-kernels/W4A4.o kernels/SelfDependent.o
 
 LDFLAGS :=
 
@@ -134,6 +134,21 @@ kernels/ULPPACK/4x8-neon-multipack.o:				kernels/ULPPACK.cc \
 													low_precision_fully_connected.h \
 													Makefile
 	$(CXX) kernels/ULPPACK/4x8-neon-multipack.cpp -flax-vector-conversions -lpthread $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/ULPPACK/4x8-neon-multipack.o -c
+
+######  SelfDependent Kernels Start  ######
+
+kernels/SelfDependent-kernels/W4A4.o:				kernels/SelfDependent-kernels/W4A4.cc \
+													low_precision_fully_connected.h \
+													Makefile
+	$(CXX) kernels/SelfDependent-kernels/W4A4.cc -flax-vector-conversions -lpthread $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent-kernels/W4A4.o -c
+
+######  SelfDependent Kernels End  ######
+
+kernels/SelfDependent.o:							kernels/SelfDependent.cc \
+													kernels/SelfDependent-kernels/W4A4.o \
+													low_precision_fully_connected.h \
+													Makefile
+	$(CXX) kernels/SelfDependent.cc -flax-vector-conversions -lpthread $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent.o -c
 
 #############################  Kernels End  #############################
 

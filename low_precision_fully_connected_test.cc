@@ -8,6 +8,7 @@
 #include <tuple>
 #include <fstream>
 #include <sstream>
+#include <math.h>
 
 using namespace std;
 using namespace LowPrecision;
@@ -97,6 +98,57 @@ std::vector<std::tuple<size_t, size_t, size_t>> extractSize(std::string str){
     return result;
 }
 
+template <typename Ti, typename To>
+Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_shape, Shape kernel_shape, Shape output_shape, LowPrecision::SelfDependentType self_dependent_type = LowPrecision::SelfDependentType::NotSelfDependent){
+    if (input_shape.size[1] != kernel_shape.size[0])
+        return Status::SizesMisMatch;
+    if (LowPrecision::get_self_dependent_num_shifts(self_dependent_type) != LowPrecision::SelfDependentType::NotSelfDependent){
+        size_t M = input_shape.size[0];
+        size_t K = kernel_shape.size[0];
+        size_t N = kernel_shape.size[1];
+
+        size_t i_offset = K;
+        size_t k_offset = N;
+        size_t o_offset = N;
+
+        int self_dependent_shifts = LowPrecision::get_self_dependent_num_shifts(self_dependent_type);
+        int self_dependent_offset = LowPrecision::get_self_dependent_offset(self_dependent_type);
+        To shift_value = pow(2, self_dependent_shifts);
+
+        std::cout << "Caculating Trusted Output with shift value of " << shift_value << " and offset of " << self_dependent_offset << std::endl;
+        
+        for (size_t m = 0; m < M; m++)
+            for (size_t n = 0; n < N; n++)
+                for (size_t k = 0; k < K; k++)
+                    if (self_dependent_offset > 1) 
+                        if (k % self_dependent_offset == 0 && k + self_dependent_offset < K)
+                            output[m * o_offset + n] += (input[m * i_offset + k] + shift_value * input[m * i_offset + (k + self_dependent_offset)]) * (kernel[k * k_offset + n] + shift_value * kernel[(k + self_dependent_offset) * k_offset + n]);
+                        else
+                            output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+                    else
+                        if (k % 2 == 0 && k + self_dependent_offset < K)
+                            output[m * o_offset + n] += (input[m * i_offset + k] + shift_value * input[m * i_offset + (k + self_dependent_offset)]) * (kernel[k * k_offset + n] + shift_value * kernel[(k + self_dependent_offset) * k_offset + n]);
+                        else
+                            output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+    } else {
+        std::cout << "Caculating Trusted Output" << std::endl;
+
+        size_t M = input_shape.size[0];
+        size_t K = kernel_shape.size[0];
+        size_t N = kernel_shape.size[1];
+
+        size_t i_offset = K;
+        size_t k_offset = N;
+        size_t o_offset = N;
+        
+        for (size_t m = 0; m < M; m++)
+            for (size_t n = 0; n < N; n++)
+                for (size_t k = 0; k < K; k++)
+                    output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+    }
+    return Status::Success;
+}
+
 void extract_gemm_size(std::string gemm_size, int& num_batch, int& num_inputs, int& num_output){
     if (gemm_size == "") return;
     std::vector<std::tuple<size_t, size_t, size_t>> sizes = extractSize(gemm_size);
@@ -109,6 +161,7 @@ void extract_gemm_size(std::string gemm_size, int& num_batch, int& num_inputs, i
 }
 
 void run_gemm_api_tests(LowPrecision::Method method){
+    std::cout << "Testing GEMM API" << std::endl;
     int num_spaces = 50 - string((method != kNoOptimization)?(LowPrecision::get_method_string(method)):("I8-I8")).length();
     vector<char> spaces_vec(num_spaces, ' ');
     string spaces(spaces_vec.begin(), spaces_vec.end());
@@ -147,6 +200,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
     int8_t*  kernel_data        = LowPrecision::allocate<int8_t>(kernel_shape.flatsize);
     int32_t* output_data_MB     = LowPrecision::allocate<int32_t>(output_shape_MB.flatsize);
     int32_t* output_data_ruy_MB = LowPrecision::allocate<int32_t>(output_shape_MB.flatsize);
+    int32_t* output_trusted_MB  = LowPrecision::allocate<int32_t>(output_shape_MB.flatsize);
 
     // Filling Input with 1s and 0s
     for (int i = 0 ; i < input_shape_MB.size[0] ; i++)
@@ -157,6 +211,17 @@ void run_gemm_api_tests(LowPrecision::Method method){
     for (int i = 0 ; i < kernel_shape.size[0] ; i++)
         for (int j = 0 ; j < kernel_shape.size[1] ; j++)
             kernel_data[i * kernel_shape.size[1] + j] = 1;
+    
+    // Generate trusted output
+    LowPrecision::Status trusted_ret;
+    trusted_ret = calculate_trusted_output(input_data_MB, kernel_data, output_trusted_MB, input_shape_MB, kernel_shape, output_shape_MB, LowPrecision::IsSelfDependent(method));
+
+    if (LowPrecision::mask_out_source(trusted_ret) == LowPrecision::Status::Success)
+        cout << method_name << " Trusted Output Generation" << spaces.substr(20) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+    else
+        cout << method_name << " Trusted Output Generation" << spaces.substr(20) << "=> \033[1m\033[31mFAILED\033[0m (Sourcce: TrustedOutputGenerator | Status: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_source(trusted_ret))
+                                                        << ")" << endl;
 
     // Getting The List of Required Input Scratchpads
     LowPrecision::ShapeList input_scratchpads_shape_list = LowPrecision::GetInputShapeListForMethod(method, input_shape_MB);
@@ -313,47 +378,47 @@ void run_gemm_api_tests(LowPrecision::Method method){
                                                         << LowPrecision::get_status_string(LowPrecision::mask_out_source(gemm_status))
                                                         << ")" << endl;
 
-    // Creating Context and Parameters
-    ruy::Context* _ruy_context = new ruy::Context;
-    ruy::MulParams<int32_t, int32_t> ruy_mul_params;
-    ruy::Matrix<int8_t> ruy_lhs;
-    ruy::Matrix<int8_t> ruy_rhs;
-    ruy::Matrix<int32_t> ruy_dst;
+    // // Creating Context and Parameters
+    // ruy::Context* _ruy_context = new ruy::Context;
+    // ruy::MulParams<int32_t, int32_t> ruy_mul_params;
+    // ruy::Matrix<int8_t> ruy_lhs;
+    // ruy::Matrix<int8_t> ruy_rhs;
+    // ruy::Matrix<int32_t> ruy_dst;
 
-    // Creating Filter Matrix
-    ruy::MakeSimpleLayout( 
-        kernel_shape.size[0],
-        kernel_shape.size[1], 
-        ruy::Order::kColMajor,
-        ruy_lhs.mutable_layout()
-    );
-    ruy_lhs.set_data(kernel_data);
-    ruy_lhs.set_cache_policy(ruy::CachePolicy::kAlwaysCache);
+    // // Creating Filter Matrix
+    // ruy::MakeSimpleLayout( 
+    //     kernel_shape.size[0],
+    //     kernel_shape.size[1], 
+    //     ruy::Order::kColMajor,
+    //     ruy_lhs.mutable_layout()
+    // );
+    // ruy_lhs.set_data(kernel_data);
+    // ruy_lhs.set_cache_policy(ruy::CachePolicy::kAlwaysCache);
 
-    // Creating MultiBatch Input Matrix
-    ruy::MakeSimpleLayout(
-        input_shape_MB.size[0],
-        input_shape_MB.size[1],
-        ruy::Order::kColMajor,
-        ruy_rhs.mutable_layout()
-    );
-    ruy_rhs.set_data(input_data_MB);
+    // // Creating MultiBatch Input Matrix
+    // ruy::MakeSimpleLayout(
+    //     input_shape_MB.size[0],
+    //     input_shape_MB.size[1],
+    //     ruy::Order::kColMajor,
+    //     ruy_rhs.mutable_layout()
+    // );
+    // ruy_rhs.set_data(input_data_MB);
 
-    // Creating MultiBatch Output Matrix
-    ruy::MakeSimpleLayout(
-        output_shape_MB.size[0],
-        output_shape_MB.size[1],
-        ruy::Order::kColMajor,
-        ruy_dst.mutable_layout()
-    );
-    ruy_dst.set_data(output_data_ruy_MB);
+    // // Creating MultiBatch Output Matrix
+    // ruy::MakeSimpleLayout(
+    //     output_shape_MB.size[0],
+    //     output_shape_MB.size[1],
+    //     ruy::Order::kColMajor,
+    //     ruy_dst.mutable_layout()
+    // );
+    // ruy_dst.set_data(output_data_ruy_MB);
 
     // ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs, ruy_mul_params, _ruy_context, &ruy_dst);
 
     bool sanityCheckPass = true;
     for (int i = 0 ; i < output_shape_MB.size[0] ; i++)
         for (int j = 0 ; j < output_shape_MB.size[1] ; j++)
-            sanityCheckPass &= output_data_MB[i * output_shape_MB.size[1] + j] == num_inputs / 2;
+            sanityCheckPass &= output_data_MB[i * output_shape_MB.size[1] + j] == output_trusted_MB[i * output_shape_MB.size[1] + j];
             // sanityCheckPass &= output_data_ruy_MB[i * output_shape_MB.size[1] + j] == output_data_MB[i * output_shape_MB.size[1] + j];
 
     if ((!sanityCheckPass && !no_verbosity) || sanity_in_file != ""){
@@ -378,7 +443,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
             if (output_scratchpads_shape_list.size() >= 2)
                 print_2D_matrix("Output-Scratchpad-#2", output_scratchpads + output_scratchpads_shape_list[0].flatsize, output_scratchpads_shape_list[1], no_hex_verbosity);
             
-            print_2D_matrix("Ruy", output_data_ruy_MB, output_shape_MB, no_hex_verbosity);
+            print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, no_hex_verbosity);
         } else {
             std::cout << "Saving Sanity Output to " << sanity_in_file << std::endl;
             std::ofstream output_file;
@@ -390,10 +455,12 @@ void run_gemm_api_tests(LowPrecision::Method method){
                 print_2D_matrix("Kernel-Scratchpad-#1", kernel_scratchpads, kernel_scratchpads_shape_list[0], output_file, no_hex_verbosity);
 
             print_2D_matrix("Input", input_data_MB, input_shape_MB, output_file, no_hex_verbosity);
-            if (input_scratchpads_shape_list.size() >= 1)
+            if (input_scratchpads_shape_list.size() == 1)
                 print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[0], output_file, no_hex_verbosity);
-            if (input_scratchpads_shape_list.size() >= 2)
-                print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[0].flatsize, input_scratchpads_shape_list[1], output_file, no_hex_verbosity);
+            else if (input_scratchpads_shape_list.size() == 2){
+                print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[1], output_file, no_hex_verbosity);
+                print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[1].flatsize, input_scratchpads_shape_list[0], output_file, no_hex_verbosity);
+            }
 
             print_2D_matrix("Output", output_data_MB, output_shape_MB, output_file, no_hex_verbosity);
             if (output_scratchpads_shape_list.size() >= 1)
@@ -401,7 +468,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
             if (output_scratchpads_shape_list.size() >= 2)
                 print_2D_matrix("Output-Scratchpad-#2", output_scratchpads + output_scratchpads_shape_list[0].flatsize, output_scratchpads_shape_list[1], output_file, no_hex_verbosity);
             
-            print_2D_matrix("Ruy", output_data_ruy_MB, output_shape_MB, output_file, no_hex_verbosity);
+            print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, output_file, no_hex_verbosity);
             output_file.close();
         }
     }
@@ -5281,6 +5348,8 @@ int main(int argc, char *argv[]){
                 test_gemm_api = 0x1000; 
             else if (selected_test == "ULPPACK-W4A4")
                 test_gemm_api = 0x2000; 
+            else if (selected_test == "SelfDependentW4A4")
+                test_gemm_api = 0x4000; 
         }
         else
             test_gemm_api = 0xffffff;
@@ -6813,6 +6882,8 @@ int main(int argc, char *argv[]){
             run_gemm_api_tests(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul);
         if (test_gemm_api & 0x2000)
             run_gemm_api_tests(LowPrecision::Method::kULPPACKW4A4);
+        if (test_gemm_api & 0x4000)
+            run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A4);
     }
 
     benchmark_mode_t benchmark_mode;

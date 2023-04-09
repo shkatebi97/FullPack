@@ -178,7 +178,8 @@ namespace LowPrecision{
                 (method & Method::kBinaryActBinaryWeightXOR)        ||
                 (method & Method::kInt3ActInt3Weight)               ||
                 (method & Method::kULPPACK)                         ||
-                (method & Method::kInt8ActInt8WeightBarrelShiftMul)
+                (method & Method::kInt8ActInt8WeightBarrelShiftMul) ||
+                (method & Method::kSelfDependentW4A4)
                 ;
         }
         bool RequiresOutputUnpacking(Method method){
@@ -186,7 +187,7 @@ namespace LowPrecision{
                 (method & Method::kInt8ActInt8WeightBarrelShiftMul)
                 ;
         }
-        LowPrecision::PreprocessType InputPreProcess(Method method){
+        LowPrecision::PreprocessType    InputPreProcess(Method method){
             switch(method){
                 case LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul:
                     return LowPrecision::FullyConnected::Int8InputsInt8WeightsBarrelShiftMul::InputPreProcess();
@@ -197,11 +198,13 @@ namespace LowPrecision{
                     return LowPrecision::FullyConnected::ULPPACK::InputPreProcess();
                 case LowPrecision::Method::kInt4ActInt4Weight:
                     return LowPrecision::FullyConnected::Int4InputsInt4Weights::InputPreProcess();
+                case LowPrecision::Method::kSelfDependentW4A4:
+                    return LowPrecision::FullyConnected::SelfDependent::InputPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
         }
-        LowPrecision::PreprocessType FilterPreProcess(Method method){
+        LowPrecision::PreprocessType    FilterPreProcess(Method method){
             switch(method){
                 case LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul:
                     return LowPrecision::FullyConnected::Int8InputsInt8WeightsBarrelShiftMul::FilterPreProcess();
@@ -212,11 +215,13 @@ namespace LowPrecision{
                     return LowPrecision::FullyConnected::ULPPACK::FilterPreProcess();
                 case LowPrecision::Method::kInt4ActInt4Weight:
                     return LowPrecision::FullyConnected::Int4InputsInt4Weights::FilterPreProcess();
+                case LowPrecision::Method::kSelfDependentW4A4:
+                    return LowPrecision::FullyConnected::SelfDependent::FilterPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
         }
-        LowPrecision::PreprocessType OutputPreProcess(Method method){
+        LowPrecision::PreprocessType    OutputPreProcess(Method method){
             switch(method){
                 case LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul:
                     return LowPrecision::FullyConnected::Int8InputsInt8WeightsBarrelShiftMul::OutputPreProcess();
@@ -227,11 +232,13 @@ namespace LowPrecision{
                     return LowPrecision::FullyConnected::ULPPACK::OutputPreProcess();
                 case LowPrecision::Method::kInt4ActInt4Weight:
                     return LowPrecision::FullyConnected::Int4InputsInt4Weights::OutputPreProcess();
+                case LowPrecision::Method::kSelfDependentW4A4:
+                    return LowPrecision::FullyConnected::SelfDependent::OutputPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
         }
-        LowPrecision::PreprocessType OutputPostProcess(Method method){
+        LowPrecision::PreprocessType    OutputPostProcess(Method method){
             switch(method){
                 case LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul:
                     return LowPrecision::FullyConnected::Int8InputsInt8WeightsBarrelShiftMul::OutputPostProcess();
@@ -242,11 +249,13 @@ namespace LowPrecision{
                     return LowPrecision::FullyConnected::ULPPACK::OutputPostProcess();
                 case LowPrecision::Method::kInt4ActInt4Weight:
                     return LowPrecision::FullyConnected::Int4InputsInt4Weights::OutputPostProcess();
+                case LowPrecision::Method::kSelfDependentW4A4:
+                    return LowPrecision::FullyConnected::SelfDependent::OutputPostProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
         }
-        LowPrecision::GEMMType GEMMSupport(Method method){
+        LowPrecision::GEMMType          GEMMSupport(Method method){
             switch(method){
                 case LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul:
                     return LowPrecision::FullyConnected::Int8InputsInt8WeightsBarrelShiftMul::GEMMSupport();
@@ -257,8 +266,22 @@ namespace LowPrecision{
                     return LowPrecision::FullyConnected::ULPPACK::GEMMSupport();
                 case LowPrecision::Method::kInt4ActInt4Weight:
                     return LowPrecision::FullyConnected::Int4InputsInt4Weights::GEMMSupport();
+                case LowPrecision::Method::kSelfDependentW4A4:
+                    return LowPrecision::FullyConnected::SelfDependent::GEMMSupport();
                 default:
                     return LowPrecision::GEMMType::SupportsNothing;
+            }
+        }
+        LowPrecision::SelfDependentType IsSelfDependent(Method method){
+            switch(method){
+                case LowPrecision::Method::kSelfDependentW4A4:
+                    #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
+                    return LowPrecision::SelfDependentType::Int4SelfDependent16Offset;
+                    #elif SelfDependent_Type == SelfDependent_Continious
+                    return LowPrecision::SelfDependentType::Int4SelfDependent;
+                    #endif
+                default:
+                    return LowPrecision::SelfDependentType::NotSelfDependent;
             }
         }
         bool NeedPadding(LowPrecision::Method method, LowPrecision::Shape shape){
@@ -352,6 +375,10 @@ namespace LowPrecision{
                 least_dim_size  = 8;
                 reduction_coeff = 1;
             }
+            else if (method == LowPrecision::Method::kSelfDependentW4A4){
+                least_dim_size  = 32;
+                reduction_coeff = 2;
+            }
 
             int least_row_size = 4;
             if (method & LowPrecision::Method::k8x8){
@@ -407,6 +434,10 @@ namespace LowPrecision{
             else if (method == LowPrecision::Method::kInt8QuaTernary){
                 least_dim_size  = 64;
                 reduction_coeff = 1;
+            }
+            else if (method == LowPrecision::Method::kSelfDependentW4A4){
+                least_dim_size  = 32;
+                reduction_coeff = 2;
             }
             
             int least_row_size = 4;
@@ -470,6 +501,9 @@ namespace LowPrecision{
                 ret = LowPrecision::FullyConnected::ULPPACK::QuantizeFilter(input_ptr, input_padded_shape, output, layout, 3, 3);
             else if (method &  LowPrecision::Method::kULPPACKW4A4)
                 ret = LowPrecision::FullyConnected::ULPPACK::QuantizeFilter(input_ptr, input_padded_shape, output, layout, 4, 4);
+            else if (method == LowPrecision::Method::kSelfDependentW4A4)
+                ret = LowPrecision::FullyConnected::SelfDependent::QuantizeFilter(method, input_ptr, input_padded_shape, output, layout);
+            
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
             return ret;
@@ -515,6 +549,9 @@ namespace LowPrecision{
                 ret = Status::NotImplemented;
             else if (method &  LowPrecision::Method::kULPPACK)
                 ret = Status::NotImplemented;
+            else if (method == LowPrecision::Method::kSelfDependentW4A4)
+                ret = LowPrecision::FullyConnected::SelfDependent::QuantizeFilter(method, input_ptr, input_padded_shape, output, layout);
+            
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
             return ret;
@@ -566,6 +603,9 @@ namespace LowPrecision{
                 ret = LowPrecision::FullyConnected::ULPPACK::QuantizeInput(input_ptr, input_padded_shape, output, layout, 3, 3);
             else if (method &  LowPrecision::Method::kULPPACKW4A4)
                 ret = LowPrecision::FullyConnected::ULPPACK::QuantizeInput(input_ptr, input_padded_shape, output, layout, 4, 4);
+            else if (method == LowPrecision::Method::kSelfDependentW4A4)
+                ret = LowPrecision::FullyConnected::SelfDependent::QuantizeInput(method, input_ptr, input_padded_shape, output, layout);
+            
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
             return ret;
@@ -611,6 +651,9 @@ namespace LowPrecision{
                 ret = Status::NotImplemented;
             else if (method &  LowPrecision::Method::kULPPACK)
                 ret = Status::NotImplemented;
+            else if (method == LowPrecision::Method::kSelfDependentW4A4)
+                ret = LowPrecision::FullyConnected::SelfDependent::QuantizeInput(method, input_ptr, input_padded_shape, output, layout);
+            
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
             return ret;
@@ -646,6 +689,8 @@ namespace LowPrecision{
             else if (method == LowPrecision::Method::kBinaryActBinaryWeightXOR)
                 ret = Status::NotImplemented;
             else if (method &  LowPrecision::Method::kULPPACK)
+                ret = Status::NotNeeded;
+            else if (method == LowPrecision::Method::kSelfDependentW4A4)
                 ret = Status::NotNeeded;
             return ret;
         }
@@ -810,6 +855,13 @@ namespace LowPrecision{
                     kernel, kernel_shape,
                     output, output_shape,
                     7, 7
+                );
+            else if (method == LowPrecision::Method::kSelfDependentW4A4)
+                ret = LowPrecision::FullyConnected::SelfDependent::MultiplyInt8SingleBatch(
+                    method,
+                    input, input_shape,
+                    kernel, kernel_shape,
+                    output, output_shape
                 );
             return ret;
         }
@@ -1066,6 +1118,14 @@ namespace LowPrecision{
                     output, output_shape,
                     params
                 );
+            else if (method == LowPrecision::Method::kSelfDependentW4A4)
+                ret = LowPrecision::FullyConnected::SelfDependent::MultiplyInt8MultiBatched(
+                    method,
+                    input, input_shape,
+                    kernel, kernel_shape,
+                    output, output_shape,
+                    params
+                );
             // else if (method == LowPrecision::Method::kBinaryActInt8Weight)
             //         ret = LowPrecision::FullyConnected::BinaryInputsInt8Weights::MultiplyInt8MultiBatched(
             //             input, input_shape,
@@ -1145,6 +1205,14 @@ namespace LowPrecision{
                 ret = Status::NotImplemented;
             else if (method == LowPrecision::Method::kInt8Ternary)
                 ret = Status::NotImplemented;
+            else if (method == LowPrecision::Method::kSelfDependentW4A4)
+                ret = LowPrecision::FullyConnected::SelfDependent::MultiplyInt8MultiBatched(
+                    method,
+                    input, input_shape,
+                    kernel, kernel_shape,
+                    output, output_shape,
+                    params
+                );
             return ret;
         }
         Status MultiplyInt8MultiBatchedBlockProcessing(
@@ -1217,6 +1285,12 @@ namespace LowPrecision{
                 block_num_columns   = (block_num_columns%64)?(64):(block_num_columns);
                 block_num_rows      = (block_num_rows%4)?(4):(block_num_rows);
             }
+            else if (method == LowPrecision::Method::kSelfDependentW4A4){
+                input_stride_coeff  = 2;
+                kernel_stride_coeff = 2;
+                block_num_columns   = (block_num_columns%32)?(32):(block_num_columns);
+                block_num_rows      = (block_num_rows%4)?(4):(block_num_rows);
+            }
             else
                 return Status::NotImplemented;
             Params current_params;
@@ -1285,6 +1359,11 @@ namespace LowPrecision{
                         case LowPrecision::Method::kInt8Ternary:
                             kernel_return_status = LowPrecision::FullyConnected::Ternary::MultiplyInt8MultiBatchedBlock(
                                         lhs, rhs, dst, current_params
+                            ); 
+                            break;
+                        case LowPrecision::Method::kSelfDependentW4A4:
+                            kernel_return_status = LowPrecision::FullyConnected::SelfDependent::MultiplyInt8MultiBatchedBlock(
+                                        method, lhs, rhs, dst, current_params
                             ); 
                             break;
                         default:
@@ -1795,11 +1874,12 @@ namespace LowPrecision{
         }
     }
 
-    LowPrecision::PreprocessType InputPreProcess(LowPrecision::Method method)   { return FullyConnected::InputPreProcess(method);   }
-    LowPrecision::PreprocessType FilterPreProcess(LowPrecision::Method method)  { return FullyConnected::FilterPreProcess(method);  }
-    LowPrecision::PreprocessType OutputPreProcess(LowPrecision::Method method)  { return FullyConnected::OutputPreProcess(method);  }
-    LowPrecision::PreprocessType OutputPostProcess(LowPrecision::Method method) { return FullyConnected::OutputPostProcess(method); }
-    LowPrecision::GEMMType       GEMMSupport(LowPrecision::Method method)       { return FullyConnected::GEMMSupport(method); }
+    LowPrecision::PreprocessType    InputPreProcess(LowPrecision::Method method)   { return FullyConnected::InputPreProcess(method);   }
+    LowPrecision::PreprocessType    FilterPreProcess(LowPrecision::Method method)  { return FullyConnected::FilterPreProcess(method);  }
+    LowPrecision::PreprocessType    OutputPreProcess(LowPrecision::Method method)  { return FullyConnected::OutputPreProcess(method);  }
+    LowPrecision::PreprocessType    OutputPostProcess(LowPrecision::Method method) { return FullyConnected::OutputPostProcess(method); }
+    LowPrecision::GEMMType          GEMMSupport(LowPrecision::Method method)       { return FullyConnected::GEMMSupport(method); }
+    LowPrecision::SelfDependentType IsSelfDependent(LowPrecision::Method method)   { return FullyConnected::IsSelfDependent(method); }
 
     Status MultiplyBackend(
         LowPrecision::Method method,

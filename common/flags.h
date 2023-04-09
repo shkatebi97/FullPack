@@ -32,4 +32,8 @@
 // #define VECTORIZED_DOWNCASTING_WITH_SCALAR_DIVISION true
 #define DOWNCASTING_FUSED_IN_KERNEL true
 
+#define SelfDependent_Continious 2
+#define SelfDependent_Offset_Vector_Size 1
+#define SelfDependent_Type SelfDependent_Continious
+
 #endif

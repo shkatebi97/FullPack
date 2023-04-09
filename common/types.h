@@ -307,6 +307,7 @@ typedef enum {
     kULPPACKW7A7                    = 0x0080000000,
     kInt8ActInt8WeightBarrelShiftMul= 0x0100000000,
     k8x8                            = 0x01fe000000,
+    kSelfDependentW4A4              = 0x0200000000,
 } Method;
 
 inline const char* get_method_string(Method method){
@@ -418,6 +419,9 @@ inline const char* get_method_string(Method method){
     case k8x8:
         strcpy(output, std::string("8x8").c_str());
         break;
+    case kSelfDependentW4A4:
+        strcpy(output, std::string("SelfDependentW4A4").c_str());
+        break;
     default:
         strcpy(output, std::string("NotDefined").c_str());
         break;
@@ -467,6 +471,29 @@ typedef enum {
     SupportsGEMMAndGEMV     = 0x3,
     SupportsBlockProcessing = 0x4,
 } GEMMType;
+
+typedef enum {
+    NotSelfDependent            = 0x0000,
+    Int1SelfDependent           = 0x0001,
+    Int2SelfDependent           = 0x0002,
+    Int4SelfDependent           = 0x0004,
+    Int1SelfDependent16Offset   = 0x0101,
+    Int2SelfDependent16Offset   = 0x0102,
+    Int4SelfDependent16Offset   = 0x0104,
+} SelfDependentType;
+
+inline int get_self_dependent_num_shifts(SelfDependentType type){ return type & 0x00ff; }
+
+inline int get_self_dependent_offset(SelfDependentType type){ 
+    switch ((type & 0xff00) >> 8){
+    case 0:
+        return 1;
+    case 1:
+        return 16;
+    default:
+        return 0;
+    } 
+}
 
 typedef union {
   float f;
