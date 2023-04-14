@@ -23,6 +23,7 @@ typedef struct {
     bool fill = false;
     bool process_unsinged = false;
     bool use_external_timing_profiler = false;
+    bool is_gem5 = false;
 } GemmAPIConfig_t;
 
 
@@ -329,6 +330,7 @@ double run_real_gemm_api_benchmark(int benchmark_iterations, Shape input_shape, 
     bool fill = config.fill;
     bool process_unsinged = config.process_unsinged;
     bool use_external_timing_profiler = config.use_external_timing_profiler;
+    bool is_gem5 = config.is_gem5;
 
     std::string method_name = LowPrecision::get_method_string(method);
     
@@ -416,6 +418,14 @@ double run_real_gemm_api_benchmark(int benchmark_iterations, Shape input_shape, 
              << "[" << method_name << "] "
              << "Preparing                               ";
     cout.flush();
+
+    if (is_gem5){
+        cout << "Switching Gem5 CPU" << endl;
+        asm volatile (
+            ".word	0xff520110\n\t"
+            :::
+        );
+    }
 
     // Creating Filter Matrix
     LowPrecision::Matrix filter_matrix;
@@ -2039,8 +2049,11 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
     }
     if (benchmarks.real_multi_gemm_api_benchmark_enable){
         cout << "Running Real Multi-Batch GEMM API benchmark" << endl;
-        bool show_speedups = LowPrecision::FullyConnected::GetVariableFromEnv( "ShowSpeedups" ) == "TRUE";
+
+        bool show_speedups  = LowPrecision::FullyConnected::GetVariableFromEnv( "ShowSpeedups" ) == "TRUE";
+        bool is_gem5        = LowPrecision::FullyConnected::GetVariableFromEnv( "IS_GEM5" ) == "TRUE";
         double baseline_time = 1, benchmark_time;
+
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x8000 || show_speedups){
             baseline_time = run_real_ruy_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, disable_progress);
             if (show_speedups)
@@ -2051,7 +2064,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
                 cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0001){ // kInt8Int4
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Int4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Int4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kInt8Int4) 
@@ -2063,7 +2076,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0002){ // kInt8Binary
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Binary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Binary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kInt8Binary) 
@@ -2075,7 +2088,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0004){ // kInt8Ternary
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Ternary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Ternary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kInt8Ternary) 
@@ -2087,7 +2100,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0010){ // kInt4ActInt8Weight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt8Weight) 
@@ -2099,7 +2112,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0020){ // kInt4ActInt4Weight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt4Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt4Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt4Weight) 
@@ -2107,11 +2120,11 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
                      << (((baseline_time - benchmark_time) / baseline_time) * 100)
                      << "%";
             else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt4Weight) << "' " << ((process_unsinged)?("(Unsigned)"):("")) << " Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt4Weight) << "' " << ((process_unsinged)?("(Unsigned)"):("")) << "Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0040){ // kTernaryActInt8Weight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActInt8Weight) 
@@ -2123,7 +2136,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0200){ // kTernaryActTernaryWeight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActTernaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActTernaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActTernaryWeight) 
@@ -2135,7 +2148,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0100){ // kBinaryActBinaryWeight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBinaryActBinaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBinaryActBinaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kBinaryActBinaryWeight) 
@@ -2147,7 +2160,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0800){ // kInt8ActInt8WeightBarrelShiftMul
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul) 
@@ -2159,7 +2172,7 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
             cout << endl;
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x1000){ // kULPPACKW4A4
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kULPPACKW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kULPPACKW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
             if (show_speedups)
                 cout << "\r[" 
                      << LowPrecision::get_method_string(LowPrecision::Method::kULPPACKW4A4) 
@@ -2168,6 +2181,18 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
                      << "%";
             else if (benchmarks.calc_operations_per_second)
                 cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kULPPACKW4A4) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+            cout << endl;
+        }
+        if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x2000){ // kSelfDependentW4A4
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            if (show_speedups)
+                cout << "\r[" 
+                     << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW4A4) 
+                     << "] speedup: " 
+                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                     << "%";
+            else if (benchmarks.calc_operations_per_second)
+                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW4A4) << "' " << ((process_unsinged)?("(Unsigned)"):("")) << "Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
             cout << endl;
         }
     }

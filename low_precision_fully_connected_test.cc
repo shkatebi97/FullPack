@@ -151,6 +151,8 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
 
 void extract_gemm_size(std::string gemm_size, int& num_batch, int& num_inputs, int& num_output){
     if (gemm_size == "") return;
+    if (gemm_size[0] == '"' && gemm_size[gemm_size.size() - 1] == '"')
+        gemm_size = gemm_size.substr(1, gemm_size.size() - 2);
     std::vector<std::tuple<size_t, size_t, size_t>> sizes = extractSize(gemm_size);
     if (sizes.size()){
         num_batch  = std::get<0>(sizes[0]);
@@ -176,6 +178,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
     bool no_verbosity           = LowPrecision::FullyConnected::GetVariableFromEnv( "VERBOSITY" ) == "0";
     bool no_hex_verbosity       = LowPrecision::FullyConnected::GetVariableFromEnv( "VERBOSITY" ) == "1";
     bool pre_gemm_print         = LowPrecision::FullyConnected::GetVariableFromEnv( "PreGEMMPrint" ) == "TRUE";
+    bool is_gem5                = LowPrecision::FullyConnected::GetVariableFromEnv( "IS_GEM5" ) == "TRUE";
     std::string gemm_size       = LowPrecision::FullyConnected::GetVariableFromEnv( "GEMM_SIZE" );
     std::string sanity_in_file  = LowPrecision::FullyConnected::GetVariableFromEnv( "SANITY_FILE" );
 
@@ -183,6 +186,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
     extract_gemm_size(gemm_size, num_batch, num_inputs, num_output);
 
     // Creating Size Arrays
+    std::cout << "Creating Shapes..." << std::endl;
     int _input_shape_MB[2]      = { num_batch , num_inputs },
         _kernel_shape[2]        = { num_inputs, num_output },
         _output_shape_MB[2]     = { num_batch , num_output };
@@ -215,6 +219,12 @@ void run_gemm_api_tests(LowPrecision::Method method){
     // Generate trusted output
     LowPrecision::Status trusted_ret;
     trusted_ret = calculate_trusted_output(input_data_MB, kernel_data, output_trusted_MB, input_shape_MB, kernel_shape, output_shape_MB, LowPrecision::IsSelfDependent(method));
+
+    if (is_gem5)
+        asm volatile (
+            ".word	0xff520110\n\t"
+            :::
+        );
 
     if (LowPrecision::mask_out_source(trusted_ret) == LowPrecision::Status::Success)
         cout << method_name << " Trusted Output Generation" << spaces.substr(20) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
@@ -5314,45 +5324,48 @@ int main(int argc, char *argv[]){
         multibatch_benchmark_enable = false;
         integrity_test = false;
         if (argc >= 3){
-            std::string selected_test = "";
-            selected_test = argv[2];
-            if (selected_test == "All")
-                test_gemm_api = 0xffffff; 
-            else if (selected_test == "Int8")
-                test_gemm_api = 0x010000; 
-            else if (selected_test == "Int4")
-                test_gemm_api = 0x0001; 
-            else if (selected_test == "Binary")
-                test_gemm_api = 0x0002; 
-            else if (selected_test == "Ternary")
-                test_gemm_api = 0x0004; 
-            else if (selected_test == "Quaternary")
-                test_gemm_api = 0x0008; 
-            else if (selected_test == "Int4InputsInt8Weights")
-                test_gemm_api = 0x0010; 
-            else if (selected_test == "Int4InputsInt4Weights")
-                test_gemm_api = 0x0020; 
-            else if (selected_test == "BinaryInputsInt8Weights")
-                test_gemm_api = 0x0080; 
-            else if (selected_test == "BinaryInputsBinaryWeights")
-                test_gemm_api = 0x0100; 
-            else if (selected_test == "BinaryInputsBinaryWeightsXOR")
-                test_gemm_api = 0x0800; 
-            else if (selected_test == "TernaryInputsInt8Weights")
-                test_gemm_api = 0x0040; 
-            else if (selected_test == "TernaryInputsTernaryWeights")
-                test_gemm_api = 0x0200; 
-            // else if (selected_test == "Int3InputsInt3Weights")
-            //     test_gemm_api = 0x0400;
-            else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
-                test_gemm_api = 0x1000; 
-            else if (selected_test == "ULPPACK-W4A4")
-                test_gemm_api = 0x2000; 
-            else if (selected_test == "SelfDependentW4A4")
-                test_gemm_api = 0x4000; 
-        }
-        else
+            for (size_t i = 0; i < argc - 2; i++){
+                std::string selected_test = "";
+                selected_test = argv[2 + i];
+                std::cout << "Parsing method " << selected_test << std::endl;
+                if (selected_test == "All")
+                    test_gemm_api |= 0xffffff; 
+                else if (selected_test == "Int8")
+                    test_gemm_api |= 0x010000; 
+                else if (selected_test == "Int4")
+                    test_gemm_api |= 0x0001; 
+                else if (selected_test == "Binary")
+                    test_gemm_api |= 0x0002; 
+                else if (selected_test == "Ternary")
+                    test_gemm_api |= 0x0004; 
+                else if (selected_test == "Quaternary")
+                    test_gemm_api |= 0x0008; 
+                else if (selected_test == "Int4InputsInt8Weights")
+                    test_gemm_api |= 0x0010; 
+                else if (selected_test == "Int4InputsInt4Weights")
+                    test_gemm_api |= 0x0020; 
+                else if (selected_test == "BinaryInputsInt8Weights")
+                    test_gemm_api |= 0x0080; 
+                else if (selected_test == "BinaryInputsBinaryWeights")
+                    test_gemm_api |= 0x0100; 
+                else if (selected_test == "BinaryInputsBinaryWeightsXOR")
+                    test_gemm_api |= 0x0800; 
+                else if (selected_test == "TernaryInputsInt8Weights")
+                    test_gemm_api |= 0x0040; 
+                else if (selected_test == "TernaryInputsTernaryWeights")
+                    test_gemm_api |= 0x0200; 
+                // else if (selected_test == "Int3InputsInt3Weights")
+                //     test_gemm_api |= 0x0400;
+                else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
+                    test_gemm_api |= 0x1000; 
+                else if (selected_test == "ULPPACK-W4A4")
+                    test_gemm_api |= 0x2000; 
+                else if (selected_test == "SelfDependentW4A4")
+                    test_gemm_api |= 0x4000; 
+            }
+        } else
             test_gemm_api = 0xffffff;
+        
     }
     else if (input_mode == "benchmark-real-mul-api"){
         singlebatch_benchmark_enable = false;
@@ -5474,40 +5487,43 @@ int main(int argc, char *argv[]){
         multibatch_benchmark_enable = false;
         integrity_test = false;
         if (argc >= 3){
-            std::string selected_test = "";
-            selected_test = argv[2];
-            if (selected_test == "All")
-                selected_benchmark_real_multi_gemm_api = 0xffff; 
-            else if (selected_test == "Int4")
-                selected_benchmark_real_multi_gemm_api = 0x0001; 
-            else if (selected_test == "Binary")
-                selected_benchmark_real_multi_gemm_api = 0x0002; 
-            else if (selected_test == "Ternary")
-                selected_benchmark_real_multi_gemm_api = 0x0004; 
-            else if (selected_test == "Quaternary")
-                selected_benchmark_real_multi_gemm_api = 0x0008; 
-            else if (selected_test == "Int4InputsInt8Weights")
-                selected_benchmark_real_multi_gemm_api = 0x0010; 
-            else if (selected_test == "Int4InputsInt4Weights")
-                selected_benchmark_real_multi_gemm_api = 0x0020; 
-            else if (selected_test == "BinaryInputsInt8Weights")
-                selected_benchmark_real_multi_gemm_api = 0x0080; 
-            else if (selected_test == "BinaryInputsBinaryWeights")
-                selected_benchmark_real_multi_gemm_api = 0x0100; 
-            else if (selected_test == "TernaryInputsInt8Weights")
-                selected_benchmark_real_multi_gemm_api = 0x0040; 
-            else if (selected_test == "TernaryInputsTernaryWeights")
-                selected_benchmark_real_multi_gemm_api = 0x0200; 
-            // else if (selected_test == "Int3InputsInt3Weights")
-            //     selected_benchmark_real_multi_gemm_api = 0x0400;
-            else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
-                selected_benchmark_real_multi_gemm_api = 0x0800;
-            else if (selected_test == "ULPPACK-W4A4")
-                selected_benchmark_real_multi_gemm_api = 0x1000;
-            else if (selected_test == "Int8")
-                selected_benchmark_real_multi_gemm_api = 0x8000;
-        }
-        else
+            for (size_t i = 0; i < argc - 2; i++){
+                std::string selected_test = "";
+                selected_test = argv[i + 2];
+                if (selected_test == "All")
+                    selected_benchmark_real_multi_gemm_api |= 0xffff; 
+                else if (selected_test == "Int4")
+                    selected_benchmark_real_multi_gemm_api |= 0x0001; 
+                else if (selected_test == "Binary")
+                    selected_benchmark_real_multi_gemm_api |= 0x0002; 
+                else if (selected_test == "Ternary")
+                    selected_benchmark_real_multi_gemm_api |= 0x0004; 
+                else if (selected_test == "Quaternary")
+                    selected_benchmark_real_multi_gemm_api |= 0x0008; 
+                else if (selected_test == "Int4InputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api |= 0x0010; 
+                else if (selected_test == "Int4InputsInt4Weights")
+                    selected_benchmark_real_multi_gemm_api |= 0x0020; 
+                else if (selected_test == "BinaryInputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api |= 0x0080; 
+                else if (selected_test == "BinaryInputsBinaryWeights")
+                    selected_benchmark_real_multi_gemm_api |= 0x0100; 
+                else if (selected_test == "TernaryInputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api |= 0x0040; 
+                else if (selected_test == "TernaryInputsTernaryWeights")
+                    selected_benchmark_real_multi_gemm_api |= 0x0200; 
+                // else if (selected_test == "Int3InputsInt3Weights")
+                //     selected_benchmark_real_multi_gemm_api |= 0x0400;
+                else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
+                    selected_benchmark_real_multi_gemm_api |= 0x0800;
+                else if (selected_test == "ULPPACK-W4A4")
+                    selected_benchmark_real_multi_gemm_api |= 0x1000;
+                else if (selected_test == "SelfDependentW4A4")
+                    selected_benchmark_real_multi_gemm_api |= 0x2000;
+                else if (selected_test == "Int8")
+                    selected_benchmark_real_multi_gemm_api |= 0x8000;
+            }
+        } else
             selected_benchmark_real_multi_gemm_api = 0xffff;
     }
     else if (input_mode == "benchmark-single-mul-api-increasing-size"){
