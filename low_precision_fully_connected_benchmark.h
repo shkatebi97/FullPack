@@ -60,7 +60,7 @@ typedef struct {
     std::string multi_mul_api_different_size_benchmark_speedup_path = "";
 } benchmark_mode_t; 
 
-double run_real_ruy_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false, bool fill = false){
+double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false, bool fill = false){
     if (!disable_print)
         cout << "\r[Int8Int8] Preparing";
     cout.flush();
@@ -189,7 +189,7 @@ double run_real_ruy_benchmark(int benchmark_iterations, Shape input_shape, Shape
 
     return time_consumed;
 }
-double run_real_mul_api_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, Method method, bool disable_print = false, bool fill = false, bool process_unsinged = false){
+double run_real_mul_api_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, Method method, bool disable_print = false, bool fill = false, bool process_unsinged = false){
     if (!disable_print)
         cout << "\r"
              << "[" << LowPrecision::get_method_string(method) << "] "
@@ -325,7 +325,7 @@ double run_real_mul_api_benchmark(int benchmark_iterations, Shape input_shape, S
 
     return time_consumed;
 }
-double run_real_gemm_api_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, LowPrecision::Method method, GemmAPIConfig_t config = GemmAPIConfig_t()){
+double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, LowPrecision::Method method, GemmAPIConfig_t config = GemmAPIConfig_t()){
     bool disable_print = config.disable_print;
     bool fill = config.fill;
     bool process_unsinged = config.process_unsinged;
@@ -568,7 +568,7 @@ double run_real_gemm_api_benchmark(int benchmark_iterations, Shape input_shape, 
     return time_consumed;
 }
 
-double run_i8i8_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8i8_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int8 Single-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -629,7 +629,7 @@ double run_i8i8_benchmark(int benchmark_iterations, Shape input_shape, Shape ker
     cout.flush();
     return time_consumed;
 }
-double run_i8i4_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8i4_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int4 For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -678,7 +678,7 @@ double run_i8i4_benchmark(int benchmark_iterations, Shape input_shape, Shape ker
     cout.flush();
     return time_consumed;
 }
-double run_i8bin_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8bin_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Binary For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -727,7 +727,7 @@ double run_i8bin_benchmark(int benchmark_iterations, Shape input_shape, Shape ke
     cout.flush();
     return time_consumed;
 }
-double run_i8ter_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8ter_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Ternary For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -776,7 +776,7 @@ double run_i8ter_benchmark(int benchmark_iterations, Shape input_shape, Shape ke
     cout.flush();
     return time_consumed;
 }
-double run_i8qua_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8qua_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Quaternary For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -825,7 +825,7 @@ double run_i8qua_benchmark(int benchmark_iterations, Shape input_shape, Shape ke
     cout.flush();
     return time_consumed;
 }
-double run_i4i8_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i4i8_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int4InputsInt8Weights For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -880,7 +880,7 @@ double run_i4i8_benchmark(int benchmark_iterations, Shape input_shape, Shape ker
     cout.flush();
     return time_consumed;
 }
-double run_i4i4_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i4i4_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int4InputsInt4Weights For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -935,7 +935,7 @@ double run_i4i4_benchmark(int benchmark_iterations, Shape input_shape, Shape ker
     cout.flush();
     return time_consumed;
 }
-double run_teri8_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_teri8_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of TernaryInputsInt8Weights For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -990,7 +990,7 @@ double run_teri8_benchmark(int benchmark_iterations, Shape input_shape, Shape ke
     cout.flush();
     return time_consumed;
 }
-double run_bini8_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_bini8_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of BinaryInputsInt8Weights For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1045,7 +1045,7 @@ double run_bini8_benchmark(int benchmark_iterations, Shape input_shape, Shape ke
     cout.flush();
     return time_consumed;
 }
-double run_binbin_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_binbin_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of BinaryInputsBinaryWeights For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1100,7 +1100,7 @@ double run_binbin_benchmark(int benchmark_iterations, Shape input_shape, Shape k
     cout.flush();
     return time_consumed;
 }
-double run_terter_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_terter_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of TernaryInputsTernaryWeights For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1154,7 +1154,7 @@ double run_terter_benchmark(int benchmark_iterations, Shape input_shape, Shape k
         cout << "\rTernaryInputsTernaryWeights::MultiplyInt8SingleBatch: " << time_consumed << " s.                           ";
     cout.flush();
     return time_consumed;}
-double run_i3i3_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i3i3_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int3InputsInt3Weights For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1210,7 +1210,7 @@ double run_i3i3_benchmark(int benchmark_iterations, Shape input_shape, Shape ker
     return time_consumed;
 }
 
-double run_i8i8_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8i8_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int8 Multi-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1272,7 +1272,7 @@ double run_i8i8_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape 
     cout.flush();
     return time_consumed;
 }
-double run_i8i4_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8i4_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int4 Multi-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1321,7 +1321,7 @@ double run_i8i4_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape 
     cout.flush();
     return time_consumed;
 }
-double run_i8bin_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8bin_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Binary Multi-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1370,7 +1370,7 @@ double run_i8bin_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape
     cout.flush();
     return time_consumed;
 }
-double run_i8ter_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i8ter_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Ternary Multi-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1419,7 +1419,7 @@ double run_i8ter_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape
     cout.flush();
     return time_consumed;
 }
-double run_i4i8_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i4i8_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int4InputsInt8Weights Multi-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1474,7 +1474,7 @@ double run_i4i8_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape 
     cout.flush();
     return time_consumed;
 }
-double run_i4i4_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_i4i4_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int4InputsInt4Weights Multi-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1529,7 +1529,7 @@ double run_i4i4_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape 
     cout.flush();
     return time_consumed;
 }
-double run_teri8_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_teri8_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of TernaryInputsInt8Weights Multi-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1584,7 +1584,7 @@ double run_teri8_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape
     cout.flush();
     return time_consumed;
 }
-double run_terter_mb_benchmark(int benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+double run_terter_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of TernaryInputsTernaryWeights Multi-Batched For " << benchmark_iterations << " Iterations...";
     cout.flush();
@@ -1640,7 +1640,7 @@ double run_terter_mb_benchmark(int benchmark_iterations, Shape input_shape, Shap
     return time_consumed;
 }
 
-void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
+void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
     int _num_batches          = 512,
         _num_inputs           = 512,
         _num_outputs          = 512;
@@ -1664,6 +1664,10 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
           output_shape        = get_shape(_output_shape,     1),
           output_MB_shape     = get_shape(_output_MB_shape,  2);
     bool disable_progress = LowPrecision::FullyConnected::GetVariableFromEnv( "DisableProgress" ) == "TRUE";
+    int  verbosity = 2;
+    if (LowPrecision::FullyConnected::GetVariableFromEnv( "Verbose" ) != "")
+        verbosity = std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv( "Verbose" ));
+    disable_progress = disable_progress || (verbosity <= 1);
     bool process_unsinged = LowPrecision::FullyConnected::GetVariableFromEnv( "ProcessUnsinged" ) == "TRUE";
     bool use_external_timing_profiler = LowPrecision::FullyConnected::GetVariableFromEnv( "UseExternalTimer" ) == "TRUE";
 
@@ -2048,7 +2052,8 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
         }
     }
     if (benchmarks.real_multi_gemm_api_benchmark_enable){
-        cout << "Running Real Multi-Batch GEMM API benchmark" << endl;
+        if (verbosity >= 2)
+            cout << "Running Real Multi-Batch GEMM API benchmark" << endl;
 
         bool show_speedups  = LowPrecision::FullyConnected::GetVariableFromEnv( "ShowSpeedups" ) == "TRUE";
         bool is_gem5        = LowPrecision::FullyConnected::GetVariableFromEnv( "IS_GEM5" ) == "TRUE";
@@ -2056,145 +2061,231 @@ void run_benchmark(int benchmark_iterations, benchmark_mode_t benchmarks){
 
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x8000 || show_speedups){
             baseline_time = run_real_ruy_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, disable_progress);
-            if (show_speedups)
-                cout << "\rBaseline Time: " << baseline_time << " seconds                   "  << endl;
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'i8i8' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / baseline_time) / 1000000000) << " GOPS for " << baseline_time << " seconds run                                                      \n";
-            else
-                cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\rBaseline Time: " << baseline_time << " seconds                   "  << endl;
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'i8i8' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / baseline_time) / 1000000000) << " GOPS for " << baseline_time << " seconds run                                                      \n";
+                else
+                    cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / baseline_time) / 1000000000) << ",";
+                else
+                    cout << baseline_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0001){ // kInt8Int4
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Int4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kInt8Int4) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Int4) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kInt8Int4) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Int4) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0002){ // kInt8Binary
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Binary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kInt8Binary) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Binary) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kInt8Binary) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Binary) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0004){ // kInt8Ternary
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Ternary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kInt8Ternary) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Ternary) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kInt8Ternary) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Ternary) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0010){ // kInt4ActInt8Weight
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt8Weight) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt8Weight) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt8Weight) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt8Weight) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0020){ // kInt4ActInt4Weight
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt4Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt4Weight) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt4Weight) << "' " << ((process_unsinged)?("(Unsigned)"):("")) << "Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt4Weight) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt4Weight) << "' " << ((process_unsinged)?("(Unsigned)"):("")) << "Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0040){ // kTernaryActInt8Weight
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActInt8Weight) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActInt8Weight) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActInt8Weight) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActInt8Weight) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0200){ // kTernaryActTernaryWeight
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActTernaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActTernaryWeight) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActTernaryWeight) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActTernaryWeight) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActTernaryWeight) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0100){ // kBinaryActBinaryWeight
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBinaryActBinaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kBinaryActBinaryWeight) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kBinaryActBinaryWeight) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kBinaryActBinaryWeight) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kBinaryActBinaryWeight) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x0800){ // kInt8ActInt8WeightBarrelShiftMul
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x1000){ // kULPPACKW4A4
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kULPPACKW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kULPPACKW4A4) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kULPPACKW4A4) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kULPPACKW4A4) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kULPPACKW4A4) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x2000){ // kSelfDependentW4A4
             benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
-            if (show_speedups)
-                cout << "\r[" 
-                     << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW4A4) 
-                     << "] speedup: " 
-                     << (((baseline_time - benchmark_time) / baseline_time) * 100)
-                     << "%";
-            else if (benchmarks.calc_operations_per_second)
-                cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW4A4) << "' " << ((process_unsinged)?("(Unsigned)"):("")) << "Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
-            cout << endl;
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW4A4) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW4A4) << "' " << ((process_unsinged)?("(Unsigned)"):("")) << "Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
         }
+        if (verbosity == 1)
+            cout << endl;
     }
     if (benchmarks.real_multi_mul_api_benchmark_enable){
         cout << "Running Real Multi-Batch Mul API benchmark" << endl;

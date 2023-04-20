@@ -3,7 +3,7 @@
 #ifndef IS_ARM
 #else
 namespace LowPrecision{
-    long int Shape::last_id = 0;
+    unsigned long int Shape::last_id = 0;
     
     namespace FullyConnected{
         using ::LowPrecision::Method;

@@ -508,10 +508,10 @@ class Shape
 {
     long int id;
 public:
-    static long int last_id;
-    int number_dims;
+    static unsigned long int last_id;
+    size_t number_dims;
     int* size;
-    int flatsize;
+    size_t flatsize;
 
     Shape():number_dims(0),size(nullptr),flatsize(0){id = last_id; last_id++;}
     ~Shape(){}
@@ -595,14 +595,14 @@ typedef half_float::half float16;
 #endif
 
 template <typename T>
-T* allocate(int size){
+T* allocate(size_t size){
     return new T[size];
 }
 
 template <typename T>
-T** allocate2D(int first_size, int second_size){
+T** allocate2D(size_t first_size, size_t second_size){
     T** result = new T*[first_size];
-    for(int i; i < first_size; i++)
+    for(size_t i; i < first_size; i++)
         result[i] = new T[second_size];
     return result;
 }
