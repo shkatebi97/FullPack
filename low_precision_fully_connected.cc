@@ -4,7 +4,46 @@
 #else
 namespace LowPrecision{
     unsigned long int Shape::last_id = 0;
-    
+    TimingManager::~TimingManager(){
+        bool ignore_filter_timings = LowPrecision::FullyConnected::GetVariableFromEnv( "GEMMAPITiming_IgnoreFiltersTiming" ) == "TRUE";
+        size_t count = _timings.size();
+        double total = 0, gemm = 0, 
+                dst_unpacking = 0, dst_unpadding = 0,
+                lhs_packing   = 0, lhs_padding   = 0,
+                rhs_packing   = 0, rhs_padding   = 0,
+                dst_packing   = 0, dst_padding   = 0;
+        for (TimingDetailes* timer : _timings){
+            total         += timer->total() - timer->rhs_packing - timer->rhs_padding;
+            gemm          += timer->gemm;
+            dst_unpacking += timer->dst_unpacking;
+            dst_unpadding += timer->dst_unpadding;
+            dst_packing   += timer->dst_packing;
+            dst_padding   += timer->dst_padding;
+            lhs_packing   += timer->lhs_packing;
+            lhs_padding   += timer->lhs_padding;
+            if (!ignore_filter_timings){
+                rhs_packing   += timer->rhs_packing;
+                rhs_padding   += timer->rhs_padding;
+            }
+            // delete timer;
+        }
+        if (count > 0){
+            std::cout     << "Total GEMM API Timing   : " << total          * 1000000 << std::endl;
+            if (total > 0){
+                std::cout     << "\t" << "GEMM            : " << gemm           * 1000000 << std::endl;
+                std::cout     << "\t" << "Input  Packing  : " << lhs_packing    * 1000000 << std::endl;
+                if (!ignore_filter_timings)
+                    std::cout << "\t" << "Filter Packing  : " << rhs_packing    * 1000000 << std::endl;
+                std::cout     << "\t" << "Output Packing  : " << dst_packing    * 1000000 << std::endl;
+                std::cout     << "\t" << "Output UnPacking: " << dst_unpacking  * 1000000 << std::endl;
+                std::cout     << "\t" << "Input  Padding  : " << lhs_padding    * 1000000 << std::endl;
+                if (!ignore_filter_timings)
+                    std::cout << "\t" << "Filter Padding  : " << rhs_padding    * 1000000 << std::endl;
+                std::cout     << "\t" << "Output Padding  : " << dst_padding    * 1000000 << std::endl;
+                std::cout     << "\t" << "Output UnPadding: " << dst_unpadding  * 1000000 << std::endl;
+            }
+        }
+    }
     namespace FullyConnected{
         using ::LowPrecision::Method;
         using ::LowPrecision::Shape;
@@ -66,6 +105,8 @@ namespace LowPrecision{
             else if (retval == std::string("ULPPACK-W7A7"))
                 return Method::kULPPACKW7A7;
             else if (retval == std::string("BarrelShift-Mul-W8A8"))
+                return Method::kInt8ActInt8WeightBarrelShiftMul;
+            else if (retval == std::string("SelfDependent-W4A4"))
                 return Method::kInt8ActInt8WeightBarrelShiftMul;
             else
                 return Method::kNoOptimization;
