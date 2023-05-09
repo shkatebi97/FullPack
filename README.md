@@ -1,6 +1,6 @@
 # FullPack
 
-This repository contains FullPack codes for only the ARMv8 (`aarch64``) architecture of the paper:
+This repository contains FullPack codes for only the ARMv8 (`aarch64`) architecture of the paper:
 
 ```bibtex
 @article{katebi2022fullpack,
