@@ -186,6 +186,9 @@ cc_library(
         "kernels/Int8-Quaternary.cc",
         "kernels/Int3-Int3.cc",
         "kernels/ULPPACK.cc",
+        # SelfDependent sources
+        "kernels/SelfDependent.cc",
+        "kernels/SelfDependent-kernels/W4A4.cc",
     ],
     hdrs = ["low_precision_fully_connected.h"],
     copts = tflite_copts() + tf_opts_nortti_if_android() + ["-march=armv8.2-a+fp16", "-lm"] + ULPPACK_copts,
