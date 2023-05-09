@@ -16,9 +16,11 @@ LDFLAGS :=
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
-    CCFLAGS = -static -pthread -lstdc++ -g -march=armv8.2-a+fp16 -Wno-pointer-arith -DIS_ARM -DIS_ARM64 -DTFLITE_BUILD -lm -flax-vector-conversions -Wno-narrowing
+    CCFLAGS = -static -pthread -lstdc++ -g -march=armv8.2-a+fp16 -Wno-pointer-arith -Wno-narrowing -DIS_ARM -DIS_ARM64 -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
+    SHARED_CCFLAGS = -pthread -lstdc++ -g -march=armv8.2-a+fp16 -Wno-pointer-arith -Wno-narrowing -DIS_ARM -DIS_ARM64 -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
 else
-    CCFLAGS = -static -pthread -lstdc++ -O3 -march=armv8.2-a+fp16 -Wno-pointer-arith -DIS_ARM -DIS_ARM64 -DTFLITE_BUILD -lm -flax-vector-conversions -Wno-narrowing
+    CCFLAGS = -static -pthread -lstdc++ -O3 -march=armv8.2-a+fp16 -Wno-pointer-arith -Wno-narrowing -DIS_ARM -DIS_ARM64 -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
+    SHARED_CCFLAGS = -pthread -lstdc++ -O3 -march=armv8.2-a+fp16 -Wno-pointer-arith -Wno-narrowing -DIS_ARM -DIS_ARM64 -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
 endif
 
 ENABLE_RUY_PROFILER ?= 0
@@ -34,6 +36,7 @@ CXX = /usr/bin/aarch64-linux-gnu-g++
 CC = /usr/bin/aarch64-linux-gnu-gcc
 
 all:												Build-Ruy \
+													libfullpack.so \
 													low_precision_fully_connected.o \
 													ops-implementations/mul/LowPrecisionPacking.o \
 													low_precision_fully_connected_test.o \
@@ -44,6 +47,16 @@ all:												Build-Ruy \
 													common/asmutility.h \
 													Makefile
 	$(CXX) low_precision_fully_connected.o ops-implementations/mul/LowPrecisionPacking.o low_precision_fully_connected_test.o $(KERNELS_OBJS) -L$(RUY_LIB) $(RUY_LIB_LINK) -L$(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) -L$(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o low_precision_fully_connected_test
+
+libfullpack.so:										low_precision_fully_connected.o \
+													ops-implementations/mul/LowPrecisionPacking.o \
+													common/types.h \
+													common/flags.h \
+													common/half.hpp \
+													common/asmutility.h \
+													Makefile
+	$(CXX) -shared ops-implementations/mul/LowPrecisionPacking.o $(KERNELS_OBJS) $(SHARED_CCFLAGS) ${LDFLAGS} -o libfullpack.so
+
 Build-Ruy:					
 	$(MAKE) -C ruy ENABLE_RUY_PROFILER=$(ENABLE_RUY_PROFILER) DEBUG=$(DEBUG) DISABLE_KERNELS_MEM_ACCESS=$(DISABLE_KERNELS_MEM_ACCESS)
 
@@ -52,95 +65,95 @@ Build-Ruy:
 kernels/Int8-Int8.o:								kernels/Int8-Int8.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Int8-Int8.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Int8.o -c
+	$(CXX) kernels/Int8-Int8.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Int8.o -c
 
 kernels/Int8-Int4.o:								kernels/Int8-Int4.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Int8-Int4.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Int4.o -c
+	$(CXX) kernels/Int8-Int4.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Int4.o -c
 
 kernels/Int4-Int8.o:								kernels/Int4-Int8.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Int4-Int8.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int4-Int8.o -c
+	$(CXX) kernels/Int4-Int8.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int4-Int8.o -c
 
 kernels/Int4-Int4.o:								kernels/Int4-Int4.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Int4-Int4.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int4-Int4.o -c
+	$(CXX) kernels/Int4-Int4.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int4-Int4.o -c
 
 kernels/Int8-Ternary.o:								kernels/Int8-Ternary.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Int8-Ternary.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Ternary.o -c
+	$(CXX) kernels/Int8-Ternary.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Ternary.o -c
 
 kernels/Ternary-Int8.o:								kernels/Ternary-Int8.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Ternary-Int8.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Ternary-Int8.o -c
+	$(CXX) kernels/Ternary-Int8.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Ternary-Int8.o -c
 
 kernels/Ternary-Ternary.o:							kernels/Ternary-Ternary.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Ternary-Ternary.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Ternary-Ternary.o -c
+	$(CXX) kernels/Ternary-Ternary.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Ternary-Ternary.o -c
 
 kernels/Int8-Binary.o:								kernels/Int8-Binary.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Int8-Binary.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Binary.o -c
+	$(CXX) kernels/Int8-Binary.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Binary.o -c
 
 kernels/Binary-Int8.o:								kernels/Binary-Int8.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Binary-Int8.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Binary-Int8.o -c
+	$(CXX) kernels/Binary-Int8.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Binary-Int8.o -c
 
 kernels/Binary-Binary.o:							kernels/Binary-Binary.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Binary-Binary.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Binary-Binary.o -c
+	$(CXX) kernels/Binary-Binary.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Binary-Binary.o -c
 
 kernels/Binary-Binary-XOR.o:						kernels/Binary-Binary-XOR.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Binary-Binary-XOR.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Binary-Binary-XOR.o -c
+	$(CXX) kernels/Binary-Binary-XOR.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Binary-Binary-XOR.o -c
 
 kernels/Int8-Quaternary.o:							kernels/Int8-Quaternary.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Int8-Quaternary.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Quaternary.o -c
+	$(CXX) kernels/Int8-Quaternary.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int8-Quaternary.o -c
 
 kernels/Int3-Int3.o:								kernels/Int3-Int3.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/Int3-Int3.cc $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int3-Int3.o -c
+	$(CXX) kernels/Int3-Int3.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/Int3-Int3.o -c
 
 kernels/ULPPACK.o:									kernels/ULPPACK.cc \
 													kernels/ULPPACK/ULPPACK.h \
 													kernels/ULPPACK/test.h \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/ULPPACK.cc -flax-vector-conversions -lpthread $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/ULPPACK.o -c
+	$(CXX) kernels/ULPPACK.cc -flax-vector-conversions -lpthread -Wno-psabi -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/ULPPACK.o -c
 
 kernels/ULPPACK/4x8-neon-multipack-type2.o:			kernels/ULPPACK.cc \
 													kernels/ULPPACK/ULPPACK.h \
 													kernels/ULPPACK/test.h \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/ULPPACK/4x8-neon-multipack-type2.cpp -flax-vector-conversions -lpthread $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/ULPPACK/4x8-neon-multipack-type2.o -c
+	$(CXX) kernels/ULPPACK/4x8-neon-multipack-type2.cpp -flax-vector-conversions -lpthread -Wno-psabi -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/ULPPACK/4x8-neon-multipack-type2.o -c
 
 kernels/ULPPACK/4x8-neon-multipack.o:				kernels/ULPPACK.cc \
 													kernels/ULPPACK/ULPPACK.h \
 													kernels/ULPPACK/test.h \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/ULPPACK/4x8-neon-multipack.cpp -flax-vector-conversions -lpthread $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/ULPPACK/4x8-neon-multipack.o -c
+	$(CXX) kernels/ULPPACK/4x8-neon-multipack.cpp -flax-vector-conversions -lpthread -Wno-psabi -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/ULPPACK/4x8-neon-multipack.o -c
 
 ######  SelfDependent Kernels Start  ######
 
 kernels/SelfDependent-kernels/W4A4.o:				kernels/SelfDependent-kernels/W4A4.cc \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/SelfDependent-kernels/W4A4.cc -flax-vector-conversions -lpthread $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent-kernels/W4A4.o -c
+	$(CXX) kernels/SelfDependent-kernels/W4A4.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent-kernels/W4A4.o -c
 
 ######  SelfDependent Kernels End  ######
 
@@ -148,7 +161,7 @@ kernels/SelfDependent.o:							kernels/SelfDependent.cc \
 													kernels/SelfDependent-kernels/W4A4.o \
 													low_precision_fully_connected.h \
 													Makefile
-	$(CXX) kernels/SelfDependent.cc -flax-vector-conversions -lpthread $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent.o -c
+	$(CXX) kernels/SelfDependent.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent.o -c
 
 #############################  Kernels End  #############################
 
