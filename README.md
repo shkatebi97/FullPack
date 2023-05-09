@@ -1,6 +1,16 @@
 # FullPack
 
-This repository contains FullPack codes for only ARMv8 (`aarch64`) architecture.
+This repository contains FullPack codes for only the ARMv8 (`aarch64``) architecture of the paper:
+
+```bibtex
+@article{katebi2022fullpack,
+  title={FullPack: Full Vector Utilization for Sub-Byte Quantized Inference on General Purpose CPUs},
+  author={Katebi, Hossein and Asadi, Navidreza and Goudarzi, Maziar},
+  journal={arXiv preprint arXiv:2211.06982},
+  year={2022}
+}
+```
+Please cite the above-mentioned paper, if you use these codes.
 
 To use FullPack, you have two options:
 
