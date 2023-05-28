@@ -227,9 +227,9 @@ void run_gemm_api_tests(LowPrecision::Method method){
         );
 
     if (LowPrecision::mask_out_source(trusted_ret) == LowPrecision::Status::Success)
-        cout << method_name << " Trusted Output Generation" << spaces.substr(20) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+        cout << method_name << " Trusted Output Generation" << spaces.substr((spaces.size() < 20)?(spaces.size()):(20)) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
     else
-        cout << method_name << " Trusted Output Generation" << spaces.substr(20) << "=> \033[1m\033[31mFAILED\033[0m (Sourcce: TrustedOutputGenerator | Status: "
+        cout << method_name << " Trusted Output Generation" << spaces.substr((spaces.size() < 20)?(spaces.size()):(20)) << "=> \033[1m\033[31mFAILED\033[0m (Sourcce: TrustedOutputGenerator | Status: "
                                                         << LowPrecision::get_status_string(LowPrecision::mask_out_source(trusted_ret))
                                                         << ")" << endl;
 
