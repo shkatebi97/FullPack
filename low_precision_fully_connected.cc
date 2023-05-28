@@ -27,21 +27,19 @@ namespace LowPrecision{
             }
             // delete timer;
         }
-        if (count > 0){
+        if (count > 0 && total > 0){
             std::cout     << "Total GEMM API Timing   : " << total          * 1000000 << std::endl;
-            if (total > 0){
-                std::cout     << "\t" << "GEMM            : " << gemm           * 1000000 << std::endl;
-                std::cout     << "\t" << "Input  Packing  : " << lhs_packing    * 1000000 << std::endl;
-                if (!ignore_filter_timings)
-                    std::cout << "\t" << "Filter Packing  : " << rhs_packing    * 1000000 << std::endl;
-                std::cout     << "\t" << "Output Packing  : " << dst_packing    * 1000000 << std::endl;
-                std::cout     << "\t" << "Output UnPacking: " << dst_unpacking  * 1000000 << std::endl;
-                std::cout     << "\t" << "Input  Padding  : " << lhs_padding    * 1000000 << std::endl;
-                if (!ignore_filter_timings)
-                    std::cout << "\t" << "Filter Padding  : " << rhs_padding    * 1000000 << std::endl;
-                std::cout     << "\t" << "Output Padding  : " << dst_padding    * 1000000 << std::endl;
-                std::cout     << "\t" << "Output UnPadding: " << dst_unpadding  * 1000000 << std::endl;
-            }
+            std::cout     << "\t" << "GEMM            : " << gemm           * 1000000 << std::endl;
+            std::cout     << "\t" << "Input  Packing  : " << lhs_packing    * 1000000 << std::endl;
+            if (!ignore_filter_timings)
+                std::cout << "\t" << "Filter Packing  : " << rhs_packing    * 1000000 << std::endl;
+            std::cout     << "\t" << "Output Packing  : " << dst_packing    * 1000000 << std::endl;
+            std::cout     << "\t" << "Output UnPacking: " << dst_unpacking  * 1000000 << std::endl;
+            std::cout     << "\t" << "Input  Padding  : " << lhs_padding    * 1000000 << std::endl;
+            if (!ignore_filter_timings)
+                std::cout << "\t" << "Filter Padding  : " << rhs_padding    * 1000000 << std::endl;
+            std::cout     << "\t" << "Output Padding  : " << dst_padding    * 1000000 << std::endl;
+            std::cout     << "\t" << "Output UnPadding: " << dst_unpadding  * 1000000 << std::endl;
         }
     }
     namespace FullyConnected{
