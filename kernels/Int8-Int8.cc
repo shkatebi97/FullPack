@@ -11,7 +11,8 @@ namespace LowPrecision{
         namespace Int8InputsInt8WeightsBarrelShiftMul{
             #define Int8InputsInt8WeightsBarrelShiftMul_SimpleUnpack 0
             #define Int8InputsInt8WeightsBarrelShiftMul_InKernelUnpack 1
-            #define Int8InputsInt8WeightsBarrelShiftMul_UnpackWithSmallStore 1
+            #define Int8InputsInt8WeightsBarrelShiftMul_UnpackWithSmallStore 0
+            #define Int8InputsInt8WeightsBarrelShiftMul_MixStoreWithInit 1
             #define Int8InputsInt8WeightsBarrelShiftMul_UnpackWithTLB 0 // This is not implemented!
             #define Int8InputsInt8WeightsBarrelShiftMul_UseUInt8x16VectorsForLoad 0
             size_t TransformFilterShape(int* shape, int n_dims){
@@ -130,7 +131,567 @@ namespace LowPrecision{
                           c_stride = N;
                 
                 const int8_t* w = kernel;
-                
+                #if Int8InputsInt8WeightsBarrelShiftMul_MixStoreWithInit
+                int16x8_t vACC_Ar76543210_x_Wc76543210;
+                int16x8_t vACC_Ar76543210_x_Wc07654321;
+                int16x8_t vACC_Ar76543210_x_Wc10765432;
+                int16x8_t vACC_Ar76543210_x_Wc21076543;
+                int16x8_t vACC_Ar76543210_x_Wc32107654;
+                int16x8_t vACC_Ar76543210_x_Wc43210765;
+                int16x8_t vACC_Ar76543210_x_Wc54321076;
+                int16x8_t vACC_Ar76543210_x_Wc65432107;
+                int8x8_t vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                int8x8_t vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                int8x8_t vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                int8x8_t vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                int8x8_t vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                int8x8_t vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                int8x8_t vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                int8x8_t vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                uint16x8_t int16x4_1st, int16x4_2nd;
+
+                int32_t* c0 = output;
+                int32_t* c1 = output;
+                int32_t* c2 = output;
+                int32_t* c3 = output;
+                int32_t* c4 = output;
+                int32_t* c5 = output;
+                int32_t* c6 = output;
+                int32_t* c7 = output;
+
+                int mr_block_size = 8, nr_block_size = 8;
+                for (size_t mr_block_start = 0; mr_block_start < M; mr_block_start += mr_block_size) {
+                    for (size_t nr_block_start = 0; nr_block_start < N; nr_block_start += nr_block_size) {
+                                      w = kernel + nr_block_start * K;
+                        const int8_t* a = input  + mr_block_start * K;
+                        int32_t*      c = output + mr_block_start * N + nr_block_start;
+                        int k = K - 8;
+
+                        if (mr_block_start == 0 && nr_block_start == 0){
+                            int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc76543210, 0);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc07654321, 0);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc10765432, 0);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc21076543, 0);
+                            int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                            vst1q_s32(c0, int16x4_1st);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc32107654, 0);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc43210765, 0);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc54321076, 0);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc65432107, 0);
+                            int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                            vst1q_s32(c0+4, int16x4_2nd);
+
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc65432107, 1);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc76543210, 1);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc07654321, 1);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc10765432, 1);
+                            int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                            vst1q_s32(c1, int16x4_1st);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc21076543, 1);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc32107654, 1);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc43210765, 1);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc54321076, 1);
+                            int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                            vst1q_s32(c1+4, int16x4_2nd);
+
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc54321076, 2);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc65432107, 2);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc76543210, 2);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc07654321, 2);
+                            int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                            vst1q_s32(c2, int16x4_1st);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc10765432, 2);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc21076543, 2);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc32107654, 2);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc43210765, 2);
+                            int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                            vst1q_s32(c2+4, int16x4_2nd);
+
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc43210765, 3);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc54321076, 3);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc65432107, 3);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc76543210, 3);
+                            int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                            vst1q_s32(c3, int16x4_1st);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc07654321, 3);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc10765432, 3);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc21076543, 3);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc32107654, 3);
+                            int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                            vst1q_s32(c3+4, int16x4_2nd);
+
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc32107654, 4);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc43210765, 4);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc54321076, 4);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc65432107, 4);
+                            int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                            vst1q_s32(c4, int16x4_1st);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc76543210, 4);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc07654321, 4);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc10765432, 4);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc21076543, 4);
+                            int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                            vst1q_s32(c4+4, int16x4_2nd);
+
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc21076543, 5);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc32107654, 5);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc43210765, 5);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc54321076, 5);
+                            int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                            vst1q_s32(c5, int16x4_1st);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc65432107, 5);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc76543210, 5);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc07654321, 5);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc10765432, 5);
+                            int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                            vst1q_s32(c5+4, int16x4_2nd);
+
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc10765432, 6);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc21076543, 6);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc32107654, 6);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc43210765, 6);
+                            int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                            vst1q_s32(c6, int16x4_1st);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc54321076, 6);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc65432107, 6);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc76543210, 6);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc07654321, 6);
+                            int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                            vst1q_s32(c6+4, int16x4_2nd);
+
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc07654321, 7);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc10765432, 7);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc21076543, 7);
+                            int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc32107654, 7);
+                            int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                            vst1q_s32(c7, int16x4_1st);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc43210765, 7);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc54321076, 7);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc65432107, 7);
+                            int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc76543210, 7);
+                            vst1q_s32(c7+4, int16x4_2nd);
+                        }
+                        
+                        vACC_Ar76543210_x_Wc76543210 = veorq_s32(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
+                        vACC_Ar76543210_x_Wc07654321 = vACC_Ar76543210_x_Wc76543210; 
+                        vACC_Ar76543210_x_Wc10765432 = vACC_Ar76543210_x_Wc76543210; 
+                        vACC_Ar76543210_x_Wc21076543 = vACC_Ar76543210_x_Wc76543210; 
+                        vACC_Ar76543210_x_Wc32107654 = vACC_Ar76543210_x_Wc76543210; 
+                        vACC_Ar76543210_x_Wc43210765 = vACC_Ar76543210_x_Wc76543210; 
+                        vACC_Ar76543210_x_Wc54321076 = vACC_Ar76543210_x_Wc76543210; 
+                        vACC_Ar76543210_x_Wc65432107 = vACC_Ar76543210_x_Wc76543210;
+
+                        int8x8_t vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                        vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                        vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                        vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                        vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                        vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                        vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                        vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                        vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                        vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                        vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                        vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                        vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                        vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                        vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                        vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                        vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                        vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                        vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                        vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                        vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                        vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                        vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                        vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                        vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                        vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                        vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+
+                        vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                        vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                        vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                        vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                        vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                        vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                        vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                        vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                        vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                        vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                        vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                        vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                        vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                        vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                        vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                        vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                        vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                        vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                        vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                        vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                        vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                        vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                        vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                        vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                        vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                        vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                        vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                        vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                        vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                        vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                        vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                        vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                        vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                        vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                        vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                        vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                        vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                        vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                        vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                        vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                        vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                        vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                        vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                        vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                        vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                        for (; k >= 8; k -= 8) { // 158 - 52 = 106
+                            vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                            vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                            vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                            vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                            vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                            vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                            vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                            vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                            vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                            vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                            vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                            vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                            vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                            vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                            vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                            vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                            vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                            vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                            vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                            vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                            vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                            vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                            vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                            vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                            vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                            vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                            vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                            vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                            vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                            vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                            vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                            vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                            vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                            vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                            vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                            vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                            vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                            vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                            vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                            vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                            vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                            vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                            vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                            vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                            vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                            vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                            vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                            vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                            vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                            vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                            vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+
+                            vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                            vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                            vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                            vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                            vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                            vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                            vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                            vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                            vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                            vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                            vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                            vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                            vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                            vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                            vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                            vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                            vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                            vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                            vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                            vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                            vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                            vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                            vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                            vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                            vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                            vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                            vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                            vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                            vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                            vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                            vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                            vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                            vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                            vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                            vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                            vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                            vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                            vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                            vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                            vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                            vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                            vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                            vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                            vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                            vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                            vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                            vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                            vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                            vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                            vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                            vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+
+                            vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                            vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                            vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                            vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                            vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                            vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                            vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                            vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                            vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                            vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                            vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                            vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                            vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                            vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                            vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                            vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                            vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+    
+                            vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                            vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
+                            vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                            vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
+                            vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                            vACC_Ar76543210_x_Wc10765432 = vmlal_s8(vACC_Ar76543210_x_Wc10765432, vWc10765432, vAr76543210);
+                            vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                            vACC_Ar76543210_x_Wc21076543 = vmlal_s8(vACC_Ar76543210_x_Wc21076543, vWc21076543, vAr76543210);
+                            vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                            vACC_Ar76543210_x_Wc32107654 = vmlal_s8(vACC_Ar76543210_x_Wc32107654, vWc32107654, vAr76543210);
+                            vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                            vACC_Ar76543210_x_Wc43210765 = vmlal_s8(vACC_Ar76543210_x_Wc43210765, vWc43210765, vAr76543210);
+                            vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                            vACC_Ar76543210_x_Wc54321076 = vmlal_s8(vACC_Ar76543210_x_Wc54321076, vWc54321076, vAr76543210);
+                            vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                            vACC_Ar76543210_x_Wc65432107 = vmlal_s8(vACC_Ar76543210_x_Wc65432107, vWc65432107, vAr76543210);
+                            vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+                        }
+                        
+                        c0 = c;
+                        c1 = c0 + c_stride;
+                        c2 = c1 + c_stride;
+                        c3 = c2 + c_stride;
+                        c4 = c3 + c_stride;
+                        c5 = c4 + c_stride;
+                        c6 = c5 + c_stride;
+                        c7 = c6 + c_stride;
+                    }
+                }
+
+                if (K > 8 || true){
+                    int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc76543210, 0);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc07654321, 0);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc10765432, 0);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc21076543, 0);
+                    int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                    vst1q_s32(c0, int16x4_1st);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc32107654, 0);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc43210765, 0);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc54321076, 0);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc65432107, 0);
+                    int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                    vst1q_s32(c0+4, int16x4_2nd);
+
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc65432107, 1);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc76543210, 1);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc07654321, 1);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc10765432, 1);
+                    int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                    vst1q_s32(c1, int16x4_1st);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc21076543, 1);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc32107654, 1);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc43210765, 1);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc54321076, 1);
+                    int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                    vst1q_s32(c1+4, int16x4_2nd);
+
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc54321076, 2);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc65432107, 2);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc76543210, 2);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc07654321, 2);
+                    int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                    vst1q_s32(c2, int16x4_1st);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc10765432, 2);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc21076543, 2);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc32107654, 2);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc43210765, 2);
+                    int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                    vst1q_s32(c2+4, int16x4_2nd);
+
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc43210765, 3);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc54321076, 3);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc65432107, 3);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc76543210, 3);
+                    int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                    vst1q_s32(c3, int16x4_1st);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc07654321, 3);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc10765432, 3);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc21076543, 3);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc32107654, 3);
+                    int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                    vst1q_s32(c3+4, int16x4_2nd);
+
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc32107654, 4);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc43210765, 4);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc54321076, 4);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc65432107, 4);
+                    int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                    vst1q_s32(c4, int16x4_1st);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc76543210, 4);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc07654321, 4);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc10765432, 4);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc21076543, 4);
+                    int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                    vst1q_s32(c4+4, int16x4_2nd);
+
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc21076543, 5);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc32107654, 5);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc43210765, 5);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc54321076, 5);
+                    int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                    vst1q_s32(c5, int16x4_1st);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc65432107, 5);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc76543210, 5);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc07654321, 5);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc10765432, 5);
+                    int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                    vst1q_s32(c5+4, int16x4_2nd);
+
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc10765432, 6);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc21076543, 6);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc32107654, 6);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc43210765, 6);
+                    int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                    vst1q_s32(c6, int16x4_1st);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc54321076, 6);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc65432107, 6);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc76543210, 6);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc07654321, 6);
+                    int16x4_1st = veorq_u16(int16x4_1st, int16x4_1st);
+                    vst1q_s32(c6+4, int16x4_2nd);
+
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 0, vACC_Ar76543210_x_Wc07654321, 7);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 2, vACC_Ar76543210_x_Wc10765432, 7);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 4, vACC_Ar76543210_x_Wc21076543, 7);
+                    int16x4_1st = vcopyq_laneq_u16(int16x4_1st, 6, vACC_Ar76543210_x_Wc32107654, 7);
+                    int16x4_2nd = veorq_u16(int16x4_2nd, int16x4_2nd);
+                    vst1q_s32(c7, int16x4_1st);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 0, vACC_Ar76543210_x_Wc43210765, 7);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 2, vACC_Ar76543210_x_Wc54321076, 7);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 4, vACC_Ar76543210_x_Wc65432107, 7);
+                    int16x4_2nd = vcopyq_laneq_u16(int16x4_2nd, 6, vACC_Ar76543210_x_Wc76543210, 7);
+                    vst1q_s32(c7+4, int16x4_2nd);
+                }
+                #else
                 #if Int8InputsInt8WeightsBarrelShiftMul_UnpackWithSmallStore == 1 && Int8InputsInt8WeightsBarrelShiftMul_InKernelUnpack == 1
                     int16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_s32(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
                     int16x8_t vACC_Ar76543210_x_Wc07654321 = vACC_Ar76543210_x_Wc76543210; 
@@ -731,6 +1292,7 @@ namespace LowPrecision{
                         #endif
                     }
                 }
+                #endif
                 return Status::Success;
             }
             Status MultiplyInt8MultiBatched(
