@@ -1,0 +1,178 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [0]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/VGG19.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/VGG19.tflite
+INFO: Initialized TensorFlow Lite runtime.
+NOT Applying Conv Low-Precision for Kernel shape (27, 64, ), Input shape (50176, 3, ), and Output shape (50176, 64, ), and the ID is 0
+	Changing Input Shape
+	New Input Shape: (50176, 27, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (576, 64, ), Input shape (50176, 64, ), and Output shape (50176, 64, ), and the ID is 1
+	Changing Input Shape
+	New Input Shape: (50176, 576, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (576, 128, ), Input shape (12544, 64, ), and Output shape (12544, 128, ), and the ID is 2
+	Changing Input Shape
+	New Input Shape: (12544, 576, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (12544, 128, ), and Output shape (12544, 128, ), and the ID is 3
+	Changing Input Shape
+	New Input Shape: (12544, 1152, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (1152, 256, ), Input shape (3136, 128, ), and Output shape (3136, 256, ), and the ID is 4
+	Changing Input Shape
+	New Input Shape: (3136, 1152, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (3136, 256, ), and Output shape (3136, 256, ), and the ID is 5
+	Changing Input Shape
+	New Input Shape: (3136, 2304, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (3136, 256, ), and Output shape (3136, 256, ), and the ID is 6
+	Changing Input Shape
+	New Input Shape: (3136, 2304, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (3136, 256, ), and Output shape (3136, 256, ), and the ID is 7
+	Changing Input Shape
+	New Input Shape: (3136, 2304, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (2304, 512, ), Input shape (784, 256, ), and Output shape (784, 512, ), and the ID is 8
+	Changing Input Shape
+	New Input Shape: (784, 2304, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (784, 512, ), and Output shape (784, 512, ), and the ID is 9
+	Changing Input Shape
+	New Input Shape: (784, 4608, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (784, 512, ), and Output shape (784, 512, ), and the ID is 10
+	Changing Input Shape
+	New Input Shape: (784, 4608, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (784, 512, ), and Output shape (784, 512, ), and the ID is 11
+	Changing Input Shape
+	New Input Shape: (784, 4608, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (196, 512, ), and Output shape (196, 512, ), and the ID is 12
+	Changing Input Shape
+	New Input Shape: (196, 4608, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (196, 512, ), and Output shape (196, 512, ), and the ID is 13
+	Changing Input Shape
+	New Input Shape: (196, 4608, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (196, 512, ), and Output shape (196, 512, ), and the ID is 14
+	Changing Input Shape
+	New Input Shape: (196, 4608, )
+	No Changes To Appliability.
+NOT Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (196, 512, ), and Output shape (196, 512, ), and the ID is 15
+	Changing Input Shape
+	New Input Shape: (196, 4608, )
+	No Changes To Appliability.
+The input model file size (MB): 143.801
+Initialized session in 9.708ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=16338820 curr=16232073 min=16232073 max=16338820 avg=1.62854e+07 std=53373
+
+Running benchmark for at least 20 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=10 first=16230613 curr=16218773 min=16218773 max=16236353 avg=1.62279e+07 std=4545
+
+Inference timings in us: Init: 9708, First inference: 16338820, Warmup (avg): 1.62854e+07, Inference (avg): 1.62279e+07
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=4.32031 overall=171.875
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    4.158	    4.158	100.000%	100.000%	     0.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    4.158	    4.158	100.000%	100.000%	     0.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	     4.158	   100.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=1 curr=4158
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	            0.015	  778.532	  777.973	  4.794%	  4.794%	     0.000	        1	[vgg19/block1_conv1/Relu;vgg19/block1_conv1/BiasAdd;vgg19/block1_conv1/BiasAdd/ReadVariableOp;vgg19/block1_conv1/Conv2D]:0
+	                 CONV_2D	          777.994	 1342.369	 1341.407	  8.266%	 13.060%	     0.000	        1	[vgg19/block1_conv2/Relu;vgg19/block1_conv2/BiasAdd;vgg19/block1_conv1/BiasAdd/ReadVariableOp;vgg19/block1_conv2/Conv2D]:1
+	             MAX_POOL_2D	         2119.407	   12.347	   12.265	  0.076%	 13.136%	     0.000	        1	[vgg19/block1_pool/MaxPool]:2
+	                 CONV_2D	         2131.677	  573.583	  573.907	  3.537%	 16.672%	     0.000	        1	[vgg19/block2_conv1/Relu;vgg19/block2_conv1/BiasAdd;vgg19/block2_conv1/BiasAdd/ReadVariableOp;vgg19/block2_conv1/Conv2D]:3
+	                 CONV_2D	         2705.589	  787.836	  787.902	  4.855%	 21.528%	     0.000	        1	[vgg19/block2_conv2/Relu;vgg19/block2_conv2/BiasAdd;vgg19/block2_conv1/BiasAdd/ReadVariableOp;vgg19/block2_conv2/Conv2D]:4
+	             MAX_POOL_2D	         3493.495	    5.664	    5.630	  0.035%	 21.562%	     0.000	        1	[vgg19/block2_pool/MaxPool]:5
+	                 CONV_2D	         3499.131	  423.394	  423.305	  2.609%	 24.171%	     0.000	        1	[vgg19/block3_conv1/Relu;vgg19/block3_conv1/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv1/Conv2D]:6
+	                 CONV_2D	         3922.443	  847.609	  847.192	  5.221%	 29.392%	     0.000	        1	[vgg19/block3_conv2/Relu;vgg19/block3_conv2/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv2/Conv2D]:7
+	                 CONV_2D	         4769.641	  848.344	  848.330	  5.228%	 34.619%	     0.000	        1	[vgg19/block3_conv3/Relu;vgg19/block3_conv3/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv3/Conv2D]:8
+	                 CONV_2D	         5617.976	  848.101	  848.374	  5.228%	 39.847%	     0.000	        1	[vgg19/block3_conv4/Relu;vgg19/block3_conv4/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv4/Conv2D]:9
+	             MAX_POOL_2D	         6466.354	    2.724	    2.662	  0.016%	 39.864%	     0.000	        1	[vgg19/block3_pool/MaxPool]:10
+	                 CONV_2D	         6469.020	  438.528	  438.890	  2.705%	 42.568%	     0.000	        1	[vgg19/block4_conv1/Relu;vgg19/block4_conv1/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv1/Conv2D]:11
+	                 CONV_2D	         6907.915	 1352.566	 1352.212	  8.333%	 50.901%	     0.000	        1	[vgg19/block4_conv2/Relu;vgg19/block4_conv2/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv2/Conv2D]:12
+	                 CONV_2D	         8260.132	 1352.791	 1351.277	  8.327%	 59.228%	     0.000	        1	[vgg19/block4_conv3/Relu;vgg19/block4_conv3/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv3/Conv2D]:13
+	                 CONV_2D	         9611.413	 1348.857	 1348.226	  8.308%	 67.536%	     0.000	        1	[vgg19/block4_conv4/Relu;vgg19/block4_conv4/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv4/Conv2D]:14
+	             MAX_POOL_2D	        10959.646	    1.408	    1.448	  0.009%	 67.545%	     0.000	        1	[vgg19/block4_pool/MaxPool]:15
+	                 CONV_2D	        10961.095	  290.802	  291.055	  1.794%	 69.338%	     0.000	        1	[vgg19/block5_conv1/Relu;vgg19/block5_conv1/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block5_conv1/Conv2D]:16
+	                 CONV_2D	        11252.155	  290.819	  291.069	  1.794%	 71.132%	     0.000	        1	[vgg19/block5_conv2/Relu;vgg19/block5_conv2/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block5_conv2/Conv2D]:17
+	                 CONV_2D	        11543.229	  290.567	  290.844	  1.792%	 72.924%	     0.000	        1	[vgg19/block5_conv3/Relu;vgg19/block5_conv3/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block5_conv3/Conv2D]:18
+	                 CONV_2D	        11834.077	  290.367	  290.994	  1.793%	 74.718%	     0.000	        1	[vgg19/block5_conv4/Relu;vgg19/block5_conv4/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block5_conv4/Conv2D]:19
+	             MAX_POOL_2D	        12125.075	    0.378	    0.396	  0.002%	 74.720%	     0.000	        1	[vgg19/block5_pool/MaxPool]:20
+	                 RESHAPE	        12125.473	    0.010	    0.010	  0.000%	 74.720%	     0.000	        1	[vgg19/flatten/Reshape]:21
+	         FULLY_CONNECTED	        12125.484	 3409.704	 3409.279	 21.009%	 95.729%	     0.000	        1	[vgg19/fc1/MatMul;vgg19/fc1/Relu;vgg19/fc1/BiasAdd]:22
+	         FULLY_CONNECTED	        15534.767	  557.208	  557.079	  3.433%	 99.162%	     0.000	        1	[vgg19/fc2/MatMul;vgg19/fc2/Relu;vgg19/fc2/BiasAdd]:23
+	         FULLY_CONNECTED	        16091.851	  135.865	  135.934	  0.838%	100.000%	     0.000	        1	[vgg19/predictions/MatMul;vgg19/predictions/BiasAdd]:24
+	                 SOFTMAX	        16227.790	    0.089	    0.079	  0.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:25
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	        12125.484	 3409.704	 3409.279	 21.009%	 21.009%	     0.000	        1	[vgg19/fc1/MatMul;vgg19/fc1/Relu;vgg19/fc1/BiasAdd]:22
+	                 CONV_2D	         6907.915	 1352.566	 1352.212	  8.333%	 29.342%	     0.000	        1	[vgg19/block4_conv2/Relu;vgg19/block4_conv2/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv2/Conv2D]:12
+	                 CONV_2D	         8260.132	 1352.791	 1351.277	  8.327%	 37.669%	     0.000	        1	[vgg19/block4_conv3/Relu;vgg19/block4_conv3/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv3/Conv2D]:13
+	                 CONV_2D	         9611.413	 1348.857	 1348.226	  8.308%	 45.977%	     0.000	        1	[vgg19/block4_conv4/Relu;vgg19/block4_conv4/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv4/Conv2D]:14
+	                 CONV_2D	          777.994	 1342.369	 1341.407	  8.266%	 54.243%	     0.000	        1	[vgg19/block1_conv2/Relu;vgg19/block1_conv2/BiasAdd;vgg19/block1_conv1/BiasAdd/ReadVariableOp;vgg19/block1_conv2/Conv2D]:1
+	                 CONV_2D	         5617.976	  848.101	  848.374	  5.228%	 59.471%	     0.000	        1	[vgg19/block3_conv4/Relu;vgg19/block3_conv4/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv4/Conv2D]:9
+	                 CONV_2D	         4769.641	  848.344	  848.330	  5.228%	 64.699%	     0.000	        1	[vgg19/block3_conv3/Relu;vgg19/block3_conv3/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv3/Conv2D]:8
+	                 CONV_2D	         3922.443	  847.609	  847.192	  5.221%	 69.919%	     0.000	        1	[vgg19/block3_conv2/Relu;vgg19/block3_conv2/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv2/Conv2D]:7
+	                 CONV_2D	         2705.589	  787.836	  787.902	  4.855%	 74.774%	     0.000	        1	[vgg19/block2_conv2/Relu;vgg19/block2_conv2/BiasAdd;vgg19/block2_conv1/BiasAdd/ReadVariableOp;vgg19/block2_conv2/Conv2D]:4
+	                 CONV_2D	            0.015	  778.532	  777.973	  4.794%	 79.569%	     0.000	        1	[vgg19/block1_conv1/Relu;vgg19/block1_conv1/BiasAdd;vgg19/block1_conv1/BiasAdd/ReadVariableOp;vgg19/block1_conv1/Conv2D]:0
+
+Number of nodes executed: 26
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       16	 12102.952	    74.582%	    74.582%	     0.000	       16
+	         FULLY_CONNECTED	        3	  4102.292	    25.280%	    99.861%	     0.000	        3
+	             MAX_POOL_2D	        5	    22.400	     0.138%	    99.999%	     0.000	        5
+	                 SOFTMAX	        1	     0.079	     0.000%	   100.000%	     0.000	        1
+	                 RESHAPE	        1	     0.010	     0.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=10 first=16230462 curr=16218624 min=16218624 max=16236208 avg=1.62277e+07 std=4545
+Memory (bytes): count=0
+26 nodes observed
+
+
+
+[ perf record: Woken up 771 times to write data ]
+Warning:
+Processed 774411 events and lost 4 chunks!
+
+Check IO/CPU overload!
+
+[ perf record: Captured and wrote 192.605 MB /tmp/data.record (772725 samples) ]
+
+196.816
+

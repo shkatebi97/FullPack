@@ -1,0 +1,355 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/MobileNetV2.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/MobileNetV2.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (27, 32, ), Input shape (50176, 3, ), and Output shape (12544, 32, ), and the ID is 0
+	Changing Input Shape
+	New Input Shape: (12544, 27, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (32, 32, ) DONE
+	Allocating A Kernel Temporary Tensor With Shape: (32, 32, ) DONE
+	Preparing Filter With Shape: (27, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (12544, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (12544, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (32, 16, ), Input shape (12544, 32, ), and Output shape (12544, 16, ), and the ID is 1
+	Changing Input Shape
+	New Input Shape: (12544, 32, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (32, 16, ) DONE
+	Preparing Filter With Shape: (32, 16, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (12544, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (16, 96, ), Input shape (12544, 16, ), and Output shape (12544, 96, ), and the ID is 2
+	Changing Input Shape
+	New Input Shape: (12544, 16, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (16, 96, ) DONE
+	Preparing Filter With Shape: (16, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (12544, 16, ) DONE
+Applying Conv Low-Precision for Kernel shape (96, 24, ), Input shape (3136, 96, ), and Output shape (3136, 24, ), and the ID is 3
+	Changing Input Shape
+	New Input Shape: (3136, 96, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (96, 24, ) DONE
+	Preparing Filter With Shape: (96, 24, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (24, 144, ), Input shape (3136, 24, ), and Output shape (3136, 144, ), and the ID is 4
+	Changing Input Shape
+	New Input Shape: (3136, 24, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (24, 144, ) DONE
+	Preparing Filter With Shape: (24, 144, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 24, ) DONE
+Applying Conv Low-Precision for Kernel shape (144, 24, ), Input shape (3136, 144, ), and Output shape (3136, 24, ), and the ID is 5
+	Changing Input Shape
+	New Input Shape: (3136, 144, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (144, 24, ) DONE
+	Preparing Filter With Shape: (144, 24, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 144, ) DONE
+Applying Conv Low-Precision for Kernel shape (24, 144, ), Input shape (3136, 24, ), and Output shape (3136, 144, ), and the ID is 6
+	Changing Input Shape
+	New Input Shape: (3136, 24, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (24, 144, ) DONE
+	Preparing Filter With Shape: (24, 144, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 24, ) DONE
+Applying Conv Low-Precision for Kernel shape (144, 32, ), Input shape (784, 144, ), and Output shape (784, 32, ), and the ID is 7
+	Changing Input Shape
+	New Input Shape: (784, 144, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (144, 32, ) DONE
+	Preparing Filter With Shape: (144, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 144, ) DONE
+Applying Conv Low-Precision for Kernel shape (32, 192, ), Input shape (784, 32, ), and Output shape (784, 192, ), and the ID is 8
+	Changing Input Shape
+	New Input Shape: (784, 32, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (32, 192, ) DONE
+	Preparing Filter With Shape: (32, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (784, 192, ), and Output shape (784, 32, ), and the ID is 9
+	Changing Input Shape
+	New Input Shape: (784, 192, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (192, 32, ) DONE
+	Preparing Filter With Shape: (192, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (32, 192, ), Input shape (784, 32, ), and Output shape (784, 192, ), and the ID is 10
+	Changing Input Shape
+	New Input Shape: (784, 32, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (32, 192, ) DONE
+	Preparing Filter With Shape: (32, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (784, 192, ), and Output shape (784, 32, ), and the ID is 11
+	Changing Input Shape
+	New Input Shape: (784, 192, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (192, 32, ) DONE
+	Preparing Filter With Shape: (192, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (32, 192, ), Input shape (784, 32, ), and Output shape (784, 192, ), and the ID is 12
+	Changing Input Shape
+	New Input Shape: (784, 32, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (32, 192, ) DONE
+	Preparing Filter With Shape: (32, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (192, 64, ), Input shape (196, 192, ), and Output shape (196, 64, ), and the ID is 13
+	Changing Input Shape
+	New Input Shape: (196, 192, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (192, 64, ) DONE
+	Preparing Filter With Shape: (192, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 192, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 14
+	Changing Input Shape
+	New Input Shape: (196, 64, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 384, ) DONE
+	Preparing Filter With Shape: (64, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 64, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 384, ) DONE
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 15
+	Changing Input Shape
+	New Input Shape: (196, 384, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (384, 64, ) DONE
+	Preparing Filter With Shape: (384, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 384, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 16
+	Changing Input Shape
+	New Input Shape: (196, 64, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 384, ) DONE
+	Preparing Filter With Shape: (64, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 64, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 384, ) DONE
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 17
+	Changing Input Shape
+	New Input Shape: (196, 384, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (384, 64, ) DONE
+	Preparing Filter With Shape: (384, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 384, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 18
+	Changing Input Shape
+	New Input Shape: (196, 64, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 384, ) DONE
+	Preparing Filter With Shape: (64, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 64, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 384, ) DONE
+Applying Conv Low-Precision for Kernel shape (384, 64, ), Input shape (196, 384, ), and Output shape (196, 64, ), and the ID is 19
+	Changing Input Shape
+	New Input Shape: (196, 384, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (384, 64, ) DONE
+	Preparing Filter With Shape: (384, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 384, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 384, ), Input shape (196, 64, ), and Output shape (196, 384, ), and the ID is 20
+	Changing Input Shape
+	New Input Shape: (196, 64, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 384, ) DONE
+	Preparing Filter With Shape: (64, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 64, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 384, ) DONE
+Applying Conv Low-Precision for Kernel shape (384, 96, ), Input shape (196, 384, ), and Output shape (196, 96, ), and the ID is 21
+	Changing Input Shape
+	New Input Shape: (196, 384, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (384, 96, ) DONE
+	Preparing Filter With Shape: (384, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 384, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (96, 576, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 22
+	Changing Input Shape
+	New Input Shape: (196, 96, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (96, 576, ) DONE
+	Preparing Filter With Shape: (96, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 96, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 576, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (196, 576, ), and Output shape (196, 96, ), and the ID is 23
+	Changing Input Shape
+	New Input Shape: (196, 576, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 96, ) DONE
+	Preparing Filter With Shape: (576, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 576, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (96, 576, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 24
+	Changing Input Shape
+	New Input Shape: (196, 96, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (96, 576, ) DONE
+	Preparing Filter With Shape: (96, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 96, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 576, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (196, 576, ), and Output shape (196, 96, ), and the ID is 25
+	Changing Input Shape
+	New Input Shape: (196, 576, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 96, ) DONE
+	Preparing Filter With Shape: (576, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 576, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (96, 576, ), Input shape (196, 96, ), and Output shape (196, 576, ), and the ID is 26
+	Changing Input Shape
+	New Input Shape: (196, 96, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (96, 576, ) DONE
+	Preparing Filter With Shape: (96, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 96, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 576, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 160, ), Input shape (49, 576, ), and Output shape (49, 160, ), and the ID is 27
+	Changing Input Shape
+	New Input Shape: (49, 576, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 160, ) DONE
+	Preparing Filter With Shape: (576, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 576, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (160, 960, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 28
+	Changing Input Shape
+	New Input Shape: (49, 160, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (160, 960, ) DONE
+	Preparing Filter With Shape: (160, 960, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 160, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 960, ) DONE
+Applying Conv Low-Precision for Kernel shape (960, 160, ), Input shape (49, 960, ), and Output shape (49, 160, ), and the ID is 29
+	Changing Input Shape
+	New Input Shape: (49, 960, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (960, 160, ) DONE
+	Preparing Filter With Shape: (960, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 960, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 960, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (160, 960, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 30
+	Changing Input Shape
+	New Input Shape: (49, 160, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (160, 960, ) DONE
+	Preparing Filter With Shape: (160, 960, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 160, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 960, ) DONE
+Applying Conv Low-Precision for Kernel shape (960, 160, ), Input shape (49, 960, ), and Output shape (49, 160, ), and the ID is 31
+	Changing Input Shape
+	New Input Shape: (49, 960, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (960, 160, ) DONE
+	Preparing Filter With Shape: (960, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 960, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 960, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (160, 960, ), Input shape (49, 160, ), and Output shape (49, 960, ), and the ID is 32
+	Changing Input Shape
+	New Input Shape: (49, 160, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (160, 960, ) DONE
+	Preparing Filter With Shape: (160, 960, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 160, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 960, ) DONE
+Applying Conv Low-Precision for Kernel shape (960, 320, ), Input shape (49, 960, ), and Output shape (49, 320, ), and the ID is 33
+	Changing Input Shape
+	New Input Shape: (49, 960, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (960, 320, ) DONE
+	Preparing Filter With Shape: (960, 320, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 960, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 960, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 320, ) DONE
+Applying Conv Low-Precision for Kernel shape (320, 1280, ), Input shape (49, 320, ), and Output shape (49, 1280, ), and the ID is 34
+	Changing Input Shape
+	New Input Shape: (49, 320, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (320, 1280, ) DONE
+	Preparing Filter With Shape: (320, 1280, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 320, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 320, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 1280, ) DONE
+Applying Low-Precision for shape (1280, 1000, ) and Input shape (1, 1280, ) With 9 Number of Temporaries Tensors, and the ID is 0
+	Allocating Filter Shape: (1280, 1000, ) DONE
+	Preparing Filter With Shape: (1280, 1000, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 1280, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 1280, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (8, 1000, ) DONE
+The input model file size (MB): 3.94093
+Initialized session in 51.594ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+[ perf record: Woken up 1 times to write data ]
+[ perf record: Captured and wrote 0.068 MB /tmp/data.record (381 samples) ]
+
+3.058
+

@@ -1,0 +1,1117 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/InceptionV3.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/InceptionV3.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (27, 32, ), Input shape (89401, 3, ), and Output shape (22201, 32, ), and the ID is 0
+	Changing Input Shape
+	New Input Shape: (22201, 27, )
+	No Changes To Appliability.
+	Reserving 5 LowPrecision Tensors In Total
+	Allocating Filter Shape: (32, 32, ) DONE
+	Allocating A Kernel Temporary Tensor With Shape: (32, 32, ) DONE
+	Preparing Filter With Shape: (27, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (22208, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (22208, 32, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (22208, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (288, 32, ), Input shape (22201, 32, ), and Output shape (21609, 32, ), and the ID is 1
+	Changing Input Shape
+	New Input Shape: (21609, 288, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (288, 32, ) DONE
+	Preparing Filter With Shape: (288, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (21616, 288, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (21616, 288, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (21616, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (288, 64, ), Input shape (21609, 32, ), and Output shape (21609, 64, ), and the ID is 2
+	Changing Input Shape
+	New Input Shape: (21609, 288, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (288, 64, ) DONE
+	Preparing Filter With Shape: (288, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (21616, 288, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (21616, 288, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (21616, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 80, ), Input shape (5329, 64, ), and Output shape (5329, 80, ), and the ID is 3
+	Changing Input Shape
+	New Input Shape: (5329, 64, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 80, ) DONE
+	Preparing Filter With Shape: (64, 80, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (5336, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (5336, 64, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (5336, 80, ) DONE
+Applying Conv Low-Precision for Kernel shape (720, 192, ), Input shape (5329, 80, ), and Output shape (5041, 192, ), and the ID is 4
+	Changing Input Shape
+	New Input Shape: (5041, 720, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (720, 192, ) DONE
+	Preparing Filter With Shape: (720, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (5048, 720, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (5048, 720, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (5048, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (192, 32, ), Input shape (1225, 192, ), and Output shape (1225, 32, ), and the ID is 5
+	Changing Input Shape
+	New Input Shape: (1225, 192, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (192, 32, ) DONE
+	Preparing Filter With Shape: (192, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 192, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (192, 64, ), Input shape (1225, 192, ), and Output shape (1225, 64, ), and the ID is 6
+	Changing Input Shape
+	New Input Shape: (1225, 192, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (192, 64, ) DONE
+	Preparing Filter With Shape: (192, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 192, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (192, 48, ), Input shape (1225, 192, ), and Output shape (1225, 48, ), and the ID is 7
+	Changing Input Shape
+	New Input Shape: (1225, 192, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (192, 48, ) DONE
+	Preparing Filter With Shape: (192, 48, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 192, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 48, ) DONE
+Applying Conv Low-Precision for Kernel shape (1200, 64, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 8
+	Changing Input Shape
+	New Input Shape: (1225, 1200, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1200, 64, ) DONE
+	Preparing Filter With Shape: (1200, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 1200, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 1200, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (192, 64, ), Input shape (1225, 192, ), and Output shape (1225, 64, ), and the ID is 9
+	Changing Input Shape
+	New Input Shape: (1225, 192, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (192, 64, ) DONE
+	Preparing Filter With Shape: (192, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 192, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (1225, 64, ), and Output shape (1225, 96, ), and the ID is 10
+	Changing Input Shape
+	New Input Shape: (1225, 576, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 96, ) DONE
+	Preparing Filter With Shape: (576, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 576, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (864, 96, ), Input shape (1225, 96, ), and Output shape (1225, 96, ), and the ID is 11
+	Changing Input Shape
+	New Input Shape: (1225, 864, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (864, 96, ) DONE
+	Preparing Filter With Shape: (864, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 864, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 864, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (1225, 256, ), and Output shape (1225, 64, ), and the ID is 12
+	Changing Input Shape
+	New Input Shape: (1225, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 64, ) DONE
+	Preparing Filter With Shape: (256, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (1225, 256, ), and Output shape (1225, 64, ), and the ID is 13
+	Changing Input Shape
+	New Input Shape: (1225, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 64, ) DONE
+	Preparing Filter With Shape: (256, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 48, ), Input shape (1225, 256, ), and Output shape (1225, 48, ), and the ID is 14
+	Changing Input Shape
+	New Input Shape: (1225, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 48, ) DONE
+	Preparing Filter With Shape: (256, 48, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 48, ) DONE
+Applying Conv Low-Precision for Kernel shape (1200, 64, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 15
+	Changing Input Shape
+	New Input Shape: (1225, 1200, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1200, 64, ) DONE
+	Preparing Filter With Shape: (1200, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 1200, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 1200, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (1225, 256, ), and Output shape (1225, 64, ), and the ID is 16
+	Changing Input Shape
+	New Input Shape: (1225, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 64, ) DONE
+	Preparing Filter With Shape: (256, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (1225, 64, ), and Output shape (1225, 96, ), and the ID is 17
+	Changing Input Shape
+	New Input Shape: (1225, 576, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 96, ) DONE
+	Preparing Filter With Shape: (576, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 576, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (864, 96, ), Input shape (1225, 96, ), and Output shape (1225, 96, ), and the ID is 18
+	Changing Input Shape
+	New Input Shape: (1225, 864, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (864, 96, ) DONE
+	Preparing Filter With Shape: (864, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 864, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 864, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (288, 64, ), Input shape (1225, 288, ), and Output shape (1225, 64, ), and the ID is 19
+	Changing Input Shape
+	New Input Shape: (1225, 288, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (288, 64, ) DONE
+	Preparing Filter With Shape: (288, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (288, 64, ), Input shape (1225, 288, ), and Output shape (1225, 64, ), and the ID is 20
+	Changing Input Shape
+	New Input Shape: (1225, 288, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (288, 64, ) DONE
+	Preparing Filter With Shape: (288, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (288, 48, ), Input shape (1225, 288, ), and Output shape (1225, 48, ), and the ID is 21
+	Changing Input Shape
+	New Input Shape: (1225, 288, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (288, 48, ) DONE
+	Preparing Filter With Shape: (288, 48, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 48, ) DONE
+Applying Conv Low-Precision for Kernel shape (1200, 64, ), Input shape (1225, 48, ), and Output shape (1225, 64, ), and the ID is 22
+	Changing Input Shape
+	New Input Shape: (1225, 1200, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1200, 64, ) DONE
+	Preparing Filter With Shape: (1200, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 1200, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 1200, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (288, 64, ), Input shape (1225, 288, ), and Output shape (1225, 64, ), and the ID is 23
+	Changing Input Shape
+	New Input Shape: (1225, 288, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (288, 64, ) DONE
+	Preparing Filter With Shape: (288, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (1225, 64, ), and Output shape (1225, 96, ), and the ID is 24
+	Changing Input Shape
+	New Input Shape: (1225, 576, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 96, ) DONE
+	Preparing Filter With Shape: (576, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 576, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (864, 96, ), Input shape (1225, 96, ), and Output shape (1225, 96, ), and the ID is 25
+	Changing Input Shape
+	New Input Shape: (1225, 864, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (864, 96, ) DONE
+	Preparing Filter With Shape: (864, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 864, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 864, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (2592, 384, ), Input shape (1225, 288, ), and Output shape (289, 384, ), and the ID is 26
+	Changing Input Shape
+	New Input Shape: (289, 2592, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2592, 384, ) DONE
+	Preparing Filter With Shape: (2592, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 2592, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 2592, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 384, ) DONE
+Applying Conv Low-Precision for Kernel shape (288, 64, ), Input shape (1225, 288, ), and Output shape (1225, 64, ), and the ID is 27
+	Changing Input Shape
+	New Input Shape: (1225, 288, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (288, 64, ) DONE
+	Preparing Filter With Shape: (288, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 288, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 96, ), Input shape (1225, 64, ), and Output shape (1225, 96, ), and the ID is 28
+	Changing Input Shape
+	New Input Shape: (1225, 576, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 96, ) DONE
+	Preparing Filter With Shape: (576, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 576, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (1232, 576, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (1232, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (864, 96, ), Input shape (1225, 96, ), and Output shape (289, 96, ), and the ID is 29
+	Changing Input Shape
+	New Input Shape: (289, 864, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (864, 96, ) DONE
+	Preparing Filter With Shape: (864, 96, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 864, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 864, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 96, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 30
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 31
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 128, ), Input shape (289, 768, ), and Output shape (289, 128, ), and the ID is 32
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 128, ) DONE
+	Preparing Filter With Shape: (768, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (896, 128, ), Input shape (289, 128, ), and Output shape (289, 128, ), and the ID is 33
+	Changing Input Shape
+	New Input Shape: (289, 896, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (896, 128, ) DONE
+	Preparing Filter With Shape: (896, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (896, 192, ), Input shape (289, 128, ), and Output shape (289, 192, ), and the ID is 34
+	Changing Input Shape
+	New Input Shape: (289, 896, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (896, 192, ) DONE
+	Preparing Filter With Shape: (896, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 128, ), Input shape (289, 768, ), and Output shape (289, 128, ), and the ID is 35
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 128, ) DONE
+	Preparing Filter With Shape: (768, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (896, 128, ), Input shape (289, 128, ), and Output shape (289, 128, ), and the ID is 36
+	Changing Input Shape
+	New Input Shape: (289, 896, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (896, 128, ) DONE
+	Preparing Filter With Shape: (896, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (896, 128, ), Input shape (289, 128, ), and Output shape (289, 128, ), and the ID is 37
+	Changing Input Shape
+	New Input Shape: (289, 896, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (896, 128, ) DONE
+	Preparing Filter With Shape: (896, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (896, 128, ), Input shape (289, 128, ), and Output shape (289, 128, ), and the ID is 38
+	Changing Input Shape
+	New Input Shape: (289, 896, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (896, 128, ) DONE
+	Preparing Filter With Shape: (896, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (896, 192, ), Input shape (289, 128, ), and Output shape (289, 192, ), and the ID is 39
+	Changing Input Shape
+	New Input Shape: (289, 896, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (896, 192, ) DONE
+	Preparing Filter With Shape: (896, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 896, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 40
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 41
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 160, ), Input shape (289, 768, ), and Output shape (289, 160, ), and the ID is 42
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 160, ) DONE
+	Preparing Filter With Shape: (768, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 160, ), Input shape (289, 160, ), and Output shape (289, 160, ), and the ID is 43
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 160, ) DONE
+	Preparing Filter With Shape: (1120, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 192, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 44
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 192, ) DONE
+	Preparing Filter With Shape: (1120, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 160, ), Input shape (289, 768, ), and Output shape (289, 160, ), and the ID is 45
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 160, ) DONE
+	Preparing Filter With Shape: (768, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 160, ), Input shape (289, 160, ), and Output shape (289, 160, ), and the ID is 46
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 160, ) DONE
+	Preparing Filter With Shape: (1120, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 160, ), Input shape (289, 160, ), and Output shape (289, 160, ), and the ID is 47
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 160, ) DONE
+	Preparing Filter With Shape: (1120, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 160, ), Input shape (289, 160, ), and Output shape (289, 160, ), and the ID is 48
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 160, ) DONE
+	Preparing Filter With Shape: (1120, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 192, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 49
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 192, ) DONE
+	Preparing Filter With Shape: (1120, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 50
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 51
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 160, ), Input shape (289, 768, ), and Output shape (289, 160, ), and the ID is 52
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 160, ) DONE
+	Preparing Filter With Shape: (768, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 160, ), Input shape (289, 160, ), and Output shape (289, 160, ), and the ID is 53
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 160, ) DONE
+	Preparing Filter With Shape: (1120, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 192, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 54
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 192, ) DONE
+	Preparing Filter With Shape: (1120, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 160, ), Input shape (289, 768, ), and Output shape (289, 160, ), and the ID is 55
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 160, ) DONE
+	Preparing Filter With Shape: (768, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 160, ), Input shape (289, 160, ), and Output shape (289, 160, ), and the ID is 56
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 160, ) DONE
+	Preparing Filter With Shape: (1120, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 160, ), Input shape (289, 160, ), and Output shape (289, 160, ), and the ID is 57
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 160, ) DONE
+	Preparing Filter With Shape: (1120, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 160, ), Input shape (289, 160, ), and Output shape (289, 160, ), and the ID is 58
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 160, ) DONE
+	Preparing Filter With Shape: (1120, 160, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 160, ) DONE
+Applying Conv Low-Precision for Kernel shape (1120, 192, ), Input shape (289, 160, ), and Output shape (289, 192, ), and the ID is 59
+	Changing Input Shape
+	New Input Shape: (289, 1120, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1120, 192, ) DONE
+	Preparing Filter With Shape: (1120, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1120, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 60
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 61
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 62
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1344, 192, ), Input shape (289, 192, ), and Output shape (289, 192, ), and the ID is 63
+	Changing Input Shape
+	New Input Shape: (289, 1344, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1344, 192, ) DONE
+	Preparing Filter With Shape: (1344, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1344, 192, ), Input shape (289, 192, ), and Output shape (289, 192, ), and the ID is 64
+	Changing Input Shape
+	New Input Shape: (289, 1344, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1344, 192, ) DONE
+	Preparing Filter With Shape: (1344, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 65
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1344, 192, ), Input shape (289, 192, ), and Output shape (289, 192, ), and the ID is 66
+	Changing Input Shape
+	New Input Shape: (289, 1344, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1344, 192, ) DONE
+	Preparing Filter With Shape: (1344, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1344, 192, ), Input shape (289, 192, ), and Output shape (289, 192, ), and the ID is 67
+	Changing Input Shape
+	New Input Shape: (289, 1344, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1344, 192, ) DONE
+	Preparing Filter With Shape: (1344, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1344, 192, ), Input shape (289, 192, ), and Output shape (289, 192, ), and the ID is 68
+	Changing Input Shape
+	New Input Shape: (289, 1344, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1344, 192, ) DONE
+	Preparing Filter With Shape: (1344, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1344, 192, ), Input shape (289, 192, ), and Output shape (289, 192, ), and the ID is 69
+	Changing Input Shape
+	New Input Shape: (289, 1344, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1344, 192, ) DONE
+	Preparing Filter With Shape: (1344, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 70
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1728, 320, ), Input shape (289, 192, ), and Output shape (64, 320, ), and the ID is 71
+	Changing Input Shape
+	New Input Shape: (64, 1728, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1728, 320, ) DONE
+	Preparing Filter With Shape: (1728, 320, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1728, ) DONE
+Applying Conv Low-Precision for Kernel shape (768, 192, ), Input shape (289, 768, ), and Output shape (289, 192, ), and the ID is 72
+	Changing Input Shape
+	New Input Shape: (289, 768, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (768, 192, ) DONE
+	Preparing Filter With Shape: (768, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 768, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1344, 192, ), Input shape (289, 192, ), and Output shape (289, 192, ), and the ID is 73
+	Changing Input Shape
+	New Input Shape: (289, 1344, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1344, 192, ) DONE
+	Preparing Filter With Shape: (1344, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1344, 192, ), Input shape (289, 192, ), and Output shape (289, 192, ), and the ID is 74
+	Changing Input Shape
+	New Input Shape: (289, 1344, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1344, 192, ) DONE
+	Preparing Filter With Shape: (1344, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (296, 1344, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (296, 192, ) DONE
+Applying Conv Low-Precision for Kernel shape (1728, 192, ), Input shape (289, 192, ), and Output shape (64, 192, ), and the ID is 75
+	Changing Input Shape
+	New Input Shape: (64, 1728, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1728, 192, ) DONE
+	Preparing Filter With Shape: (1728, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1728, ) DONE
+Applying Conv Low-Precision for Kernel shape (1280, 192, ), Input shape (64, 1280, ), and Output shape (64, 192, ), and the ID is 76
+	Changing Input Shape
+	New Input Shape: (64, 1280, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1280, 192, ) DONE
+	Preparing Filter With Shape: (1280, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1280, ) DONE
+Applying Conv Low-Precision for Kernel shape (1280, 320, ), Input shape (64, 1280, ), and Output shape (64, 320, ), and the ID is 77
+	Changing Input Shape
+	New Input Shape: (64, 1280, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1280, 320, ) DONE
+	Preparing Filter With Shape: (1280, 320, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1280, ) DONE
+Applying Conv Low-Precision for Kernel shape (1280, 384, ), Input shape (64, 1280, ), and Output shape (64, 384, ), and the ID is 78
+	Changing Input Shape
+	New Input Shape: (64, 1280, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1280, 384, ) DONE
+	Preparing Filter With Shape: (1280, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1280, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 384, ), Input shape (64, 384, ), and Output shape (64, 384, ), and the ID is 79
+	Changing Input Shape
+	New Input Shape: (64, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 384, ) DONE
+	Preparing Filter With Shape: (1152, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 384, ), Input shape (64, 384, ), and Output shape (64, 384, ), and the ID is 80
+	Changing Input Shape
+	New Input Shape: (64, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 384, ) DONE
+	Preparing Filter With Shape: (1152, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (1280, 448, ), Input shape (64, 1280, ), and Output shape (64, 448, ), and the ID is 81
+	Changing Input Shape
+	New Input Shape: (64, 1280, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1280, 448, ) DONE
+	Preparing Filter With Shape: (1280, 448, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1280, ) DONE
+Applying Conv Low-Precision for Kernel shape (4032, 384, ), Input shape (64, 448, ), and Output shape (64, 384, ), and the ID is 82
+	Changing Input Shape
+	New Input Shape: (64, 4032, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4032, 384, ) DONE
+	Preparing Filter With Shape: (4032, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 4032, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 384, ), Input shape (64, 384, ), and Output shape (64, 384, ), and the ID is 83
+	Changing Input Shape
+	New Input Shape: (64, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 384, ) DONE
+	Preparing Filter With Shape: (1152, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 384, ), Input shape (64, 384, ), and Output shape (64, 384, ), and the ID is 84
+	Changing Input Shape
+	New Input Shape: (64, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 384, ) DONE
+	Preparing Filter With Shape: (1152, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (2048, 192, ), Input shape (64, 2048, ), and Output shape (64, 192, ), and the ID is 85
+	Changing Input Shape
+	New Input Shape: (64, 2048, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2048, 192, ) DONE
+	Preparing Filter With Shape: (2048, 192, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 2048, ) DONE
+Applying Conv Low-Precision for Kernel shape (2048, 320, ), Input shape (64, 2048, ), and Output shape (64, 320, ), and the ID is 86
+	Changing Input Shape
+	New Input Shape: (64, 2048, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2048, 320, ) DONE
+	Preparing Filter With Shape: (2048, 320, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 2048, ) DONE
+Applying Conv Low-Precision for Kernel shape (2048, 384, ), Input shape (64, 2048, ), and Output shape (64, 384, ), and the ID is 87
+	Changing Input Shape
+	New Input Shape: (64, 2048, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2048, 384, ) DONE
+	Preparing Filter With Shape: (2048, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 2048, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 384, ), Input shape (64, 384, ), and Output shape (64, 384, ), and the ID is 88
+	Changing Input Shape
+	New Input Shape: (64, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 384, ) DONE
+	Preparing Filter With Shape: (1152, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 384, ), Input shape (64, 384, ), and Output shape (64, 384, ), and the ID is 89
+	Changing Input Shape
+	New Input Shape: (64, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 384, ) DONE
+	Preparing Filter With Shape: (1152, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (2048, 448, ), Input shape (64, 2048, ), and Output shape (64, 448, ), and the ID is 90
+	Changing Input Shape
+	New Input Shape: (64, 2048, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2048, 448, ) DONE
+	Preparing Filter With Shape: (2048, 448, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 2048, ) DONE
+Applying Conv Low-Precision for Kernel shape (4032, 384, ), Input shape (64, 448, ), and Output shape (64, 384, ), and the ID is 91
+	Changing Input Shape
+	New Input Shape: (64, 4032, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4032, 384, ) DONE
+	Preparing Filter With Shape: (4032, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 4032, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 384, ), Input shape (64, 384, ), and Output shape (64, 384, ), and the ID is 92
+	Changing Input Shape
+	New Input Shape: (64, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 384, ) DONE
+	Preparing Filter With Shape: (1152, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 384, ), Input shape (64, 384, ), and Output shape (64, 384, ), and the ID is 93
+	Changing Input Shape
+	New Input Shape: (64, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 384, ) DONE
+	Preparing Filter With Shape: (1152, 384, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 1152, ) DONE
+Applying Low-Precision for shape (2048, 1000, ) and Input shape (1, 2048, ) With 9 Number of Temporaries Tensors, and the ID is 0
+	Allocating Filter Shape: (2048, 1000, ) DONE
+	Preparing Filter With Shape: (2048, 1000, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 2048, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (8, 1000, ) DONE
+The input model file size (MB): 24.2886
+Initialized session in 194.916ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=1252029 curr=1192764 min=1192764 max=1252029 avg=1.2224e+06 std=29632
+
+Running benchmark for at least 20 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=20 first=1192442 curr=1190925 min=1190241 max=1193823 avg=1.19138e+06 std=850
+
+Inference timings in us: Init: 194916, First inference: 1252029, Warmup (avg): 1.2224e+06, Inference (avg): 1.19138e+06
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=49.6992 overall=79.4531
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  179.575	  179.575	100.000%	100.000%	 42284.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  179.575	  179.575	100.000%	100.000%	 42284.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	   179.575	   100.000%	   100.000%	 42284.000	        1
+
+Timings (microseconds): count=1 curr=179575
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	            0.021	   10.007	   10.010	  0.841%	  0.841%	     0.000	        1	[inception_v3/activation/Relu;inception_v3/batch_normalization/FusedBatchNormV3;inception_v3/batch_normalization_11/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d/Conv2D]:0
+	                 CONV_2D	           10.036	   41.872	   40.979	  3.441%	  4.282%	     0.000	        1	[inception_v3/activation_1/Relu;inception_v3/batch_normalization_1/FusedBatchNormV3;inception_v3/batch_normalization_11/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_1/Conv2D]:1
+	                 CONV_2D	           51.019	   64.320	   63.932	  5.369%	  9.651%	     0.000	        1	[inception_v3/activation_2/Relu;inception_v3/batch_normalization_2/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_2/Conv2D]:2
+	             MAX_POOL_2D	          114.957	    8.872	    8.913	  0.749%	 10.399%	     0.000	        1	[inception_v3/max_pooling2d/MaxPool]:3
+	                 CONV_2D	          123.876	    4.779	    4.758	  0.400%	 10.799%	     0.000	        1	[inception_v3/activation_3/Relu;inception_v3/batch_normalization_3/FusedBatchNormV3;inception_v3/batch_normalization_3/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_3/Conv2D]:4
+	                 CONV_2D	          128.639	   86.881	   86.734	  7.284%	 18.083%	     0.000	        1	[inception_v3/activation_4/Relu;inception_v3/batch_normalization_4/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_4/Conv2D]:5
+	             MAX_POOL_2D	          215.378	    5.776	    5.681	  0.477%	 18.560%	     0.000	        1	[inception_v3/max_pooling2d_1/MaxPool]:6
+	         AVERAGE_POOL_2D	          221.062	   44.937	   45.105	  3.788%	 22.347%	     0.000	        1	[inception_v3/average_pooling2d/AvgPool]:7
+	                 CONV_2D	          266.171	    1.264	    1.307	  0.110%	 22.457%	     0.000	        1	[inception_v3/activation_11/Relu;inception_v3/batch_normalization_11/FusedBatchNormV3;inception_v3/batch_normalization_11/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_11/Conv2D]:8
+	                 CONV_2D	          267.482	    2.317	    2.206	  0.185%	 22.642%	     0.000	        1	[inception_v3/activation_5/Relu;inception_v3/batch_normalization_5/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_5/Conv2D]:9
+	                 CONV_2D	          269.692	    1.696	    1.752	  0.147%	 22.790%	     0.000	        1	[inception_v3/activation_6/Relu;inception_v3/batch_normalization_6/FusedBatchNormV3;inception_v3/batch_normalization_13/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_6/Conv2D]:10
+	                 CONV_2D	          271.447	   14.702	   14.683	  1.233%	 24.023%	     0.000	        1	[inception_v3/activation_7/Relu;inception_v3/batch_normalization_7/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_7/Conv2D]:11
+	                 CONV_2D	          286.136	    2.211	    2.187	  0.184%	 24.206%	     0.000	        1	[inception_v3/activation_8/Relu;inception_v3/batch_normalization_8/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_8/Conv2D]:12
+	                 CONV_2D	          288.327	    9.344	    9.216	  0.774%	 24.980%	     0.000	        1	[inception_v3/activation_9/Relu;inception_v3/batch_normalization_9/FusedBatchNormV3;inception_v3/batch_normalization_10/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_9/Conv2D]:13
+	                 CONV_2D	          297.548	   13.849	   13.954	  1.172%	 26.152%	     0.000	        1	[inception_v3/activation_10/Relu;inception_v3/batch_normalization_10/FusedBatchNormV3;inception_v3/batch_normalization_10/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_10/Conv2D]:14
+	           CONCATENATION	          311.508	    0.401	    0.364	  0.031%	 26.183%	     0.000	        1	[inception_v3/mixed0/concat]:15
+	         AVERAGE_POOL_2D	          311.873	   62.088	   62.188	  5.222%	 31.405%	     0.000	        1	[inception_v3/average_pooling2d_1/AvgPool]:16
+	                 CONV_2D	          374.066	    3.052	    2.932	  0.246%	 31.651%	     0.000	        1	[inception_v3/activation_18/Relu;inception_v3/batch_normalization_18/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_18/Conv2D]:17
+	                 CONV_2D	          377.003	    2.810	    2.890	  0.243%	 31.894%	     0.000	        1	[inception_v3/activation_12/Relu;inception_v3/batch_normalization_12/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_12/Conv2D]:18
+	                 CONV_2D	          379.899	    2.324	    2.308	  0.194%	 32.088%	     0.000	        1	[inception_v3/activation_13/Relu;inception_v3/batch_normalization_13/FusedBatchNormV3;inception_v3/batch_normalization_13/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_13/Conv2D]:19
+	                 CONV_2D	          382.212	   14.573	   14.666	  1.232%	 33.319%	     0.000	        1	[inception_v3/activation_14/Relu;inception_v3/batch_normalization_14/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_14/Conv2D]:20
+	                 CONV_2D	          396.883	    2.875	    2.951	  0.248%	 33.567%	     0.000	        1	[inception_v3/activation_15/Relu;inception_v3/batch_normalization_15/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_15/Conv2D]:21
+	                 CONV_2D	          399.839	    9.249	    9.268	  0.778%	 34.346%	     0.000	        1	[inception_v3/activation_16/Relu;inception_v3/batch_normalization_16/FusedBatchNormV3;inception_v3/batch_normalization_10/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_16/Conv2D]:22
+	                 CONV_2D	          409.112	   13.954	   13.963	  1.173%	 35.518%	     0.000	        1	[inception_v3/activation_17/Relu;inception_v3/batch_normalization_17/FusedBatchNormV3;inception_v3/batch_normalization_10/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_17/Conv2D]:23
+	           CONCATENATION	          423.081	    0.463	    0.445	  0.037%	 35.555%	     0.000	        1	[inception_v3/mixed1/concat]:24
+	         AVERAGE_POOL_2D	          423.527	   70.663	   70.656	  5.933%	 41.489%	     0.000	        1	[inception_v3/average_pooling2d_2/AvgPool]:25
+	                 CONV_2D	          494.188	    3.366	    3.336	  0.280%	 41.769%	     0.000	        1	[inception_v3/activation_25/Relu;inception_v3/batch_normalization_25/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_25/Conv2D]:26
+	                 CONV_2D	          497.529	    3.307	    3.355	  0.282%	 42.051%	     0.000	        1	[inception_v3/activation_19/Relu;inception_v3/batch_normalization_19/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_19/Conv2D]:27
+	                 CONV_2D	          500.889	    2.673	    2.682	  0.225%	 42.276%	     0.000	        1	[inception_v3/activation_20/Relu;inception_v3/batch_normalization_20/FusedBatchNormV3;inception_v3/batch_normalization_13/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_20/Conv2D]:28
+	                 CONV_2D	          503.576	   14.786	   14.659	  1.231%	 43.507%	     0.000	        1	[inception_v3/activation_21/Relu;inception_v3/batch_normalization_21/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_21/Conv2D]:29
+	                 CONV_2D	          518.241	    3.418	    3.350	  0.281%	 43.788%	     0.000	        1	[inception_v3/activation_22/Relu;inception_v3/batch_normalization_22/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_22/Conv2D]:30
+	                 CONV_2D	          521.596	    9.151	    9.213	  0.774%	 44.562%	     0.000	        1	[inception_v3/activation_23/Relu;inception_v3/batch_normalization_23/FusedBatchNormV3;inception_v3/batch_normalization_10/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_23/Conv2D]:31
+	                 CONV_2D	          530.815	   13.931	   13.972	  1.173%	 45.736%	     0.000	        1	[inception_v3/activation_24/Relu;inception_v3/batch_normalization_24/FusedBatchNormV3;inception_v3/batch_normalization_10/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_24/Conv2D]:32
+	           CONCATENATION	          544.792	    0.527	    0.390	  0.033%	 45.768%	     0.000	        1	[inception_v3/mixed2/concat]:33
+	                 CONV_2D	          545.184	   34.204	   34.392	  2.888%	 48.656%	     0.000	        1	[inception_v3/activation_26/Relu;inception_v3/batch_normalization_26/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_26/Conv2D]:34
+	                 CONV_2D	          579.581	    3.321	    3.335	  0.280%	 48.937%	     0.000	        1	[inception_v3/activation_27/Relu;inception_v3/batch_normalization_27/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_27/Conv2D]:35
+	                 CONV_2D	          582.921	    9.138	    9.212	  0.774%	 49.710%	     0.000	        1	[inception_v3/activation_28/Relu;inception_v3/batch_normalization_28/FusedBatchNormV3;inception_v3/batch_normalization_10/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_28/Conv2D]:36
+	                 CONV_2D	          592.138	    3.403	    3.331	  0.280%	 49.990%	     0.000	        1	[inception_v3/activation_29/Relu;inception_v3/batch_normalization_29/FusedBatchNormV3;inception_v3/batch_normalization_10/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_29/Conv2D]:37
+	             MAX_POOL_2D	          595.474	    2.127	    2.072	  0.174%	 50.164%	     0.000	        1	[inception_v3/max_pooling2d_2/MaxPool]:38
+	           CONCATENATION	          597.548	    0.174	    0.174	  0.015%	 50.178%	     0.000	        1	[inception_v3/mixed3/concat]:39
+	         AVERAGE_POOL_2D	          597.724	   42.142	   42.130	  3.538%	 53.716%	     0.000	        1	[inception_v3/average_pooling2d_3/AvgPool]:40
+	                 CONV_2D	          639.858	    5.177	    5.092	  0.428%	 54.144%	     0.000	        1	[inception_v3/activation_39/Relu;inception_v3/batch_normalization_39/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_39/Conv2D]:41
+	                 CONV_2D	          644.953	    5.123	    5.111	  0.429%	 54.573%	     0.000	        1	[inception_v3/activation_30/Relu;inception_v3/batch_normalization_30/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_30/Conv2D]:42
+	                 CONV_2D	          650.068	    3.498	    3.544	  0.298%	 54.871%	     0.000	        1	[inception_v3/activation_31/Relu;inception_v3/batch_normalization_31/FusedBatchNormV3;inception_v3/batch_normalization_31/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_31/Conv2D]:43
+	                 CONV_2D	          653.616	    4.211	    4.192	  0.352%	 55.223%	     0.000	        1	[inception_v3/activation_32/Relu;inception_v3/batch_normalization_32/FusedBatchNormV3;inception_v3/batch_normalization_31/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_32/Conv2D]:44
+	                 CONV_2D	          657.812	    5.980	    6.062	  0.509%	 55.732%	     0.000	        1	[inception_v3/activation_33/Relu;inception_v3/batch_normalization_33/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_33/Conv2D]:45
+	                 CONV_2D	          663.879	    3.720	    3.635	  0.305%	 56.037%	     0.000	        1	[inception_v3/activation_34/Relu;inception_v3/batch_normalization_34/FusedBatchNormV3;inception_v3/batch_normalization_31/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_34/Conv2D]:46
+	                 CONV_2D	          667.518	    4.216	    4.273	  0.359%	 56.396%	     0.000	        1	[inception_v3/activation_35/Relu;inception_v3/batch_normalization_35/FusedBatchNormV3;inception_v3/batch_normalization_31/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_35/Conv2D]:47
+	                 CONV_2D	          671.796	    4.238	    4.244	  0.356%	 56.752%	     0.000	        1	[inception_v3/activation_36/Relu;inception_v3/batch_normalization_36/FusedBatchNormV3;inception_v3/batch_normalization_31/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_36/Conv2D]:48
+	                 CONV_2D	          676.044	    4.268	    4.283	  0.360%	 57.112%	     0.000	        1	[inception_v3/activation_37/Relu;inception_v3/batch_normalization_37/FusedBatchNormV3;inception_v3/batch_normalization_31/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_37/Conv2D]:49
+	                 CONV_2D	          680.331	    6.014	    5.989	  0.503%	 57.615%	     0.000	        1	[inception_v3/activation_38/Relu;inception_v3/batch_normalization_38/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_38/Conv2D]:50
+	           CONCATENATION	          686.326	    0.291	    0.284	  0.024%	 57.639%	     0.000	        1	[inception_v3/mixed4/concat]:51
+	         AVERAGE_POOL_2D	          686.612	   42.524	   42.575	  3.575%	 61.214%	     0.000	        1	[inception_v3/average_pooling2d_4/AvgPool]:52
+	                 CONV_2D	          729.191	    5.202	    5.099	  0.428%	 61.642%	     0.000	        1	[inception_v3/activation_49/Relu;inception_v3/batch_normalization_49/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_49/Conv2D]:53
+	                 CONV_2D	          734.294	    5.081	    5.115	  0.430%	 62.072%	     0.000	        1	[inception_v3/activation_40/Relu;inception_v3/batch_normalization_40/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_40/Conv2D]:54
+	                 CONV_2D	          739.414	    4.269	    4.347	  0.365%	 62.437%	     0.000	        1	[inception_v3/activation_41/Relu;inception_v3/batch_normalization_41/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_41/Conv2D]:55
+	                 CONV_2D	          743.765	    6.454	    6.482	  0.544%	 62.981%	     0.000	        1	[inception_v3/activation_42/Relu;inception_v3/batch_normalization_42/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_42/Conv2D]:56
+	                 CONV_2D	          750.252	    7.567	    7.673	  0.644%	 63.626%	     0.000	        1	[inception_v3/activation_43/Relu;inception_v3/batch_normalization_43/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_43/Conv2D]:57
+	                 CONV_2D	          757.930	    4.392	    4.428	  0.372%	 63.998%	     0.000	        1	[inception_v3/activation_44/Relu;inception_v3/batch_normalization_44/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_44/Conv2D]:58
+	                 CONV_2D	          762.362	    6.466	    6.531	  0.548%	 64.546%	     0.000	        1	[inception_v3/activation_45/Relu;inception_v3/batch_normalization_45/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_45/Conv2D]:59
+	                 CONV_2D	          768.898	    6.616	    6.511	  0.547%	 65.093%	     0.000	        1	[inception_v3/activation_46/Relu;inception_v3/batch_normalization_46/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_46/Conv2D]:60
+	                 CONV_2D	          775.414	    6.542	    6.526	  0.548%	 65.641%	     0.000	        1	[inception_v3/activation_47/Relu;inception_v3/batch_normalization_47/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_47/Conv2D]:61
+	                 CONV_2D	          781.946	    7.560	    7.606	  0.639%	 66.280%	     0.000	        1	[inception_v3/activation_48/Relu;inception_v3/batch_normalization_48/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_48/Conv2D]:62
+	           CONCATENATION	          789.557	    0.249	    0.243	  0.020%	 66.300%	     0.000	        1	[inception_v3/mixed5/concat]:63
+	         AVERAGE_POOL_2D	          789.802	   42.587	   42.555	  3.574%	 69.874%	     0.000	        1	[inception_v3/average_pooling2d_5/AvgPool]:64
+	                 CONV_2D	          832.362	    5.050	    5.085	  0.427%	 70.301%	     0.000	        1	[inception_v3/activation_59/Relu;inception_v3/batch_normalization_59/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_59/Conv2D]:65
+	                 CONV_2D	          837.452	    5.162	    5.120	  0.430%	 70.731%	     0.000	        1	[inception_v3/activation_50/Relu;inception_v3/batch_normalization_50/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_50/Conv2D]:66
+	                 CONV_2D	          842.576	    4.262	    4.314	  0.362%	 71.093%	     0.000	        1	[inception_v3/activation_51/Relu;inception_v3/batch_normalization_51/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_51/Conv2D]:67
+	                 CONV_2D	          846.894	    6.491	    6.482	  0.544%	 71.637%	     0.000	        1	[inception_v3/activation_52/Relu;inception_v3/batch_normalization_52/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_52/Conv2D]:68
+	                 CONV_2D	          853.380	    7.561	    7.670	  0.644%	 72.281%	     0.000	        1	[inception_v3/activation_53/Relu;inception_v3/batch_normalization_53/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_53/Conv2D]:69
+	                 CONV_2D	          861.056	    4.450	    4.417	  0.371%	 72.652%	     0.000	        1	[inception_v3/activation_54/Relu;inception_v3/batch_normalization_54/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_54/Conv2D]:70
+	                 CONV_2D	          865.478	    6.366	    6.442	  0.541%	 73.193%	     0.000	        1	[inception_v3/activation_55/Relu;inception_v3/batch_normalization_55/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_55/Conv2D]:71
+	                 CONV_2D	          871.925	    6.506	    6.490	  0.545%	 73.738%	     0.000	        1	[inception_v3/activation_56/Relu;inception_v3/batch_normalization_56/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_56/Conv2D]:72
+	                 CONV_2D	          878.421	    6.442	    6.532	  0.549%	 74.287%	     0.000	        1	[inception_v3/activation_57/Relu;inception_v3/batch_normalization_57/FusedBatchNormV3;inception_v3/batch_normalization_41/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_57/Conv2D]:73
+	                 CONV_2D	          884.958	    7.672	    7.614	  0.639%	 74.926%	     0.000	        1	[inception_v3/activation_58/Relu;inception_v3/batch_normalization_58/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_58/Conv2D]:74
+	           CONCATENATION	          892.578	    0.229	    0.252	  0.021%	 74.948%	     0.000	        1	[inception_v3/mixed6/concat]:75
+	         AVERAGE_POOL_2D	          892.831	   42.574	   42.494	  3.569%	 78.516%	     0.000	        1	[inception_v3/average_pooling2d_6/AvgPool]:76
+	                 CONV_2D	          935.329	    5.027	    5.071	  0.426%	 78.942%	     0.000	        1	[inception_v3/activation_69/Relu;inception_v3/batch_normalization_69/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_69/Conv2D]:77
+	                 CONV_2D	          940.404	    5.183	    5.120	  0.430%	 79.372%	     0.000	        1	[inception_v3/activation_60/Relu;inception_v3/batch_normalization_60/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_60/Conv2D]:78
+	                 CONV_2D	          945.529	    5.025	    5.065	  0.425%	 79.797%	     0.000	        1	[inception_v3/activation_61/Relu;inception_v3/batch_normalization_61/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_61/Conv2D]:79
+	                 CONV_2D	          950.598	    9.200	    9.162	  0.769%	 80.567%	     0.000	        1	[inception_v3/activation_62/Relu;inception_v3/batch_normalization_62/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_62/Conv2D]:80
+	                 CONV_2D	          959.765	    9.127	    9.198	  0.772%	 81.339%	     0.000	        1	[inception_v3/activation_63/Relu;inception_v3/batch_normalization_63/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_63/Conv2D]:81
+	                 CONV_2D	          968.969	    5.271	    5.171	  0.434%	 81.773%	     0.000	        1	[inception_v3/activation_64/Relu;inception_v3/batch_normalization_64/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_64/Conv2D]:82
+	                 CONV_2D	          974.144	    9.227	    9.219	  0.774%	 82.547%	     0.000	        1	[inception_v3/activation_65/Relu;inception_v3/batch_normalization_65/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_65/Conv2D]:83
+	                 CONV_2D	          983.369	    9.147	    9.185	  0.771%	 83.319%	     0.000	        1	[inception_v3/activation_66/Relu;inception_v3/batch_normalization_66/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_66/Conv2D]:84
+	                 CONV_2D	          992.559	    9.139	    9.205	  0.773%	 84.092%	     0.000	        1	[inception_v3/activation_67/Relu;inception_v3/batch_normalization_67/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_67/Conv2D]:85
+	                 CONV_2D	         1001.771	    9.204	    9.175	  0.771%	 84.862%	     0.000	        1	[inception_v3/activation_68/Relu;inception_v3/batch_normalization_68/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_68/Conv2D]:86
+	           CONCATENATION	         1010.951	    0.218	    0.216	  0.018%	 84.881%	     0.000	        1	[inception_v3/mixed7/concat]:87
+	                 CONV_2D	         1011.169	    5.034	    5.081	  0.427%	 85.307%	     0.000	        1	[inception_v3/activation_70/Relu;inception_v3/batch_normalization_70/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_70/Conv2D]:88
+	                 CONV_2D	         1016.255	    4.174	    4.102	  0.344%	 85.652%	     0.000	        1	[inception_v3/activation_71/Relu;inception_v3/batch_normalization_71/FusedBatchNormV3;inception_v3/batch_normalization_71/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_71/Conv2D]:89
+	                 CONV_2D	         1020.361	    5.141	    5.125	  0.430%	 86.082%	     0.000	        1	[inception_v3/activation_72/Relu;inception_v3/batch_normalization_72/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_72/Conv2D]:90
+	                 CONV_2D	         1025.492	    9.194	    9.168	  0.770%	 86.852%	     0.000	        1	[inception_v3/activation_73/Relu;inception_v3/batch_normalization_73/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_73/Conv2D]:91
+	                 CONV_2D	         1034.665	    9.211	    9.221	  0.774%	 87.626%	     0.000	        1	[inception_v3/activation_74/Relu;inception_v3/batch_normalization_74/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_74/Conv2D]:92
+	                 CONV_2D	         1043.891	    2.553	    2.541	  0.213%	 87.840%	     0.000	        1	[inception_v3/activation_75/Relu;inception_v3/batch_normalization_75/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_75/Conv2D]:93
+	             MAX_POOL_2D	         1046.435	    1.222	    1.260	  0.106%	 87.946%	     0.000	        1	[inception_v3/max_pooling2d_3/MaxPool]:94
+	           CONCATENATION	         1047.697	    0.111	    0.066	  0.006%	 87.951%	     0.000	        1	[inception_v3/mixed8/concat]:95
+	         AVERAGE_POOL_2D	         1047.764	   14.182	   14.058	  1.181%	 89.132%	     0.000	        1	[inception_v3/average_pooling2d_7/AvgPool]:96
+	                 CONV_2D	         1061.825	    1.808	    1.823	  0.153%	 89.285%	     0.000	        1	[inception_v3/activation_84/Relu;inception_v3/batch_normalization_84/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_84/Conv2D]:97
+	                 CONV_2D	         1063.650	    3.018	    2.951	  0.248%	 89.533%	     0.000	        1	[inception_v3/activation_76/Relu;inception_v3/batch_normalization_76/FusedBatchNormV3;inception_v3/batch_normalization_71/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_76/Conv2D]:98
+	                 CONV_2D	         1066.605	    3.560	    3.558	  0.299%	 89.831%	     0.000	        1	[inception_v3/activation_77/Relu;inception_v3/batch_normalization_77/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_77/Conv2D]:99
+	                 CONV_2D	         1070.167	    3.205	    3.193	  0.268%	 90.100%	     0.000	        1	[inception_v3/activation_78/Relu;inception_v3/batch_normalization_78/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_78/Conv2D]:100
+	                 CONV_2D	         1073.363	    3.124	    3.229	  0.271%	 90.371%	     0.000	        1	[inception_v3/activation_79/Relu;inception_v3/batch_normalization_79/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_79/Conv2D]:101
+	           CONCATENATION	         1076.596	    0.060	    0.060	  0.005%	 90.376%	     0.000	        1	[inception_v3/mixed9_0/concat]:102
+	                 CONV_2D	         1076.657	    4.131	    4.147	  0.348%	 90.724%	     0.000	        1	[inception_v3/activation_80/Relu;inception_v3/batch_normalization_80/FusedBatchNormV3;inception_v3/batch_normalization_80/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_80/Conv2D]:103
+	                 CONV_2D	         1080.809	   11.267	   11.292	  0.948%	 91.672%	     0.000	        1	[inception_v3/activation_81/Relu;inception_v3/batch_normalization_81/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_81/Conv2D]:104
+	                 CONV_2D	         1092.106	    3.240	    3.257	  0.273%	 91.946%	     0.000	        1	[inception_v3/activation_82/Relu;inception_v3/batch_normalization_82/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_82/Conv2D]:105
+	                 CONV_2D	         1095.366	    3.254	    3.229	  0.271%	 92.217%	     0.000	        1	[inception_v3/activation_83/Relu;inception_v3/batch_normalization_83/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_83/Conv2D]:106
+	           CONCATENATION	         1098.598	    0.060	    0.071	  0.006%	 92.223%	     0.000	        1	[inception_v3/concatenate/concat]:107
+	           CONCATENATION	         1098.670	    0.063	    0.072	  0.006%	 92.229%	     0.000	        1	[inception_v3/mixed9/concat]:108
+	         AVERAGE_POOL_2D	         1098.743	   23.369	   23.387	  1.964%	 94.193%	     0.000	        1	[inception_v3/average_pooling2d_8/AvgPool]:109
+	                 CONV_2D	         1122.134	    2.861	    2.948	  0.248%	 94.440%	     0.000	        1	[inception_v3/activation_93/Relu;inception_v3/batch_normalization_93/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_93/Conv2D]:110
+	                 CONV_2D	         1125.085	    4.938	    4.865	  0.409%	 94.849%	     0.000	        1	[inception_v3/activation_85/Relu;inception_v3/batch_normalization_85/FusedBatchNormV3;inception_v3/batch_normalization_71/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_85/Conv2D]:111
+	                 CONV_2D	         1129.955	    5.705	    5.789	  0.486%	 95.335%	     0.000	        1	[inception_v3/activation_86/Relu;inception_v3/batch_normalization_86/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_86/Conv2D]:112
+	                 CONV_2D	         1135.750	    3.339	    3.222	  0.271%	 95.606%	     0.000	        1	[inception_v3/activation_87/Relu;inception_v3/batch_normalization_87/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_87/Conv2D]:113
+	                 CONV_2D	         1138.975	    3.230	    3.232	  0.271%	 95.877%	     0.000	        1	[inception_v3/activation_88/Relu;inception_v3/batch_normalization_88/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_88/Conv2D]:114
+	           CONCATENATION	         1142.211	    0.053	    0.060	  0.005%	 95.882%	     0.000	        1	[inception_v3/mixed9_1/concat]:115
+	                 CONV_2D	         1142.272	    6.629	    6.700	  0.563%	 96.445%	     0.000	        1	[inception_v3/activation_89/Relu;inception_v3/batch_normalization_89/FusedBatchNormV3;inception_v3/batch_normalization_80/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_89/Conv2D]:116
+	                 CONV_2D	         1148.977	   11.360	   11.291	  0.948%	 97.393%	     0.000	        1	[inception_v3/activation_90/Relu;inception_v3/batch_normalization_90/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_90/Conv2D]:117
+	                 CONV_2D	         1160.273	    3.195	    3.232	  0.271%	 97.664%	     0.000	        1	[inception_v3/activation_91/Relu;inception_v3/batch_normalization_91/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_91/Conv2D]:118
+	                 CONV_2D	         1163.508	    3.238	    3.195	  0.268%	 97.933%	     0.000	        1	[inception_v3/activation_92/Relu;inception_v3/batch_normalization_92/FusedBatchNormV3;inception_v3/batch_normalization_26/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_92/Conv2D]:119
+	           CONCATENATION	         1166.707	    0.069	    0.079	  0.007%	 97.939%	     0.000	        1	[inception_v3/concatenate_1/concat]:120
+	           CONCATENATION	         1166.788	    0.066	    0.070	  0.006%	 97.945%	     0.000	        1	[inception_v3/mixed10/concat]:121
+	                    MEAN	         1166.859	   22.522	   22.494	  1.889%	 99.834%	     0.000	        1	[inception_v3/avg_pool/Mean]:122
+	         FULLY_CONNECTED	         1189.356	    1.851	    1.891	  0.159%	 99.993%	     0.000	        1	[inception_v3/predictions/MatMul;inception_v3/predictions/BiasAdd]:123
+	                 SOFTMAX	         1191.252	    0.096	    0.082	  0.007%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:124
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	          128.639	   86.881	   86.734	  7.284%	  7.284%	     0.000	        1	[inception_v3/activation_4/Relu;inception_v3/batch_normalization_4/FusedBatchNormV3;inception_v3/batch_normalization_30/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_4/Conv2D]:5
+	         AVERAGE_POOL_2D	          423.527	   70.663	   70.656	  5.933%	 13.217%	     0.000	        1	[inception_v3/average_pooling2d_2/AvgPool]:25
+	                 CONV_2D	           51.019	   64.320	   63.932	  5.369%	 18.586%	     0.000	        1	[inception_v3/activation_2/Relu;inception_v3/batch_normalization_2/FusedBatchNormV3;inception_v3/batch_normalization_12/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_2/Conv2D]:2
+	         AVERAGE_POOL_2D	          311.873	   62.088	   62.188	  5.222%	 23.808%	     0.000	        1	[inception_v3/average_pooling2d_1/AvgPool]:16
+	         AVERAGE_POOL_2D	          221.062	   44.937	   45.105	  3.788%	 27.596%	     0.000	        1	[inception_v3/average_pooling2d/AvgPool]:7
+	         AVERAGE_POOL_2D	          686.612	   42.524	   42.575	  3.575%	 31.172%	     0.000	        1	[inception_v3/average_pooling2d_4/AvgPool]:52
+	         AVERAGE_POOL_2D	          789.802	   42.587	   42.555	  3.574%	 34.745%	     0.000	        1	[inception_v3/average_pooling2d_5/AvgPool]:64
+	         AVERAGE_POOL_2D	          892.831	   42.574	   42.494	  3.569%	 38.314%	     0.000	        1	[inception_v3/average_pooling2d_6/AvgPool]:76
+	         AVERAGE_POOL_2D	          597.724	   42.142	   42.130	  3.538%	 41.852%	     0.000	        1	[inception_v3/average_pooling2d_3/AvgPool]:40
+	                 CONV_2D	           10.036	   41.872	   40.979	  3.441%	 45.293%	     0.000	        1	[inception_v3/activation_1/Relu;inception_v3/batch_normalization_1/FusedBatchNormV3;inception_v3/batch_normalization_11/FusedBatchNormV3/ReadVariableOp;inception_v3/conv2d_1/Conv2D]:1
+
+Number of nodes executed: 125
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       94	   760.364	    63.857%	    63.857%	     0.000	       94
+	         AVERAGE_POOL_2D	        9	   385.142	    32.345%	    96.202%	     0.000	        9
+	                    MEAN	        1	    22.494	     1.889%	    98.091%	     0.000	        1
+	             MAX_POOL_2D	        4	    17.924	     1.505%	    99.596%	     0.000	        4
+	           CONCATENATION	       15	     2.837	     0.238%	    99.834%	     0.000	       15
+	         FULLY_CONNECTED	        1	     1.891	     0.159%	    99.993%	     0.000	        1
+	                 SOFTMAX	        1	     0.082	     0.007%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=20 first=1191858 curr=1190354 min=1189623 max=1193265 avg=1.19079e+06 std=858
+Memory (bytes): count=0
+125 nodes observed
+
+
+
+[ perf record: Woken up 81 times to write data ]
+[ perf record: Captured and wrote 20.204 MB /tmp/data.record (105959 samples) ]
+
+27.697
+

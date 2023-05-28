@@ -1,0 +1,108 @@
+
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\pgfplotsset{compat=1.8}
+\begin{document}
+    \begin{figure*}[t]
+        \begin{tikzpicture}
+            \begin{axis}[
+                xbar=0pt,
+                xmin=0.6,
+                xmax=3,
+                width=0.995\linewidth,
+                height=2*\axisdefaultheight,
+                tick label style={font=\footnotesize},
+                legend style={font=\tiny},
+                label style={font=\footnotesize},
+                symbolic y coords={BarrelShift-Mul-W8A8, SelfDependent-W4A4, ULPPACK-W4A4, No-Caching, GEMMLOWP},
+                ytick=data,
+                xtick={0.60,0.80,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0},
+                align={center},
+                bar width=0.833ex,
+                legend columns=7,
+                legend style={at={(0.49,-0.2)},anchor=north,font=\footnotesize},
+                title=\textbf{MobileNetV2},
+                xmajorgrids,
+                yminorgrids = true,
+                minor tick num=1
+                ]
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.01,No-Caching) (0.08,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.01,No-Caching) (0.09,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.04,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.03,No-Caching) (0.10,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.99,No-Caching) (0.04,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.03,No-Caching) (0.12,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.04,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.02,No-Caching) (0.11,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.01,No-Caching) (0.04,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.02,No-Caching) (0.11,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.05,No-Caching) (0.04,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.10,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.01,No-Caching) (0.04,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.99,No-Caching) (0.11,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.08,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.15,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.02,No-Caching) (0.08,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.15,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.08,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.99,No-Caching) (0.15,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.08,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.99,No-Caching) (0.16,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.02,No-Caching) (0.10,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.01,No-Caching) (0.20,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.10,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.01,No-Caching) (0.20,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.01,No-Caching) (0.10,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.98,No-Caching) (0.21,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.98,No-Caching) (0.13,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.01,No-Caching) (0.25,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.13,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.99,No-Caching) (0.24,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.98,No-Caching) (0.13,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.00,No-Caching) (0.26,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (0.99,No-Caching) (0.18,GEMMLOWP) };
+                \addplot coordinates { (0.00,BarrelShift-Mul-W8A8) (0.00,SelfDependent-W4A4) (0.00,ULPPACK-W4A4) (1.12,No-Caching) (0.02,GEMMLOWP) };
+                \legend{
+                    CONV-1,
+                    CONV-2,
+                    CONV-3,
+                    CONV-4,
+                    CONV-5,
+                    CONV-6,
+                    CONV-7,
+                    CONV-8,
+                    CONV-9,
+                    CONV-10,
+                    CONV-11,
+                    CONV-12,
+                    CONV-13,
+                    CONV-14,
+                    CONV-15,
+                    CONV-16,
+                    CONV-17,
+                    CONV-18,
+                    CONV-19,
+                    CONV-20,
+                    CONV-21,
+                    CONV-22,
+                    CONV-23,
+                    CONV-24,
+                    CONV-25,
+                    CONV-26,
+                    CONV-27,
+                    CONV-28,
+                    CONV-29,
+                    CONV-30,
+                    CONV-31,
+                    CONV-32,
+                    CONV-33,
+                    CONV-34,
+                    CONV-35,
+                    FC-1,
+                };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure*}
+\end{document}

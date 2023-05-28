@@ -52,7 +52,7 @@ methods_order = [
     'ULPPACK-W1A1',
     'ULPPACK-W2A2',
     'ULPPACK-W3A3',
-    # 'ULPPACK-W4A4',
+    'ULPPACK-W4A4',
     # 'ULPPACK-W5A5',
     # 'ULPPACK-W6A6',
     # 'ULPPACK-W7A7',
@@ -67,6 +67,9 @@ methods_order = [
     'Binary-I8',
     'Binary-Binary',
     'I8-I4-without-selection',
+    # Our New benchmarks
+    'SelfDependent-W4A4',
+    'BarrelShift-Mul-W8A8',
 ]
 metrics_order = [
     'cpu_cycles',

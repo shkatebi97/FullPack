@@ -1,0 +1,43 @@
+
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\pgfplotsset{compat=1.8}
+\begin{document}
+    \begin{figure*}[t]
+        \begin{tikzpicture}
+            \begin{axis}[
+                ybar stacked,
+                ymin=0.0,
+                width=\linewidth,
+                height=\axisdefaultheight,
+                tick label style={font=\footnotesize},
+                legend style={font=\tiny},
+                label style={font=\footnotesize},
+                symbolic x coords={I8-I8, No-Caching, GEMMLOWP, SelfDependent-W4A4, ULPPACK-W4A4, I4-I4, BarrelShift-Mul-W8A8},
+                xtick=data,
+                % ytick={0.60,0.80,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0},
+                align={center},
+                bar width=7.5ex,
+                legend columns=7,
+                legend style={at={(0.49,-0.2)},anchor=north,font=\footnotesize},
+                title=\textbf{DenseNet201 Layers Detailed Comparison},
+                ymajorgrids,
+                xminorgrids = true,
+                minor tick num=1
+                ]
+                \addplot coordinates { (I8-I8,12.71) (No-Caching,12.68) (GEMMLOWP,74.87) (SelfDependent-W4A4,11.11) (ULPPACK-W4A4,11.21) (I4-I4,0.00) (BarrelShift-Mul-W8A8,11.08) };
+                \addplot coordinates { (I8-I8,1.61) (No-Caching,1.58) (GEMMLOWP,74.87) (SelfDependent-W4A4,2.03) (ULPPACK-W4A4,1.96) (I4-I4,0.00) (BarrelShift-Mul-W8A8,2.02) };
+                \addplot coordinates { (I8-I8,0.91) (No-Caching,0.92) (GEMMLOWP,0.74) (SelfDependent-W4A4,0.94) (ULPPACK-W4A4,0.97) (I4-I4,0.00) (BarrelShift-Mul-W8A8,1.03) };
+                \addplot coordinates { (I8-I8,73.15) (No-Caching,74.21) (GEMMLOWP,73.07) (SelfDependent-W4A4,74.97) (ULPPACK-W4A4,74.88) (I4-I4,0.00) (BarrelShift-Mul-W8A8,73.86) };
+                \legend{
+                    Kernel,
+                    Packing,
+                    Other in Conv,
+                    Other Layers,
+                };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure*}
+\end{document}

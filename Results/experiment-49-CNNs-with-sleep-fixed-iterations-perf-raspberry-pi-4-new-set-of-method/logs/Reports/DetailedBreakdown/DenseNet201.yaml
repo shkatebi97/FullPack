@@ -1,0 +1,55 @@
+I8-I8:
+    Overall: '88.33'
+    Conv:
+        Overall: '15.53'
+        GEMM: 
+            Overall: '15.51'
+            Kernel:  '12.71'
+            Packing: '1.61'
+        Others (Im2Col):
+            Overall: '0.91
+'
+No-Caching:
+    Overall: '89.36'
+    Conv:
+        Overall: '15.50'
+        GEMM: 
+            Overall: '15.49'
+            Kernel:  '12.68'
+            Packing: '1.58'
+        Others (Im2Col):
+            Overall: '0.92
+'
+ULPPACK-W4A4:
+    Overall: '88.68'
+    Conv:
+        Overall: '14.23'
+        GEMM: 
+            Overall: '14.20'
+            Kernel:  '11.21'
+            Packing: '1.96'
+        Others (Im2Col):
+            Overall: '0.97
+'
+SelfDependent-W4A4:
+    Overall: '88.72'
+    Conv:
+        Overall: '14.17'
+        GEMM: 
+            Overall: '14.15'
+            Kernel:  '11.11'
+            Packing: '2.03'
+        Others (Im2Col):
+            Overall: '0.94
+'
+BarrelShift-Mul-W8A8:
+    Overall: '87.66'
+    Conv:
+        Overall: '14.23'
+        GEMM: 
+            Overall: '14.20'
+            Kernel:  '11.08'
+            Packing: '2.02'
+        Others (Im2Col):
+            Overall: '1.03
+'

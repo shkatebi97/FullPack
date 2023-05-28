@@ -1,0 +1,1787 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/ResNet152.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/ResNet152.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (147, 64, ), Input shape (52900, 3, ), and Output shape (12544, 64, ), and the ID is 0
+	Changing Input Shape
+	New Input Shape: (12544, 147, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (160, 64, ) DONE
+	Allocating A Kernel Temporary Tensor With Shape: (152, 64, ) DONE
+	Preparing Filter With Shape: (147, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (12544, 152, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (12544, 152, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 256, ), Input shape (3136, 64, ), and Output shape (3136, 256, ), and the ID is 1
+	Changing Input Shape
+	New Input Shape: (3136, 64, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 256, ) DONE
+	Preparing Filter With Shape: (64, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 64, ), Input shape (3136, 64, ), and Output shape (3136, 64, ), and the ID is 2
+	Changing Input Shape
+	New Input Shape: (3136, 64, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 64, ) DONE
+	Preparing Filter With Shape: (64, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 64, ), Input shape (3136, 64, ), and Output shape (3136, 64, ), and the ID is 3
+	Changing Input Shape
+	New Input Shape: (3136, 576, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 64, ) DONE
+	Preparing Filter With Shape: (576, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 576, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 256, ), Input shape (3136, 64, ), and Output shape (3136, 256, ), and the ID is 4
+	Changing Input Shape
+	New Input Shape: (3136, 64, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 256, ) DONE
+	Preparing Filter With Shape: (64, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (3136, 256, ), and Output shape (3136, 64, ), and the ID is 5
+	Changing Input Shape
+	New Input Shape: (3136, 256, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 64, ) DONE
+	Preparing Filter With Shape: (256, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 64, ), Input shape (3136, 64, ), and Output shape (3136, 64, ), and the ID is 6
+	Changing Input Shape
+	New Input Shape: (3136, 576, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 64, ) DONE
+	Preparing Filter With Shape: (576, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 576, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 256, ), Input shape (3136, 64, ), and Output shape (3136, 256, ), and the ID is 7
+	Changing Input Shape
+	New Input Shape: (3136, 64, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 256, ) DONE
+	Preparing Filter With Shape: (64, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 64, ), Input shape (3136, 256, ), and Output shape (3136, 64, ), and the ID is 8
+	Changing Input Shape
+	New Input Shape: (3136, 256, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 64, ) DONE
+	Preparing Filter With Shape: (256, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 64, ), Input shape (3136, 64, ), and Output shape (3136, 64, ), and the ID is 9
+	Changing Input Shape
+	New Input Shape: (3136, 576, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 64, ) DONE
+	Preparing Filter With Shape: (576, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 576, ) DONE
+Applying Conv Low-Precision for Kernel shape (64, 256, ), Input shape (3136, 64, ), and Output shape (3136, 256, ), and the ID is 10
+	Changing Input Shape
+	New Input Shape: (3136, 64, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (64, 256, ) DONE
+	Preparing Filter With Shape: (64, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 64, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 512, ), Input shape (3136, 256, ), and Output shape (784, 512, ), and the ID is 11
+	Changing Input Shape
+	New Input Shape: (784, 256, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 512, ) DONE
+	Preparing Filter With Shape: (256, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 128, ), Input shape (3136, 256, ), and Output shape (784, 128, ), and the ID is 12
+	Changing Input Shape
+	New Input Shape: (784, 256, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 128, ) DONE
+	Preparing Filter With Shape: (256, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (784, 128, ), and Output shape (784, 128, ), and the ID is 13
+	Changing Input Shape
+	New Input Shape: (784, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 14
+	Changing Input Shape
+	New Input Shape: (784, 128, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (128, 512, ) DONE
+	Preparing Filter With Shape: (128, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 15
+	Changing Input Shape
+	New Input Shape: (784, 512, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 128, ) DONE
+	Preparing Filter With Shape: (512, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (784, 128, ), and Output shape (784, 128, ), and the ID is 16
+	Changing Input Shape
+	New Input Shape: (784, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 17
+	Changing Input Shape
+	New Input Shape: (784, 128, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (128, 512, ) DONE
+	Preparing Filter With Shape: (128, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 18
+	Changing Input Shape
+	New Input Shape: (784, 512, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 128, ) DONE
+	Preparing Filter With Shape: (512, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (784, 128, ), and Output shape (784, 128, ), and the ID is 19
+	Changing Input Shape
+	New Input Shape: (784, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 20
+	Changing Input Shape
+	New Input Shape: (784, 128, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (128, 512, ) DONE
+	Preparing Filter With Shape: (128, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 21
+	Changing Input Shape
+	New Input Shape: (784, 512, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 128, ) DONE
+	Preparing Filter With Shape: (512, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (784, 128, ), and Output shape (784, 128, ), and the ID is 22
+	Changing Input Shape
+	New Input Shape: (784, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 23
+	Changing Input Shape
+	New Input Shape: (784, 128, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (128, 512, ) DONE
+	Preparing Filter With Shape: (128, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 24
+	Changing Input Shape
+	New Input Shape: (784, 512, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 128, ) DONE
+	Preparing Filter With Shape: (512, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (784, 128, ), and Output shape (784, 128, ), and the ID is 25
+	Changing Input Shape
+	New Input Shape: (784, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 26
+	Changing Input Shape
+	New Input Shape: (784, 128, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (128, 512, ) DONE
+	Preparing Filter With Shape: (128, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 27
+	Changing Input Shape
+	New Input Shape: (784, 512, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 128, ) DONE
+	Preparing Filter With Shape: (512, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (784, 128, ), and Output shape (784, 128, ), and the ID is 28
+	Changing Input Shape
+	New Input Shape: (784, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 29
+	Changing Input Shape
+	New Input Shape: (784, 128, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (128, 512, ) DONE
+	Preparing Filter With Shape: (128, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 30
+	Changing Input Shape
+	New Input Shape: (784, 512, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 128, ) DONE
+	Preparing Filter With Shape: (512, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (784, 128, ), and Output shape (784, 128, ), and the ID is 31
+	Changing Input Shape
+	New Input Shape: (784, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 32
+	Changing Input Shape
+	New Input Shape: (784, 128, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (128, 512, ) DONE
+	Preparing Filter With Shape: (128, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 128, ), Input shape (784, 512, ), and Output shape (784, 128, ), and the ID is 33
+	Changing Input Shape
+	New Input Shape: (784, 512, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 128, ) DONE
+	Preparing Filter With Shape: (512, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (784, 128, ), and Output shape (784, 128, ), and the ID is 34
+	Changing Input Shape
+	New Input Shape: (784, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (128, 512, ), Input shape (784, 128, ), and Output shape (784, 512, ), and the ID is 35
+	Changing Input Shape
+	New Input Shape: (784, 128, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (128, 512, ) DONE
+	Preparing Filter With Shape: (128, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 128, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 1024, ), Input shape (784, 512, ), and Output shape (196, 1024, ), and the ID is 36
+	Changing Input Shape
+	New Input Shape: (196, 512, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 1024, ) DONE
+	Preparing Filter With Shape: (512, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 512, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 256, ), Input shape (784, 512, ), and Output shape (196, 256, ), and the ID is 37
+	Changing Input Shape
+	New Input Shape: (196, 512, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 256, ) DONE
+	Preparing Filter With Shape: (512, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 512, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 38
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 39
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 40
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 41
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 42
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 43
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 44
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 45
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 46
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 47
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 48
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 49
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 50
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 51
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 52
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 53
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 54
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 55
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 56
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 57
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 58
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 59
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 60
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 61
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 62
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 63
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 64
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 65
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 66
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 67
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 68
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 69
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 70
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 71
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 72
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 73
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 74
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 75
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 76
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 77
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 78
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 79
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 80
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 81
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 82
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 83
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 84
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 85
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 86
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 87
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 88
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 89
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 90
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 91
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 92
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 93
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 94
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 95
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 96
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 97
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 98
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 99
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 100
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 101
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 102
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 103
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 104
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 105
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 106
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 107
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 108
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 109
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 110
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 111
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 112
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 113
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 114
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 115
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 116
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 117
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 118
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 119
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 120
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 121
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 122
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 123
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 124
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 125
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 126
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 127
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 128
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 129
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 130
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 131
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 132
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 133
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 134
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 135
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 136
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 137
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 138
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 139
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 140
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 141
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 256, ), Input shape (196, 1024, ), and Output shape (196, 256, ), and the ID is 142
+	Changing Input Shape
+	New Input Shape: (196, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 256, ) DONE
+	Preparing Filter With Shape: (1024, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (196, 256, ), and Output shape (196, 256, ), and the ID is 143
+	Changing Input Shape
+	New Input Shape: (196, 2304, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 2304, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 256, ) DONE
+Applying Conv Low-Precision for Kernel shape (256, 1024, ), Input shape (196, 256, ), and Output shape (196, 1024, ), and the ID is 144
+	Changing Input Shape
+	New Input Shape: (196, 256, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (256, 1024, ) DONE
+	Preparing Filter With Shape: (256, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 256, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 1024, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 2048, ), Input shape (196, 1024, ), and Output shape (49, 2048, ), and the ID is 145
+	Changing Input Shape
+	New Input Shape: (49, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 2048, ) DONE
+	Preparing Filter With Shape: (1024, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 2048, ) DONE
+Applying Conv Low-Precision for Kernel shape (1024, 512, ), Input shape (196, 1024, ), and Output shape (49, 512, ), and the ID is 146
+	Changing Input Shape
+	New Input Shape: (49, 1024, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1024, 512, ) DONE
+	Preparing Filter With Shape: (1024, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 1024, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 1024, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (49, 512, ), and Output shape (49, 512, ), and the ID is 147
+	Changing Input Shape
+	New Input Shape: (49, 4608, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 4608, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 4608, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 2048, ), Input shape (49, 512, ), and Output shape (49, 2048, ), and the ID is 148
+	Changing Input Shape
+	New Input Shape: (49, 512, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 2048, ) DONE
+	Preparing Filter With Shape: (512, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 512, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 2048, ) DONE
+Applying Conv Low-Precision for Kernel shape (2048, 512, ), Input shape (49, 2048, ), and Output shape (49, 512, ), and the ID is 149
+	Changing Input Shape
+	New Input Shape: (49, 2048, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2048, 512, ) DONE
+	Preparing Filter With Shape: (2048, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 2048, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (49, 512, ), and Output shape (49, 512, ), and the ID is 150
+	Changing Input Shape
+	New Input Shape: (49, 4608, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 4608, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 4608, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 2048, ), Input shape (49, 512, ), and Output shape (49, 2048, ), and the ID is 151
+	Changing Input Shape
+	New Input Shape: (49, 512, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 2048, ) DONE
+	Preparing Filter With Shape: (512, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 512, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 2048, ) DONE
+Applying Conv Low-Precision for Kernel shape (2048, 512, ), Input shape (49, 2048, ), and Output shape (49, 512, ), and the ID is 152
+	Changing Input Shape
+	New Input Shape: (49, 2048, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2048, 512, ) DONE
+	Preparing Filter With Shape: (2048, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 2048, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (49, 512, ), and Output shape (49, 512, ), and the ID is 153
+	Changing Input Shape
+	New Input Shape: (49, 4608, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 4608, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 4608, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (512, 2048, ), Input shape (49, 512, ), and Output shape (49, 2048, ), and the ID is 154
+	Changing Input Shape
+	New Input Shape: (49, 512, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (512, 2048, ) DONE
+	Preparing Filter With Shape: (512, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (56, 512, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (56, 2048, ) DONE
+Applying Low-Precision for shape (2048, 1000, ) and Input shape (1, 2048, ) With 9 Number of Temporaries Tensors, and the ID is 0
+	Allocating Filter Shape: (2048, 1000, ) DONE
+	Preparing Filter With Shape: (2048, 1000, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 2048, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (8, 1000, ) DONE
+The input model file size (MB): 61.9989
+Initialized session in 499.905ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=2731179 curr=2716712 min=2716712 max=2731179 avg=2.72395e+06 std=7233
+
+Running benchmark for at least 20 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=20 first=2719298 curr=2718641 min=2717652 max=2721706 avg=2.71956e+06 std=1143
+
+Inference timings in us: Init: 499905, First inference: 2731179, Warmup (avg): 2.72395e+06, Inference (avg): 2.71956e+06
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=122.078 overall=135.598
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  454.089	  454.089	100.000%	100.000%	109680.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  454.089	  454.089	100.000%	100.000%	109680.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	   454.089	   100.000%	   100.000%	109680.000	        1
+
+Timings (microseconds): count=1 curr=454089
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                     PAD	            0.020	    3.861	    3.796	  0.140%	  0.140%	     0.000	        1	[resnet152/conv1_pad/Pad]:0
+	                 CONV_2D	            3.818	   21.387	   21.444	  0.789%	  0.928%	     0.000	        1	[resnet152/conv1_relu/Relu;resnet152/conv1_bn/FusedBatchNormV3;resnet152/conv1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv1_conv/BiasAdd;resnet152/conv2_block3_2_bn/FusedBatchNormV3;resnet152/conv1_conv/Conv2D]:1
+	                     PAD	           25.268	   18.429	   18.487	  0.680%	  1.609%	     0.000	        1	[resnet152/pool1_pad/Pad]:2
+	             MAX_POOL_2D	           43.761	    5.301	    5.222	  0.192%	  1.801%	     0.000	        1	[resnet152/pool1_pool/MaxPool]:3
+	                 CONV_2D	           48.988	    6.616	    6.686	  0.246%	  2.047%	     0.000	        1	[resnet152/conv2_block1_0_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block1_0_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_conv/Conv2D]:4
+	                 CONV_2D	           55.679	    1.882	    1.901	  0.070%	  2.117%	     0.000	        1	[resnet152/conv2_block1_1_relu/Relu;resnet152/conv2_block1_1_bn/FusedBatchNormV3;resnet152/conv1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block1_1_conv/BiasAdd;resnet152/conv2_block3_2_bn/FusedBatchNormV3;resnet152/conv2_block1_1_conv/Conv2D]:5
+	                 CONV_2D	           57.588	   17.010	   17.095	  0.629%	  2.745%	     0.000	        1	[resnet152/conv2_block1_2_relu/Relu;resnet152/conv2_block1_2_bn/FusedBatchNormV3;resnet152/conv1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block1_2_conv/BiasAdd;resnet152/conv2_block3_2_bn/FusedBatchNormV3;resnet152/conv2_block1_2_conv/Conv2D]:6
+	                 CONV_2D	           74.688	    6.595	    6.703	  0.247%	  2.992%	     0.000	        1	[resnet152/conv2_block1_3_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block1_3_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv2_block1_3_conv/Conv2D]:7
+	                     ADD	           81.397	   77.413	   77.457	  2.849%	  5.841%	     0.000	        1	[resnet152/conv2_block1_out/Relu;resnet152/conv2_block1_add/add]:8
+	                 CONV_2D	          158.859	    7.425	    7.319	  0.269%	  6.110%	     0.000	        1	[resnet152/conv2_block2_1_relu/Relu;resnet152/conv2_block2_1_bn/FusedBatchNormV3;resnet152/conv1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block2_1_conv/BiasAdd;resnet152/conv2_block3_2_bn/FusedBatchNormV3;resnet152/conv2_block2_1_conv/Conv2D]:9
+	                 CONV_2D	          166.185	   16.734	   16.726	  0.615%	  6.726%	     0.000	        1	[resnet152/conv2_block2_2_relu/Relu;resnet152/conv2_block2_2_bn/FusedBatchNormV3;resnet152/conv1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block2_2_conv/BiasAdd;resnet152/conv2_block3_2_bn/FusedBatchNormV3;resnet152/conv2_block2_2_conv/Conv2D]:10
+	                 CONV_2D	          182.917	    6.616	    6.682	  0.246%	  6.972%	     0.000	        1	[resnet152/conv2_block2_3_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block2_3_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv2_block2_3_conv/Conv2D]:11
+	                     ADD	          189.604	   77.587	   77.566	  2.853%	  9.825%	     0.000	        1	[resnet152/conv2_block2_out/Relu;resnet152/conv2_block2_add/add]:12
+	                 CONV_2D	          267.177	    7.111	    7.112	  0.262%	 10.087%	     0.000	        1	[resnet152/conv2_block3_1_relu/Relu;resnet152/conv2_block3_1_bn/FusedBatchNormV3;resnet152/conv1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block3_1_conv/BiasAdd;resnet152/conv2_block3_2_bn/FusedBatchNormV3;resnet152/conv2_block3_1_conv/Conv2D]:13
+	                 CONV_2D	          274.294	   16.735	   16.831	  0.619%	 10.706%	     0.000	        1	[resnet152/conv2_block3_2_relu/Relu;resnet152/conv2_block3_2_bn/FusedBatchNormV3;resnet152/conv1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block3_2_conv/BiasAdd;resnet152/conv2_block3_2_conv/Conv2D]:14
+	                 CONV_2D	          291.130	    6.727	    6.712	  0.247%	 10.953%	     0.000	        1	[resnet152/conv2_block3_3_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv2_block3_3_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv2_block3_3_conv/Conv2D]:15
+	                     ADD	          297.848	   77.570	   77.537	  2.852%	 13.805%	     0.000	        1	[resnet152/conv2_block3_out/Relu;resnet152/conv2_block3_add/add]:16
+	                 CONV_2D	          375.390	   11.711	   11.771	  0.433%	 14.238%	     0.000	        1	[resnet152/conv3_block1_0_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block1_0_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block1_0_conv/Conv2D]:17
+	                 CONV_2D	          387.166	    3.391	    3.355	  0.123%	 14.361%	     0.000	        1	[resnet152/conv3_block1_1_relu/Relu;resnet152/conv3_block1_1_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block1_1_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_conv/Conv2D]:18
+	                 CONV_2D	          390.524	   15.422	   15.508	  0.570%	 14.932%	     0.000	        1	[resnet152/conv3_block1_2_relu/Relu;resnet152/conv3_block1_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block1_2_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block1_2_conv/Conv2D]:19
+	                 CONV_2D	          406.038	    6.144	    6.126	  0.225%	 15.157%	     0.000	        1	[resnet152/conv3_block1_3_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block1_3_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block1_3_conv/Conv2D]:20
+	                     ADD	          412.169	   38.300	   38.417	  1.413%	 16.570%	     0.000	        1	[resnet152/conv3_block1_out/Relu;resnet152/conv3_block1_add/add]:21
+	                 CONV_2D	          450.591	    5.953	    5.921	  0.218%	 16.788%	     0.000	        1	[resnet152/conv3_block2_1_relu/Relu;resnet152/conv3_block2_1_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block2_1_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block2_1_conv/Conv2D]:22
+	                 CONV_2D	          456.518	   15.427	   15.458	  0.569%	 17.357%	     0.000	        1	[resnet152/conv3_block2_2_relu/Relu;resnet152/conv3_block2_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block2_2_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block2_2_conv/Conv2D]:23
+	                 CONV_2D	          471.982	    6.092	    6.105	  0.225%	 17.581%	     0.000	        1	[resnet152/conv3_block2_3_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block2_3_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block2_3_conv/Conv2D]:24
+	                     ADD	          478.092	   38.337	   38.401	  1.413%	 18.994%	     0.000	        1	[resnet152/conv3_block2_out/Relu;resnet152/conv3_block2_add/add]:25
+	                 CONV_2D	          516.497	    5.900	    5.922	  0.218%	 19.212%	     0.000	        1	[resnet152/conv3_block3_1_relu/Relu;resnet152/conv3_block3_1_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block3_1_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block3_1_conv/Conv2D]:26
+	                 CONV_2D	          522.432	   15.670	   15.688	  0.577%	 19.789%	     0.000	        1	[resnet152/conv3_block3_2_relu/Relu;resnet152/conv3_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block3_2_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block3_2_conv/Conv2D]:27
+	                 CONV_2D	          538.125	    6.128	    6.112	  0.225%	 20.014%	     0.000	        1	[resnet152/conv3_block3_3_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block3_3_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block3_3_conv/Conv2D]:28
+	                     ADD	          544.242	   38.473	   38.412	  1.413%	 21.427%	     0.000	        1	[resnet152/conv3_block3_out/Relu;resnet152/conv3_block3_add/add]:29
+	                 CONV_2D	          582.660	    5.968	    5.912	  0.217%	 21.644%	     0.000	        1	[resnet152/conv3_block4_1_relu/Relu;resnet152/conv3_block4_1_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block4_1_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block4_1_conv/Conv2D]:30
+	                 CONV_2D	          588.577	   15.550	   15.433	  0.568%	 22.212%	     0.000	        1	[resnet152/conv3_block4_2_relu/Relu;resnet152/conv3_block4_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block4_2_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block4_2_conv/Conv2D]:31
+	                 CONV_2D	          604.014	    6.087	    6.105	  0.225%	 22.436%	     0.000	        1	[resnet152/conv3_block4_3_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block4_3_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block4_3_conv/Conv2D]:32
+	                     ADD	          610.124	   38.496	   38.430	  1.414%	 23.850%	     0.000	        1	[resnet152/conv3_block4_out/Relu;resnet152/conv3_block4_add/add]:33
+	                 CONV_2D	          648.560	    5.931	    5.934	  0.218%	 24.068%	     0.000	        1	[resnet152/conv3_block5_1_relu/Relu;resnet152/conv3_block5_1_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block5_1_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block5_1_conv/Conv2D]:34
+	                 CONV_2D	          654.499	   15.730	   15.706	  0.578%	 24.646%	     0.000	        1	[resnet152/conv3_block5_2_relu/Relu;resnet152/conv3_block5_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block5_2_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block5_2_conv/Conv2D]:35
+	                 CONV_2D	          670.210	    6.124	    6.101	  0.224%	 24.871%	     0.000	        1	[resnet152/conv3_block5_3_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block5_3_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block5_3_conv/Conv2D]:36
+	                     ADD	          676.316	   38.367	   38.440	  1.414%	 26.285%	     0.000	        1	[resnet152/conv3_block5_out/Relu;resnet152/conv3_block5_add/add]:37
+	                 CONV_2D	          714.761	    5.926	    5.924	  0.218%	 26.503%	     0.000	        1	[resnet152/conv3_block6_1_relu/Relu;resnet152/conv3_block6_1_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block6_1_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block6_1_conv/Conv2D]:38
+	                 CONV_2D	          720.690	   15.382	   15.388	  0.566%	 27.069%	     0.000	        1	[resnet152/conv3_block6_2_relu/Relu;resnet152/conv3_block6_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block6_2_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block6_2_conv/Conv2D]:39
+	                 CONV_2D	          736.085	    6.254	    6.134	  0.226%	 27.294%	     0.000	        1	[resnet152/conv3_block6_3_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block6_3_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block6_3_conv/Conv2D]:40
+	                     ADD	          742.223	   38.362	   38.414	  1.413%	 28.707%	     0.000	        1	[resnet152/conv3_block6_out/Relu;resnet152/conv3_block6_add/add]:41
+	                 CONV_2D	          780.642	    5.922	    5.913	  0.218%	 28.925%	     0.000	        1	[resnet152/conv3_block7_1_relu/Relu;resnet152/conv3_block7_1_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block7_1_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block7_1_conv/Conv2D]:42
+	                 CONV_2D	          786.559	   15.192	   15.251	  0.561%	 29.486%	     0.000	        1	[resnet152/conv3_block7_2_relu/Relu;resnet152/conv3_block7_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block7_2_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block7_2_conv/Conv2D]:43
+	                 CONV_2D	          801.816	    6.152	    6.134	  0.226%	 29.711%	     0.000	        1	[resnet152/conv3_block7_3_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block7_3_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block7_3_conv/Conv2D]:44
+	                     ADD	          807.955	   38.365	   38.384	  1.412%	 31.123%	     0.000	        1	[resnet152/conv3_block7_out/Relu;resnet152/conv3_block7_add/add]:45
+	                 CONV_2D	          846.344	    5.990	    5.944	  0.219%	 31.342%	     0.000	        1	[resnet152/conv3_block8_1_relu/Relu;resnet152/conv3_block8_1_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block8_1_conv/BiasAdd;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block8_1_conv/Conv2D]:46
+	                 CONV_2D	          852.293	   15.426	   15.306	  0.563%	 31.905%	     0.000	        1	[resnet152/conv3_block8_2_relu/Relu;resnet152/conv3_block8_2_bn/FusedBatchNormV3;resnet152/conv3_block1_1_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block8_2_conv/BiasAdd;resnet152/conv3_block8_2_conv/Conv2D]:47
+	                 CONV_2D	          867.605	    6.048	    6.109	  0.225%	 32.130%	     0.000	        1	[resnet152/conv3_block8_3_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv3_block8_3_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block8_3_conv/Conv2D]:48
+	                     ADD	          873.718	   38.399	   38.473	  1.415%	 33.545%	     0.000	        1	[resnet152/conv3_block8_out/Relu;resnet152/conv3_block8_add/add]:49
+	                 CONV_2D	          912.197	   11.840	   11.836	  0.435%	 33.980%	     0.000	        1	[resnet152/conv4_block1_0_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block1_0_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block1_0_conv/Conv2D]:50
+	                 CONV_2D	          924.038	    3.167	    3.189	  0.117%	 34.098%	     0.000	        1	[resnet152/conv4_block1_1_relu/Relu;resnet152/conv4_block1_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block1_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block1_1_conv/Conv2D]:51
+	                 CONV_2D	          927.232	   14.391	   14.455	  0.532%	 34.630%	     0.000	        1	[resnet152/conv4_block1_2_relu/Relu;resnet152/conv4_block1_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block1_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block1_2_conv/Conv2D]:52
+	                 CONV_2D	          941.692	    6.434	    6.286	  0.231%	 34.861%	     0.000	        1	[resnet152/conv4_block1_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block1_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block1_3_conv/Conv2D]:53
+	                     ADD	          947.984	   19.291	   19.257	  0.708%	 35.569%	     0.000	        1	[resnet152/conv4_block1_out/Relu;resnet152/conv4_block1_add/add]:54
+	                 CONV_2D	          967.246	    6.052	    6.043	  0.222%	 35.791%	     0.000	        1	[resnet152/conv4_block2_1_relu/Relu;resnet152/conv4_block2_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block2_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block2_1_conv/Conv2D]:55
+	                 CONV_2D	          973.293	   14.235	   14.237	  0.524%	 36.315%	     0.000	        1	[resnet152/conv4_block2_2_relu/Relu;resnet152/conv4_block2_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block2_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block2_2_conv/Conv2D]:56
+	                 CONV_2D	          987.537	    6.165	    6.278	  0.231%	 36.546%	     0.000	        1	[resnet152/conv4_block2_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block2_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block2_3_conv/Conv2D]:57
+	                     ADD	          993.819	   19.253	   19.259	  0.708%	 37.255%	     0.000	        1	[resnet152/conv4_block2_out/Relu;resnet152/conv4_block2_add/add]:58
+	                 CONV_2D	         1013.082	    6.053	    6.049	  0.223%	 37.477%	     0.000	        1	[resnet152/conv4_block3_1_relu/Relu;resnet152/conv4_block3_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block3_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block3_1_conv/Conv2D]:59
+	                 CONV_2D	         1019.135	   14.239	   14.293	  0.526%	 38.003%	     0.000	        1	[resnet152/conv4_block3_2_relu/Relu;resnet152/conv4_block3_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block3_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block3_2_conv/Conv2D]:60
+	                 CONV_2D	         1033.434	    6.235	    6.306	  0.232%	 38.235%	     0.000	        1	[resnet152/conv4_block3_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block3_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block3_3_conv/Conv2D]:61
+	                     ADD	         1039.744	   19.260	   19.245	  0.708%	 38.943%	     0.000	        1	[resnet152/conv4_block3_out/Relu;resnet152/conv4_block3_add/add]:62
+	                 CONV_2D	         1058.994	    5.979	    6.054	  0.223%	 39.165%	     0.000	        1	[resnet152/conv4_block4_1_relu/Relu;resnet152/conv4_block4_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block4_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block4_1_conv/Conv2D]:63
+	                 CONV_2D	         1065.052	   14.326	   14.430	  0.531%	 39.696%	     0.000	        1	[resnet152/conv4_block4_2_relu/Relu;resnet152/conv4_block4_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block4_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block4_2_conv/Conv2D]:64
+	                 CONV_2D	         1079.488	    6.220	    6.279	  0.231%	 39.927%	     0.000	        1	[resnet152/conv4_block4_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block4_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block4_3_conv/Conv2D]:65
+	                     ADD	         1085.771	   19.278	   19.247	  0.708%	 40.635%	     0.000	        1	[resnet152/conv4_block4_out/Relu;resnet152/conv4_block4_add/add]:66
+	                 CONV_2D	         1105.023	    5.975	    6.007	  0.221%	 40.856%	     0.000	        1	[resnet152/conv4_block5_1_relu/Relu;resnet152/conv4_block5_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block5_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block5_1_conv/Conv2D]:67
+	                 CONV_2D	         1111.034	   14.386	   14.441	  0.531%	 41.387%	     0.000	        1	[resnet152/conv4_block5_2_relu/Relu;resnet152/conv4_block5_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block5_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block5_2_conv/Conv2D]:68
+	                 CONV_2D	         1125.480	    6.265	    6.282	  0.231%	 41.619%	     0.000	        1	[resnet152/conv4_block5_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block5_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block5_3_conv/Conv2D]:69
+	                     ADD	         1131.768	   19.179	   19.213	  0.707%	 42.325%	     0.000	        1	[resnet152/conv4_block5_out/Relu;resnet152/conv4_block5_add/add]:70
+	                 CONV_2D	         1150.985	    5.924	    5.982	  0.220%	 42.545%	     0.000	        1	[resnet152/conv4_block6_1_relu/Relu;resnet152/conv4_block6_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block6_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block6_1_conv/Conv2D]:71
+	                 CONV_2D	         1156.972	   14.390	   14.412	  0.530%	 43.076%	     0.000	        1	[resnet152/conv4_block6_2_relu/Relu;resnet152/conv4_block6_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block6_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block6_2_conv/Conv2D]:72
+	                 CONV_2D	         1171.390	    6.227	    6.256	  0.230%	 43.306%	     0.000	        1	[resnet152/conv4_block6_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block6_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block6_3_conv/Conv2D]:73
+	                     ADD	         1177.652	   19.351	   19.218	  0.707%	 44.013%	     0.000	        1	[resnet152/conv4_block6_out/Relu;resnet152/conv4_block6_add/add]:74
+	                 CONV_2D	         1196.874	    6.202	    6.031	  0.222%	 44.235%	     0.000	        1	[resnet152/conv4_block7_1_relu/Relu;resnet152/conv4_block7_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block7_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block7_1_conv/Conv2D]:75
+	                 CONV_2D	         1202.910	   14.306	   14.407	  0.530%	 44.764%	     0.000	        1	[resnet152/conv4_block7_2_relu/Relu;resnet152/conv4_block7_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block7_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block7_2_conv/Conv2D]:76
+	                 CONV_2D	         1217.321	    6.348	    6.302	  0.232%	 44.996%	     0.000	        1	[resnet152/conv4_block7_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block7_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block7_3_conv/Conv2D]:77
+	                     ADD	         1223.630	   19.173	   19.218	  0.707%	 45.703%	     0.000	        1	[resnet152/conv4_block7_out/Relu;resnet152/conv4_block7_add/add]:78
+	                 CONV_2D	         1242.853	    6.083	    6.023	  0.222%	 45.925%	     0.000	        1	[resnet152/conv4_block8_1_relu/Relu;resnet152/conv4_block8_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block8_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block8_1_conv/Conv2D]:79
+	                 CONV_2D	         1248.881	   14.345	   14.384	  0.529%	 46.454%	     0.000	        1	[resnet152/conv4_block8_2_relu/Relu;resnet152/conv4_block8_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block8_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block8_2_conv/Conv2D]:80
+	                 CONV_2D	         1263.270	    6.132	    6.255	  0.230%	 46.684%	     0.000	        1	[resnet152/conv4_block8_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block8_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block8_3_conv/Conv2D]:81
+	                     ADD	         1269.532	   19.453	   19.255	  0.708%	 47.392%	     0.000	        1	[resnet152/conv4_block8_out/Relu;resnet152/conv4_block8_add/add]:82
+	                 CONV_2D	         1288.791	    6.117	    6.025	  0.222%	 47.614%	     0.000	        1	[resnet152/conv4_block9_1_relu/Relu;resnet152/conv4_block9_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block9_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block9_1_conv/Conv2D]:83
+	                 CONV_2D	         1294.821	   14.402	   14.391	  0.529%	 48.143%	     0.000	        1	[resnet152/conv4_block9_2_relu/Relu;resnet152/conv4_block9_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block9_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block9_2_conv/Conv2D]:84
+	                 CONV_2D	         1309.218	    6.416	    6.309	  0.232%	 48.375%	     0.000	        1	[resnet152/conv4_block9_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block9_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block9_3_conv/Conv2D]:85
+	                     ADD	         1315.531	   19.227	   19.252	  0.708%	 49.084%	     0.000	        1	[resnet152/conv4_block9_out/Relu;resnet152/conv4_block9_add/add]:86
+	                 CONV_2D	         1334.787	    6.027	    6.016	  0.221%	 49.305%	     0.000	        1	[resnet152/conv4_block10_1_relu/Relu;resnet152/conv4_block10_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block10_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block10_1_conv/Conv2D]:87
+	                 CONV_2D	         1340.808	   14.268	   14.251	  0.524%	 49.829%	     0.000	        1	[resnet152/conv4_block10_2_relu/Relu;resnet152/conv4_block10_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block10_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block10_2_conv/Conv2D]:88
+	                 CONV_2D	         1355.065	    6.161	    6.269	  0.231%	 50.060%	     0.000	        1	[resnet152/conv4_block10_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block10_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_conv/Conv2D]:89
+	                     ADD	         1361.338	   19.237	   19.239	  0.708%	 50.767%	     0.000	        1	[resnet152/conv4_block10_out/Relu;resnet152/conv4_block10_add/add]:90
+	                 CONV_2D	         1380.582	    6.015	    5.999	  0.221%	 50.988%	     0.000	        1	[resnet152/conv4_block11_1_relu/Relu;resnet152/conv4_block11_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block11_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block11_1_conv/Conv2D]:91
+	                 CONV_2D	         1386.585	   14.347	   14.312	  0.526%	 51.515%	     0.000	        1	[resnet152/conv4_block11_2_relu/Relu;resnet152/conv4_block11_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block11_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block11_2_conv/Conv2D]:92
+	                 CONV_2D	         1400.902	    6.383	    6.297	  0.232%	 51.746%	     0.000	        1	[resnet152/conv4_block11_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block11_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block11_3_conv/Conv2D]:93
+	                     ADD	         1407.204	   19.254	   19.240	  0.708%	 52.454%	     0.000	        1	[resnet152/conv4_block11_out/Relu;resnet152/conv4_block11_add/add]:94
+	                 CONV_2D	         1426.448	    5.991	    6.016	  0.221%	 52.675%	     0.000	        1	[resnet152/conv4_block12_1_relu/Relu;resnet152/conv4_block12_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block12_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block12_1_conv/Conv2D]:95
+	                 CONV_2D	         1432.468	   14.320	   14.274	  0.525%	 53.200%	     0.000	        1	[resnet152/conv4_block12_2_relu/Relu;resnet152/conv4_block12_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block12_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block12_2_conv/Conv2D]:96
+	                 CONV_2D	         1446.747	    6.270	    6.286	  0.231%	 53.432%	     0.000	        1	[resnet152/conv4_block12_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block12_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block12_3_conv/Conv2D]:97
+	                     ADD	         1453.038	   19.147	   19.206	  0.707%	 54.138%	     0.000	        1	[resnet152/conv4_block12_out/Relu;resnet152/conv4_block12_add/add]:98
+	                 CONV_2D	         1472.248	    6.028	    5.982	  0.220%	 54.358%	     0.000	        1	[resnet152/conv4_block13_1_relu/Relu;resnet152/conv4_block13_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block13_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block13_1_conv/Conv2D]:99
+	                 CONV_2D	         1478.235	   14.428	   14.363	  0.528%	 54.887%	     0.000	        1	[resnet152/conv4_block13_2_relu/Relu;resnet152/conv4_block13_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block13_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block13_2_conv/Conv2D]:100
+	                 CONV_2D	         1492.606	    6.313	    6.265	  0.230%	 55.117%	     0.000	        1	[resnet152/conv4_block13_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block13_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block13_3_conv/Conv2D]:101
+	                     ADD	         1498.878	   19.152	   19.223	  0.707%	 55.824%	     0.000	        1	[resnet152/conv4_block13_out/Relu;resnet152/conv4_block13_add/add]:102
+	                 CONV_2D	         1518.105	    6.004	    5.986	  0.220%	 56.044%	     0.000	        1	[resnet152/conv4_block14_1_relu/Relu;resnet152/conv4_block14_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block14_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block14_1_conv/Conv2D]:103
+	                 CONV_2D	         1524.095	   14.389	   14.345	  0.528%	 56.572%	     0.000	        1	[resnet152/conv4_block14_2_relu/Relu;resnet152/conv4_block14_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block14_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block14_2_conv/Conv2D]:104
+	                 CONV_2D	         1538.446	    6.243	    6.273	  0.231%	 56.803%	     0.000	        1	[resnet152/conv4_block14_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block14_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block14_3_conv/Conv2D]:105
+	                     ADD	         1544.725	   19.227	   19.224	  0.707%	 57.510%	     0.000	        1	[resnet152/conv4_block14_out/Relu;resnet152/conv4_block14_add/add]:106
+	                 CONV_2D	         1563.953	    5.945	    6.020	  0.221%	 57.731%	     0.000	        1	[resnet152/conv4_block15_1_relu/Relu;resnet152/conv4_block15_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block15_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block15_1_conv/Conv2D]:107
+	                 CONV_2D	         1569.977	   14.424	   14.201	  0.522%	 58.254%	     0.000	        1	[resnet152/conv4_block15_2_relu/Relu;resnet152/conv4_block15_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block15_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block15_2_conv/Conv2D]:108
+	                 CONV_2D	         1584.183	    6.224	    6.250	  0.230%	 58.484%	     0.000	        1	[resnet152/conv4_block15_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block15_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block15_3_conv/Conv2D]:109
+	                     ADD	         1590.438	   19.208	   19.239	  0.708%	 59.191%	     0.000	        1	[resnet152/conv4_block15_out/Relu;resnet152/conv4_block15_add/add]:110
+	                 CONV_2D	         1609.681	    5.997	    5.986	  0.220%	 59.412%	     0.000	        1	[resnet152/conv4_block16_1_relu/Relu;resnet152/conv4_block16_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block16_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block16_1_conv/Conv2D]:111
+	                 CONV_2D	         1615.672	   14.670	   14.317	  0.527%	 59.938%	     0.000	        1	[resnet152/conv4_block16_2_relu/Relu;resnet152/conv4_block16_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block16_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block16_2_conv/Conv2D]:112
+	                 CONV_2D	         1629.995	    6.153	    6.239	  0.230%	 60.168%	     0.000	        1	[resnet152/conv4_block16_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block16_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block16_3_conv/Conv2D]:113
+	                     ADD	         1636.240	   19.260	   19.258	  0.708%	 60.876%	     0.000	        1	[resnet152/conv4_block16_out/Relu;resnet152/conv4_block16_add/add]:114
+	                 CONV_2D	         1655.502	    5.926	    6.011	  0.221%	 61.097%	     0.000	        1	[resnet152/conv4_block17_1_relu/Relu;resnet152/conv4_block17_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block17_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block17_1_conv/Conv2D]:115
+	                 CONV_2D	         1661.518	   14.205	   14.279	  0.525%	 61.623%	     0.000	        1	[resnet152/conv4_block17_2_relu/Relu;resnet152/conv4_block17_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block17_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block17_2_conv/Conv2D]:116
+	                 CONV_2D	         1675.802	    6.245	    6.271	  0.231%	 61.853%	     0.000	        1	[resnet152/conv4_block17_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block17_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block17_3_conv/Conv2D]:117
+	                     ADD	         1682.078	   19.281	   19.249	  0.708%	 62.561%	     0.000	        1	[resnet152/conv4_block17_out/Relu;resnet152/conv4_block17_add/add]:118
+	                 CONV_2D	         1701.332	    5.978	    6.020	  0.221%	 62.783%	     0.000	        1	[resnet152/conv4_block18_1_relu/Relu;resnet152/conv4_block18_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block18_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block18_1_conv/Conv2D]:119
+	                 CONV_2D	         1707.356	   14.166	   14.298	  0.526%	 63.309%	     0.000	        1	[resnet152/conv4_block18_2_relu/Relu;resnet152/conv4_block18_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block18_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block18_2_conv/Conv2D]:120
+	                 CONV_2D	         1721.660	    6.324	    6.274	  0.231%	 63.540%	     0.000	        1	[resnet152/conv4_block18_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block18_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block18_3_conv/Conv2D]:121
+	                     ADD	         1727.939	   19.232	   19.255	  0.708%	 64.248%	     0.000	        1	[resnet152/conv4_block18_out/Relu;resnet152/conv4_block18_add/add]:122
+	                 CONV_2D	         1747.198	    5.950	    6.008	  0.221%	 64.469%	     0.000	        1	[resnet152/conv4_block19_1_relu/Relu;resnet152/conv4_block19_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block19_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block19_1_conv/Conv2D]:123
+	                 CONV_2D	         1753.213	   14.314	   14.256	  0.524%	 64.993%	     0.000	        1	[resnet152/conv4_block19_2_relu/Relu;resnet152/conv4_block19_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block19_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block19_2_conv/Conv2D]:124
+	                 CONV_2D	         1767.473	    6.271	    6.282	  0.231%	 65.224%	     0.000	        1	[resnet152/conv4_block19_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block19_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block19_3_conv/Conv2D]:125
+	                     ADD	         1773.762	   19.186	   19.247	  0.708%	 65.932%	     0.000	        1	[resnet152/conv4_block19_out/Relu;resnet152/conv4_block19_add/add]:126
+	                 CONV_2D	         1793.013	    6.109	    6.030	  0.222%	 66.154%	     0.000	        1	[resnet152/conv4_block20_1_relu/Relu;resnet152/conv4_block20_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block20_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block20_1_conv/Conv2D]:127
+	                 CONV_2D	         1799.047	   14.165	   14.314	  0.527%	 66.681%	     0.000	        1	[resnet152/conv4_block20_2_relu/Relu;resnet152/conv4_block20_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block20_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block20_2_conv/Conv2D]:128
+	                 CONV_2D	         1813.366	    6.380	    6.301	  0.232%	 66.912%	     0.000	        1	[resnet152/conv4_block20_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block20_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block20_3_conv/Conv2D]:129
+	                     ADD	         1819.672	   19.152	   19.226	  0.707%	 67.620%	     0.000	        1	[resnet152/conv4_block20_out/Relu;resnet152/conv4_block20_add/add]:130
+	                 CONV_2D	         1838.903	    6.001	    6.010	  0.221%	 67.841%	     0.000	        1	[resnet152/conv4_block21_1_relu/Relu;resnet152/conv4_block21_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block21_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block21_1_conv/Conv2D]:131
+	                 CONV_2D	         1844.917	   14.283	   14.284	  0.525%	 68.366%	     0.000	        1	[resnet152/conv4_block21_2_relu/Relu;resnet152/conv4_block21_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block21_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block21_2_conv/Conv2D]:132
+	                 CONV_2D	         1859.207	    6.185	    6.270	  0.231%	 68.597%	     0.000	        1	[resnet152/conv4_block21_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block21_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block21_3_conv/Conv2D]:133
+	                     ADD	         1865.481	   19.247	   19.239	  0.708%	 69.305%	     0.000	        1	[resnet152/conv4_block21_out/Relu;resnet152/conv4_block21_add/add]:134
+	                 CONV_2D	         1884.726	    6.001	    6.015	  0.221%	 69.526%	     0.000	        1	[resnet152/conv4_block22_1_relu/Relu;resnet152/conv4_block22_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block22_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block22_1_conv/Conv2D]:135
+	                 CONV_2D	         1890.746	   14.132	   14.253	  0.524%	 70.050%	     0.000	        1	[resnet152/conv4_block22_2_relu/Relu;resnet152/conv4_block22_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block22_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block22_2_conv/Conv2D]:136
+	                 CONV_2D	         1905.004	    6.258	    6.302	  0.232%	 70.282%	     0.000	        1	[resnet152/conv4_block22_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block22_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block22_3_conv/Conv2D]:137
+	                     ADD	         1911.318	   19.241	   19.227	  0.707%	 70.989%	     0.000	        1	[resnet152/conv4_block22_out/Relu;resnet152/conv4_block22_add/add]:138
+	                 CONV_2D	         1930.549	    5.912	    6.004	  0.221%	 71.210%	     0.000	        1	[resnet152/conv4_block23_1_relu/Relu;resnet152/conv4_block23_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block23_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block23_1_conv/Conv2D]:139
+	                 CONV_2D	         1936.557	   14.651	   14.340	  0.527%	 71.738%	     0.000	        1	[resnet152/conv4_block23_2_relu/Relu;resnet152/conv4_block23_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block23_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block23_2_conv/Conv2D]:140
+	                 CONV_2D	         1950.904	    6.165	    6.281	  0.231%	 71.969%	     0.000	        1	[resnet152/conv4_block23_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block23_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block23_3_conv/Conv2D]:141
+	                     ADD	         1957.190	   19.181	   19.244	  0.708%	 72.677%	     0.000	        1	[resnet152/conv4_block23_out/Relu;resnet152/conv4_block23_add/add]:142
+	                 CONV_2D	         1976.438	    6.081	    6.005	  0.221%	 72.898%	     0.000	        1	[resnet152/conv4_block24_1_relu/Relu;resnet152/conv4_block24_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block24_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block24_1_conv/Conv2D]:143
+	                 CONV_2D	         1982.447	   14.319	   14.339	  0.527%	 73.425%	     0.000	        1	[resnet152/conv4_block24_2_relu/Relu;resnet152/conv4_block24_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block24_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block24_2_conv/Conv2D]:144
+	                 CONV_2D	         1996.792	    6.279	    6.313	  0.232%	 73.657%	     0.000	        1	[resnet152/conv4_block24_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block24_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block24_3_conv/Conv2D]:145
+	                     ADD	         2003.110	   19.225	   19.233	  0.707%	 74.365%	     0.000	        1	[resnet152/conv4_block24_out/Relu;resnet152/conv4_block24_add/add]:146
+	                 CONV_2D	         2022.347	    5.963	    6.024	  0.222%	 74.586%	     0.000	        1	[resnet152/conv4_block25_1_relu/Relu;resnet152/conv4_block25_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block25_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block25_1_conv/Conv2D]:147
+	                 CONV_2D	         2028.375	   14.130	   14.118	  0.519%	 75.106%	     0.000	        1	[resnet152/conv4_block25_2_relu/Relu;resnet152/conv4_block25_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block25_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block25_2_conv/Conv2D]:148
+	                 CONV_2D	         2042.498	    6.230	    6.268	  0.231%	 75.336%	     0.000	        1	[resnet152/conv4_block25_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block25_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block25_3_conv/Conv2D]:149
+	                     ADD	         2048.771	   19.245	   19.262	  0.709%	 76.045%	     0.000	        1	[resnet152/conv4_block25_out/Relu;resnet152/conv4_block25_add/add]:150
+	                 CONV_2D	         2068.040	    5.961	    6.052	  0.223%	 76.267%	     0.000	        1	[resnet152/conv4_block26_1_relu/Relu;resnet152/conv4_block26_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block26_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block26_1_conv/Conv2D]:151
+	                 CONV_2D	         2074.097	   13.947	   14.099	  0.519%	 76.786%	     0.000	        1	[resnet152/conv4_block26_2_relu/Relu;resnet152/conv4_block26_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block26_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block26_2_conv/Conv2D]:152
+	                 CONV_2D	         2088.203	    6.310	    6.298	  0.232%	 77.018%	     0.000	        1	[resnet152/conv4_block26_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block26_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block26_3_conv/Conv2D]:153
+	                     ADD	         2094.505	   19.199	   19.273	  0.709%	 77.727%	     0.000	        1	[resnet152/conv4_block26_out/Relu;resnet152/conv4_block26_add/add]:154
+	                 CONV_2D	         2113.783	    6.059	    6.021	  0.222%	 77.948%	     0.000	        1	[resnet152/conv4_block27_1_relu/Relu;resnet152/conv4_block27_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block27_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block27_1_conv/Conv2D]:155
+	                 CONV_2D	         2119.809	   14.106	   14.155	  0.521%	 78.469%	     0.000	        1	[resnet152/conv4_block27_2_relu/Relu;resnet152/conv4_block27_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block27_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block27_2_conv/Conv2D]:156
+	                 CONV_2D	         2133.970	    6.323	    6.283	  0.231%	 78.700%	     0.000	        1	[resnet152/conv4_block27_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block27_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block27_3_conv/Conv2D]:157
+	                     ADD	         2140.257	   19.156	   19.226	  0.707%	 79.407%	     0.000	        1	[resnet152/conv4_block27_out/Relu;resnet152/conv4_block27_add/add]:158
+	                 CONV_2D	         2159.487	    6.326	    6.031	  0.222%	 79.629%	     0.000	        1	[resnet152/conv4_block28_1_relu/Relu;resnet152/conv4_block28_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block28_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block28_1_conv/Conv2D]:159
+	                 CONV_2D	         2165.522	   14.643	   14.152	  0.521%	 80.150%	     0.000	        1	[resnet152/conv4_block28_2_relu/Relu;resnet152/conv4_block28_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block28_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block28_2_conv/Conv2D]:160
+	                 CONV_2D	         2179.680	    6.383	    6.289	  0.231%	 80.381%	     0.000	        1	[resnet152/conv4_block28_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block28_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block28_3_conv/Conv2D]:161
+	                     ADD	         2185.973	   19.180	   19.226	  0.707%	 81.088%	     0.000	        1	[resnet152/conv4_block28_out/Relu;resnet152/conv4_block28_add/add]:162
+	                 CONV_2D	         2205.204	    6.166	    5.998	  0.221%	 81.309%	     0.000	        1	[resnet152/conv4_block29_1_relu/Relu;resnet152/conv4_block29_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block29_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block29_1_conv/Conv2D]:163
+	                 CONV_2D	         2211.207	   14.072	   14.048	  0.517%	 81.826%	     0.000	        1	[resnet152/conv4_block29_2_relu/Relu;resnet152/conv4_block29_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block29_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block29_2_conv/Conv2D]:164
+	                 CONV_2D	         2225.260	    6.245	    6.252	  0.230%	 82.056%	     0.000	        1	[resnet152/conv4_block29_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block29_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block29_3_conv/Conv2D]:165
+	                     ADD	         2231.518	   19.275	   19.229	  0.707%	 82.763%	     0.000	        1	[resnet152/conv4_block29_out/Relu;resnet152/conv4_block29_add/add]:166
+	                 CONV_2D	         2250.751	    5.946	    6.005	  0.221%	 82.984%	     0.000	        1	[resnet152/conv4_block30_1_relu/Relu;resnet152/conv4_block30_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block30_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block30_1_conv/Conv2D]:167
+	                 CONV_2D	         2256.761	   14.396	   14.029	  0.516%	 83.500%	     0.000	        1	[resnet152/conv4_block30_2_relu/Relu;resnet152/conv4_block30_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block30_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block30_2_conv/Conv2D]:168
+	                 CONV_2D	         2270.796	    6.161	    6.285	  0.231%	 83.731%	     0.000	        1	[resnet152/conv4_block30_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block30_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block30_3_conv/Conv2D]:169
+	                     ADD	         2277.088	   19.266	   19.248	  0.708%	 84.439%	     0.000	        1	[resnet152/conv4_block30_out/Relu;resnet152/conv4_block30_add/add]:170
+	                 CONV_2D	         2296.339	    6.068	    6.036	  0.222%	 84.661%	     0.000	        1	[resnet152/conv4_block31_1_relu/Relu;resnet152/conv4_block31_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block31_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block31_1_conv/Conv2D]:171
+	                 CONV_2D	         2302.380	   13.948	   14.100	  0.519%	 85.180%	     0.000	        1	[resnet152/conv4_block31_2_relu/Relu;resnet152/conv4_block31_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block31_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block31_2_conv/Conv2D]:172
+	                 CONV_2D	         2316.485	    6.449	    6.268	  0.231%	 85.411%	     0.000	        1	[resnet152/conv4_block31_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block31_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block31_3_conv/Conv2D]:173
+	                     ADD	         2322.758	   19.269	   19.252	  0.708%	 86.119%	     0.000	        1	[resnet152/conv4_block31_out/Relu;resnet152/conv4_block31_add/add]:174
+	                 CONV_2D	         2342.014	    5.906	    6.013	  0.221%	 86.340%	     0.000	        1	[resnet152/conv4_block32_1_relu/Relu;resnet152/conv4_block32_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block32_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block32_1_conv/Conv2D]:175
+	                 CONV_2D	         2348.031	   13.969	   14.140	  0.520%	 86.860%	     0.000	        1	[resnet152/conv4_block32_2_relu/Relu;resnet152/conv4_block32_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block32_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block32_2_conv/Conv2D]:176
+	                 CONV_2D	         2362.177	    6.222	    6.261	  0.230%	 87.090%	     0.000	        1	[resnet152/conv4_block32_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block32_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block32_3_conv/Conv2D]:177
+	                     ADD	         2368.444	   19.289	   19.273	  0.709%	 87.799%	     0.000	        1	[resnet152/conv4_block32_out/Relu;resnet152/conv4_block32_add/add]:178
+	                 CONV_2D	         2387.722	    5.993	    6.073	  0.223%	 88.023%	     0.000	        1	[resnet152/conv4_block33_1_relu/Relu;resnet152/conv4_block33_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block33_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block33_1_conv/Conv2D]:179
+	                 CONV_2D	         2393.801	   13.906	   14.075	  0.518%	 88.541%	     0.000	        1	[resnet152/conv4_block33_2_relu/Relu;resnet152/conv4_block33_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block33_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block33_2_conv/Conv2D]:180
+	                 CONV_2D	         2407.881	    6.295	    6.289	  0.231%	 88.772%	     0.000	        1	[resnet152/conv4_block33_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block33_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block33_3_conv/Conv2D]:181
+	                     ADD	         2414.175	   19.261	   19.253	  0.708%	 89.480%	     0.000	        1	[resnet152/conv4_block33_out/Relu;resnet152/conv4_block33_add/add]:182
+	                 CONV_2D	         2433.433	    5.951	    5.996	  0.221%	 89.701%	     0.000	        1	[resnet152/conv4_block34_1_relu/Relu;resnet152/conv4_block34_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block34_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block34_1_conv/Conv2D]:183
+	                 CONV_2D	         2439.433	   14.040	   14.069	  0.518%	 90.218%	     0.000	        1	[resnet152/conv4_block34_2_relu/Relu;resnet152/conv4_block34_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block34_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block34_2_conv/Conv2D]:184
+	                 CONV_2D	         2453.509	    6.326	    6.259	  0.230%	 90.449%	     0.000	        1	[resnet152/conv4_block34_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block34_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block34_3_conv/Conv2D]:185
+	                     ADD	         2459.773	   19.157	   19.241	  0.708%	 91.156%	     0.000	        1	[resnet152/conv4_block34_out/Relu;resnet152/conv4_block34_add/add]:186
+	                 CONV_2D	         2479.018	    6.028	    6.010	  0.221%	 91.377%	     0.000	        1	[resnet152/conv4_block35_1_relu/Relu;resnet152/conv4_block35_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block35_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block35_1_conv/Conv2D]:187
+	                 CONV_2D	         2485.033	   13.977	   14.119	  0.519%	 91.897%	     0.000	        1	[resnet152/conv4_block35_2_relu/Relu;resnet152/conv4_block35_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block35_2_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block35_2_conv/Conv2D]:188
+	                 CONV_2D	         2499.156	    6.209	    6.298	  0.232%	 92.129%	     0.000	        1	[resnet152/conv4_block35_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block35_3_conv/BiasAdd;resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block35_3_conv/Conv2D]:189
+	                     ADD	         2505.459	   19.359	   19.234	  0.708%	 92.836%	     0.000	        1	[resnet152/conv4_block35_out/Relu;resnet152/conv4_block35_add/add]:190
+	                 CONV_2D	         2524.696	    6.029	    6.012	  0.221%	 93.057%	     0.000	        1	[resnet152/conv4_block36_1_relu/Relu;resnet152/conv4_block36_1_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block36_1_conv/BiasAdd;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv4_block36_1_conv/Conv2D]:191
+	                 CONV_2D	         2530.713	   14.067	   14.126	  0.520%	 93.577%	     0.000	        1	[resnet152/conv4_block36_2_relu/Relu;resnet152/conv4_block36_2_bn/FusedBatchNormV3;resnet152/conv2_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block36_2_conv/BiasAdd;resnet152/conv4_block36_2_conv/Conv2D]:192
+	                 CONV_2D	         2544.843	    6.223	    6.292	  0.231%	 93.808%	     0.000	        1	[resnet152/conv4_block36_3_bn/FusedBatchNormV3;resnet152/conv4_block10_3_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv4_block36_3_conv/BiasAdd;resnet152/conv4_block36_3_conv/Conv2D]:193
+	                     ADD	         2551.139	   19.235	   19.260	  0.708%	 94.517%	     0.000	        1	[resnet152/conv4_block36_out/Relu;resnet152/conv4_block36_add/add]:194
+	                 CONV_2D	         2570.403	   13.663	   13.675	  0.503%	 95.020%	     0.000	        1	[resnet152/conv5_block1_0_bn/FusedBatchNormV3;resnet152/conv5_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block1_0_conv/BiasAdd;resnet152/conv5_block3_3_bn/FusedBatchNormV3;resnet152/conv5_block1_0_conv/Conv2D]:195
+	                 CONV_2D	         2584.083	    3.551	    3.571	  0.131%	 95.151%	     0.000	        1	[resnet152/conv5_block1_1_relu/Relu;resnet152/conv5_block1_1_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block1_1_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv5_block1_1_conv/Conv2D]:196
+	                 CONV_2D	         2587.657	   16.458	   16.151	  0.594%	 95.745%	     0.000	        1	[resnet152/conv5_block1_2_relu/Relu;resnet152/conv5_block1_2_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block1_2_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv5_block1_2_conv/Conv2D]:197
+	                 CONV_2D	         2603.813	    7.080	    7.167	  0.264%	 96.009%	     0.000	        1	[resnet152/conv5_block1_3_bn/FusedBatchNormV3;resnet152/conv5_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block1_3_conv/BiasAdd;resnet152/conv5_block3_3_bn/FusedBatchNormV3;resnet152/conv5_block1_3_conv/Conv2D]:198
+	                     ADD	         2610.985	    9.682	    9.659	  0.355%	 96.364%	     0.000	        1	[resnet152/conv5_block1_out/Relu;resnet152/conv5_block1_add/add]:199
+	                 CONV_2D	         2620.647	    6.665	    6.705	  0.247%	 96.611%	     0.000	        1	[resnet152/conv5_block2_1_relu/Relu;resnet152/conv5_block2_1_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block2_1_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv5_block2_1_conv/Conv2D]:200
+	                 CONV_2D	         2627.356	   16.158	   16.134	  0.593%	 97.204%	     0.000	        1	[resnet152/conv5_block2_2_relu/Relu;resnet152/conv5_block2_2_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block2_2_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv5_block2_2_conv/Conv2D]:201
+	                 CONV_2D	         2643.495	    7.110	    7.049	  0.259%	 97.464%	     0.000	        1	[resnet152/conv5_block2_3_bn/FusedBatchNormV3;resnet152/conv5_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block2_3_conv/BiasAdd;resnet152/conv5_block3_3_bn/FusedBatchNormV3;resnet152/conv5_block2_3_conv/Conv2D]:202
+	                     ADD	         2650.549	    9.637	    9.633	  0.354%	 97.818%	     0.000	        1	[resnet152/conv5_block2_out/Relu;resnet152/conv5_block2_add/add]:203
+	                 CONV_2D	         2660.184	    6.684	    6.689	  0.246%	 98.064%	     0.000	        1	[resnet152/conv5_block3_1_relu/Relu;resnet152/conv5_block3_1_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block3_1_conv/BiasAdd;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv5_block3_1_conv/Conv2D]:204
+	                 CONV_2D	         2666.877	   15.988	   16.197	  0.596%	 98.660%	     0.000	        1	[resnet152/conv5_block3_2_relu/Relu;resnet152/conv5_block3_2_bn/FusedBatchNormV3;resnet152/conv3_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block3_2_conv/BiasAdd;resnet152/conv5_block3_2_conv/Conv2D]:205
+	                 CONV_2D	         2683.078	    7.027	    7.048	  0.259%	 98.919%	     0.000	        1	[resnet152/conv5_block3_3_bn/FusedBatchNormV3;resnet152/conv5_block1_0_bn/FusedBatchNormV3/ReadVariableOp;resnet152/conv5_block3_3_conv/BiasAdd;resnet152/conv5_block3_3_conv/Conv2D]:206
+	                     ADD	         2690.130	    9.770	    9.656	  0.355%	 99.274%	     0.000	        1	[resnet152/conv5_block3_out/Relu;resnet152/conv5_block3_add/add]:207
+	                    MEAN	         2699.788	   17.287	   17.290	  0.636%	 99.910%	     0.000	        1	[resnet152/avg_pool/Mean]:208
+	         FULLY_CONNECTED	         2717.081	    2.392	    2.353	  0.087%	 99.997%	     0.000	        1	[resnet152/predictions/MatMul;resnet152/predictions/BiasAdd]:209
+	                 SOFTMAX	         2719.438	    0.096	    0.083	  0.003%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:210
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                     ADD	          189.604	   77.587	   77.566	  2.853%	  2.853%	     0.000	        1	[resnet152/conv2_block2_out/Relu;resnet152/conv2_block2_add/add]:12
+	                     ADD	          297.848	   77.570	   77.537	  2.852%	  5.706%	     0.000	        1	[resnet152/conv2_block3_out/Relu;resnet152/conv2_block3_add/add]:16
+	                     ADD	           81.397	   77.413	   77.457	  2.849%	  8.555%	     0.000	        1	[resnet152/conv2_block1_out/Relu;resnet152/conv2_block1_add/add]:8
+	                     ADD	          873.718	   38.399	   38.473	  1.415%	  9.970%	     0.000	        1	[resnet152/conv3_block8_out/Relu;resnet152/conv3_block8_add/add]:49
+	                     ADD	          676.316	   38.367	   38.440	  1.414%	 11.384%	     0.000	        1	[resnet152/conv3_block5_out/Relu;resnet152/conv3_block5_add/add]:37
+	                     ADD	          610.124	   38.496	   38.430	  1.414%	 12.798%	     0.000	        1	[resnet152/conv3_block4_out/Relu;resnet152/conv3_block4_add/add]:33
+	                     ADD	          412.169	   38.300	   38.417	  1.413%	 14.211%	     0.000	        1	[resnet152/conv3_block1_out/Relu;resnet152/conv3_block1_add/add]:21
+	                     ADD	          742.223	   38.362	   38.414	  1.413%	 15.624%	     0.000	        1	[resnet152/conv3_block6_out/Relu;resnet152/conv3_block6_add/add]:41
+	                     ADD	          544.242	   38.473	   38.412	  1.413%	 17.037%	     0.000	        1	[resnet152/conv3_block3_out/Relu;resnet152/conv3_block3_add/add]:29
+	                     ADD	          478.092	   38.337	   38.401	  1.413%	 18.450%	     0.000	        1	[resnet152/conv3_block2_out/Relu;resnet152/conv3_block2_add/add]:25
+
+Number of nodes executed: 211
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	      155	  1409.582	    51.854%	    51.854%	     0.000	      155
+	                     ADD	       50	  1261.543	    46.408%	    98.263%	     0.000	       50
+	                     PAD	        2	    22.282	     0.820%	    99.082%	     0.000	        2
+	                    MEAN	        1	    17.290	     0.636%	    99.718%	     0.000	        1
+	             MAX_POOL_2D	        1	     5.222	     0.192%	    99.910%	     0.000	        1
+	         FULLY_CONNECTED	        1	     2.353	     0.087%	    99.997%	     0.000	        1
+	                 SOFTMAX	        1	     0.082	     0.003%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=20 first=2718179 curr=2717545 min=2716586 max=2720621 avg=2.71845e+06 std=1141
+Memory (bytes): count=0
+211 nodes observed
+
+
+
+[ perf record: Woken up 184 times to write data ]
+Warning:
+Processed 241259 events and lost 1 chunks!
+
+Check IO/CPU overload!
+
+[ perf record: Captured and wrote 45.914 MB /tmp/data.record (240806 samples) ]
+
+64.187
+

@@ -1,0 +1,270 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [20]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-CNNs/models/i8i8/VGG19.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-CNNs/models/i8i8/VGG19.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying Conv Low-Precision for Kernel shape (27, 64, ), Input shape (50176, 3, ), and Output shape (50176, 64, ), and the ID is 0
+	Changing Input Shape
+	New Input Shape: (50176, 27, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (32, 64, ) DONE
+	Allocating A Kernel Temporary Tensor With Shape: (32, 64, ) DONE
+	Preparing Filter With Shape: (27, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (50176, 32, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (50176, 32, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 64, ), Input shape (50176, 64, ), and Output shape (50176, 64, ), and the ID is 1
+	Changing Input Shape
+	New Input Shape: (50176, 576, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 64, ) DONE
+	Preparing Filter With Shape: (576, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (50176, 576, ) DONE
+Applying Conv Low-Precision for Kernel shape (576, 128, ), Input shape (12544, 64, ), and Output shape (12544, 128, ), and the ID is 2
+	Changing Input Shape
+	New Input Shape: (12544, 576, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (576, 128, ) DONE
+	Preparing Filter With Shape: (576, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (12544, 576, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 128, ), Input shape (12544, 128, ), and Output shape (12544, 128, ), and the ID is 3
+	Changing Input Shape
+	New Input Shape: (12544, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 128, ) DONE
+	Preparing Filter With Shape: (1152, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (12544, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (1152, 256, ), Input shape (3136, 128, ), and Output shape (3136, 256, ), and the ID is 4
+	Changing Input Shape
+	New Input Shape: (3136, 1152, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (1152, 256, ) DONE
+	Preparing Filter With Shape: (1152, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 1152, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (3136, 256, ), and Output shape (3136, 256, ), and the ID is 5
+	Changing Input Shape
+	New Input Shape: (3136, 2304, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 2304, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (3136, 256, ), and Output shape (3136, 256, ), and the ID is 6
+	Changing Input Shape
+	New Input Shape: (3136, 2304, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 2304, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 256, ), Input shape (3136, 256, ), and Output shape (3136, 256, ), and the ID is 7
+	Changing Input Shape
+	New Input Shape: (3136, 2304, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 256, ) DONE
+	Preparing Filter With Shape: (2304, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (3136, 2304, ) DONE
+Applying Conv Low-Precision for Kernel shape (2304, 512, ), Input shape (784, 256, ), and Output shape (784, 512, ), and the ID is 8
+	Changing Input Shape
+	New Input Shape: (784, 2304, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (2304, 512, ) DONE
+	Preparing Filter With Shape: (2304, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 2304, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (784, 512, ), and Output shape (784, 512, ), and the ID is 9
+	Changing Input Shape
+	New Input Shape: (784, 4608, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 4608, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (784, 512, ), and Output shape (784, 512, ), and the ID is 10
+	Changing Input Shape
+	New Input Shape: (784, 4608, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 4608, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (784, 512, ), and Output shape (784, 512, ), and the ID is 11
+	Changing Input Shape
+	New Input Shape: (784, 4608, )
+	No Changes To Appliability.
+	Reserving 2 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (784, 4608, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (196, 512, ), and Output shape (196, 512, ), and the ID is 12
+	Changing Input Shape
+	New Input Shape: (196, 4608, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 4608, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 4608, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (196, 512, ), and Output shape (196, 512, ), and the ID is 13
+	Changing Input Shape
+	New Input Shape: (196, 4608, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 4608, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 4608, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (196, 512, ), and Output shape (196, 512, ), and the ID is 14
+	Changing Input Shape
+	New Input Shape: (196, 4608, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 4608, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 4608, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 512, ) DONE
+Applying Conv Low-Precision for Kernel shape (4608, 512, ), Input shape (196, 512, ), and Output shape (196, 512, ), and the ID is 15
+	Changing Input Shape
+	New Input Shape: (196, 4608, )
+	No Changes To Appliability.
+	Reserving 4 LowPrecision Tensors In Total
+	Allocating Filter Shape: (4608, 512, ) DONE
+	Preparing Filter With Shape: (4608, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 4608, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (200, 4608, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (200, 512, ) DONE
+Applying Low-Precision for shape (25088, 4096, ) and Input shape (1, 25088, ) With 9 Number of Temporaries Tensors, and the ID is 0
+	Allocating Filter Shape: (25088, 4096, ) DONE
+	Preparing Filter With Shape: (25088, 4096, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 25088, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 25088, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (8, 4096, ) DONE
+Applying Low-Precision for shape (4096, 4096, ) and Input shape (1, 4096, ) With 9 Number of Temporaries Tensors, and the ID is 1
+	Allocating Filter Shape: (4096, 4096, ) DONE
+	Preparing Filter With Shape: (4096, 4096, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 4096, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 4096, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (8, 4096, ) DONE
+Applying Low-Precision for shape (4096, 1000, ) and Input shape (1, 4096, ) With 9 Number of Temporaries Tensors, and the ID is 2
+	Allocating Filter Shape: (4096, 1000, ) DONE
+	Preparing Filter With Shape: (4096, 1000, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 4096, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 4096, ) DONE
+	Allocating An Output Temporary Tensor With Shape: (8, 1000, ) DONE
+The input model file size (MB): 143.801
+Initialized session in 1802.87ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=2842026 curr=2736997 min=2736997 max=2842026 avg=2.78951e+06 std=52514
+
+Running benchmark for at least 20 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=20 first=2722876 curr=2734509 min=2720407 max=2744198 avg=2.7325e+06 std=5693
+
+Inference timings in us: Init: 1802869, First inference: 2842026, Warmup (avg): 2.78951e+06, Inference (avg): 2.7325e+06
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=277.199 overall=339.574
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	 1797.507	 1797.507	100.000%	100.000%	279792.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	 1797.507	 1797.507	100.000%	100.000%	279792.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	  1797.507	   100.000%	   100.000%	279792.000	        1
+
+Timings (microseconds): count=1 curr=1797507
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	            0.013	   32.553	   32.495	  1.189%	  1.189%	     0.000	        1	[vgg19/block1_conv1/Relu;vgg19/block1_conv1/BiasAdd;vgg19/block1_conv1/BiasAdd/ReadVariableOp;vgg19/block1_conv1/Conv2D]:0
+	                 CONV_2D	           32.514	  274.775	  275.364	 10.078%	 11.267%	     0.000	        1	[vgg19/block1_conv2/Relu;vgg19/block1_conv2/BiasAdd;vgg19/block1_conv1/BiasAdd/ReadVariableOp;vgg19/block1_conv2/Conv2D]:1
+	             MAX_POOL_2D	          307.882	   12.772	   12.750	  0.467%	 11.734%	     0.000	        1	[vgg19/block1_pool/MaxPool]:2
+	                 CONV_2D	          320.638	  117.684	  119.136	  4.360%	 16.094%	     0.000	        1	[vgg19/block2_conv1/Relu;vgg19/block2_conv1/BiasAdd;vgg19/block2_conv1/BiasAdd/ReadVariableOp;vgg19/block2_conv1/Conv2D]:3
+	                 CONV_2D	          439.779	  240.001	  244.687	  8.955%	 25.049%	     0.000	        1	[vgg19/block2_conv2/Relu;vgg19/block2_conv2/BiasAdd;vgg19/block2_conv1/BiasAdd/ReadVariableOp;vgg19/block2_conv2/Conv2D]:4
+	             MAX_POOL_2D	          684.471	    5.884	    5.896	  0.216%	 25.265%	     0.000	        1	[vgg19/block2_pool/MaxPool]:5
+	                 CONV_2D	          690.372	  110.416	  111.351	  4.075%	 29.340%	     0.000	        1	[vgg19/block3_conv1/Relu;vgg19/block3_conv1/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv1/Conv2D]:6
+	                 CONV_2D	          801.727	  229.647	  231.766	  8.482%	 37.823%	     0.000	        1	[vgg19/block3_conv2/Relu;vgg19/block3_conv2/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv2/Conv2D]:7
+	                 CONV_2D	         1033.500	  232.013	  232.045	  8.493%	 46.315%	     0.000	        1	[vgg19/block3_conv3/Relu;vgg19/block3_conv3/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv3/Conv2D]:8
+	                 CONV_2D	         1265.550	  231.990	  232.400	  8.506%	 54.821%	     0.000	        1	[vgg19/block3_conv4/Relu;vgg19/block3_conv4/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv4/Conv2D]:9
+	             MAX_POOL_2D	         1497.954	    2.800	    2.828	  0.103%	 54.924%	     0.000	        1	[vgg19/block3_pool/MaxPool]:10
+	                 CONV_2D	         1500.786	  110.296	  110.484	  4.044%	 58.968%	     0.000	        1	[vgg19/block4_conv1/Relu;vgg19/block4_conv1/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv1/Conv2D]:11
+	                 CONV_2D	         1611.274	  243.113	  243.160	  8.899%	 67.867%	     0.000	        1	[vgg19/block4_conv2/Relu;vgg19/block4_conv2/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv2/Conv2D]:12
+	                 CONV_2D	         1854.439	  244.804	  244.115	  8.934%	 76.802%	     0.000	        1	[vgg19/block4_conv3/Relu;vgg19/block4_conv3/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv3/Conv2D]:13
+	                 CONV_2D	         2098.560	  243.487	  243.483	  8.911%	 85.713%	     0.000	        1	[vgg19/block4_conv4/Relu;vgg19/block4_conv4/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv4/Conv2D]:14
+	             MAX_POOL_2D	         2342.047	    1.477	    1.481	  0.054%	 85.767%	     0.000	        1	[vgg19/block4_pool/MaxPool]:15
+	                 CONV_2D	         2343.530	   62.740	   62.839	  2.300%	 88.067%	     0.000	        1	[vgg19/block5_conv1/Relu;vgg19/block5_conv1/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block5_conv1/Conv2D]:16
+	                 CONV_2D	         2406.376	   62.994	   63.022	  2.307%	 90.373%	     0.000	        1	[vgg19/block5_conv2/Relu;vgg19/block5_conv2/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block5_conv2/Conv2D]:17
+	                 CONV_2D	         2469.403	   63.126	   63.029	  2.307%	 92.680%	     0.000	        1	[vgg19/block5_conv3/Relu;vgg19/block5_conv3/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block5_conv3/Conv2D]:18
+	                 CONV_2D	         2532.437	   63.002	   62.873	  2.301%	 94.981%	     0.000	        1	[vgg19/block5_conv4/Relu;vgg19/block5_conv4/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block5_conv4/Conv2D]:19
+	             MAX_POOL_2D	         2595.315	    0.390	    0.395	  0.014%	 94.996%	     0.000	        1	[vgg19/block5_pool/MaxPool]:20
+	                 RESHAPE	         2595.711	    0.006	    0.008	  0.000%	 94.996%	     0.000	        1	[vgg19/flatten/Reshape]:21
+	         FULLY_CONNECTED	         2595.720	  114.899	  114.894	  4.205%	 99.201%	     0.000	        1	[vgg19/fc1/MatMul;vgg19/fc1/Relu;vgg19/fc1/BiasAdd]:22
+	         FULLY_CONNECTED	         2710.619	   17.362	   17.382	  0.636%	 99.837%	     0.000	        1	[vgg19/fc2/MatMul;vgg19/fc2/Relu;vgg19/fc2/BiasAdd]:23
+	         FULLY_CONNECTED	         2728.005	    4.389	    4.367	  0.160%	 99.997%	     0.000	        1	[vgg19/predictions/MatMul;vgg19/predictions/BiasAdd]:24
+	                 SOFTMAX	         2732.376	    0.094	    0.083	  0.003%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:25
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	           32.514	  274.775	  275.364	 10.078%	 10.078%	     0.000	        1	[vgg19/block1_conv2/Relu;vgg19/block1_conv2/BiasAdd;vgg19/block1_conv1/BiasAdd/ReadVariableOp;vgg19/block1_conv2/Conv2D]:1
+	                 CONV_2D	          439.779	  240.001	  244.687	  8.955%	 19.033%	     0.000	        1	[vgg19/block2_conv2/Relu;vgg19/block2_conv2/BiasAdd;vgg19/block2_conv1/BiasAdd/ReadVariableOp;vgg19/block2_conv2/Conv2D]:4
+	                 CONV_2D	         1854.439	  244.804	  244.115	  8.934%	 27.968%	     0.000	        1	[vgg19/block4_conv3/Relu;vgg19/block4_conv3/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv3/Conv2D]:13
+	                 CONV_2D	         2098.560	  243.487	  243.483	  8.911%	 36.879%	     0.000	        1	[vgg19/block4_conv4/Relu;vgg19/block4_conv4/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv4/Conv2D]:14
+	                 CONV_2D	         1611.274	  243.113	  243.160	  8.899%	 45.778%	     0.000	        1	[vgg19/block4_conv2/Relu;vgg19/block4_conv2/BiasAdd;vgg19/block4_conv1/BiasAdd/ReadVariableOp;vgg19/block4_conv2/Conv2D]:12
+	                 CONV_2D	         1265.550	  231.990	  232.400	  8.506%	 54.284%	     0.000	        1	[vgg19/block3_conv4/Relu;vgg19/block3_conv4/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv4/Conv2D]:9
+	                 CONV_2D	         1033.500	  232.013	  232.045	  8.493%	 62.776%	     0.000	        1	[vgg19/block3_conv3/Relu;vgg19/block3_conv3/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv3/Conv2D]:8
+	                 CONV_2D	          801.727	  229.647	  231.766	  8.482%	 71.259%	     0.000	        1	[vgg19/block3_conv2/Relu;vgg19/block3_conv2/BiasAdd;vgg19/block3_conv1/BiasAdd/ReadVariableOp;vgg19/block3_conv2/Conv2D]:7
+	                 CONV_2D	          320.638	  117.684	  119.136	  4.360%	 75.619%	     0.000	        1	[vgg19/block2_conv1/Relu;vgg19/block2_conv1/BiasAdd;vgg19/block2_conv1/BiasAdd/ReadVariableOp;vgg19/block2_conv1/Conv2D]:3
+	         FULLY_CONNECTED	         2595.720	  114.899	  114.894	  4.205%	 79.824%	     0.000	        1	[vgg19/fc1/MatMul;vgg19/fc1/Relu;vgg19/fc1/BiasAdd]:22
+
+Number of nodes executed: 26
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       16	  2572.244	    94.141%	    94.141%	     0.000	       16
+	         FULLY_CONNECTED	        3	   136.640	     5.001%	    99.142%	     0.000	        3
+	             MAX_POOL_2D	        5	    23.346	     0.854%	    99.997%	     0.000	        5
+	                 SOFTMAX	        1	     0.082	     0.003%	   100.000%	     0.000	        1
+	                 RESHAPE	        1	     0.007	     0.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=20 first=2722714 curr=2734358 min=2720258 max=2744048 avg=2.73233e+06 std=5695
+Memory (bytes): count=0
+26 nodes observed
+
+
+
+[ perf record: Woken up 198 times to write data ]
+Warning:
+Processed 242623 events and lost 1 chunks!
+
+Check IO/CPU overload!
+
+[ perf record: Captured and wrote 49.285 MB /tmp/data.record (242142 samples) ]
+
+65.086
+
