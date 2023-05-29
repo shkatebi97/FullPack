@@ -4,6 +4,18 @@
 #ifdef IS_ARM
 namespace LowPrecision{
     namespace FullyConnected{
+        LowPrecision::SelfDependentType IsSelfDependent(Method method){
+            switch(method){
+                case LowPrecision::Method::kSelfDependentW4A4:
+                    #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
+                    return LowPrecision::SelfDependentType::W4A4SelfDependent16Offset;
+                    #elif SelfDependent_Type == SelfDependent_Continious
+                    return LowPrecision::SelfDependentType::W4A4SelfDependent;
+                    #endif
+                default:
+                    return LowPrecision::SelfDependentType::NotSelfDependent;
+            }
+        }
         namespace SelfDependent {
             LowPrecision::Status QuantizeFilter(LowPrecision::Method method, const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){
                 switch (method)
@@ -98,11 +110,11 @@ namespace LowPrecision{
                     return LowPrecision::Status::NotSupported;
                 }
             }
-            LowPrecision::PreprocessType InputPreProcess()  { return LowPrecision::PreprocessType::PaddingAndPacking; }
-            LowPrecision::PreprocessType FilterPreProcess() { return LowPrecision::PreprocessType::PaddingAndPacking; }
-            LowPrecision::PreprocessType OutputPreProcess() { return OutputPostProcess(); }
-            LowPrecision::PreprocessType OutputPostProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
-            LowPrecision::GEMMType GEMMSupport(){ return LowPrecision::GEMMType::SupportsGEMM; }
+            LowPrecision::PreprocessType InputPreProcess(LowPrecision::Method method)  { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType FilterPreProcess(LowPrecision::Method method) { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType OutputPreProcess(LowPrecision::Method method) { return LowPrecision::FullyConnected::SelfDependent::OutputPostProcess(method); }
+            LowPrecision::PreprocessType OutputPostProcess(LowPrecision::Method method){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
+            LowPrecision::GEMMType GEMMSupport(LowPrecision::Method method){ return LowPrecision::GEMMType::SupportsGEMM; }
         }
     }
 }

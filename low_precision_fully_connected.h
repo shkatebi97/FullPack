@@ -846,11 +846,11 @@ namespace LowPrecision {
                 const int8_t* input, const int8_t* kernel,
                 int32_t* output, const Params params
             );
-            LowPrecision::PreprocessType InputPreProcess();
-            LowPrecision::PreprocessType FilterPreProcess();
-            LowPrecision::PreprocessType OutputPreProcess();
-            LowPrecision::PreprocessType OutputPostProcess();
-            LowPrecision::GEMMType GEMMSupport();
+            LowPrecision::PreprocessType InputPreProcess(LowPrecision::Method method);
+            LowPrecision::PreprocessType FilterPreProcess(LowPrecision::Method method);
+            LowPrecision::PreprocessType OutputPreProcess(LowPrecision::Method method);
+            LowPrecision::PreprocessType OutputPostProcess(LowPrecision::Method method);
+            LowPrecision::GEMMType GEMMSupport(LowPrecision::Method method);
             namespace W4A4{
                 LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout);
                 LowPrecision::Status QuantizeFilter(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout);
@@ -878,6 +878,11 @@ namespace LowPrecision {
                     int32_t* output, const Params params);
                 void InputPackingStep(uint8_t* input_u, uint8_t* output, long long int size, long long int stride);
                 void FilterPackingStep(uint8_t* input_u, uint8_t* output, long long int size, long long int stride);
+                LowPrecision::PreprocessType InputPreProcess();
+                LowPrecision::PreprocessType FilterPreProcess();
+                LowPrecision::PreprocessType OutputPreProcess();
+                LowPrecision::PreprocessType OutputPostProcess();
+                LowPrecision::GEMMType GEMMSupport();
             }
         }
 

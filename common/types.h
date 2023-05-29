@@ -307,6 +307,7 @@ typedef enum {
     kULPPACKW7A7                    = 0x0080000000,
     kInt8ActInt8WeightBarrelShiftMul= 0x0100000000,
     k8x8                            = 0x01fe000000,
+    kSelfDependent                  = 0x0e00000000,
     kSelfDependentW4A4              = 0x0200000000,
 } Method;
 
@@ -473,19 +474,39 @@ typedef enum {
 } GEMMType;
 
 typedef enum {
-    NotSelfDependent            = 0x0000,
-    Int1SelfDependent           = 0x0001,
-    Int2SelfDependent           = 0x0002,
-    Int4SelfDependent           = 0x0004,
-    Int1SelfDependent16Offset   = 0x0101,
-    Int2SelfDependent16Offset   = 0x0102,
-    Int4SelfDependent16Offset   = 0x0104,
+    NotSelfDependent            = 0x000000,
+    // Int1
+    W1A1SelfDependent           = 0x000101,
+    W1A8SelfDependent           = 0x000100,
+    W8A1SelfDependent           = 0x000001,
+    // Int2
+    W2A2SelfDependent           = 0x000202,
+    W2A8SelfDependent           = 0x000200,
+    W8A2SelfDependent           = 0x000002,
+    // Int4
+    W4A4SelfDependent           = 0x000404,
+    W4A8SelfDependent           = 0x000400,
+    W8A4SelfDependent           = 0x000004,
+    // With 16 Offset
+    // Int1 16 Offset
+    W1A1SelfDependent16Offset   = 0x010101,
+    W1A8SelfDependent16Offset   = 0x010100,
+    W8A1SelfDependent16Offset   = 0x010001,
+    // Int2 16 Offset
+    W2A2SelfDependent16Offset   = 0x010202,
+    W2A8SelfDependent16Offset   = 0x010200,
+    W8A2SelfDependent16Offset   = 0x010002,
+    // Int4 16 Offset
+    W4A4SelfDependent16Offset   = 0x010404,
+    W4A8SelfDependent16Offset   = 0x010400,
+    W8A4SelfDependent16Offset   = 0x010004,
 } SelfDependentType;
 
-inline int get_self_dependent_num_shifts(SelfDependentType type){ return type & 0x00ff; }
+inline int get_self_dependent_A_num_shifts(SelfDependentType type){ return type & 0x0000ff; }
+inline int get_self_dependent_W_num_shifts(SelfDependentType type){ return (type & 0x00ff00) >> 8; }
 
 inline int get_self_dependent_offset(SelfDependentType type){ 
-    switch ((type & 0xff00) >> 8){
+    switch ((type & 0xff0000) >> 16){
     case 0:
         return 1;
     case 1:

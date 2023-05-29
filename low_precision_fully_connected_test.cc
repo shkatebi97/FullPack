@@ -102,7 +102,7 @@ template <typename Ti, typename To>
 Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_shape, Shape kernel_shape, Shape output_shape, LowPrecision::SelfDependentType self_dependent_type = LowPrecision::SelfDependentType::NotSelfDependent){
     if (input_shape.size[1] != kernel_shape.size[0])
         return Status::SizesMisMatch;
-    if (LowPrecision::get_self_dependent_num_shifts(self_dependent_type) != LowPrecision::SelfDependentType::NotSelfDependent){
+    if (self_dependent_type != LowPrecision::SelfDependentType::NotSelfDependent){
         size_t M = input_shape.size[0];
         size_t K = kernel_shape.size[0];
         size_t N = kernel_shape.size[1];
@@ -111,25 +111,63 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
         size_t k_offset = N;
         size_t o_offset = N;
 
-        int self_dependent_shifts = LowPrecision::get_self_dependent_num_shifts(self_dependent_type);
+        int self_dependent_shifts_A = LowPrecision::get_self_dependent_A_num_shifts(self_dependent_type);
+        int self_dependent_shifts_W = LowPrecision::get_self_dependent_W_num_shifts(self_dependent_type);
         int self_dependent_offset = LowPrecision::get_self_dependent_offset(self_dependent_type);
-        To shift_value = pow(2, self_dependent_shifts);
+        To shift_value_A = pow(2, self_dependent_shifts_A);
+        To shift_value_W = pow(2, self_dependent_shifts_W);
 
-        std::cout << "Caculating Trusted Output with shift value of " << shift_value << " and offset of " << self_dependent_offset << std::endl;
-        
-        for (size_t m = 0; m < M; m++)
-            for (size_t n = 0; n < N; n++)
-                for (size_t k = 0; k < K; k++)
-                    if (self_dependent_offset > 1) 
-                        if (k % self_dependent_offset == 0 && k + self_dependent_offset < K)
-                            output[m * o_offset + n] += (input[m * i_offset + k] + shift_value * input[m * i_offset + (k + self_dependent_offset)]) * (kernel[k * k_offset + n] + shift_value * kernel[(k + self_dependent_offset) * k_offset + n]);
+        std::cout << "Caculating Trusted Output with Activations shift value of " << shift_value_A
+                  << " and Weights shift value of " << shift_value_W 
+                  << " and offset of " << self_dependent_offset;
+        if (self_dependent_shifts_A == self_dependent_shifts_W){
+            std::cout << " (met self_dependent_shifts_A == self_dependent_shifts_W and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            for (size_t m = 0; m < M; m++)
+                for (size_t n = 0; n < N; n++)
+                    for (size_t k = 0; k < K; k++)
+                        if (self_dependent_offset > 1) 
+                            if (k % self_dependent_offset == 0 && k + self_dependent_offset < K)
+                                output[m * o_offset + n] += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + (k + self_dependent_offset)]) * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + self_dependent_offset) * k_offset + n]);
+                            else
+                                output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
                         else
-                            output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
-                    else
-                        if (k % 2 == 0 && k + self_dependent_offset < K)
-                            output[m * o_offset + n] += (input[m * i_offset + k] + shift_value * input[m * i_offset + (k + self_dependent_offset)]) * (kernel[k * k_offset + n] + shift_value * kernel[(k + self_dependent_offset) * k_offset + n]);
+                            if (k % 2 == 0 && k + self_dependent_offset < K)
+                                output[m * o_offset + n] += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + k + 1]) * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + 1) * k_offset + n]);
+                            else
+                                output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+        } else if (self_dependent_shifts_A == 0){
+            std::cout << " (met self_dependent_shifts_A == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            for (size_t m = 0; m < M; m++)
+                for (size_t n = 0; n < N; n++)
+                    for (size_t k = 0; k < K; k++)
+                        if (self_dependent_offset > 1) 
+                            if (k % self_dependent_offset == 0 && k + self_dependent_offset < K)
+                                output[m * o_offset + n] += input[m * i_offset + k] * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + self_dependent_offset) * k_offset + n]);
+                            else
+                                output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
                         else
-                            output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+                            if (k % 2 == 0 && k + self_dependent_offset < K)
+                                output[m * o_offset + n] += input[m * i_offset + k] * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + 1) * k_offset + n]);
+                            else
+                                output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+        } else if (self_dependent_shifts_W == 0){
+            std::cout << " (met self_dependent_shifts_W == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            for (size_t m = 0; m < M; m++)
+                for (size_t n = 0; n < N; n++)
+                    for (size_t k = 0; k < K; k++)
+                        if (self_dependent_offset > 1) 
+                            if (k % self_dependent_offset == 0 && k + self_dependent_offset < K)
+                                output[m * o_offset + n] += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + (k + self_dependent_offset)]) * kernel[k * k_offset + n];
+                            else
+                                output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+                        else
+                            if (k % 2 == 0 && k + self_dependent_offset < K)
+                                output[m * o_offset + n] += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + k + 1]) * kernel[k * k_offset + n];
+                            else
+                                output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+        }
+        else
+            return Status::NotImplemented;
     } else {
         std::cout << "Caculating Trusted Output" << std::endl;
 
@@ -387,43 +425,6 @@ void run_gemm_api_tests(LowPrecision::Method method){
                                                         << " | Status: "
                                                         << LowPrecision::get_status_string(LowPrecision::mask_out_source(gemm_status))
                                                         << ")" << endl;
-
-    // // Creating Context and Parameters
-    // ruy::Context* _ruy_context = new ruy::Context;
-    // ruy::MulParams<int32_t, int32_t> ruy_mul_params;
-    // ruy::Matrix<int8_t> ruy_lhs;
-    // ruy::Matrix<int8_t> ruy_rhs;
-    // ruy::Matrix<int32_t> ruy_dst;
-
-    // // Creating Filter Matrix
-    // ruy::MakeSimpleLayout( 
-    //     kernel_shape.size[0],
-    //     kernel_shape.size[1], 
-    //     ruy::Order::kColMajor,
-    //     ruy_lhs.mutable_layout()
-    // );
-    // ruy_lhs.set_data(kernel_data);
-    // ruy_lhs.set_cache_policy(ruy::CachePolicy::kAlwaysCache);
-
-    // // Creating MultiBatch Input Matrix
-    // ruy::MakeSimpleLayout(
-    //     input_shape_MB.size[0],
-    //     input_shape_MB.size[1],
-    //     ruy::Order::kColMajor,
-    //     ruy_rhs.mutable_layout()
-    // );
-    // ruy_rhs.set_data(input_data_MB);
-
-    // // Creating MultiBatch Output Matrix
-    // ruy::MakeSimpleLayout(
-    //     output_shape_MB.size[0],
-    //     output_shape_MB.size[1],
-    //     ruy::Order::kColMajor,
-    //     ruy_dst.mutable_layout()
-    // );
-    // ruy_dst.set_data(output_data_ruy_MB);
-
-    // ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs, ruy_mul_params, _ruy_context, &ruy_dst);
 
     bool sanityCheckPass = true;
     for (int i = 0 ; i < output_shape_MB.size[0] ; i++)
@@ -5331,37 +5332,37 @@ int main(int argc, char *argv[]){
                 if (selected_test == "All")
                     test_gemm_api |= 0xffffff; 
                 else if (selected_test == "Int8")
-                    test_gemm_api |= 0x010000; 
+                    test_gemm_api |= 0x1000000; 
                 else if (selected_test == "Int4")
-                    test_gemm_api |= 0x0001; 
+                    test_gemm_api |= 0x000001; 
                 else if (selected_test == "Binary")
-                    test_gemm_api |= 0x0002; 
+                    test_gemm_api |= 0x000002; 
                 else if (selected_test == "Ternary")
-                    test_gemm_api |= 0x0004; 
+                    test_gemm_api |= 0x000004; 
                 else if (selected_test == "Quaternary")
-                    test_gemm_api |= 0x0008; 
+                    test_gemm_api |= 0x000008; 
                 else if (selected_test == "Int4InputsInt8Weights")
-                    test_gemm_api |= 0x0010; 
+                    test_gemm_api |= 0x000010; 
                 else if (selected_test == "Int4InputsInt4Weights")
-                    test_gemm_api |= 0x0020; 
+                    test_gemm_api |= 0x000020; 
                 else if (selected_test == "BinaryInputsInt8Weights")
-                    test_gemm_api |= 0x0080; 
+                    test_gemm_api |= 0x000080; 
                 else if (selected_test == "BinaryInputsBinaryWeights")
-                    test_gemm_api |= 0x0100; 
+                    test_gemm_api |= 0x000100; 
                 else if (selected_test == "BinaryInputsBinaryWeightsXOR")
-                    test_gemm_api |= 0x0800; 
+                    test_gemm_api |= 0x000800; 
                 else if (selected_test == "TernaryInputsInt8Weights")
-                    test_gemm_api |= 0x0040; 
+                    test_gemm_api |= 0x000040; 
                 else if (selected_test == "TernaryInputsTernaryWeights")
-                    test_gemm_api |= 0x0200; 
-                // else if (selected_test == "Int3InputsInt3Weights")
-                //     test_gemm_api |= 0x0400;
+                    test_gemm_api |= 0x000200; 
+                else if (selected_test == "Int3InputsInt3Weights")
+                    test_gemm_api |= 0x000400;
                 else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
-                    test_gemm_api |= 0x1000; 
+                    test_gemm_api |= 0x001000; 
                 else if (selected_test == "ULPPACK-W4A4")
-                    test_gemm_api |= 0x2000; 
+                    test_gemm_api |= 0x002000; 
                 else if (selected_test == "SelfDependentW4A4")
-                    test_gemm_api |= 0x4000; 
+                    test_gemm_api |= 0x004000; 
             }
         } else
             test_gemm_api = 0xffffff;
@@ -6868,37 +6869,37 @@ int main(int argc, char *argv[]){
     }
     
     if (test_gemm_api){
-        if (test_gemm_api == 0x010000)
+        if (test_gemm_api == 0x1000000)
             run_gemm_api_tests(LowPrecision::Method::kNoOptimization);
-        if (test_gemm_api & 0x0001)
+        if (test_gemm_api &  0x000001)
             run_gemm_api_tests(LowPrecision::Method::kInt8Int4);
-        if (test_gemm_api & 0x0002)
+        if (test_gemm_api &  0x000002)
             run_gemm_api_tests(LowPrecision::Method::kInt8Binary);
-        if (test_gemm_api & 0x0004)
+        if (test_gemm_api &  0x000004)
             run_gemm_api_tests(LowPrecision::Method::kInt8Ternary);
-        if (test_gemm_api & 0x0008)
+        if (test_gemm_api &  0x000008)
             run_gemm_api_tests(LowPrecision::Method::kInt8QuaTernary);
-        if (test_gemm_api & 0x0010)
+        if (test_gemm_api &  0x000010)
             run_gemm_api_tests(LowPrecision::Method::kInt4ActInt8Weight);
-        if (test_gemm_api & 0x0020)
+        if (test_gemm_api &  0x000020)
             run_gemm_api_tests(LowPrecision::Method::kInt4ActInt4Weight);
-        if (test_gemm_api & 0x0040)
+        if (test_gemm_api &  0x000040)
             run_gemm_api_tests(LowPrecision::Method::kTernaryActInt8Weight);
-        if (test_gemm_api & 0x0200)
+        if (test_gemm_api &  0x000200)
             run_gemm_api_tests(LowPrecision::Method::kTernaryActTernaryWeight);
-        if (test_gemm_api & 0x0080)
+        if (test_gemm_api &  0x000080)
             run_gemm_api_tests(LowPrecision::Method::kBinaryActInt8Weight);
-        if (test_gemm_api & 0x0100)
+        if (test_gemm_api &  0x000100)
             run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeight);
-        if (test_gemm_api & 0x0800)
+        if (test_gemm_api &  0x000800)
             run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeightXOR);
-        // if (test_gemm_api & 0x0400)
-        //     run_gemm_api_tests(LowPrecision::Method::kInt3ActInt3Weight);
-        if (test_gemm_api & 0x1000)
+        if (test_gemm_api &  0x000400)
+            run_gemm_api_tests(LowPrecision::Method::kInt3ActInt3Weight);
+        if (test_gemm_api &  0x001000)
             run_gemm_api_tests(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul);
-        if (test_gemm_api & 0x2000)
+        if (test_gemm_api &  0x002000)
             run_gemm_api_tests(LowPrecision::Method::kULPPACKW4A4);
-        if (test_gemm_api & 0x4000)
+        if (test_gemm_api &  0x004000)
             run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A4);
     }
 

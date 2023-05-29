@@ -31,20 +31,23 @@ namespace LowPrecision{
                         #elif SelfDependent_Type == SelfDependent_Continious
                         size_t z = 0;
                         for (size_t i = 2; i < k_shape.size[0]; i += 2){
-                            for (size_t j = 0; j < k_shape.size[1]; j++)
-                                temp_u[z * k_shape.size[1] + j] = (input_u[j * k_shape.size[0] + (i - 2)] & 0x0F) | 
-                                                                 ((input_u[j * k_shape.size[0] + (i - 1)] & 0x0F) << 4);
+                            for (size_t j = 0; j < k_shape.size[1]; j++){
+                                temp_u[j * k_shape.size[0] / 2 + z] = (input_u[(i - 2) * k_shape.size[1] + j] & 0x0F) | 
+                                                                 ((input_u[(i - 1) * k_shape.size[1] + j] & 0x0F) << 4);
+                            }
                             z++;
                         }
                         if (k_shape.size[0] % 2)
                             for (size_t j = 0; j < k_shape.size[1]; j++)
-                                temp_u[z * k_shape.size[1] + j] = input_u[j * k_shape.size[0] + (k_shape.size[0] - 1)] & 0x0F;
+                                temp_u[j * k_shape.size[0] / 2 + z] = input_u[j * k_shape.size[0] + (k_shape.size[0] - 1)] & 0x0F;
                         else
                             for (size_t j = 0; j < k_shape.size[1]; j++)
-                                temp_u[z * k_shape.size[1] + j] = (input_u[j * k_shape.size[0] + (k_shape.size[0] - 2)] & 0x0F) |
-                                                                 ((input_u[j * k_shape.size[0] + (k_shape.size[0] - 1)] & 0x0F) << 4);
+                                temp_u[j * k_shape.size[0] / 2 + z] = (input_u[(k_shape.size[0] - 2) * k_shape.size[1] + j] & 0x0F) |
+                                                                 ((input_u[(k_shape.size[0] - 1) * k_shape.size[1] + j] & 0x0F) << 4);
                         #endif
-                        doLowPrecisionWeightPack(temp, output, k_shape.size[0] / 2, k_shape.size[1]);
+                        Shape k_shape_T;
+                        k_shape_T = k_shape.T();
+                        doLowPrecisionWeightPack(temp, output, k_shape_T.size[0], k_shape_T.size[1] / 2);
                         LowPrecision::deallocate(temp);
                     }
                     return Status::Success;
@@ -374,8 +377,8 @@ namespace LowPrecision{
                         rhs_columns = kernel_shape.size[1];
                     
                     size_t M        = lhs_batches,
-                        K        = lhs_columns,
-                        N        = rhs_columns;
+                           K        = lhs_columns,
+                           N        = rhs_columns;
                     
                     int need_downcasting = (params.need_downcasting)?(0xff):(0x00);
                     
@@ -1561,6 +1564,11 @@ namespace LowPrecision{
                     //     virc4t7(o + 4);
                     // }
                 }
+                LowPrecision::PreprocessType InputPreProcess()  { return LowPrecision::PreprocessType::PaddingAndPacking; }
+                LowPrecision::PreprocessType FilterPreProcess() { return LowPrecision::PreprocessType::PaddingAndPacking; }
+                LowPrecision::PreprocessType OutputPreProcess() { return OutputPostProcess(); }
+                LowPrecision::PreprocessType OutputPostProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
+                LowPrecision::GEMMType GEMMSupport(){ return LowPrecision::GEMMType::SupportsGEMM; }
             }
         }
     }
