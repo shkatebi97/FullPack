@@ -734,6 +734,17 @@ inline Status get_absed_max_min(T* array, int length, T& max, T& min){
     return Status::Success;
 }
 
+template<typename T>
+inline LowPrecision::Status transpose(T* input, T* output, LowPrecision::Shape original_shape){
+    if (original_shape.number_dims != 2)
+        return LowPrecision::Status::NotSupported;
+    size_t p = 0;
+    for (size_t r = 0 ; r < original_shape.size[0] ; r++)
+        for (size_t c = 0 ; c < original_shape.size[1] ; c++)
+            output[c * original_shape.size[0] + r] = input[p++];
+    return LowPrecision::Status::Success;
+}
+
 inline bool check_for_fp16_support(){
     std::ifstream t("/proc/cpuinfo");
     std::string str((std::istreambuf_iterator<char>(t)),
