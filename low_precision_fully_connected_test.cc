@@ -28,9 +28,9 @@ using namespace LowPrecision::FullyConnected;
 template <typename T>
 inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape shape, bool no_print_hex = true){
     if (no_print_hex)
-        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << endl;
+        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << std::endl;
     else
-        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << endl << hex;
+        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << std::endl << std::hex;
     for (int i = 0; i < shape.size[0]; i++){
         std::cout << "\t[ ";
         for (int j = 0; j < shape.size[1]; j++)
@@ -38,10 +38,10 @@ inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape sha
                 std::cout << (int)matrix[(i * shape.size[1]) + j] << ", ";
             else
                 std::cout << "0x" << (int)matrix[(i * shape.size[1]) + j] << ", ";
-        std::cout << "]" << endl;
+        std::cout << "]" << std::endl;
     }
     std::cout << "]";
-    std::cout << dec << endl;
+    std::cout << std::dec << std::endl;
 }
 
 template <typename T>
@@ -5363,6 +5363,10 @@ int main(int argc, char *argv[]){
                     test_gemm_api |= 0x002000; 
                 else if (selected_test == "SelfDependentW4A4")
                     test_gemm_api |= 0x004000; 
+                else if (selected_test == "SelfDependentW4A8")
+                    test_gemm_api |= 0x008000; 
+                else if (selected_test == "SelfDependentW8A4")
+                    test_gemm_api |= 0x010000; 
             }
         } else
             test_gemm_api = 0xffffff;
@@ -6901,6 +6905,10 @@ int main(int argc, char *argv[]){
             run_gemm_api_tests(LowPrecision::Method::kULPPACKW4A4);
         if (test_gemm_api &  0x004000)
             run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A4);
+        if (test_gemm_api &  0x008000)
+            run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A8);
+        if (test_gemm_api &  0x010000)
+            run_gemm_api_tests(LowPrecision::Method::kSelfDependentW8A4);
     }
 
     benchmark_mode_t benchmark_mode;

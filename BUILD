@@ -189,6 +189,7 @@ cc_library(
         # SelfDependent sources
         "kernels/SelfDependent.cc",
         "kernels/SelfDependent-kernels/W4A4.cc",
+        "kernels/SelfDependent-kernels/W4A8.cc",
     ],
     hdrs = ["low_precision_fully_connected.h"],
     copts = tflite_copts() + tf_opts_nortti_if_android() + ["-march=armv8.2-a+fp16", "-lm"] + ULPPACK_copts,

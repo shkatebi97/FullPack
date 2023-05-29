@@ -309,6 +309,8 @@ typedef enum {
     k8x8                            = 0x01fe000000,
     kSelfDependent                  = 0x0e00000000,
     kSelfDependentW4A4              = 0x0200000000,
+    kSelfDependentW4A8              = 0x0400000000,
+    kSelfDependentW8A4              = 0x0800000000,
 } Method;
 
 inline const char* get_method_string(Method method){
@@ -422,6 +424,12 @@ inline const char* get_method_string(Method method){
         break;
     case kSelfDependentW4A4:
         strcpy(output, std::string("SelfDependentW4A4").c_str());
+        break;
+    case kSelfDependentW4A8:
+        strcpy(output, std::string("SelfDependentW4A8").c_str());
+        break;
+    case kSelfDependentW8A4:
+        strcpy(output, std::string("SelfDependentW8A4").c_str());
         break;
     default:
         strcpy(output, std::string("NotDefined").c_str());
