@@ -4,7 +4,25 @@
 namespace LowPrecision{
     namespace FullyConnected{
         namespace SelfDependent {
-            namespace W4A4{
+            namespace W4A8{
+                #define SelfDependent_Vector_Size 16
+                #define TO_STRING_HELPER(X)   #X
+                #define TO_STRING(X)          TO_STRING_HELPER(X)
+
+                // Define loop unrolling depending on the compiler
+                #if defined(__ICC) || defined(__ICL)
+                #define UNROLL_LOOP(n)      _Pragma(TO_STRING(unroll (n)))
+                #elif defined(__clang__)
+                #define UNROLL_LOOP(n)      _Pragma(TO_STRING(unroll (n)))
+                #elif defined(__GNUC__) && !defined(__clang__)
+                #define UNROLL_LOOP(n)      _Pragma(TO_STRING(GCC unroll (n)))
+                #elif defined(_MSC_BUILD)
+                #pragma message ("Microsoft Visual C++ (MSVC) detected: Loop unrolling not supported!")
+                #define UNROLL_LOOP(n)
+                #else
+                #warning "Unknown compiler: Loop unrolling not supported!"
+                #define UNROLL_LOOP(n)
+                #endif
                 LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){
                     if (k_shape.number_dims != 2)
                         return Status::DimensionsMisMatch;
@@ -33,7 +51,7 @@ namespace LowPrecision{
                         for (size_t i = 2; i < k_shape.size[0]; i += 2){
                             for (size_t j = 0; j < k_shape.size[1]; j++){
                                 temp_u[j * k_shape.size[0] / 2 + z] = (input_u[(i - 2) * k_shape.size[1] + j] & 0x0F) | 
-                                                                 ((input_u[(i - 1) * k_shape.size[1] + j] & 0x0F) << 4);
+                                                                     ((input_u[(i - 1) * k_shape.size[1] + j] & 0x0F) << 4);
                             }
                             z++;
                         }
@@ -43,7 +61,7 @@ namespace LowPrecision{
                         else
                             for (size_t j = 0; j < k_shape.size[1]; j++)
                                 temp_u[j * k_shape.size[0] / 2 + z] = (input_u[(k_shape.size[0] - 2) * k_shape.size[1] + j] & 0x0F) |
-                                                                 ((input_u[(k_shape.size[0] - 1) * k_shape.size[1] + j] & 0x0F) << 4);
+                                                                     ((input_u[(k_shape.size[0] - 1) * k_shape.size[1] + j] & 0x0F) << 4);
                         #endif
                         Shape k_shape_T;
                         k_shape_T = k_shape.T();
@@ -75,7 +93,7 @@ namespace LowPrecision{
                     return Status::Success;
                 }
                 LowPrecision::Status QuantizeInput(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){
-                    if (shape.size[shape.number_dims - 1] % 32)
+                    if (shape.size[shape.number_dims - 1] % SelfDependent_Vector_Size)
                         return Status::SizesMisMatch; 
                     if (layout != MemLayout::kRowMajor)
                         return Status::WrongMemLayout;
@@ -84,109 +102,45 @@ namespace LowPrecision{
                         return Status::SizesMisMatch; 
                     if (GetVariableFromEnv("DismissInputQuantization") == std::string("TRUE") ||
                         GetVariableFromEnv("DismissQuantization") == std::string("TRUE")){
-                        std::copy(input, input + (shape.flatsize / 2), output);
+                        std::copy(input, input + (shape.flatsize), output);
                     }
                     else {
                         int8_t* temp = output;
                         if (is_multibatched){
-                            int new_weights_length = ((int)shape.flatsize / 2);
+                            int new_weights_length = ((int)shape.flatsize);
                             temp = LowPrecision::allocate<int8_t>(new_weights_length);
                         }
                         int i , size = shape.flatsize;
                         uint8_t* temp_u = get_pointer_as<uint8_t>(temp);
                         const uint8_t* input_u = get_pointer_as<uint8_t>(input);
                         #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
-                        asm volatile(
-                            "mov %w[i], wzr\n\t"
-                            "movi v31.16b, #15\n\t"
-                            "movi v30.16b, #7\n\t"
-                            "movi v29.16b, #248\n\t"
-                            
-                            "cmp %w[size], #0\n\t"
-                            "beq 3f\n\t"
-
-                            // Start of Outer Loop Over Weights
-                            "1:\n\t"
-                            "ld1 {v0.16b},  [%[input]], #16\n\t"
-                            "ld1 {v1.16b},  [%[input]], #16\n\t"
-
-                            // Saturate to 7
-                            // CMGE AT, A, 7
-                            "cmge v2.16b, v0.16b, v30.16b\n\t"
-                            "cmge v3.16b, v1.16b, v30.16b\n\t"
-                            // NOT AT, AT
-                            "not v2.16b, v2.16b\n\t"
-                            "not v3.16b, v3.16b\n\t"
-                            // AND A, A, AT
-                            "and v0.16b, v0.16b, v2.16b\n\t"
-                            "and v1.16b, v1.16b, v3.16b\n\t"
-                            // NOT ATT, AT
-                            "not v2.16b, v2.16b\n\t"
-                            "not v3.16b, v3.16b\n\t"
-                            // AND ATTT, A, ATT
-                            "and v2.16b, v30.16b, v2.16b\n\t"
-                            "and v3.16b, v30.16b, v3.16b\n\t"
-                            // ORR A, A, ATT
-                            "orr v0.16b, v0.16b, v2.16b\n\t"
-                            "orr v1.16b, v1.16b, v3.16b\n\t"
-                            
-                            // Saturate to -8
-                            // CMGE AT, A, -8
-                            "cmge v2.16b, v0.16b, v29.16b\n\t"
-                            "cmge v3.16b, v1.16b, v29.16b\n\t"
-                            // AND A, A, AT
-                            "and v0.16b, v0.16b, v2.16b\n\t"
-                            "and v1.16b, v1.16b, v3.16b\n\t"
-                            // NOT ATT, AT
-                            "not v2.16b, v2.16b\n\t"
-                            "not v3.16b, v3.16b\n\t"
-                            // AND ATTT, A, ATT
-                            "and v2.16b, v29.16b, v2.16b\n\t"
-                            "and v3.16b, v29.16b, v3.16b\n\t"
-                            // ORR A, A, ATTT
-                            "orr v0.16b, v0.16b, v2.16b\n\t"
-                            "orr v1.16b, v1.16b, v3.16b\n\t"
-
-                            // Pack 2 Saturated Int4 in 1 Int8
-                            // AND AL, AL, 0x0F
-                            "and v0.16b, v0.16b, v31.16b\n\t"
-                            // SHL AH, AH, #4
-                            "shl v1.16b, v1.16b, #4\n\t"
-                            // ORR AM, AL, Ah
-                            "orr v0.16b, v0.16b, v1.16b\n\t"
-                            // ST1 AM, output
-                            "st1 {v0.16b},  [%[output]], #16\n\t"
-
-                            "add %w[i], %w[i], #32\n\t"
-                            "cmp %w[i], %w[size]\n\t"
-                            "b.lt 1b\n\t"
-
-                            "sub %[input], %[input], %[size]\n\t"
-                            "sub %[output], %[output], %[size], asr #1\n\t"
-
-                            "3:\n\t"
-
-                            : [ i ] "+r"(i)
-                            : [ input ]  "r" (input), [ size ] "r"(size), [ output ] "r"(temp)
-                            : "v0",  "v1",  "v2",  "v3",
-                            "v28", "v29", "v30", "v31",
-                            "w3",  "w4",  "w5",  "w6"
-                        );
+                        // QuantizeInput with 'SelfDependent_Type == SelfDependent_Offset_Vector_Size' is not defined yet.
+                        return LowPrecision::Status::NotImplemented;
                         #elif SelfDependent_Type == SelfDependent_Continious
                         for (size_t i = 0; i < shape.size[0]; i++){
-                            size_t z = 0;
-                            for (size_t j = 2; j < shape.size[1]; j += 2)
-                                temp_u[i * (shape.size[1] / 2) + z++] = (input_u[i * shape.size[0] + (j - 2)] & 0x0F) | 
-                                                                       ((input_u[i * shape.size[0] + (j - 1)] & 0x0F) << 4);
-                            if (shape.size[1] % 2)
-                                temp_u[i * (shape.size[1] / 2) + z++] = input_u[i * shape.size[0] + (shape.size[1] - 1)] & 0x0F;
-                            else
-                                temp_u[i * (shape.size[1] / 2) + z++] = (input_u[i * shape.size[0] + (shape.size[1] - 2)] & 0x0F) | 
-                                                                       ((input_u[i * shape.size[0] + (shape.size[1] - 1)] & 0x0F) << 4);
+                            for (size_t j = 0; j < shape.size[1]; j += 2 * SelfDependent_Vector_Size)
+                                UNROLL_LOOP(SelfDependent_Vector_Size)
+                                for (size_t k = 0; k < SelfDependent_Vector_Size; k++){
+                                    temp_u[i * shape.size[1] + j                             + k] = input_u[i * shape.size[1] + j + (2 * k)    ];
+                                    temp_u[i * shape.size[1] + j + SelfDependent_Vector_Size + k] = input_u[i * shape.size[1] + j + (2 * k) + 1];
+                                    // std::cout << i << "," << j << "," << k << ": " 
+                                    //           << i * shape.size[1] + j + k << " <- " << i * shape.size[1] + j + (2 * k) << std::endl;
+                                    // std::cout << i << "," << j << "," << k << ": " 
+                                    //           << i * shape.size[1] + j + SelfDependent_Vector_Size + k << " <- " << i * shape.size[1] + j + (2 * k) + 1 << std::endl;
+                                }
                         }
                         #endif
+                        // std::cout << "temp_u = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) temp_u) << ") [" << std::endl << std::hex;
+                        // for (int i = 0; i < shape.size[0]; i++){
+                        //     std::cout << "\t[ ";
+                        //     for (int j = 0; j < shape.size[1]; j++)
+                        //         std::cout << "0x" << (int)temp_u[(i * shape.size[1]) + j] << ", ";
+                        //     std::cout << "]" << std::endl;
+                        // }
+                        // std::cout << "]";
+                        // std::cout << std::dec << std::endl;
                         if (is_multibatched){
-                            doLowPrecisionWeightPack(temp, output, shape.size[0], shape.size[1] / 2);
+                            doLowPrecisionWeightPack(temp, output, shape.size[0], shape.size[1]);
                             LowPrecision::deallocate(temp);
                         }
                     }
@@ -404,7 +358,7 @@ namespace LowPrecision{
                     /* Vector assignments:
                         * W, WL     -> v0-3      (Weights, Weights Low)
                         * WH        -> v4-7      (Weights High)
-                        * A, AL     -> v8-11     (Activations, Activations Low)
+                        * AL        -> v8-11     (Activations, Activations Low)
                         * AH        -> v12-15    (Activations High)
                         * ACC1      -> v24-27    (Accumulators input row #1)
                         * ACC2      -> v28-31    (Accumulators input row #2)
@@ -431,9 +385,9 @@ namespace LowPrecision{
 
                         // Load Activations
 #ifdef DISABLE_KERNELS_MEM_ACCESS
-                        "ld1 {v8.16b, v9.16b, v10.16b, v11.16b},  [%[activation]]\n\t"
+                        "ld1 {v8.16b,  v9.16b,  v10.16b, v11.16b}, [%[activation]]\n\t"
 #else
-                        "ld1 {v8.16b, v9.16b, v10.16b, v11.16b},  [%[activation]], #64\n\t"
+                        "ld1 {v8.16b,  v9.16b,  v10.16b, v11.16b}, [%[activation]], #64\n\t"
 #endif
 
                         "mov %w[i], wzr\n\t"
@@ -458,6 +412,13 @@ namespace LowPrecision{
 
                         "1:\n\t"
 
+                        // Load Activations
+#ifdef DISABLE_KERNELS_MEM_ACCESS
+                        "ld1 {v12.16b, v13.16b, v14.16b, v15.16b}, [%[activation]]\n\t"
+#else
+                        "ld1 {v12.16b, v13.16b, v14.16b, v15.16b}, [%[activation]], #64\n\t"
+#endif
+
                         // // SHL WL, W, #4
                         // "shl v8.16b, v0.16b,  #4\n\t"
                         // "shl v9.16b, v1.16b,  #4\n\t"
@@ -476,11 +437,11 @@ namespace LowPrecision{
                         "sshr v6.16b, v2.16b, #4\n\t"
                         "sshr v7.16b, v3.16b, #4\n\t"
 
-                        // SSHR AH, A, #4
-                        "sshr v12.16b, v8.16b,  #4\n\t"
-                        "sshr v13.16b, v9.16b,  #4\n\t"
-                        "sshr v14.16b, v10.16b, #4\n\t"
-                        "sshr v15.16b, v11.16b, #4\n\t"
+                        // // SSHR AH, A, #4
+                        // "sshr v12.16b, v8.16b,  #4\n\t"
+                        // "sshr v13.16b, v9.16b,  #4\n\t"
+                        // "sshr v14.16b, v10.16b, #4\n\t"
+                        // "sshr v15.16b, v11.16b, #4\n\t"
                         
                         // // SSHR WL, WL, #4
                         // "sshr v8.16b, v8.16b, #4\n\t"
@@ -554,18 +515,18 @@ namespace LowPrecision{
                         // Higher half of weight and activations vectors
                         // 
 
-                        // Load Weights
+                        // Load Next Weights
 #ifdef DISABLE_KERNELS_MEM_ACCESS
                         "ld1 {v0.16b, v1.16b, v2.16b, v3.16b},  [%[weights]]\n\t"
 #else
                         "ld1 {v0.16b, v1.16b, v2.16b, v3.16b},  [%[weights]], #64\n\t"
 #endif
 
-                        // Load Activations
+                        // Load Next Activations
 #ifdef DISABLE_KERNELS_MEM_ACCESS
-                        "ld1 {v8.16b, v9.16b, v10.16b, v11.16b},  [%[activation]]\n\t"
+                        "ld1 {v8.16b,  v9.16b,  v10.16b, v11.16b}, [%[activation]]\n\t"
 #else
-                        "ld1 {v8.16b, v9.16b, v10.16b, v11.16b},  [%[activation]], #64\n\t"
+                        "ld1 {v8.16b,  v9.16b,  v10.16b, v11.16b}, [%[activation]], #64\n\t"
 #endif
 
                         // Activation Row #1
@@ -747,7 +708,7 @@ namespace LowPrecision{
                         "b.lt 0b\n\t"
 
                         // Prepare the activation base for next 4 batches
-                        "add x1, x1, %[size], asr #2\n\t"
+                        "add x1, x1, %[size], lsl #2\n\t"
                         
                         // Reset the activations to the start of the row
 #ifdef DISABLE_KERNELS_MEM_ACCESS

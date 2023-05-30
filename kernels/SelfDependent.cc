@@ -4,12 +4,38 @@
 #ifdef IS_ARM
 namespace LowPrecision{
     namespace FullyConnected{
+        LowPrecision::SelfDependentType IsSelfDependent(Method method){
+            switch(method){
+                case LowPrecision::Method::kSelfDependentW4A4:
+                    #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
+                    return LowPrecision::SelfDependentType::W4A4SelfDependent16Offset;
+                    #elif SelfDependent_Type == SelfDependent_Continious
+                    return LowPrecision::SelfDependentType::W4A4SelfDependent;
+                    #endif
+                case LowPrecision::Method::kSelfDependentW8A4:
+                    #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
+                    return LowPrecision::SelfDependentType::W8A4SelfDependent16Offset;
+                    #elif SelfDependent_Type == SelfDependent_Continious
+                    return LowPrecision::SelfDependentType::W8A4SelfDependent;
+                    #endif
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
+                    return LowPrecision::SelfDependentType::W4A8SelfDependent16Offset;
+                    #elif SelfDependent_Type == SelfDependent_Continious
+                    return LowPrecision::SelfDependentType::W4A8SelfDependent;
+                    #endif
+                default:
+                    return LowPrecision::SelfDependentType::NotSelfDependent;
+            }
+        }
         namespace SelfDependent {
             LowPrecision::Status QuantizeFilter(LowPrecision::Method method, const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){
                 switch (method)
                 {
                 case LowPrecision::Method::kSelfDependentW4A4:
                     return LowPrecision::FullyConnected::SelfDependent::W4A4::QuantizeFilter(input, k_shape, output, layout);
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    return LowPrecision::FullyConnected::SelfDependent::W4A8::QuantizeFilter(input, k_shape, output, layout);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -19,6 +45,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kSelfDependentW4A4:
                     return LowPrecision::FullyConnected::SelfDependent::W4A4::QuantizeFilter(input, k_shape, output, layout);
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    return LowPrecision::FullyConnected::SelfDependent::W4A8::QuantizeFilter(input, k_shape, output, layout);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -28,6 +56,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kSelfDependentW4A4:
                     return LowPrecision::FullyConnected::SelfDependent::W4A4::QuantizeInput(input, shape, output, layout);
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    return LowPrecision::FullyConnected::SelfDependent::W4A8::QuantizeInput(input, shape, output, layout);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -37,6 +67,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kSelfDependentW4A4:
                     return LowPrecision::FullyConnected::SelfDependent::W4A4::QuantizeInput(input, shape, output, layout);
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    return LowPrecision::FullyConnected::SelfDependent::W4A8::QuantizeInput(input, shape, output, layout);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -51,6 +83,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kSelfDependentW4A4:
                     return LowPrecision::FullyConnected::SelfDependent::W4A4::MultiplyInt8SingleBatch(input, input_shape, kernel, kernel_shape, output, output_shape);
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    return LowPrecision::FullyConnected::SelfDependent::W4A8::MultiplyInt8SingleBatch(input, input_shape, kernel, kernel_shape, output, output_shape);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -66,6 +100,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kSelfDependentW4A4:
                     return LowPrecision::FullyConnected::SelfDependent::W4A4::MultiplyInt8MultiBatched(input, input_shape, kernel, kernel_shape, output, output_shape);
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    return LowPrecision::FullyConnected::SelfDependent::W4A8::MultiplyInt8MultiBatched(input, input_shape, kernel, kernel_shape, output, output_shape);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -81,6 +117,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kSelfDependentW4A4:
                     return LowPrecision::FullyConnected::SelfDependent::W4A4::MultiplyInt8MultiBatched(input, input_shape, kernel, kernel_shape, output, output_shape);
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    return LowPrecision::FullyConnected::SelfDependent::W4A8::MultiplyInt8MultiBatched(input, input_shape, kernel, kernel_shape, output, output_shape);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -94,15 +132,17 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kSelfDependentW4A4:
                     return LowPrecision::FullyConnected::SelfDependent::W4A4::MultiplyInt8MultiBatchedBlock(input, kernel, output, params);
+                case LowPrecision::Method::kSelfDependentW4A8:
+                    return LowPrecision::FullyConnected::SelfDependent::W4A8::MultiplyInt8MultiBatchedBlock(input, kernel, output, params);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
             }
-            LowPrecision::PreprocessType InputPreProcess()  { return LowPrecision::PreprocessType::PaddingAndPacking; }
-            LowPrecision::PreprocessType FilterPreProcess() { return LowPrecision::PreprocessType::PaddingAndPacking; }
-            LowPrecision::PreprocessType OutputPreProcess() { return OutputPostProcess(); }
-            LowPrecision::PreprocessType OutputPostProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
-            LowPrecision::GEMMType GEMMSupport(){ return LowPrecision::GEMMType::SupportsGEMM; }
+            LowPrecision::PreprocessType InputPreProcess(LowPrecision::Method method)  { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType FilterPreProcess(LowPrecision::Method method) { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType OutputPreProcess(LowPrecision::Method method) { return LowPrecision::FullyConnected::SelfDependent::OutputPostProcess(method); }
+            LowPrecision::PreprocessType OutputPostProcess(LowPrecision::Method method){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
+            LowPrecision::GEMMType GEMMSupport(LowPrecision::Method method){ return LowPrecision::GEMMType::SupportsGEMM; }
         }
     }
 }
