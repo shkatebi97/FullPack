@@ -1655,7 +1655,7 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
         num_outputs           = _num_outputs;
     int _input_shape[1]       = { num_inputs },
         _input_MB_shape[2]    = { num_batches, num_inputs },
-        _kernel_shape[2]      = { num_outputs, num_inputs },
+        _kernel_shape[2]      = { num_inputs,  num_outputs },
         _output_shape[1]      = { num_outputs },
         _output_MB_shape[2]   = { num_batches, num_outputs };
     Shape input_shape         = get_shape(_input_shape,      1),
