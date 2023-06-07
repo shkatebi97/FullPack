@@ -5531,6 +5531,8 @@ int main(int argc, char *argv[]){
                     selected_benchmark_real_multi_gemm_api |= 0x004000; 
                 else if (selected_test == "SelfDependentW4A8")
                     selected_benchmark_real_multi_gemm_api |= 0x008000;
+                else if (selected_test == "SelfDependentW8A4")
+                    selected_benchmark_real_multi_gemm_api |= 0x010000;
             }
         } else
             selected_benchmark_real_multi_gemm_api = 0xffffff;

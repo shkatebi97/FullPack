@@ -2303,6 +2303,25 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                     cout << benchmark_time << ",";
             }
         }
+        if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x010000){ // kSelfDependentW8A4
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW8A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW8A4) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%                                               ";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW8A4) << "' " << ((process_unsinged)?("(Unsigned)"):("")) << "Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
+        }
         if (verbosity == 1)
             cout << endl;
     }
