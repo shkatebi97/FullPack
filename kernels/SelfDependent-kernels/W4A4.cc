@@ -75,8 +75,10 @@ namespace LowPrecision{
                     return Status::Success;
                 }
                 LowPrecision::Status QuantizeInput(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){
-                    if (shape.size[shape.number_dims - 1] % 32)
-                        return Status::SizesMisMatch; 
+                    #if SelfDependent_LHS_Packing != SelfDependent_Simple_Packing
+                    if (shape.size[1] % 2)
+                        return Status::SizesMisMatch;
+                    #endif 
                     if (layout != MemLayout::kRowMajor)
                         return Status::WrongMemLayout;
                     bool is_multibatched = shape.number_dims == 2 && shape.size[0] > 1;
@@ -87,14 +89,18 @@ namespace LowPrecision{
                         std::copy(input, input + (shape.flatsize / 2), output);
                     }
                     else {
+                        #if SelfDependent_LHS_Packing != SelfDependent_ASM_TLB_Packing
+
                         int8_t* temp = output;
                         if (is_multibatched){
                             int new_weights_length = ((int)shape.flatsize / 2);
                             temp = LowPrecision::allocate<int8_t>(new_weights_length);
                         }
-                        int i , size = shape.flatsize;
+                        int i, j , size = shape.flatsize;
                         uint8_t* temp_u = get_pointer_as<uint8_t>(temp);
                         const uint8_t* input_u = get_pointer_as<uint8_t>(input);
+
+                        #endif
                         #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
                         asm volatile(
                             "mov %w[i], wzr\n\t"
@@ -173,22 +179,302 @@ namespace LowPrecision{
                             "w3",  "w4",  "w5",  "w6"
                         );
                         #elif SelfDependent_Type == SelfDependent_Continious
-                        for (size_t i = 0; i < shape.size[0]; i++){
-                            size_t z = 0;
-                            for (size_t j = 2; j < shape.size[1]; j += 2)
-                                temp_u[i * (shape.size[1] / 2) + z++] = (input_u[i * shape.size[0] + (j - 2)] & 0x0F) | 
-                                                                       ((input_u[i * shape.size[0] + (j - 1)] & 0x0F) << 4);
-                            if (shape.size[1] % 2)
-                                temp_u[i * (shape.size[1] / 2) + z++] = input_u[i * shape.size[0] + (shape.size[1] - 1)] & 0x0F;
-                            else
-                                temp_u[i * (shape.size[1] / 2) + z++] = (input_u[i * shape.size[0] + (shape.size[1] - 2)] & 0x0F) | 
-                                                                       ((input_u[i * shape.size[0] + (shape.size[1] - 1)] & 0x0F) << 4);
-                        }
-                        #endif
+                        #if SelfDependent_LHS_Packing == SelfDependent_Simple_Packing
+                        
+                        if (shape.size[1] % 2)
+                            for (size_t i = 0; i < shape.size[0]; i++){
+                                size_t z = 0;
+                                for (size_t j = 0; j < shape.size[1] - 1; j += 2){
+                                    temp_u[i * (shape.size[1] / 2) + z++] = (input_u[i * shape.size[1] + (j    )] & 0x0F) | 
+                                                                           ((input_u[i * shape.size[1] + (j + 1)] & 0x0F) << 4);
+                                }
+                                temp_u[i * (shape.size[1] / 2) + z++] =      input_u[(i + 1) * shape.size[1] - 1] & 0x0F;
+                            }
+                        else
+                            for (size_t i = 0; i < shape.size[0]; i++){
+                                size_t z = 0;
+                                for (size_t j = 0; j < shape.size[1]; j += 2){
+                                    temp_u[i * (shape.size[1] / 2) + z++] = (input_u[i * shape.size[1] + (j    )] & 0x0F) | 
+                                                                           ((input_u[i * shape.size[1] + (j + 1)] & 0x0F) << 4);
+                                }
+                            }
                         if (is_multibatched){
                             doLowPrecisionWeightPack(temp, output, shape.size[0], shape.size[1] / 2);
                             LowPrecision::deallocate(temp);
                         }
+
+                        #elif SelfDependent_LHS_Packing == SelfDependent_ASM_Packing
+                        
+                        /*  x0  <-  i
+                            x1  <-  j       (Not using currently)
+                            x2  <-  K/2     (Not using currently)
+                            X3  <-  M * K
+                            X4  <-  input
+                            X5  <-  output
+                            x6  <-  In_data_1
+                            x7  <-  In_data_2
+                            x8  <-  Out_data
+                            x9  <-  Mask
+                            x10 <-  Temporary_1
+                        */
+                        #define SelfDependent_InputPacking_PackSingleElement_ShiftRight(num_shift)  \
+                            "and x10, x6, x9\n\t"                                                   \
+                            "lsr x10, x10, #" #num_shift "\n\t"                                     \
+                            "orr x8,  x8,  x10\n\t"                                                 \
+                            "lsl x9,  x9,  #8\n\t"
+                        #define SelfDependent_InputPacking_PackSingleElement_ShiftLeft(num_shift)   \
+                            "and x10, x7, x9\n\t"                                                   \
+                            "lsl x10, x10, #" #num_shift "\n\t"                                     \
+                            "orr x8,  x8,  x10\n\t"                                                 \
+                            "lsl x9,  x9,  #8\n\t"
+                        asm volatile(
+                            "mov x0, xzr\n\t"
+                            "mov x1, xzr\n\t"
+                            "mov x2, xzr\n\t"
+                            "add x2, x2, %x[K], asr #1\n\t"
+                            "mul x3, %x[K], %x[M]\n\t"
+                            "mov x4, %x[input]\n\t"
+                            "mov x5, %x[output]\n\t"
+
+                            // Load first 64-bit data
+                            "ldr x6, [x4], #8\n\t"
+                            
+                            // Main Loop
+                            "0:\n\t"
+
+                            // Reset Mask
+                            "mov x9, #0x0F\n\t"
+
+                            // O[0] |= (I[7:0] & 0x000000000000000F) >> (0 * 4 = 0)
+                            "and x8, x6, x9\n\t"
+                            "lsl x9,  x9,  #8\n\t"
+
+                            // O[0] |= (I[7:0] & 0x0000000000000F00) >> (1 * 4 = 4)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftRight(4)
+
+                            // O[1] |= (I[7:0] & 0x00000000000F0000) >> (2 * 4 = 8)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftRight(8)
+
+                            // O[1] |= (I[7:0] & 0x000000000F000000) >> (3 * 4 = 12)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftRight(12)
+
+                            // Load second 64-bit data
+                            "ldr x7, [x4], #8\n\t"
+
+                            // O[2] |= (I[7:0] & 0x0000000F00000000) >> (4 * 4 = 16)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftRight(16)
+
+                            // O[2] |= (I[7:0] & 0x00000F0000000000) >> (5 * 4 = 20)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftRight(20)
+
+                            // O[3] |= (I[7:0] & 0x000F000000000000) >> (6 * 4 = 24)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftRight(24)
+
+                            // O[3] |= (I[7:0] & 0x0F00000000000000) >> (7 * 4 = 28)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftRight(28)
+                            
+                            // Second 64-bit Data
+                            // Reset Mask
+                            "mov x9, #0x0F\n\t"
+
+                            // O[4] |= (I[7:0] & 0x000000000000000F) << (8 * 4 = 32)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftLeft(32)
+
+                            // O[4] |= (I[7:0] & 0x0000000000000F00) >> (7 * 4 = 28)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftLeft(28)
+
+                            // O[5] |= (I[7:0] & 0x00000000000F0000) >> (6 * 4 = 24)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftLeft(24)
+
+                            // O[5] |= (I[7:0] & 0x000000000F000000) >> (5 * 4 = 20)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftLeft(20)
+
+                            // Load second 64-bit data
+                            "ldr x6, [x4], #8\n\t"
+
+                            // O[6] |= (I[7:0] & 0x0000000F00000000) >> (4 * 4 = 16)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftLeft(16)
+
+                            // O[6] |= (I[7:0] & 0x00000F0000000000) >> (3 * 4 = 12)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftLeft(12)
+
+                            // O[7] |= (I[7:0] & 0x000F000000000000) >> (2 * 4 = 8)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftLeft(8)
+
+                            // O[7] |= (I[7:0] & 0x0F00000000000000) >> (1 * 4 = 4)
+                            SelfDependent_InputPacking_PackSingleElement_ShiftLeft(4)
+
+                            // Store 64-bit data
+                            "str x8, [x5], #8\n\t"
+
+                            "add x0, x0, #16\n\t"
+                            "cmp x0, x3\n\t"
+                            "b.lt 0b\n\t"
+
+                            : 
+                            : [ input ]  "r" (input), [ K ] "r"(shape.size[1]), [ M ] "r"(shape.size[0]), [ output ] "r"(temp)
+                            : "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "v0", "v1", "v2"
+                        );
+                        if (is_multibatched){
+                            doLowPrecisionWeightPack(temp, output, shape.size[0], shape.size[1] / 2);
+                            LowPrecision::deallocate(temp);
+                        }
+                        #undef SelfDependent_InputPacking_PackSingleElement_ShiftRight
+                        #undef SelfDependent_InputPacking_PackSingleElement_ShiftLeft
+
+                        #elif SelfDependent_LHS_Packing == SelfDependent_ASM_TLB_Packing
+                        
+                        uint64_t mask_half_1 = 0x0E0C0A0806040200,
+                                 mask_half_2 = 0x1E1C1A1816141210,
+                                 mask_and    = 0x0101010101010101;
+                        /*  
+                            x0  <-  i
+                            x1  <-  j
+                            x2  <-  K/2     (Not using currently)
+                            X3  <-  M * K
+                            X4  <-  input
+                            X5  <-  output
+                            x6  <-  Mask_Lower_Half  Register
+                            x7  <-  Mask_Higher_Half Register
+                            x8  <-  Input Pointer #1
+                            x9  <-  Input Pointer #2
+                            x10 <-  Input Pointer #3
+                            x11 <-  Input Pointer #4
+                            -------------------------------------------------------------
+                            v12 <-  Mask Even Vector (0,2,4,...,30)
+                            v13 <-  Mask Odd  Vector (1,3,5,...,31)
+                            v14 <-  AND Mask
+                            v0  <-  Input Row #1 First 16-bytes Vector
+                            v2  <-  Input Row #2 First 16-bytes Vector
+                            v4  <-  Input Row #3 First 16-bytes Vector
+                            v6  <-  Input Row #4 First 16-bytes Vector
+                            v1  <-  Input Row #1 Second 16-bytes Vector
+                            v3  <-  Input Row #2 Second 16-bytes Vector
+                            v5  <-  Input Row #3 Second 16-bytes Vector
+                            v7  <-  Input Row #4 Second 16-bytes Vector
+                            v8  <-  Output Row #1 Vector
+                            v9  <-  Output Row #2 Vector
+                            v10 <-  Output Row #3 Vector
+                            v11 <-  Output Row #4 Vector
+                            v15 <-  Extracted Even values
+                            v16 <-  Extracted Odd values
+                        */
+                        asm volatile(
+                            "mov x0, xzr\n\t"
+                            "mov x1, xzr\n\t"
+                            "mov x2, xzr\n\t"
+                            "add x2, x2, %x[K], asr #1\n\t"
+                            "mul x3, %x[K], %x[M]\n\t"
+                            "mov x4, %x[input]\n\t"
+                            "mov x5, %x[output]\n\t"
+
+                            // Preparing Input Pointers
+                            "mov x8,  %x[input]\n\t"
+                            "add x9,  x8,  %x[K]\n\t"
+                            "add x10, x9,  %x[K]\n\t"
+                            "add x11, x10, %x[K]\n\t"
+
+                            // Preparing AND Mask
+                            "movi v14.16b, #0x0F\n\t"
+                            
+                            // Preparing Even Mask Values
+                            "mov x6, %[MH1]\n\t"
+                            "mov x7, %[MH2]\n\t"
+
+                            // Even Mask Vector
+                            "mov v12.d[0], x6\n\t"
+                            "mov v12.d[1], x7\n\t"
+
+                            // Preparing Odd Mask Values
+                            "add x6, x6, %[MA]\n\t"
+                            "add x7, x7, %[MA]\n\t"
+
+                            // Odd Mask Vector
+                            "mov v13.d[0], x6\n\t"
+                            "mov v13.d[1], x7\n\t"
+
+                            // Outer Loop
+                            "0:\n\t"
+
+                            // Load first 256-bit data
+                            "ld1 {v0.16b, v1.16b}, [x8],  #32\n\t"
+                            "ld1 {v2.16b, v3.16b}, [x9],  #32\n\t"
+                            "ld1 {v4.16b, v5.16b}, [x10], #32\n\t"
+                            "ld1 {v6.16b, v7.16b}, [x11], #32\n\t"
+                            
+                            // Main Loop (Inner)
+                            "1:\n\t"
+
+                            // Extract Even Values
+                            "tbl v15.16b, {v0.16b, v1.16b}, v12.16b\n\t"
+                            "tbl v17.16b, {v2.16b, v3.16b}, v12.16b\n\t"
+                            "tbl v19.16b, {v4.16b, v5.16b}, v12.16b\n\t"
+                            "tbl v21.16b, {v6.16b, v7.16b}, v12.16b\n\t"
+
+                            // Extract Odd Values
+                            "tbl v16.16b, {v0.16b, v1.16b}, v13.16b\n\t"
+                            "tbl v18.16b, {v2.16b, v3.16b}, v13.16b\n\t"
+                            "tbl v20.16b, {v4.16b, v5.16b}, v13.16b\n\t"
+                            "tbl v22.16b, {v6.16b, v7.16b}, v13.16b\n\t"
+
+                            // Load first 256-bit data
+                            "ld1 {v0.16b, v1.16b}, [x8],  #32\n\t"
+                            "ld1 {v2.16b, v3.16b}, [x9],  #32\n\t"
+                            "ld1 {v4.16b, v5.16b}, [x10], #32\n\t"
+                            "ld1 {v6.16b, v7.16b}, [x11], #32\n\t"
+
+                            // Shift Odd Values
+                            "shl v16.16b, v16.16b, #4\n\t"
+                            "shl v18.16b, v18.16b, #4\n\t"
+                            "shl v20.16b, v20.16b, #4\n\t"
+                            "shl v22.16b, v22.16b, #4\n\t"
+
+                            // Mask even Values
+                            "and v15.16b, v15.16b, v14.16b\n\t"
+                            "and v17.16b, v17.16b, v14.16b\n\t"
+                            "and v19.16b, v19.16b, v14.16b\n\t"
+                            "and v21.16b, v21.16b, v14.16b\n\t"
+
+                            // Merge into one vector
+                            "orr v8.16b,  v15.16b, v16.16b\n\t"
+                            "orr v9.16b,  v17.16b, v18.16b\n\t"
+                            "orr v10.16b, v19.16b, v20.16b\n\t"
+                            "orr v11.16b, v21.16b, v22.16b\n\t"
+
+                            // Store 128-bit data
+                            "st1 {v8.16b},  [x5], #16\n\t"
+                            "st1 {v9.16b},  [x5], #16\n\t"
+                            "st1 {v10.16b}, [x5], #16\n\t"
+                            "st1 {v11.16b}, [x5], #16\n\t"
+                            
+                            // Increase the loop counter by 32
+                            "add x0, x0, #32\n\t"
+                            // Check if we already iterated enough
+                            "cmp x0, %x[K]\n\t"
+                            // Branch to the start of the loop if not finished
+                            "b.lt 1b\n\t"
+
+                            // Preparing Next Input Pointers
+                            "mov x8,  x11\n\t"
+                            "add x9,  x8,  %x[K]\n\t"
+                            "add x10, x9,  %x[K]\n\t"
+                            "add x11, x10, %x[K]\n\t"
+                            
+                            // Increase the loop counter by 32
+                            "add x1, x1, #4\n\t"
+                            // Check if we already iterated enough
+                            "cmp x1, %x[M]\n\t"
+                            // Branch to the start of the loop if not finished
+                            "b.lt 0b\n\t"
+
+                            : 
+                            : [ input ]  "r" (input), [ K ] "r"(shape.size[1]), [ M ] "r"(shape.size[0]), [ output ] "r"(output),
+                              [ MH1 ] "r"(mask_half_1), [ MH2 ] "r"(mask_half_2), [ MA ] "r"(mask_and)
+                            : "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v12", "v13", "v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22"
+                        );
+
+                        #endif
+                        #endif
                     }
                     return Status::Success;
                 }

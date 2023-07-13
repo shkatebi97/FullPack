@@ -4,26 +4,9 @@
 namespace LowPrecision{
     namespace FullyConnected{
         namespace SelfDependent {
-            namespace W8A4{
-                #define SelfDependent_Vector_Size 16
-                #define TO_STRING_HELPER(X)   #X
-                #define TO_STRING(X)          TO_STRING_HELPER(X)
-
-                // Define loop unrolling depending on the compiler
-                #if defined(__ICC) || defined(__ICL)
-                #define UNROLL_LOOP(n)      _Pragma(TO_STRING(unroll (n)))
-                #elif defined(__clang__)
-                #define UNROLL_LOOP(n)      _Pragma(TO_STRING(unroll (n)))
-                #elif defined(__GNUC__) && !defined(__clang__)
-                #define UNROLL_LOOP(n)      _Pragma(TO_STRING(GCC unroll (n)))
-                #elif defined(_MSC_BUILD)
-                #pragma message ("Microsoft Visual C++ (MSVC) detected: Loop unrolling not supported!")
-                #define UNROLL_LOOP(n)
-                #else
-                #warning "Unknown compiler: Loop unrolling not supported!"
-                #define UNROLL_LOOP(n)
-                #endif
+            namespace W2A2{ // TODO: Implement this.
                 LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){
+                    return LowPrecision::Status::NotUpdated;
                     if (k_shape.number_dims != 2)
                         return Status::DimensionsMisMatch;
                     if (k_shape.size[0] % 4)
@@ -34,33 +17,44 @@ namespace LowPrecision{
                         doLowPrecisionWeightPack(const_cast<int8_t*>(input), output, k_shape.size[0] / 2, k_shape.size[1]);
                     }
                     else {
-                        int new_weights_length = k_shape.flatsize;
+                        int new_weights_length = (k_shape.size[0] / 2) * k_shape.size[1];
                         int8_t* temp = LowPrecision::allocate<int8_t>(new_weights_length);
                         uint8_t* temp_u = get_pointer_as<uint8_t>(temp);
                         int i , size = k_shape.flatsize;
                         const uint8_t* input_u = get_pointer_as<uint8_t>(input);
+                        
                         #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
-                        // QuantizeInput with 'SelfDependent_Type == SelfDependent_Offset_Vector_Size' is not defined yet.
-                        return LowPrecision::Status::NotImplemented;
+                        for (size_t i = 0; i < k_shape.size[0]; i += 32)
+                            for (size_t j = 0; j < 16; j++)
+                                for (size_t z = 0; z < k_shape.size[1]; z++)
+                                    temp_u[((i / 2) + j) * k_shape.size[1] + z] = (input_u[z * k_shape.size[0] + (i + j     )] & 0x0F) | 
+                                                                                ((input_u[z * k_shape.size[0] + (i + j + 16)] & 0x0F) << 4);
                         #elif SelfDependent_Type == SelfDependent_Continious
-                        for (size_t j = 0; j < k_shape.size[1]; j++){
-                            for (size_t i = 0; i < k_shape.size[0]; i += 2 * SelfDependent_Vector_Size){
-                                UNROLL_LOOP(SelfDependent_Vector_Size)
-                                for (size_t k = 0; k < SelfDependent_Vector_Size; k++){
-                                    temp_u[j * k_shape.size[0] + i                             + k] = input_u[(i + (2 * k)    ) * k_shape.size[1] + j];
-                                    temp_u[j * k_shape.size[0] + i + SelfDependent_Vector_Size + k] = input_u[(i + (2 * k) + 1) * k_shape.size[1] + j];
-                                }
+                        size_t z = 0;
+                        for (size_t i = 2; i < k_shape.size[0]; i += 2){
+                            for (size_t j = 0; j < k_shape.size[1]; j++){
+                                temp_u[j * k_shape.size[0] / 2 + z] = (input_u[(i - 2) * k_shape.size[1] + j] & 0x0F) | 
+                                                                 ((input_u[(i - 1) * k_shape.size[1] + j] & 0x0F) << 4);
                             }
+                            z++;
                         }
+                        if (k_shape.size[0] % 2)
+                            for (size_t j = 0; j < k_shape.size[1]; j++)
+                                temp_u[j * k_shape.size[0] / 2 + z] = input_u[j * k_shape.size[0] + (k_shape.size[0] - 1)] & 0x0F;
+                        else
+                            for (size_t j = 0; j < k_shape.size[1]; j++)
+                                temp_u[j * k_shape.size[0] / 2 + z] = (input_u[(k_shape.size[0] - 2) * k_shape.size[1] + j] & 0x0F) |
+                                                                 ((input_u[(k_shape.size[0] - 1) * k_shape.size[1] + j] & 0x0F) << 4);
                         #endif
                         Shape k_shape_T;
                         k_shape_T = k_shape.T();
-                        doLowPrecisionWeightPack(temp, output, k_shape_T.size[0], k_shape_T.size[1]);
+                        doLowPrecisionWeightPack(temp, output, k_shape_T.size[0], k_shape_T.size[1] / 2);
                         LowPrecision::deallocate(temp);
                     }
                     return Status::Success;
                 }
                 LowPrecision::Status QuantizeFilter(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout){
+                    return LowPrecision::Status::NotUpdated;
                     if (k_shape.number_dims != 2)
                         return Status::DimensionsMisMatch;
                     if (k_shape.size[0] % 4)
@@ -83,6 +77,7 @@ namespace LowPrecision{
                     return Status::Success;
                 }
                 LowPrecision::Status QuantizeInput(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){
+                    return LowPrecision::Status::NotUpdated;
                     #if SelfDependent_LHS_Packing != SelfDependent_Simple_Packing
                     if (shape.size[1] % 2)
                         return Status::SizesMisMatch;
@@ -97,6 +92,8 @@ namespace LowPrecision{
                         std::copy(input, input + (shape.flatsize / 2), output);
                     }
                     else {
+                        #if SelfDependent_LHS_Packing != SelfDependent_ASM_TLB_Packing
+
                         int8_t* temp = output;
                         if (is_multibatched){
                             int new_weights_length = ((int)shape.flatsize / 2);
@@ -105,9 +102,9 @@ namespace LowPrecision{
                         int i, j , size = shape.flatsize;
                         uint8_t* temp_u = get_pointer_as<uint8_t>(temp);
                         const uint8_t* input_u = get_pointer_as<uint8_t>(input);
-                        
+
+                        #endif
                         #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
-                        
                         asm volatile(
                             "mov %w[i], wzr\n\t"
                             "movi v31.16b, #15\n\t"
@@ -180,7 +177,9 @@ namespace LowPrecision{
 
                             : [ i ] "+r"(i)
                             : [ input ]  "r" (input), [ size ] "r"(size), [ output ] "r"(temp)
-                            : "v0",  "v1",  "v2",  "v3", "v28", "v29", "v30", "v31", "w3",  "w4",  "w5",  "w6"
+                            : "v0",  "v1",  "v2",  "v3",
+                            "v28", "v29", "v30", "v31",
+                            "w3",  "w4",  "w5",  "w6"
                         );
                         #elif SelfDependent_Type == SelfDependent_Continious
                         #if SelfDependent_LHS_Packing == SelfDependent_Simple_Packing
@@ -325,7 +324,7 @@ namespace LowPrecision{
                         }
                         #undef SelfDependent_InputPacking_PackSingleElement_ShiftRight
                         #undef SelfDependent_InputPacking_PackSingleElement_ShiftLeft
-                        
+
                         #elif SelfDependent_LHS_Packing == SelfDependent_ASM_TLB_Packing
                         
                         uint64_t mask_half_1 = 0x0E0C0A0806040200,
@@ -476,13 +475,14 @@ namespace LowPrecision{
                               [ MH1 ] "r"(mask_half_1), [ MH2 ] "r"(mask_half_2), [ MA ] "r"(mask_and)
                             : "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v12", "v13", "v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22"
                         );
-                        
+
                         #endif
                         #endif
                     }
                     return Status::Success;
                 }
                 LowPrecision::Status QuantizeInput(const uint8_t* input, LowPrecision::Shape shape, uint8_t* output, LowPrecision::MemLayout layout){
+                    return LowPrecision::Status::NotUpdated;
                     if (shape.size[shape.number_dims - 1] % 32)
                         return Status::SizesMisMatch; 
                     if (layout != MemLayout::kRowMajor)
@@ -661,6 +661,7 @@ namespace LowPrecision{
                     int32_t* output, LowPrecision::Shape output_shape,
                     LowPrecision::MulParams params
                 ){
+                    return LowPrecision::Status::NotUpdated;
                     int lhs_batches = input_shape.size[0],
                         lhs_columns = input_shape.size[1],
                         rhs_rows    = kernel_shape.size[0],
@@ -748,13 +749,6 @@ namespace LowPrecision{
 
                         "1:\n\t"
 
-                        // Load Weights
-#ifdef DISABLE_KERNELS_MEM_ACCESS
-                        "ld1 {v4.16b, v5.16b, v6.16b, v7.16b},  [%[weights]]\n\t"
-#else
-                        "ld1 {v4.16b, v5.16b, v6.16b, v7.16b},  [%[weights]], #64\n\t"
-#endif
-
                         // // SHL WL, W, #4
                         // "shl v8.16b, v0.16b,  #4\n\t"
                         // "shl v9.16b, v1.16b,  #4\n\t"
@@ -767,11 +761,11 @@ namespace LowPrecision{
                         // "shl v14.16b, v6.16b,  #4\n\t"
                         // "shl v15.16b, v7.16b,  #4\n\t"
 
-                        // // SSHR WH, W, #4
-                        // "sshr v4.16b, v0.16b, #4\n\t"
-                        // "sshr v5.16b, v1.16b, #4\n\t"
-                        // "sshr v6.16b, v2.16b, #4\n\t"
-                        // "sshr v7.16b, v3.16b, #4\n\t"
+                        // SSHR WH, W, #4
+                        "sshr v4.16b, v0.16b, #4\n\t"
+                        "sshr v5.16b, v1.16b, #4\n\t"
+                        "sshr v6.16b, v2.16b, #4\n\t"
+                        "sshr v7.16b, v3.16b, #4\n\t"
 
                         // SSHR AH, A, #4
                         "sshr v12.16b, v8.16b,  #4\n\t"
@@ -1044,7 +1038,7 @@ namespace LowPrecision{
                         "b.lt 0b\n\t"
 
                         // Prepare the activation base for next 4 batches
-                        "add x1, x1, %[size], lsl #1\n\t"
+                        "add x1, x1, %[size], asr #2\n\t"
                         
                         // Reset the activations to the start of the row
 #ifdef DISABLE_KERNELS_MEM_ACCESS
@@ -1874,7 +1868,7 @@ namespace LowPrecision{
 namespace LowPrecision{
     namespace FullyConnected{
         namespace SelfDependent {
-            namespace W4A4{
+            namespace W2A2{
                 LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
                 LowPrecision::Status QuantizeFilter(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
                 LowPrecision::Status QuantizeInput(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
