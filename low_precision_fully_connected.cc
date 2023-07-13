@@ -1506,7 +1506,6 @@ namespace LowPrecision{
                 new_shape.flatsize = ::LowPrecision::FullyConnected::CalcFlatSize(new_shape.size, 1);
                 return new_shape;
             }
-            int padding_size = (input_shape.size[1] % least_dim_size)?(least_dim_size - (input_shape.size[1] % least_dim_size)):(0);
             Shape new_shape;
             new_shape.number_dims = input_shape.number_dims;
             new_shape.size = new int[new_shape.number_dims];
