@@ -307,10 +307,11 @@ typedef enum {
     kULPPACKW7A7                    = 0x0080000000,
     kInt8ActInt8WeightBarrelShiftMul= 0x0100000000,
     k8x8                            = 0x01fe000000,
-    kSelfDependent                  = 0x0e00000000,
+    kSelfDependent                  = 0x1e00000000,
     kSelfDependentW4A4              = 0x0200000000,
     kSelfDependentW4A8              = 0x0400000000,
     kSelfDependentW8A4              = 0x0800000000,
+    kSelfDependentW2A2              = 0x1000000000,
 } Method;
 
 inline const char* get_method_string(Method method){
@@ -431,6 +432,9 @@ inline const char* get_method_string(Method method){
     case kSelfDependentW8A4:
         strcpy(output, std::string("SelfDependentW8A4").c_str());
         break;
+    case kSelfDependentW2A2:
+        strcpy(output, std::string("SelfDependentW2A2").c_str());
+        break;
     default:
         strcpy(output, std::string("NotDefined").c_str());
         break;
@@ -512,6 +516,8 @@ typedef enum {
 
 inline int get_self_dependent_A_num_shifts(SelfDependentType type){ return type & 0x0000ff; }
 inline int get_self_dependent_W_num_shifts(SelfDependentType type){ return (type & 0x00ff00) >> 8; }
+inline int get_self_dependent_A_data_count(SelfDependentType type){ return 8 / (type & 0x00000f); }
+inline int get_self_dependent_W_data_count(SelfDependentType type){ return 8 / ((type & 0x000f00) >> 8); }
 
 inline int get_self_dependent_offset(SelfDependentType type){ 
     switch ((type & 0xff0000) >> 16){

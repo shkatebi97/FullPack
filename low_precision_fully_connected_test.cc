@@ -113,6 +113,8 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
 
         int self_dependent_shifts_A = LowPrecision::get_self_dependent_A_num_shifts(self_dependent_type);
         int self_dependent_shifts_W = LowPrecision::get_self_dependent_W_num_shifts(self_dependent_type);
+        int self_dependent_counts_A = LowPrecision::get_self_dependent_A_data_count(self_dependent_type);
+        int self_dependent_counts_W = LowPrecision::get_self_dependent_W_data_count(self_dependent_type);
         int self_dependent_offset = LowPrecision::get_self_dependent_offset(self_dependent_type);
         To shift_value_A = pow(2, self_dependent_shifts_A);
         To shift_value_W = pow(2, self_dependent_shifts_W);
@@ -131,10 +133,45 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
                             else
                                 output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
                         else
-                            if (k % 2 == 0 && k + self_dependent_offset < K)
-                                output[m * o_offset + n] += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + k + 1]) * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + 1) * k_offset + n]);
-                            else
-                                output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+                            if (self_dependent_counts_A == self_dependent_counts_W)
+                                if (self_dependent_counts_A == 2)
+                                    if (k % 2 == 0 && k + self_dependent_offset < K)
+                                        output[m * o_offset + n] += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + k + 1]) * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + 1) * k_offset + n]);
+                                    else
+                                        output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
+                                else if (self_dependent_counts_A == 4)
+                                    if (k % 4 == 0 && k + self_dependent_offset < K)
+                                        output[m * o_offset + n] += (
+                                                0 * shift_value_A * input[m * i_offset + k + 0] + 
+                                                1 * shift_value_A * input[m * i_offset + k + 1] +
+                                                2 * shift_value_A * input[m * i_offset + k + 2] +
+                                                3 * shift_value_A * input[m * i_offset + k + 3]
+                                            ) * (
+                                                0 * shift_value_W * kernel[(k + 0) * k_offset + n] +
+                                                1 * shift_value_W * kernel[(k + 1) * k_offset + n] +
+                                                2 * shift_value_W * kernel[(k + 2) * k_offset + n] +
+                                                3 * shift_value_W * kernel[(k + 3) * k_offset + n]
+                                            );
+                                    else if (k % 4 == 1 && k + self_dependent_offset < K)
+                                        output[m * o_offset + n] += (
+                                                0 * shift_value_A * input[m * i_offset + k + 0] + 
+                                                1 * shift_value_A * input[m * i_offset + k + 1] +
+                                                2 * shift_value_A * input[m * i_offset + k + 2]
+                                            ) * (
+                                                0 * shift_value_W * kernel[(k + 0) * k_offset + n] +
+                                                1 * shift_value_W * kernel[(k + 1) * k_offset + n] +
+                                                2 * shift_value_W * kernel[(k + 2) * k_offset + n]
+                                            );
+                                    else if (k % 4 == 2 && k + self_dependent_offset < K)
+                                        output[m * o_offset + n] += (
+                                                0 * shift_value_A * input[m * i_offset + k + 0] + 
+                                                1 * shift_value_A * input[m * i_offset + k + 1]
+                                            ) * (
+                                                0 * shift_value_W * kernel[(k + 0) * k_offset + n] +
+                                                1 * shift_value_W * kernel[(k + 1) * k_offset + n]
+                                            );
+                                    else
+                                        output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
         } else if (self_dependent_shifts_A == 0){
             std::cout << " (met self_dependent_shifts_A == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
             for (size_t m = 0; m < M; m++)
@@ -5367,6 +5404,8 @@ int main(int argc, char *argv[]){
                     test_gemm_api |= 0x008000; 
                 else if (selected_test == "SelfDependentW8A4")
                     test_gemm_api |= 0x010000; 
+                else if (selected_test == "SelfDependentW2A2")
+                    test_gemm_api |= 0x020000; 
             }
         } else
             test_gemm_api = 0xffffff;
@@ -6915,6 +6954,8 @@ int main(int argc, char *argv[]){
             run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A8);
         if (test_gemm_api &  0x010000)
             run_gemm_api_tests(LowPrecision::Method::kSelfDependentW8A4);
+        if (test_gemm_api &  0x020000)
+            run_gemm_api_tests(LowPrecision::Method::kSelfDependentW2A2);
     }
 
     benchmark_mode_t benchmark_mode;
