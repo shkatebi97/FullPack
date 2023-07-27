@@ -205,7 +205,7 @@ namespace LowPrecision{
             }
             LowPrecision::PreprocessType InputPreProcess() { return LowPrecision::PreprocessType::PaddingAndPacking; }
             LowPrecision::PreprocessType FilterPreProcess(){ return LowPrecision::PreprocessType::PaddingAndPacking; }
-            LowPrecision::PreprocessType OutputPreProcess(){ return LowPrecision::FullyConnected::Int8InputsInt8WeightsBarrelShiftMul::OutputPostProcess(); }
+            LowPrecision::PreprocessType OutputPreProcess(){ return LowPrecision::FullyConnected::ULPPACK::OutputPostProcess(); }
             LowPrecision::PreprocessType OutputPostProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery; }
             LowPrecision::GEMMType GEMMSupport(){ return LowPrecision::GEMMType::SupportsGEMM; }
         }
