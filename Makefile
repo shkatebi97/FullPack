@@ -216,6 +216,9 @@ kernels/SelfDependent.o:							kernels/SelfDependent.cc \
 													common/types.h \
 													common/flags.h \
 													kernels/SelfDependent-kernels/W4A4.o \
+													kernels/SelfDependent-kernels/W4A8.o \
+													kernels/SelfDependent-kernels/W8A4.o \
+													kernels/SelfDependent-kernels/W2A2.o \
 													low_precision_fully_connected.h \
 													Makefile
 	$(CXX) kernels/SelfDependent.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent.o -c
