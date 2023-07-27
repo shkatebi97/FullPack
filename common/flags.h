@@ -43,4 +43,11 @@
 #define SelfDependent_LHS_Packing SelfDependent_ASM_TLB_Packing
 #define SelfDependent_RHS_Packing SelfDependent_Simple_Packing
 
+
+#define BarrelShiftMulW8A8_SimpleUnpack 0
+#define BarrelShiftMulW8A8_InKernelUnpack 1
+#define BarrelShiftMulW8A8_UnpackWithSmallStore 1
+#define BarrelShiftMulW8A8_UnpackWithTLB 0 // This is not implemented!
+#define BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad 0
+
 #endif

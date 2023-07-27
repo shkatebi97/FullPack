@@ -271,47 +271,52 @@ inline MatrixSize matrix_size_number_to_value(int x){
 }
 
 typedef enum {
-    kNoOptimization                 = 0x0000000000,
-    kLogMultiplication              = 0x0000000001,
-    kFloatMultiplication            = 0x0000000002,
-    kHybridFusedLogMultiplication   = 0x0000000004,
-    kFloatRuyMultiplication         = 0x0000000008,
-    kLogFusedMultiplication         = 0x0000000010,
-    kInt8Multiplication             = 0x0000000020,
-    kInt8Shift                      = 0x0000000040,
-    kInt8Binary                     = 0x0000000080,
-    kFloat32Binary                  = 0x0000000100,
-    kFloat16Binary                  = 0x0000000200,
-    kInt8Ternary                    = 0x0000000400,
-    kFloat32Ternary                 = 0x0000000800,
-    kFloat16Ternary                 = 0x0000001000,
-    kInt8QuaTernary                 = 0x0000002000,
-    kInt8Int4                       = 0x0000004000,
-    kInt8ShiftInt4                  = 0x0000008000,
-    kInt4ActInt8Weight              = 0x0000010000,
-    kInt4ActInt4Weight              = 0x0000020000,
-    kTernaryActInt8Weight           = 0x0000040000,
-    kTernaryActTernaryWeight        = 0x0000080000,
-    kBinaryActInt8Weight            = 0x0000100000,
-    kBinaryActBinaryWeight          = 0x0000200000,
-    kBinaryActBinaryWeightXOR       = 0x0000400000,
-    kInt3ActInt3Weight              = 0x0000800000,
-    kInt8ActInt4PowerWeights        = 0x0001000000,
-    kULPPACK                        = 0x00fe000000,
-    kULPPACKW1A1                    = 0x0002000000,
-    kULPPACKW2A2                    = 0x0004000000,
-    kULPPACKW3A3                    = 0x0008000000,
-    kULPPACKW4A4                    = 0x0010000000,
-    kULPPACKW5A5                    = 0x0020000000,
-    kULPPACKW6A6                    = 0x0040000000,
-    kULPPACKW7A7                    = 0x0080000000,
-    kInt8ActInt8WeightBarrelShiftMul= 0x0100000000,
-    k8x8                            = 0x01fe000000,
-    kSelfDependent                  = 0x1e00000000,
-    kSelfDependentW4A4              = 0x0200000000,
-    kSelfDependentW4A8              = 0x0400000000,
-    kSelfDependentW8A4              = 0x0800000000,
-    kSelfDependentW2A2              = 0x1000000000,
+    kNoOptimization                 = 0x000000000000,
+    kLogMultiplication              = 0x000000000001,
+    kFloatMultiplication            = 0x000000000002,
+    kHybridFusedLogMultiplication   = 0x000000000004,
+    kFloatRuyMultiplication         = 0x000000000008,
+    kLogFusedMultiplication         = 0x000000000010,
+    kInt8Multiplication             = 0x000000000020,
+    kInt8Shift                      = 0x000000000040,
+    kInt8Binary                     = 0x000000000080,
+    kFloat32Binary                  = 0x000000000100,
+    kFloat16Binary                  = 0x000000000200,
+    kInt8Ternary                    = 0x000000000400,
+    kFloat32Ternary                 = 0x000000000800,
+    kFloat16Ternary                 = 0x000000001000,
+    kInt8QuaTernary                 = 0x000000002000,
+    kInt8Int4                       = 0x000000004000,
+    kInt8ShiftInt4                  = 0x000000008000,
+    kInt4ActInt8Weight              = 0x000000010000,
+    kInt4ActInt4Weight              = 0x000000020000,
+    kTernaryActInt8Weight           = 0x000000040000,
+    kTernaryActTernaryWeight        = 0x000000080000,
+    kBinaryActInt8Weight            = 0x000000100000,
+    kBinaryActBinaryWeight          = 0x000000200000,
+    kBinaryActBinaryWeightXOR       = 0x000000400000,
+    kInt3ActInt3Weight              = 0x000000800000,
+    kInt8ActInt4PowerWeights        = 0x000001000000,
+    kULPPACK                        = 0x0000fe000000,
+    kULPPACKW1A1                    = 0x000002000000,
+    kULPPACKW2A2                    = 0x000004000000,
+    kULPPACKW3A3                    = 0x000008000000,
+    kULPPACKW4A4                    = 0x000010000000,
+    kULPPACKW5A5                    = 0x000020000000,
+    kULPPACKW6A6                    = 0x000040000000,
+    kULPPACKW7A7                    = 0x000080000000,
+    k8x8                            = 0x0020fe000000,
+    kSelfDependent                  = 0x001e00000000,
+    kSelfDependentW4A4              = 0x000200000000,
+    kSelfDependentW4A8              = 0x000400000000,
+    kSelfDependentW8A4              = 0x000800000000,
+    kSelfDependentW2A2              = 0x001000000000,
+    kBarrelShiftMul                 = 0x03e000000000,
+    kBarrelShiftMulW8A8             = 0x002000000000,
+    kBarrelShiftMulW4A4             = 0x004000000000,
+    kBarrelShiftMulW4A8             = 0x008000000000,
+    kBarrelShiftMulW8A4             = 0x010000000000,
+    kBarrelShiftMulW2A2             = 0x020000000000,
 } Method;
 
 inline const char* get_method_string(Method method){
@@ -417,9 +422,6 @@ inline const char* get_method_string(Method method){
     case kULPPACKW7A7:
         strcpy(output, std::string("ULPPACKW7A7").c_str());
         break;
-    case kInt8ActInt8WeightBarrelShiftMul:
-        strcpy(output, std::string("Int8ActInt8WeightBarrelShiftMul").c_str());
-        break;
     case k8x8:
         strcpy(output, std::string("8x8").c_str());
         break;
@@ -434,6 +436,21 @@ inline const char* get_method_string(Method method){
         break;
     case kSelfDependentW2A2:
         strcpy(output, std::string("SelfDependentW2A2").c_str());
+        break;
+    case kBarrelShiftMulW8A8:
+        strcpy(output, std::string("BarrelShiftMulW8A8").c_str());
+        break;
+    case kBarrelShiftMulW4A4:
+        strcpy(output, std::string("BarrelShiftMulW4A4").c_str());
+        break;
+    case kBarrelShiftMulW4A8:
+        strcpy(output, std::string("BarrelShiftMulW4A8").c_str());
+        break;
+    case kBarrelShiftMulW8A4:
+        strcpy(output, std::string("BarrelShiftMulW8A4").c_str());
+        break;
+    case kBarrelShiftMulW2A2:
+        strcpy(output, std::string("BarrelShiftMulW2A2").c_str());
         break;
     default:
         strcpy(output, std::string("NotDefined").c_str());

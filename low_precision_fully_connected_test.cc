@@ -5367,45 +5367,53 @@ int main(int argc, char *argv[]){
                 selected_test = argv[2 + i];
                 std::cout << "Parsing method " << selected_test << std::endl;
                 if (selected_test == "All")
-                    test_gemm_api |= 0xffffff; 
+                    test_gemm_api |= 0xffffffff; 
                 else if (selected_test == "Int8")
-                    test_gemm_api |= 0x1000000; 
+                    test_gemm_api |= 0x80000000; 
                 else if (selected_test == "Int4")
-                    test_gemm_api |= 0x000001; 
+                    test_gemm_api |= 0x00000001; 
                 else if (selected_test == "Binary")
-                    test_gemm_api |= 0x000002; 
+                    test_gemm_api |= 0x00000002; 
                 else if (selected_test == "Ternary")
-                    test_gemm_api |= 0x000004; 
+                    test_gemm_api |= 0x00000004; 
                 else if (selected_test == "Quaternary")
-                    test_gemm_api |= 0x000008; 
+                    test_gemm_api |= 0x00000008; 
                 else if (selected_test == "Int4InputsInt8Weights")
-                    test_gemm_api |= 0x000010; 
+                    test_gemm_api |= 0x00000010; 
                 else if (selected_test == "Int4InputsInt4Weights")
-                    test_gemm_api |= 0x000020; 
+                    test_gemm_api |= 0x00000020; 
                 else if (selected_test == "BinaryInputsInt8Weights")
-                    test_gemm_api |= 0x000080; 
+                    test_gemm_api |= 0x00000080; 
                 else if (selected_test == "BinaryInputsBinaryWeights")
-                    test_gemm_api |= 0x000100; 
+                    test_gemm_api |= 0x00000100; 
                 else if (selected_test == "BinaryInputsBinaryWeightsXOR")
-                    test_gemm_api |= 0x000800; 
+                    test_gemm_api |= 0x00000800; 
                 else if (selected_test == "TernaryInputsInt8Weights")
-                    test_gemm_api |= 0x000040; 
+                    test_gemm_api |= 0x00000040; 
                 else if (selected_test == "TernaryInputsTernaryWeights")
-                    test_gemm_api |= 0x000200; 
+                    test_gemm_api |= 0x00000200; 
                 else if (selected_test == "Int3InputsInt3Weights")
-                    test_gemm_api |= 0x000400;
-                else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
-                    test_gemm_api |= 0x001000; 
+                    test_gemm_api |= 0x00000400;
                 else if (selected_test == "ULPPACK-W4A4")
-                    test_gemm_api |= 0x002000; 
+                    test_gemm_api |= 0x00002000; 
                 else if (selected_test == "SelfDependentW4A4")
-                    test_gemm_api |= 0x004000; 
+                    test_gemm_api |= 0x00004000; 
                 else if (selected_test == "SelfDependentW4A8")
-                    test_gemm_api |= 0x008000; 
+                    test_gemm_api |= 0x00008000; 
                 else if (selected_test == "SelfDependentW8A4")
-                    test_gemm_api |= 0x010000; 
+                    test_gemm_api |= 0x00010000; 
                 else if (selected_test == "SelfDependentW2A2")
-                    test_gemm_api |= 0x020000; 
+                    test_gemm_api |= 0x00020000;
+                else if (selected_test == "BarrelShiftMultiplierW8A8")
+                    test_gemm_api |= 0x00040000; 
+                else if (selected_test == "BarrelShiftMultiplierW4A4")
+                    test_gemm_api |= 0x00080000; 
+                else if (selected_test == "BarrelShiftMultiplierW8A4")
+                    test_gemm_api |= 0x00100000; 
+                else if (selected_test == "BarrelShiftMultiplierW4A8")
+                    test_gemm_api |= 0x00200000; 
+                else if (selected_test == "BarrelShiftMultiplierW2A2")
+                    test_gemm_api |= 0x00400000; 
             }
         } else
             test_gemm_api = 0xffffff;
@@ -5535,43 +5543,53 @@ int main(int argc, char *argv[]){
                 std::string selected_test = "";
                 selected_test = argv[i + 2];
                 if (selected_test == "All")
-                    selected_benchmark_real_multi_gemm_api |= 0xffffff; 
+                    selected_benchmark_real_multi_gemm_api |= 0xffffffff; 
                 else if (selected_test == "Int8")
-                    selected_benchmark_real_multi_gemm_api |= 0x1000000; 
+                    selected_benchmark_real_multi_gemm_api |= 0x80000000; 
                 else if (selected_test == "Int4")
-                    selected_benchmark_real_multi_gemm_api |= 0x000001; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000001; 
                 else if (selected_test == "Binary")
-                    selected_benchmark_real_multi_gemm_api |= 0x000002; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000002; 
                 else if (selected_test == "Ternary")
-                    selected_benchmark_real_multi_gemm_api |= 0x000004; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000004; 
                 else if (selected_test == "Quaternary")
-                    selected_benchmark_real_multi_gemm_api |= 0x000008; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000008; 
                 else if (selected_test == "Int4InputsInt8Weights")
-                    selected_benchmark_real_multi_gemm_api |= 0x000010; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000010; 
                 else if (selected_test == "Int4InputsInt4Weights")
-                    selected_benchmark_real_multi_gemm_api |= 0x000020; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000020; 
                 else if (selected_test == "BinaryInputsInt8Weights")
-                    selected_benchmark_real_multi_gemm_api |= 0x000080; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000080; 
                 else if (selected_test == "BinaryInputsBinaryWeights")
-                    selected_benchmark_real_multi_gemm_api |= 0x000100; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000100; 
                 else if (selected_test == "BinaryInputsBinaryWeightsXOR")
-                    selected_benchmark_real_multi_gemm_api |= 0x000800; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000800; 
                 else if (selected_test == "TernaryInputsInt8Weights")
-                    selected_benchmark_real_multi_gemm_api |= 0x000040; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000040; 
                 else if (selected_test == "TernaryInputsTernaryWeights")
-                    selected_benchmark_real_multi_gemm_api |= 0x000200; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00000200; 
                 else if (selected_test == "Int3InputsInt3Weights")
-                    selected_benchmark_real_multi_gemm_api |= 0x000400;
+                    selected_benchmark_real_multi_gemm_api |= 0x00000400;
                 else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
-                    selected_benchmark_real_multi_gemm_api |= 0x001000; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00001000; 
                 else if (selected_test == "ULPPACK-W4A4")
-                    selected_benchmark_real_multi_gemm_api |= 0x002000; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00002000; 
                 else if (selected_test == "SelfDependentW4A4")
-                    selected_benchmark_real_multi_gemm_api |= 0x004000; 
+                    selected_benchmark_real_multi_gemm_api |= 0x00004000; 
                 else if (selected_test == "SelfDependentW4A8")
-                    selected_benchmark_real_multi_gemm_api |= 0x008000;
+                    selected_benchmark_real_multi_gemm_api |= 0x00008000;
                 else if (selected_test == "SelfDependentW8A4")
-                    selected_benchmark_real_multi_gemm_api |= 0x010000;
+                    selected_benchmark_real_multi_gemm_api |= 0x00010000;
+                else if (selected_test == "BarrelShiftMultiplierW8A8")
+                    selected_benchmark_real_multi_gemm_api |= 0x00020000;
+                else if (selected_test == "BarrelShiftMultiplierW4A4")
+                    selected_benchmark_real_multi_gemm_api |= 0x00040000;
+                else if (selected_test == "BarrelShiftMultiplierW8A4")
+                    selected_benchmark_real_multi_gemm_api |= 0x00080000;
+                else if (selected_test == "BarrelShiftMultiplierW4A8")
+                    selected_benchmark_real_multi_gemm_api |= 0x00100000;
+                else if (selected_test == "BarrelShiftMultiplierW2A2")
+                    selected_benchmark_real_multi_gemm_api |= 0x00200000;
             }
         } else
             selected_benchmark_real_multi_gemm_api = 0xffffff;
@@ -6914,48 +6932,56 @@ int main(int argc, char *argv[]){
         // if (test_mul_api & 0x0400)
         //     run_mul_api_tests(LowPrecision::Method::kInt3ActInt3Weight);
         if (test_mul_api & 0x1000)
-            run_mul_api_tests(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul);
+            run_mul_api_tests(LowPrecision::Method::kBarrelShiftMulW8A8);
     }
     
     if (test_gemm_api){
-        if (test_gemm_api == 0x1000000)
+        if (test_gemm_api == 0x80000000)
             run_gemm_api_tests(LowPrecision::Method::kNoOptimization);
-        if (test_gemm_api &  0x000001)
+        if (test_gemm_api &  0x00000001)
             run_gemm_api_tests(LowPrecision::Method::kInt8Int4);
-        if (test_gemm_api &  0x000002)
+        if (test_gemm_api &  0x00000002)
             run_gemm_api_tests(LowPrecision::Method::kInt8Binary);
-        if (test_gemm_api &  0x000004)
+        if (test_gemm_api &  0x00000004)
             run_gemm_api_tests(LowPrecision::Method::kInt8Ternary);
-        if (test_gemm_api &  0x000008)
+        if (test_gemm_api &  0x00000008)
             run_gemm_api_tests(LowPrecision::Method::kInt8QuaTernary);
-        if (test_gemm_api &  0x000010)
+        if (test_gemm_api &  0x00000010)
             run_gemm_api_tests(LowPrecision::Method::kInt4ActInt8Weight);
-        if (test_gemm_api &  0x000020)
+        if (test_gemm_api &  0x00000020)
             run_gemm_api_tests(LowPrecision::Method::kInt4ActInt4Weight);
-        if (test_gemm_api &  0x000040)
+        if (test_gemm_api &  0x00000040)
             run_gemm_api_tests(LowPrecision::Method::kTernaryActInt8Weight);
-        if (test_gemm_api &  0x000200)
+        if (test_gemm_api &  0x00000200)
             run_gemm_api_tests(LowPrecision::Method::kTernaryActTernaryWeight);
-        if (test_gemm_api &  0x000080)
+        if (test_gemm_api &  0x00000080)
             run_gemm_api_tests(LowPrecision::Method::kBinaryActInt8Weight);
-        if (test_gemm_api &  0x000100)
+        if (test_gemm_api &  0x00000100)
             run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeight);
-        if (test_gemm_api &  0x000800)
+        if (test_gemm_api &  0x00000800)
             run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeightXOR);
-        if (test_gemm_api &  0x000400)
+        if (test_gemm_api &  0x00000400)
             run_gemm_api_tests(LowPrecision::Method::kInt3ActInt3Weight);
-        if (test_gemm_api &  0x001000)
-            run_gemm_api_tests(LowPrecision::Method::kInt8ActInt8WeightBarrelShiftMul);
-        if (test_gemm_api &  0x002000)
+        if (test_gemm_api &  0x00002000)
             run_gemm_api_tests(LowPrecision::Method::kULPPACKW4A4);
-        if (test_gemm_api &  0x004000)
+        if (test_gemm_api &  0x00004000)
             run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A4);
-        if (test_gemm_api &  0x008000)
+        if (test_gemm_api &  0x00008000)
             run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A8);
-        if (test_gemm_api &  0x010000)
+        if (test_gemm_api &  0x00010000)
             run_gemm_api_tests(LowPrecision::Method::kSelfDependentW8A4);
-        if (test_gemm_api &  0x020000)
+        if (test_gemm_api &  0x00020000)
             run_gemm_api_tests(LowPrecision::Method::kSelfDependentW2A2);
+        if (test_gemm_api &  0x00040000)
+            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW8A8);
+        if (test_gemm_api &  0x00080000)
+            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A4);
+        if (test_gemm_api &  0x00100000)
+            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW8A4);
+        if (test_gemm_api &  0x00200000)
+            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A8);
+        if (test_gemm_api &  0x00400000)
+            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW2A2);
     }
 
     benchmark_mode_t benchmark_mode;

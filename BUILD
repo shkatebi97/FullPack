@@ -172,7 +172,6 @@ cc_library(
     name = "low_precision_fully_connected",
     srcs = [
         "low_precision_fully_connected.cc",
-        "kernels/Int8-Int8.cc",
         "kernels/Int8-Int4.cc",
         "kernels/Int4-Int8.cc",
         "kernels/Int4-Int4.cc",
@@ -186,6 +185,9 @@ cc_library(
         "kernels/Int8-Quaternary.cc",
         "kernels/Int3-Int3.cc",
         "kernels/ULPPACK.cc",
+        # BarrelShiftMultiplier sources
+        "kernels/BarrelShiftMultiplier.cc",
+        "kernels/BarrelShiftMultiplier-kernels/W8A8.cc"
         # SelfDependent sources
         "kernels/SelfDependent.cc",
         "kernels/SelfDependent-kernels/W4A4.cc",
