@@ -110,6 +110,8 @@ namespace LowPrecision{
                 return Method::kSelfDependentW4A8;
             else if (retval == std::string("SelfDependent-W8A4"))
                 return Method::kSelfDependentW8A4;
+            else if (retval == std::string("SelfDependent-W2A2"))
+                return Method::kSelfDependentW2A2;
             else
                 return Method::kNoOptimization;
         } 
@@ -224,7 +226,8 @@ namespace LowPrecision{
                 (method & Method::kInt8ActInt8WeightBarrelShiftMul) ||
                 (method & Method::kSelfDependentW4A4)               ||
                 (method & Method::kSelfDependentW4A8)               ||
-                (method & Method::kSelfDependentW8A4)
+                (method & Method::kSelfDependentW8A4)               ||
+                (method & Method::kSelfDependentW2A2)
                 ;
         }
         bool RequiresOutputUnpacking(Method method){
@@ -246,6 +249,7 @@ namespace LowPrecision{
                 case LowPrecision::Method::kSelfDependentW4A4:
                 case LowPrecision::Method::kSelfDependentW4A8:
                 case LowPrecision::Method::kSelfDependentW8A4:
+                case LowPrecision::Method::kSelfDependentW2A2:
                     return LowPrecision::FullyConnected::SelfDependent::InputPreProcess(method);
                 default:
                     return LowPrecision::PreprocessType::Nothing;
@@ -265,6 +269,7 @@ namespace LowPrecision{
                 case LowPrecision::Method::kSelfDependentW4A4:
                 case LowPrecision::Method::kSelfDependentW4A8:
                 case LowPrecision::Method::kSelfDependentW8A4:
+                case LowPrecision::Method::kSelfDependentW2A2:
                     return LowPrecision::FullyConnected::SelfDependent::FilterPreProcess(method);
                 default:
                     return LowPrecision::PreprocessType::Nothing;
@@ -284,6 +289,7 @@ namespace LowPrecision{
                 case LowPrecision::Method::kSelfDependentW4A4:
                 case LowPrecision::Method::kSelfDependentW4A8:
                 case LowPrecision::Method::kSelfDependentW8A4:
+                case LowPrecision::Method::kSelfDependentW2A2:
                     return LowPrecision::FullyConnected::SelfDependent::OutputPreProcess(method);
                 default:
                     return LowPrecision::PreprocessType::Nothing;
@@ -303,6 +309,7 @@ namespace LowPrecision{
                 case LowPrecision::Method::kSelfDependentW4A4:
                 case LowPrecision::Method::kSelfDependentW4A8:
                 case LowPrecision::Method::kSelfDependentW8A4:
+                case LowPrecision::Method::kSelfDependentW2A2:
                     return LowPrecision::FullyConnected::SelfDependent::OutputPostProcess(method);
                 default:
                     return LowPrecision::PreprocessType::Nothing;
@@ -322,6 +329,7 @@ namespace LowPrecision{
                 case LowPrecision::Method::kSelfDependentW4A4:
                 case LowPrecision::Method::kSelfDependentW4A8:
                 case LowPrecision::Method::kSelfDependentW8A4:
+                case LowPrecision::Method::kSelfDependentW2A2:
                     return LowPrecision::FullyConnected::SelfDependent::GEMMSupport(method);
                 default:
                     return LowPrecision::GEMMType::SupportsNothing;
@@ -430,6 +438,10 @@ namespace LowPrecision{
                 least_dim_size  = 32;
                 reduction_coeff = 1;
             }
+            else if (method == LowPrecision::Method::kSelfDependentW2A2){
+                least_dim_size  = 64;
+                reduction_coeff = 4;
+            }
 
             int least_row_size = 4;
             if (method & LowPrecision::Method::k8x8){
@@ -497,6 +509,10 @@ namespace LowPrecision{
             else if (method == LowPrecision::Method::kSelfDependentW8A4){
                 least_dim_size  = 32;
                 reduction_coeff = 2;
+            }
+            else if (method == LowPrecision::Method::kSelfDependentW2A2){
+                least_dim_size  = 64;
+                reduction_coeff = 4;
             }
             
             int least_row_size = 4;
@@ -749,7 +765,7 @@ namespace LowPrecision{
                 ret = Status::NotImplemented;
             else if (method &  LowPrecision::Method::kULPPACK)
                 ret = Status::NotNeeded;
-            else if (method == LowPrecision::Method::kSelfDependentW4A4)
+            else if (method &  LowPrecision::Method::kSelfDependent)
                 ret = Status::NotNeeded;
             return ret;
         }
@@ -1586,10 +1602,10 @@ namespace LowPrecision{
             return Status::Success;
         }
         Status ApplyDowncast(int32_t* input, int8_t* output, Shape shape, const int32_t downcast_coeff){
-#ifdef DOWNCASTING_FUSED_IN_KERNEL
+            #ifdef DOWNCASTING_FUSED_IN_KERNEL
             return Status::Success;
-#else
-#ifdef VECTORIZED_DOWNCASTING_WITH_SCALAR_DIVISION
+            #else
+            #ifdef VECTORIZED_DOWNCASTING_WITH_SCALAR_DIVISION
             size_t size = shape.flatsize, i = 0;
             asm (
 
@@ -1693,7 +1709,7 @@ namespace LowPrecision{
                 return Status::NotSupported;
             return Status::Success;
 #endif
-#endif
+            #endif
         }
         void doScallingFactorMultiplication(int32_t* input, const float* scalling_factor, float* output,
                                             int batch_n, int input_n){

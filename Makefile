@@ -10,7 +10,7 @@ CPU_LIB=ruy/bazel-bin/external/cpuinfo
 CPU_INC=ruy/third_party/cpuinfo/include
 CPU_LIB_LINK := -lcpuinfo_impl -lclog
 
-KERNELS_OBJS := kernels/Int8-Int8.o kernels/Int8-Int4.o kernels/Int4-Int8.o kernels/Int4-Int4.o kernels/Int8-Ternary.o kernels/Ternary-Int8.o kernels/Ternary-Ternary.o kernels/Int8-Binary.o kernels/Binary-Int8.o kernels/Binary-Binary.o kernels/Binary-Binary-XOR.o kernels/Int8-Quaternary.o kernels/Int3-Int3.o kernels/ULPPACK.o kernels/ULPPACK/4x8-neon-multipack-type2.o kernels/ULPPACK/4x8-neon-multipack.o kernels/SelfDependent-kernels/W4A4.o kernels/SelfDependent-kernels/W4A8.o kernels/SelfDependent-kernels/W8A4.o kernels/SelfDependent.o
+KERNELS_OBJS := kernels/Int8-Int8.o kernels/Int8-Int4.o kernels/Int4-Int8.o kernels/Int4-Int4.o kernels/Int8-Ternary.o kernels/Ternary-Int8.o kernels/Ternary-Ternary.o kernels/Int8-Binary.o kernels/Binary-Int8.o kernels/Binary-Binary.o kernels/Binary-Binary-XOR.o kernels/Int8-Quaternary.o kernels/Int3-Int3.o kernels/ULPPACK.o kernels/ULPPACK/4x8-neon-multipack-type2.o kernels/ULPPACK/4x8-neon-multipack.o kernels/SelfDependent-kernels/W4A4.o kernels/SelfDependent-kernels/W4A8.o kernels/SelfDependent-kernels/W8A4.o kernels/SelfDependent-kernels/W2A2.o kernels/SelfDependent.o
 
 LDFLAGS :=
 
@@ -202,6 +202,13 @@ kernels/SelfDependent-kernels/W8A4.o:				kernels/SelfDependent-kernels/W8A4.cc \
 													low_precision_fully_connected.h \
 													Makefile
 	$(CXX) kernels/SelfDependent-kernels/W8A4.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent-kernels/W8A4.o -c
+
+kernels/SelfDependent-kernels/W2A2.o:				kernels/SelfDependent-kernels/W2A2.cc \
+													common/types.h \
+													common/flags.h \
+													low_precision_fully_connected.h \
+													Makefile
+	$(CXX) kernels/SelfDependent-kernels/W2A2.cc -Wno-return-type $(KERNELS_MEM_ACCESS_FLAGS) $(CCFLAGS) ${LDFLAGS} -o kernels/SelfDependent-kernels/W2A2.o -c
 
 ######  SelfDependent Kernels End  ######
 
