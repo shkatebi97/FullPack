@@ -4,7 +4,7 @@
 namespace LowPrecision{
     namespace FullyConnected{
         namespace SelfDependent {
-            namespace W2A2{ // TODO: Implement this.
+            namespace W2A2{ // TODO: This is slower than W4A4. Fix this.
                 LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){
                     if (k_shape.number_dims != 2)
                         return Status::DimensionsMisMatch;
