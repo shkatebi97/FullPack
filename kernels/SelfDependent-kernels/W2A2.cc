@@ -54,15 +54,6 @@ namespace LowPrecision{
                                                                      ((input_u[(k_shape.size[0] - 2) * k_shape.size[1] + j] & 0x03) << 4) |
                                                                      ((input_u[(k_shape.size[0] - 1) * k_shape.size[1] + j] & 0x03) << 6);
                         #endif
-                        std::cout << "temp_u" << " = (Shape: " << LowPrecision::get_shape_string(k_shape) << ", Pointer: " << ((void*) temp_u) << ") [" << std::endl << std::hex;
-                        for (int i = 0; i < k_shape.size[0] / 4; i++){
-                            std::cout << "\t[ ";
-                            for (int j = 0; j < k_shape.size[1]; j++)
-                                std::cout << "0x" << (int)temp_u[(i * k_shape.size[1]) + j] << ", ";
-                            std::cout << "]" << std::endl;
-                        }
-                        std::cout << "]";
-                        std::cout << std::dec << std::endl;
                         Shape k_shape_T;
                         k_shape_T = k_shape.T();
                         doLowPrecisionWeightPack(temp, output, k_shape_T.size[0], k_shape_T.size[1] / 4);
