@@ -1,0 +1,77 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [200]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-512-batch-2048x4096.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-512-batch-2048x4096.tflite
+INFO: Initialized TensorFlow Lite runtime.
+NOT Applying FC Low-Precision for Kernel shape (2048, 4096, ), Input shape (512, 2048, ), Output shape (512, 4096, ), ID: 0, Method: NoOptimization
+The input model file size (MB): 8.38962
+Initialized session in 1.811ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=622939 curr=575700 min=575700 max=622939 avg=599320 std=23619
+
+Running benchmark for at least 200 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=200 first=559574 curr=558670 min=556525 max=595376 avg=563036 std=8593
+
+Inference timings in us: Init: 1811, First inference: 622939, Warmup (avg): 599320, Inference (avg): 563036
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=4.16406 overall=46.3828
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    0.261	    0.261	100.000%	100.000%	     0.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    0.261	    0.261	100.000%	100.000%	     0.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	     0.261	   100.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=1 curr=261
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.026	  559.514	  562.976	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.026	  559.514	  562.976	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        1	   562.975	   100.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=200 first=559514 curr=558611 min=556448 max=595327 avg=562976 std=8595
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+[ perf record: Woken up 393 times to write data ]
+Warning:
+Processed 455591 events and lost 3 chunks!
+
+Check IO/CPU overload!
+
+[ perf record: Captured and wrote 98.297 MB /tmp/data.record (454728 samples) ]
+
+115.663
+

@@ -1,0 +1,75 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [200]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-128-batch-1024x512.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-128-batch-1024x512.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying FC Low-Precision for Kernel shape (1024, 512, ), Input shape (128, 1024, ), Output shape (128, 512, ), ID: 0, Method: BarrelShiftMulW8A8
+	Allocating Filter Shape: (1024, 512, ) DONE
+	Preparing Filter With Shape: (1024, 512, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (128, 1024, ) DONE
+The input model file size (MB): 0.525296
+Initialized session in 4.644ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=10345 curr=8223 min=8223 max=10345 avg=9284 std=1061
+
+Running benchmark for at least 200 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=200 first=8317 curr=8321 min=8200 max=8805 avg=8326.55 std=66
+
+Inference timings in us: Init: 4644, First inference: 10345, Warmup (avg): 9284, Inference (avg): 8326.55
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=5.21094 overall=7.33203
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    3.308	    3.308	100.000%	100.000%	  1068.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    3.308	    3.308	100.000%	100.000%	  1068.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	     3.308	   100.000%	   100.000%	  1068.000	        1
+
+Timings (microseconds): count=1 curr=3308
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.014	    8.271	    8.288	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.014	    8.271	    8.288	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        1	     8.288	   100.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=200 first=8271 curr=8283 min=8162 max=8768 avg=8288.42 std=66
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+[ perf record: Woken up 6 times to write data ]
+[ perf record: Captured and wrote 1.353 MB /tmp/data.record (7112 samples) ]
+
+2.537
+

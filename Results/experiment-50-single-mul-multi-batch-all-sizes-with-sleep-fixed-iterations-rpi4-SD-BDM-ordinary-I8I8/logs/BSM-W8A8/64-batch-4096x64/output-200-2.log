@@ -1,0 +1,75 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [200]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-64-batch-4096x64.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-64-batch-4096x64.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying FC Low-Precision for Kernel shape (4096, 64, ), Input shape (64, 4096, ), Output shape (64, 64, ), ID: 0, Method: BarrelShiftMulW8A8
+	Allocating Filter Shape: (4096, 64, ) DONE
+	Preparing Filter With Shape: (4096, 64, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (64, 4096, ) DONE
+The input model file size (MB): 0.263152
+Initialized session in 2.897ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=4872 curr=3264 min=3264 max=4872 avg=4068 std=804
+
+Running benchmark for at least 200 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=200 first=3072 curr=3016 min=2955 max=3991 avg=3135.28 std=176
+
+Inference timings in us: Init: 2897, First inference: 4872, Warmup (avg): 4068, Inference (avg): 3135.28
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=4.72266 overall=7.61719
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    1.419	    1.419	100.000%	100.000%	   564.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    1.419	    1.419	100.000%	100.000%	   564.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	     1.419	   100.000%	   100.000%	   564.000	        1
+
+Timings (microseconds): count=1 curr=1419
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.019	    3.032	    3.093	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.019	    3.032	    3.093	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        1	     3.092	   100.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=200 first=3032 curr=2975 min=2913 max=3931 avg=3092.55 std=173
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+[ perf record: Woken up 3 times to write data ]
+[ perf record: Captured and wrote 0.540 MB /tmp/data.record (3101 samples) ]
+
+1.563
+

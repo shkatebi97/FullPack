@@ -1,0 +1,75 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [200]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-8-batch-4096x4096.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-8-batch-4096x4096.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying FC Low-Precision for Kernel shape (4096, 4096, ), Input shape (8, 4096, ), Output shape (8, 4096, ), ID: 0, Method: SelfDependentW4A4
+	Allocating Filter Shape: (2048, 4096, ) DONE
+	Preparing Filter With Shape: (4096, 4096, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (8, 2048, ) DONE
+The input model file size (MB): 16.7782
+Initialized session in 443.373ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=15709 curr=14897 min=14897 max=15709 avg=15303 std=406
+
+Running benchmark for at least 200 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=200 first=14963 curr=15398 min=14749 max=15698 avg=14988.2 std=193
+
+Inference timings in us: Init: 443373, First inference: 15709, Warmup (avg): 15303, Inference (avg): 14988.2
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=36.2383 overall=36.2383
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  441.914	  441.914	100.000%	100.000%	 32844.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	  441.914	  441.914	100.000%	100.000%	 32844.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	   441.914	   100.000%	   100.000%	 32844.000	        1
+
+Timings (microseconds): count=1 curr=441914
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.011	   14.922	   14.951	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.011	   14.922	   14.951	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        1	    14.950	   100.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=200 first=14922 curr=15366 min=14698 max=15663 avg=14950.8 std=194
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+[ perf record: Woken up 11 times to write data ]
+[ perf record: Captured and wrote 2.600 MB /tmp/data.record (13898 samples) ]
+
+4.556
+

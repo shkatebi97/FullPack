@@ -1,0 +1,75 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [200]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-512-batch-2048x256.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-512-batch-2048x256.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying FC Low-Precision for Kernel shape (2048, 256, ), Input shape (512, 2048, ), Output shape (512, 256, ), ID: 0, Method: ULPPACKW4A4
+	Allocating Filter Shape: (2048, 256, ) DONE
+	Preparing Filter With Shape: (2048, 256, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (512, 2048, ) DONE
+The input model file size (MB): 0.525296
+Initialized session in 5.295ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=44664 curr=37024 min=37024 max=44664 avg=40844 std=3820
+
+Running benchmark for at least 200 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=200 first=37051 curr=37235 min=36384 max=48686 avg=37565.2 std=1435
+
+Inference timings in us: Init: 5295, First inference: 44664, Warmup (avg): 40844, Inference (avg): 37565.2
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=5.21875 overall=16.6211
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    3.220	    3.220	100.000%	100.000%	  1068.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	    3.220	    3.220	100.000%	100.000%	  1068.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	     3.220	   100.000%	   100.000%	  1068.000	        1
+
+Timings (microseconds): count=1 curr=3220
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.024	   37.003	   37.514	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.024	   37.003	   37.514	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        1	    37.513	   100.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=200 first=37003 curr=37184 min=36330 max=48631 avg=37513.8 std=1434
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+[ perf record: Woken up 24 times to write data ]
+[ perf record: Captured and wrote 5.908 MB /tmp/data.record (32381 samples) ]
+
+9.573
+

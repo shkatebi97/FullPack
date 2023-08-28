@@ -70,6 +70,7 @@ methods_order = [
     # Our New benchmarks
     'SelfDependent-W4A4',
     'BarrelShift-Mul-W8A8',
+    'BSM-W8A8',
 ]
 metrics_order = [
     'cpu_cycles',

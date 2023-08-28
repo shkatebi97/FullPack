@@ -1,0 +1,246 @@
+
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\pgfplotsset{compat=1.8}
+\begin{document}
+    \begin{figure*}[t]
+        \begin{tikzpicture}
+            \begin{axis}[
+                xbar=0pt,
+                xmin=0.6,
+                xmax=3,
+                width=0.995\linewidth,
+                height=2*\axisdefaultheight,
+                tick label style={font=\footnotesize},
+                legend style={font=\tiny},
+                label style={font=\footnotesize},
+                symbolic y coords={BSM-W8A8, SelfDependent-W4A4, ULPPACK-W4A4, No-Caching, GEMMLOWP, FP32, No-Caching-FP32, Eigen},
+                ytick=data,
+                xtick={0.60,0.80,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0},
+                align={center},
+                bar width=0.286ex,
+                legend columns=7,
+                legend style={at={(0.49,-0.2)},anchor=north,font=\footnotesize},
+                title=\textbf{ResNet101},
+                xmajorgrids,
+                yminorgrids = true,
+                minor tick num=1
+                ]
+                \addplot coordinates { (1.17,BSM-W8A8) (1.25,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.93,GEMMLOWP) (0.54,FP32) (0.52,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.44,BSM-W8A8) (1.45,SelfDependent-W4A4) (1.59,ULPPACK-W4A4) (1.00,No-Caching) (0.79,GEMMLOWP) (0.76,FP32) (0.77,No-Caching-FP32) (0.77,Eigen) };
+                \addplot coordinates { (1.40,BSM-W8A8) (1.49,SelfDependent-W4A4) (1.50,ULPPACK-W4A4) (1.00,No-Caching) (0.80,GEMMLOWP) (0.67,FP32) (0.67,No-Caching-FP32) (0.68,Eigen) };
+                \addplot coordinates { (1.13,BSM-W8A8) (1.30,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.02,No-Caching) (1.02,GEMMLOWP) (0.50,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.44,BSM-W8A8) (1.43,SelfDependent-W4A4) (1.59,ULPPACK-W4A4) (1.00,No-Caching) (0.79,GEMMLOWP) (0.77,FP32) (0.78,No-Caching-FP32) (0.78,Eigen) };
+                \addplot coordinates { (1.16,BSM-W8A8) (1.32,SelfDependent-W4A4) (1.15,ULPPACK-W4A4) (0.99,No-Caching) (0.95,GEMMLOWP) (0.55,FP32) (0.55,No-Caching-FP32) (0.55,Eigen) };
+                \addplot coordinates { (1.14,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.12,ULPPACK-W4A4) (1.02,No-Caching) (1.01,GEMMLOWP) (0.50,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.44,BSM-W8A8) (1.43,SelfDependent-W4A4) (1.60,ULPPACK-W4A4) (1.00,No-Caching) (0.79,GEMMLOWP) (0.77,FP32) (0.77,No-Caching-FP32) (0.77,Eigen) };
+                \addplot coordinates { (1.15,BSM-W8A8) (1.30,SelfDependent-W4A4) (1.13,ULPPACK-W4A4) (0.99,No-Caching) (0.94,GEMMLOWP) (0.55,FP32) (0.55,No-Caching-FP32) (0.55,Eigen) };
+                \addplot coordinates { (1.13,BSM-W8A8) (1.26,SelfDependent-W4A4) (1.12,ULPPACK-W4A4) (1.02,No-Caching) (1.02,GEMMLOWP) (0.50,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.47,BSM-W8A8) (1.43,SelfDependent-W4A4) (1.59,ULPPACK-W4A4) (1.00,No-Caching) (0.79,GEMMLOWP) (0.77,FP32) (0.78,No-Caching-FP32) (0.78,Eigen) };
+                \addplot coordinates { (1.24,BSM-W8A8) (1.24,SelfDependent-W4A4) (1.27,ULPPACK-W4A4) (0.99,No-Caching) (0.93,GEMMLOWP) (0.61,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.15,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (0.97,No-Caching) (0.93,GEMMLOWP) (0.55,FP32) (0.54,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.13,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.04,ULPPACK-W4A4) (0.99,No-Caching) (0.98,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.31,BSM-W8A8) (1.29,SelfDependent-W4A4) (1.35,ULPPACK-W4A4) (0.98,No-Caching) (0.85,GEMMLOWP) (0.68,FP32) (0.68,No-Caching-FP32) (0.68,Eigen) };
+                \addplot coordinates { (1.19,BSM-W8A8) (1.24,SelfDependent-W4A4) (1.22,ULPPACK-W4A4) (1.01,No-Caching) (0.99,GEMMLOWP) (0.57,FP32) (0.58,No-Caching-FP32) (0.57,Eigen) };
+                \addplot coordinates { (1.14,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.05,ULPPACK-W4A4) (0.99,No-Caching) (0.98,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.30,BSM-W8A8) (1.30,SelfDependent-W4A4) (1.36,ULPPACK-W4A4) (0.97,No-Caching) (0.85,GEMMLOWP) (0.68,FP32) (0.68,No-Caching-FP32) (0.68,Eigen) };
+                \addplot coordinates { (1.20,BSM-W8A8) (1.26,SelfDependent-W4A4) (1.23,ULPPACK-W4A4) (1.02,No-Caching) (0.99,GEMMLOWP) (0.57,FP32) (0.58,No-Caching-FP32) (0.57,Eigen) };
+                \addplot coordinates { (1.12,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.03,ULPPACK-W4A4) (0.99,No-Caching) (0.98,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.30,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.36,ULPPACK-W4A4) (0.98,No-Caching) (0.85,GEMMLOWP) (0.68,FP32) (0.68,No-Caching-FP32) (0.68,Eigen) };
+                \addplot coordinates { (1.19,BSM-W8A8) (1.26,SelfDependent-W4A4) (1.23,ULPPACK-W4A4) (1.01,No-Caching) (0.99,GEMMLOWP) (0.57,FP32) (0.58,No-Caching-FP32) (0.57,Eigen) };
+                \addplot coordinates { (1.14,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.06,ULPPACK-W4A4) (0.99,No-Caching) (0.98,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.29,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.35,ULPPACK-W4A4) (0.97,No-Caching) (0.85,GEMMLOWP) (0.68,FP32) (0.68,No-Caching-FP32) (0.68,Eigen) };
+                \addplot coordinates { (1.16,BSM-W8A8) (1.24,SelfDependent-W4A4) (1.19,ULPPACK-W4A4) (1.00,No-Caching) (0.98,GEMMLOWP) (0.56,FP32) (0.57,No-Caching-FP32) (0.56,Eigen) };
+                \addplot coordinates { (1.15,BSM-W8A8) (1.26,SelfDependent-W4A4) (1.17,ULPPACK-W4A4) (0.99,No-Caching) (1.00,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.08,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.48,FP32) (0.48,No-Caching-FP32) (0.48,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.29,SelfDependent-W4A4) (1.22,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.08,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.48,FP32) (0.48,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.29,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.11,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.08,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.48,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.23,BSM-W8A8) (1.29,SelfDependent-W4A4) (1.22,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.08,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.48,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.08,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.48,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.23,BSM-W8A8) (1.29,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.54,FP32) (0.54,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.08,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.48,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.94,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.87,GEMMLOWP) (0.50,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.10,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.06,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.50,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.23,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.62,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.11,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.08,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.06,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.54,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.50,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.11,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.06,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.50,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.10,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.21,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.61,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.10,ULPPACK-W4A4) (1.00,No-Caching) (0.94,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.06,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.61,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.10,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.54,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.08,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.21,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.10,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.08,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.61,FP32) (0.60,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.09,ULPPACK-W4A4) (1.00,No-Caching) (0.94,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.08,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.21,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.61,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.10,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.54,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.61,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.10,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.54,No-Caching-FP32) (0.54,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.08,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.11,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.50,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.11,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.49,FP32) (0.49,No-Caching-FP32) (0.50,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.11,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.22,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.48,FP32) (0.48,No-Caching-FP32) (0.48,Eigen) };
+                \addplot coordinates { (1.22,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.21,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.11,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (1.00,No-Caching) (0.95,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.48,FP32) (0.48,No-Caching-FP32) (0.48,Eigen) };
+                \addplot coordinates { (1.21,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.20,ULPPACK-W4A4) (1.00,No-Caching) (0.96,GEMMLOWP) (0.61,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.10,ULPPACK-W4A4) (1.00,No-Caching) (0.94,GEMMLOWP) (0.53,FP32) (0.53,No-Caching-FP32) (0.53,Eigen) };
+                \addplot coordinates { (1.09,BSM-W8A8) (1.23,SelfDependent-W4A4) (1.07,ULPPACK-W4A4) (0.98,No-Caching) (0.86,GEMMLOWP) (0.48,FP32) (0.48,No-Caching-FP32) (0.49,Eigen) };
+                \addplot coordinates { (1.23,BSM-W8A8) (1.28,SelfDependent-W4A4) (1.22,ULPPACK-W4A4) (1.00,No-Caching) (0.97,GEMMLOWP) (0.62,FP32) (0.61,No-Caching-FP32) (0.61,Eigen) };
+                \addplot coordinates { (1.18,BSM-W8A8) (1.30,SelfDependent-W4A4) (1.14,ULPPACK-W4A4) (1.00,No-Caching) (0.98,GEMMLOWP) (0.46,FP32) (0.46,No-Caching-FP32) (0.46,Eigen) };
+                \addplot coordinates { (1.16,BSM-W8A8) (1.31,SelfDependent-W4A4) (1.13,ULPPACK-W4A4) (1.00,No-Caching) (0.98,GEMMLOWP) (0.45,FP32) (0.45,No-Caching-FP32) (0.45,Eigen) };
+                \addplot coordinates { (1.13,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.06,ULPPACK-W4A4) (1.00,No-Caching) (0.99,GEMMLOWP) (0.42,FP32) (0.41,No-Caching-FP32) (0.42,Eigen) };
+                \addplot coordinates { (1.23,BSM-W8A8) (1.34,SelfDependent-W4A4) (1.16,ULPPACK-W4A4) (1.01,No-Caching) (1.01,GEMMLOWP) (0.47,FP32) (0.47,No-Caching-FP32) (0.48,Eigen) };
+                \addplot coordinates { (1.12,BSM-W8A8) (1.25,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (0.99,No-Caching) (0.93,GEMMLOWP) (0.44,FP32) (0.44,No-Caching-FP32) (0.44,Eigen) };
+                \addplot coordinates { (1.12,BSM-W8A8) (1.26,SelfDependent-W4A4) (1.06,ULPPACK-W4A4) (1.01,No-Caching) (0.98,GEMMLOWP) (0.42,FP32) (0.41,No-Caching-FP32) (0.42,Eigen) };
+                \addplot coordinates { (1.23,BSM-W8A8) (1.34,SelfDependent-W4A4) (1.16,ULPPACK-W4A4) (1.01,No-Caching) (1.01,GEMMLOWP) (0.47,FP32) (0.48,No-Caching-FP32) (0.48,Eigen) };
+                \addplot coordinates { (1.12,BSM-W8A8) (1.27,SelfDependent-W4A4) (1.11,ULPPACK-W4A4) (0.99,No-Caching) (0.93,GEMMLOWP) (0.44,FP32) (0.44,No-Caching-FP32) (0.44,Eigen) };
+                \addplot coordinates { (1.13,BSM-W8A8) (1.26,SelfDependent-W4A4) (1.06,ULPPACK-W4A4) (1.00,No-Caching) (0.99,GEMMLOWP) (0.42,FP32) (0.42,No-Caching-FP32) (0.42,Eigen) };
+                \addplot coordinates { (1.23,BSM-W8A8) (1.35,SelfDependent-W4A4) (1.17,ULPPACK-W4A4) (1.01,No-Caching) (1.01,GEMMLOWP) (0.47,FP32) (0.48,No-Caching-FP32) (0.48,Eigen) };
+                \addplot coordinates { (0.39,BSM-W8A8) (0.78,SelfDependent-W4A4) (0.32,ULPPACK-W4A4) (1.02,No-Caching) (0.57,GEMMLOWP) (0.21,FP32) (0.21,No-Caching-FP32) (0.21,Eigen) };
+                \legend{
+                    CONV-1,
+                    CONV-2,
+                    CONV-3,
+                    CONV-4,
+                    CONV-5,
+                    CONV-6,
+                    CONV-7,
+                    CONV-8,
+                    CONV-9,
+                    CONV-10,
+                    CONV-11,
+                    CONV-12,
+                    CONV-13,
+                    CONV-14,
+                    CONV-15,
+                    CONV-16,
+                    CONV-17,
+                    CONV-18,
+                    CONV-19,
+                    CONV-20,
+                    CONV-21,
+                    CONV-22,
+                    CONV-23,
+                    CONV-24,
+                    CONV-25,
+                    CONV-26,
+                    CONV-27,
+                    CONV-28,
+                    CONV-29,
+                    CONV-30,
+                    CONV-31,
+                    CONV-32,
+                    CONV-33,
+                    CONV-34,
+                    CONV-35,
+                    CONV-36,
+                    CONV-37,
+                    CONV-38,
+                    CONV-39,
+                    CONV-40,
+                    CONV-41,
+                    CONV-42,
+                    CONV-43,
+                    CONV-44,
+                    CONV-45,
+                    CONV-46,
+                    CONV-47,
+                    CONV-48,
+                    CONV-49,
+                    CONV-50,
+                    CONV-51,
+                    CONV-52,
+                    CONV-53,
+                    CONV-54,
+                    CONV-55,
+                    CONV-56,
+                    CONV-57,
+                    CONV-58,
+                    CONV-59,
+                    CONV-60,
+                    CONV-61,
+                    CONV-62,
+                    CONV-63,
+                    CONV-64,
+                    CONV-65,
+                    CONV-66,
+                    CONV-67,
+                    CONV-68,
+                    CONV-69,
+                    CONV-70,
+                    CONV-71,
+                    CONV-72,
+                    CONV-73,
+                    CONV-74,
+                    CONV-75,
+                    CONV-76,
+                    CONV-77,
+                    CONV-78,
+                    CONV-79,
+                    CONV-80,
+                    CONV-81,
+                    CONV-82,
+                    CONV-83,
+                    CONV-84,
+                    CONV-85,
+                    CONV-86,
+                    CONV-87,
+                    CONV-88,
+                    CONV-89,
+                    CONV-90,
+                    CONV-91,
+                    CONV-92,
+                    CONV-93,
+                    CONV-94,
+                    CONV-95,
+                    CONV-96,
+                    CONV-97,
+                    CONV-98,
+                    CONV-99,
+                    CONV-100,
+                    CONV-101,
+                    CONV-102,
+                    CONV-103,
+                    CONV-104,
+                    FC-1,
+                };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure*}
+\end{document}

@@ -1,0 +1,75 @@
+STARTING!
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [200]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [2]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-512-batch-2048x2048.tflite]
+Enable op profiling: [1]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/pi/Desktop/run-single-mul-multibatch/models/f32i8/model-512-batch-2048x2048.tflite
+INFO: Initialized TensorFlow Lite runtime.
+Applying FC Low-Precision for Kernel shape (2048, 2048, ), Input shape (512, 2048, ), Output shape (512, 2048, ), ID: 0, Method: ULPPACKW4A4
+	Allocating Filter Shape: (2048, 2048, ) DONE
+	Preparing Filter With Shape: (2048, 2048, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (512, 2048, ) DONE
+The input model file size (MB): 4.19531
+Initialized session in 57.363ms.
+Running benchmark for at least 2 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=2 first=316821 curr=265262 min=265262 max=316821 avg=291042 std=25779
+
+Running benchmark for at least 200 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=200 first=265753 curr=265892 min=264563 max=305660 avg=268810 std=6114
+
+Inference timings in us: Init: 57363, First inference: 316821, Warmup (avg): 291042, Inference (avg): 268810
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=12.0938 overall=30.457
+Profiling Info for Benchmark Initialization:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	   55.718	   55.718	100.000%	100.000%	  8124.000	        1	AllocateTensors/0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         AllocateTensors	            0.000	   55.718	   55.718	100.000%	100.000%	  8124.000	        1	AllocateTensors/0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         AllocateTensors	        1	    55.718	   100.000%	   100.000%	  8124.000	        1
+
+Timings (microseconds): count=1 curr=55718
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+Operator-wise Profiling Info for Regular Benchmark Runs:
+============================== Run Order ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.024	  265.690	  268.749	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+============================== Top by Computation Time ==============================
+	             [node type]	          [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	            0.024	  265.690	  268.749	100.000%	100.000%	     0.000	        1	[StatefulPartitionedCall:0]:0
+
+Number of nodes executed: 1
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        1	   268.749	   100.000%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=200 first=265690 curr=265835 min=264510 max=305586 avg=268749 std=6114
+Memory (bytes): count=0
+1 nodes observed
+
+
+
+[ perf record: Woken up 166 times to write data ]
+[ perf record: Captured and wrote 41.314 MB /tmp/data.record (219300 samples) ]
+
+56.653
+
