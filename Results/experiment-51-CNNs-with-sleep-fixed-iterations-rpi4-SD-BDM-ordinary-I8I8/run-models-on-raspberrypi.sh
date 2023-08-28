@@ -38,6 +38,8 @@ bash run-template-tflite.sh \
     --add-method I8-I8 \
     --add-method BSM-W8A8 \
     --add-method SelfDependent-W4A4 \
+    --add-method SelfDependent-W4A8 \
+    --add-method SelfDependent-W8A4 \
     --add-method ULPPACK-W4A4 \
     --enable_TFLITE_W8A8 \
     --enable_GEMMLOWP \

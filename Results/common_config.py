@@ -69,6 +69,8 @@ methods_order = [
     'I8-I4-without-selection',
     # Our New benchmarks
     'SelfDependent-W4A4',
+    'SelfDependent-W4A8',
+    'SelfDependent-W8A4',
     'BarrelShift-Mul-W8A8',
     'BSM-W8A8',
 ]

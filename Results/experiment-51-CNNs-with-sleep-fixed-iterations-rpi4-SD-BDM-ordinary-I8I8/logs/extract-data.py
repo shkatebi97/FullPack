@@ -432,18 +432,25 @@ models_names_21K_imagenet = list(sorted(filter(lambda x: "-21K" in x, models_nam
 print("Generating Execution Time and Speedup CSVs")
 
 if options.output != sys.stdout:
-    imagenet_1K_csv_path = splitext(options.output)[0] + "-imagenet-1K" + splitext(options.output)[1]
-    imagenet_21K_csv_path = splitext(options.output)[0] + "-imagenet-21K" + splitext(options.output)[1]
-    print_as_csv("CNNs-ImageNet-1K", "Models", methods, models_names_1K_imagenet, results, open(imagenet_1K_csv_path, "w"), close_output_at_finish=True)
-    if len(models_names_21K_imagenet) > 0:
+    if len(models_names_21K_imagenet) == 0:
+        imagenet_1K_csv_path = splitext(options.output)[0] + splitext(options.output)[1]
+        print_as_csv("CNNs", "Models", methods, models_names_1K_imagenet, results, open(imagenet_1K_csv_path, "w"), close_output_at_finish=True)
+    else:
+        imagenet_1K_csv_path = splitext(options.output)[0] + "-imagenet-1K" + splitext(options.output)[1]
+        imagenet_21K_csv_path = splitext(options.output)[0] + "-imagenet-21K" + splitext(options.output)[1]
+        print_as_csv("CNNs-ImageNet-1K", "Models", methods, models_names_1K_imagenet, results, open(imagenet_1K_csv_path, "w"), close_output_at_finish=True)
         print_as_csv("CNNs-ImageNet-21K", "Models", methods, models_names_21K_imagenet, results, open(imagenet_21K_csv_path, "w"), close_output_at_finish=True)
     if options.speedups:
         for baseline in options.speedups_against:
-            speedup_imagenet_1K_csv_path = splitext(options.speedups)[0] + "-" + baseline + ("-imagenet-1K" if len(models_names_21K_imagenet) > 0 else '') + splitext(options.speedups)[1]
-            speedup_imagenet_21K_csv_path = splitext(options.speedups)[0] + "-" + baseline + "-imagenet-21K" + splitext(options.speedups)[1]
-            print_as_csv_wrt_baseline("CNNs-ImageNet-1K", "Models", methods, models_names_1K_imagenet, results, baseline, open(speedup_imagenet_1K_csv_path, "w"), close_output_at_finish=True)
-            if len(models_names_21K_imagenet) > 0:
+            if len(models_names_21K_imagenet) == 0:
+                speedup_imagenet_1K_csv_path = splitext(options.speedups)[0] + "-wrt-" + baseline + splitext(options.speedups)[1]
+                print_as_csv_wrt_baseline("CNNs", "Models", methods, models_names_1K_imagenet, results, baseline, open(speedup_imagenet_1K_csv_path, "w"), close_output_at_finish=True)
+            else:
+                speedup_imagenet_1K_csv_path = splitext(options.speedups)[0] + "-wrt-" + baseline + "-imagenet-1K" + splitext(options.speedups)[1]
+                speedup_imagenet_21K_csv_path = splitext(options.speedups)[0] + "-wrt-" + baseline + "-imagenet-21K" + splitext(options.speedups)[1]
+                print_as_csv_wrt_baseline("CNNs-ImageNet-1K", "Models", methods, models_names_1K_imagenet, results, baseline, open(speedup_imagenet_1K_csv_path, "w"), close_output_at_finish=True)
                 print_as_csv_wrt_baseline("CNNs-ImageNet-21K", "Models", methods, models_names_21K_imagenet, results, baseline, open(speedup_imagenet_21K_csv_path, "w"), close_output_at_finish=True)
+            
 else:
     if len(models_names_21K_imagenet) > 0:
         print_as_csv("CNNs-ImageNet-1K", "Models", methods, models_names_1K_imagenet, results)

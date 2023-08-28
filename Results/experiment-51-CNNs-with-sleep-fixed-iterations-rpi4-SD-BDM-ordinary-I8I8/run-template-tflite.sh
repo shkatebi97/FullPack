@@ -323,7 +323,7 @@ fi
 
 echo "Checking config file"
 touch $report_path/latest_run_new.config
-echo -e "{" >> $report_path/latest_run_new.config
+echo -e "{" > $report_path/latest_run_new.config
 echo -e "\t\"iterations\": $iterations," >> $report_path/latest_run_new.config
 echo -e "\t\"warmup_iterations\": $warmup_iterations," >> $report_path/latest_run_new.config
 echo -e "\t\"min_secs\": $min_secs," >> $report_path/latest_run_new.config
