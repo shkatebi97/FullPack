@@ -989,10 +989,10 @@ namespace LowPrecision{
 
                         // Output is needed in 32-bit; no need to downcast
                         // Store the 4 int32 results
-                        "st1 {v24.4s},  [%[dst_3]], #16\n\t"
-                        "st1 {v28.4s},  [%[dst_4]], #16\n\t"
-                        "st1 {v16.4s},  [%[dst_1]], #16\n\t"
-                        "st1 {v20.4s},  [%[dst_2]], #16\n\t"
+                        "st1 {v24.4s},  [%[dst_1]], #16\n\t"
+                        "st1 {v28.4s},  [%[dst_2]], #16\n\t"
+                        "st1 {v16.4s},  [%[dst_3]], #16\n\t"
+                        "st1 {v20.4s},  [%[dst_4]], #16\n\t"
 
                         // Jump to after dowcasting since we dont need to downcast
                         "b 7f\n\t"
@@ -1013,10 +1013,10 @@ namespace LowPrecision{
                         "sqxtn v20.8b, v20.8h\n\t"
                         
                         // Store the 4 int8 results
-                        "st1 {v24.s}[0],  [%[dst_3]], #4\n\t"
-                        "st1 {v28.s}[0],  [%[dst_4]], #4\n\t"
-                        "st1 {v16.s}[0],  [%[dst_1]], #4\n\t"
-                        "st1 {v20.s}[0],  [%[dst_2]], #4\n\t"
+                        "st1 {v24.s}[0],  [%[dst_1]], #4\n\t"
+                        "st1 {v28.s}[0],  [%[dst_2]], #4\n\t"
+                        "st1 {v16.s}[0],  [%[dst_3]], #4\n\t"
+                        "st1 {v20.s}[0],  [%[dst_4]], #4\n\t"
 
                         "7:\n\t"
 

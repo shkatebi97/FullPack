@@ -559,6 +559,8 @@ typedef union {
 class Shape
 {
     long int id;
+    bool initilizied = false;
+    bool allocated = false;
 public:
     static unsigned long int last_id;
     size_t number_dims;
@@ -566,30 +568,39 @@ public:
     size_t flatsize;
 
     Shape():number_dims(0),size(nullptr),flatsize(0){id = last_id; last_id++;}
-    ~Shape(){}
+    ~Shape(){
+        this->initilizied = false;
+        delete[] this->size;
+        this->allocated = false;
+    }
     Shape(const Shape& reference){
         this->id = last_id;
         last_id++;
         this->number_dims = reference.number_dims;
         this->flatsize = reference.flatsize;
         this->size = new int[reference.number_dims];
+        this->allocated = true;
         for (int i = 0 ; i < reference.number_dims ; i++)
             this->size[i] = reference.size[i];
+        this->initilizied = true;
     }
     long int get_id(){return id;}
     void extend_dims(bool as_highest_dim=true){
         number_dims++;
         int* old_size = size;
         size = new int[number_dims];
+        this->allocated = true;
         if(as_highest_dim){
             size[0] = 1;
             for (int i = 1; i < number_dims; i++)
                 size[i] = old_size[i - 1];
+            this->initilizied = true;
         }
         else{
             size[number_dims - 1] = 1;
             for (int i = 0; i < number_dims - 1; i++)
                 size[i] = old_size[i];
+            this->initilizied = true;
         }
     }
     Shape& operator=(const Shape& other){
@@ -598,8 +609,10 @@ public:
         this->number_dims = other.number_dims;
         this->flatsize = other.flatsize;
         this->size = new int[other.number_dims];
+        this->allocated = true;
         for (int i = 0 ; i < other.number_dims ; i++)
             this->size[i] = other.size[i];
+        this->initilizied = true;
         return *this;
     }
     bool operator==(const Shape& other){
@@ -620,6 +633,8 @@ public:
     }
     static inline bool Validate(const Shape& shape){
         if (shape.flatsize == 0) return false;
+        else if (!shape.initilizied) return false;
+        else if (!shape.allocated) return false;
         else if (shape.number_dims == 0) return false;
         else if (shape.size == nullptr) return false;
         else return true;
@@ -629,8 +644,10 @@ public:
         shape.flatsize = flatsize;
         shape.number_dims = number_dims;
         shape.size = new int[shape.number_dims];
+        shape.allocated = true;
         for (size_t i = 0 ; i < number_dims ; i++)
             shape.size[number_dims - 1 - i] = size[i];
+        shape.initilizied = true;
         return shape;
     }
 };

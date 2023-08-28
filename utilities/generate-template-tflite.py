@@ -39,6 +39,9 @@ parser.add_option('--cnns',
 parser.add_option('--cnns-21K',
     action="store_true", dest="cnns_21K",
     help="Activate the CNNs mode and set the output size to 21841", default=False)
+parser.add_option('--single-model',
+    action="store", dest="single_model",
+    help="Set Single Model", default=None)
 parser.add_option('-o', '--output',
     action="store", dest="output_path",
     help="Set the path to store the output '.tflite' file.", default="model.tflite")
@@ -191,7 +194,7 @@ elif options.cnnfcs or options.cnnfcs_21K:
         with open(join(options.output_path, f"{model_name.lower()}{'-21K' if options.cnnfcs_21K else ''}.tflite"), "wb") as f:
             f.write(tflite_model)
 elif options.cnns or options.cnns_21K:
-    from tensorflow.keras.applications import DenseNet201, EfficientNetV2L, InceptionV3, InceptionResNetV2, MobileNetV2, NASNetLarge, RegNetY320, ResNet152, ResNet152V2, VGG19, Xception
+    from tensorflow.keras.applications import DenseNet201, EfficientNetV2L, InceptionV3, InceptionResNetV2, MobileNetV2, NASNetLarge, RegNetY320, ResNet152, ResNet101, ResNet152V2, VGG19, Xception
     models = {
         'InceptionV3': InceptionV3,
         'DenseNet201': DenseNet201,
@@ -201,11 +204,15 @@ elif options.cnns or options.cnns_21K:
         'NASNetLarge': NASNetLarge,
         'RegNetY320': RegNetY320,
         'ResNet152': ResNet152,
+        'ResNet101': ResNet101,
         'ResNet152V2': ResNet152V2,
         'VGG19': VGG19,
         'Xception': Xception,
     }
     Path(options.output_path).mkdir(exist_ok=True, parents=True)
+    if options.single_model is not None and options.single_model in models:
+        print(f"Running for single '{options.single_model}' model")
+        models = { options.single_model: models[options.single_model] }
     for model_name in models.keys():
         current_model = models[model_name]
 
