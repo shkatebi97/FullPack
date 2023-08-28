@@ -350,21 +350,25 @@ for model in temp_models:
         
         # Check if this model execution logs exist for this method
         if not isfile(output_file_path):
-            results[model][method] = 0
+            results[model][method] = 0.0
             continue
 
         # Loading output file
         if not isfile(output_file_path):
-            results[model][method] = 0
+            results[model][method] = 0.0
             continue
         with open(output_file_path) as output_file:
             output_file_lines = list(filter(lambda line: line, map(lambda line: line[:-1], output_file.readlines())))
 
         # Parsing end-to-end total time in seconds
         try:
-            results[model][method] = float(output_file_lines[-1])
+            selected_lines = list(filter(lambda line: "Inference timings in us:" in line, output_file_lines))
+            if len(selected_lines) > 0:
+                results[model][method] = float(selected_lines[0].split()[-1]) / 1000
+            else:
+                results[model][method] = 0.0
         except ValueError:
-            results[model][method] = 0
+            results[model][method] = 0.0
 
         # Parsing per layer profile
         try:
