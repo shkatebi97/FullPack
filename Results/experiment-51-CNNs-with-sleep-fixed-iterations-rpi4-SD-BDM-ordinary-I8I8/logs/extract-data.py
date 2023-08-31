@@ -57,18 +57,23 @@ methods = []
 functions = {
     "HasChild": True,
     "Overall": {
-        "I8-I8": "tflite::Subgraph::OpInvoke",
-        "GEMMLOWP": "tflite::Subgraph::OpInvoke",
-        "No-Caching": "tflite::Subgraph::OpInvoke",
-        "I4-I4": "tflite::Subgraph::OpInvoke",
-        "BSM-W8A8": "tflite::Subgraph::OpInvoke",
-        "SelfDependent-W4A4": "tflite::Subgraph::OpInvoke",
-        "Ternary-Ternary": "tflite::Subgraph::OpInvoke",
-        "Binary-Binary": "tflite::Subgraph::OpInvoke",
-        "ULPPACK-W1A1": "tflite::Subgraph::OpInvoke",
-        "ULPPACK-W2A2": "tflite::Subgraph::OpInvoke",
-        "ULPPACK-W3A3": "tflite::Subgraph::OpInvoke",
-        "ULPPACK-W4A4": "tflite::Subgraph::OpInvoke",
+        "I8-I8": "tflite::Subgraph::Invoke",
+        "GEMMLOWP": "tflite::Subgraph::Invoke",
+        "No-Caching": "tflite::Subgraph::Invoke",
+        "FP32": "tflite::Subgraph::Invoke",
+        "No-Caching-FP32": "tflite::Subgraph::Invoke",
+        "Eigen": "tflite::Subgraph::Invoke",
+        "I4-I4": "tflite::Subgraph::Invoke",
+        "BSM-W8A8": "tflite::Subgraph::Invoke",
+        "SelfDependent-W4A8": "tflite::Subgraph::Invoke",
+        "SelfDependent-W8A4": "tflite::Subgraph::Invoke",
+        "SelfDependent-W4A4": "tflite::Subgraph::Invoke",
+        "Ternary-Ternary": "tflite::Subgraph::Invoke",
+        "Binary-Binary": "tflite::Subgraph::Invoke",
+        "ULPPACK-W1A1": "tflite::Subgraph::Invoke",
+        "ULPPACK-W2A2": "tflite::Subgraph::Invoke",
+        "ULPPACK-W3A3": "tflite::Subgraph::Invoke",
+        "ULPPACK-W4A4": "tflite::Subgraph::Invoke",
     },
     "Conv": {
         "HasChild": True,
@@ -76,8 +81,13 @@ functions = {
             "I8-I8": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
             "GEMMLOWP": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)2>",
             "No-Caching": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
+            "FP32": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
+            "No-Caching-FP32": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
+            "Eigen": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)2>",
             "I4-I4": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
             "BSM-W8A8": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
+            "SelfDependent-W4A8": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
+            "SelfDependent-W8A4": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
             "SelfDependent-W4A4": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
             "Ternary-Ternary": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
             "Binary-Binary": "tflite::ops::builtin::conv::Eval<(tflite::ops::builtin::conv::KernelType)1>",
@@ -90,10 +100,15 @@ functions = {
             "HasChild": True,
             "Overall": {
                 "I8-I8": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
-                "GEMMLOWP": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
+                "GEMMLOWP": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)2>",
                 "No-Caching": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
+                "FP32": "tflite::ops::builtin::conv::EvalFloat<(tflite::ops::builtin::conv::KernelType)1>",
+                "No-Caching-FP32": "tflite::ops::builtin::conv::EvalFloat<(tflite::ops::builtin::conv::KernelType)1>",
+                "Eigen": "tflite::ops::builtin::conv::EvalFloat<(tflite::ops::builtin::conv::KernelType)2>",
                 "I4-I4": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
                 "BSM-W8A8": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
+                "SelfDependent-W4A8": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
+                "SelfDependent-W8A4": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
                 "SelfDependent-W4A4": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
                 "Ternary-Ternary": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
                 "Binary-Binary": "tflite::ops::builtin::conv::EvalQuantizedPerChannel<(tflite::ops::builtin::conv::KernelType)1>",
@@ -106,8 +121,13 @@ functions = {
             #     "I8-I8": "ruy::Mul<(ruy::Path)16, signed char, signed char, int, signed char>",
             #     "GEMMLOWP": "tflite::cpu_backend_gemm::detail::GemmImplUsingGemmlowp<signed char, signed char, int, signed char, (tflite::cpu_backend_gemm::QuantizationFlavor)2>::Run",
             #     "No-Caching": "ruy::Mul<(ruy::Path)16, signed char, signed char, int, signed char>",
+            #     "FP32": "ruy::Mul<(ruy::Path)16, signed char, signed char, int, signed char>",
+            #     "No-Caching-FP32": "ruy::Mul<(ruy::Path)16, signed char, signed char, int, signed char>",
+            #     "Eigen": "ruy::Mul<(ruy::Path)16, signed char, signed char, int, signed char>",
             #     "I4-I4": "LowPrecision::FullyConnected::Mul",
             #     "BSM-W8A8": "LowPrecision::FullyConnected::Mul",
+            #     "SelfDependent-W4A8": "LowPrecision::FullyConnected::Mul",
+            #     "SelfDependent-W8A4": "LowPrecision::FullyConnected::Mul",
             #     "SelfDependent-W4A4": "LowPrecision::FullyConnected::Mul",
             #     "Ternary-Ternary": "LowPrecision::FullyConnected::Mul",
             #     "Binary-Binary": "LowPrecision::FullyConnected::Mul",
@@ -119,11 +139,16 @@ functions = {
             "Kernel": {
                 "HasChild": False,
                 "Overall": {
-                    "I8-I8": "ruy::TrMulParams::RunKernel",
-                    "GEMMLOWP": "tflite::cpu_backend_gemm::detail::GemmImplUsingGemmlowp<signed char, signed char, int, signed char, (tflite::cpu_backend_gemm::QuantizationFlavor)2>::Run",
-                    "No-Caching": "ruy::TrMulParams::RunKernel",
+                    "I8-I8": "ruy::RunKernel<ruy::Kernel<(ruy::Path)16, signed char, signed char, int, signed char> >::Run",
+                    "GEMMLOWP": "tflite::cpu_backend_gemm::Gemm<signed char, signed char, int, signed char, (tflite::cpu_backend_gemm::QuantizationFlavor)2>",
+                    "No-Caching": "ruy::RunKernel<ruy::Kernel<(ruy::Path)16, signed char, signed char, int, signed char> >::Run",
+                    "FP32": "ruy::RunKernel<ruy::Kernel<(ruy::Path)16, float, float, float, float> >::Run",
+                    "No-Caching-FP32": "ruy::RunKernel<ruy::Kernel<(ruy::Path)16, float, float, float, float> >::Run",
+                    "Eigen": "ruy::RunKernel<ruy::Kernel<(ruy::Path)16, float, float, float, float> >::Run",
                     "I4-I4": "LowPrecision::GEMM",
                     "BSM-W8A8": "LowPrecision::GEMM",
+                    "SelfDependent-W4A8": "LowPrecision::GEMM",
+                    "SelfDependent-W8A4": "LowPrecision::GEMM",
                     "SelfDependent-W4A4": "LowPrecision::GEMM",
                     "Ternary-Ternary": "LowPrecision::GEMM",
                     "Binary-Binary": "LowPrecision::GEMM",
@@ -136,11 +161,16 @@ functions = {
             "Packing": {
                 "HasChild": False,
                 "Overall": {
-                    "I8-I8": "ruy::(anonymous namespace)::TrMulTask::EnsurePacked",
-                    "GEMMLOWP": "tflite::cpu_backend_gemm::detail::GemmImplUsingGemmlowp<signed char, signed char, int, signed char, (tflite::cpu_backend_gemm::QuantizationFlavor)2>::Run",
-                    "No-Caching": "ruy::(anonymous namespace)::TrMulTask::EnsurePacked",
+                    "I8-I8": "ruy::Pack8bitColMajorForNeon",
+                    "GEMMLOWP": "tflite::cpu_backend_gemm::Gemm<signed char, signed char, int, signed char, (tflite::cpu_backend_gemm::QuantizationFlavor)2>",
+                    "No-Caching": "ruy::Pack8bitColMajorForNeon",
+                    "FP32": "ruy::PackFloatColMajorForNeon",
+                    "No-Caching-FP32": "ruy::PackFloatColMajorForNeon",
+                    "Eigen": "ruy::PackFloatColMajorForNeon",
                     "I4-I4": "LowPrecision::PrepareMatrixAsInputForMethod",
                     "BSM-W8A8": "LowPrecision::PrepareMatrixAsInputForMethod",
+                    "SelfDependent-W4A8": "LowPrecision::PrepareMatrixAsInputForMethod",
+                    "SelfDependent-W8A4": "LowPrecision::PrepareMatrixAsInputForMethod",
                     "SelfDependent-W4A4": "LowPrecision::PrepareMatrixAsInputForMethod",
                     "Ternary-Ternary": "LowPrecision::PrepareMatrixAsInputForMethod",
                     "Binary-Binary": "LowPrecision::PrepareMatrixAsInputForMethod",
@@ -157,8 +187,13 @@ functions = {
                 "I8-I8": "tflite::optimized_ops::Im2col<signed char>",
                 "GEMMLOWP": "tflite::optimized_ops::Im2col<signed char>",
                 "No-Caching": "tflite::optimized_ops::Im2col<signed char>",
+                "FP32": "tflite::optimized_ops::Im2col<float>",
+                "No-Caching-FP32": "tflite::optimized_ops::Im2col<float>",
+                "Eigen": "tflite::optimized_ops::Im2col<float>",
                 "I4-I4": "tflite::optimized_ops::Im2col<signed char>",
                 "BSM-W8A8": "tflite::optimized_ops::Im2col<signed char>",
+                "SelfDependent-W4A8": "tflite::optimized_ops::Im2col<signed char>",
+                "SelfDependent-W8A4": "tflite::optimized_ops::Im2col<signed char>",
                 "SelfDependent-W4A4": "tflite::optimized_ops::Im2col<signed char>",
                 "Ternary-Ternary": "tflite::optimized_ops::Im2col<signed char>",
                 "Binary-Binary": "tflite::optimized_ops::Im2col<signed char>",
@@ -453,8 +488,7 @@ if options.output != sys.stdout:
                 speedup_imagenet_1K_csv_path = splitext(options.speedups)[0] + "-wrt-" + baseline + "-imagenet-1K" + splitext(options.speedups)[1]
                 speedup_imagenet_21K_csv_path = splitext(options.speedups)[0] + "-wrt-" + baseline + "-imagenet-21K" + splitext(options.speedups)[1]
                 print_as_csv_wrt_baseline("CNNs-ImageNet-1K", "Models", methods, models_names_1K_imagenet, results, baseline, open(speedup_imagenet_1K_csv_path, "w"), close_output_at_finish=True)
-                print_as_csv_wrt_baseline("CNNs-ImageNet-21K", "Models", methods, models_names_21K_imagenet, results, baseline, open(speedup_imagenet_21K_csv_path, "w"), close_output_at_finish=True)
-            
+                print_as_csv_wrt_baseline("CNNs-ImageNet-21K", "Models", methods, models_names_21K_imagenet, results, baseline, open(speedup_imagenet_21K_csv_path, "w"), close_output_at_finish=True)         
 else:
     if len(models_names_21K_imagenet) > 0:
         print_as_csv("CNNs-ImageNet-1K", "Models", methods, models_names_1K_imagenet, results)
@@ -499,7 +533,8 @@ for texAuxFile in glob.iglob(os.path.join(per_layer_breakdown_figure_parent_path
 for texLogFile in glob.iglob(os.path.join(per_layer_breakdown_figure_parent_path, '*.log')):
     os.remove(texLogFile)
 
-exit(0)
+# print(functions_results)
+# exit(0)
 
 print("Generating Detailed Breakdown YAMLs")
 detailed_breakdown = {}
@@ -522,7 +557,8 @@ for model in models:
             Overall: '{model_method_result[functions['Conv']['Others']['Overall'][method]][0] * results[model][method]:.2f}
 '
 """
-        except KeyError:
+        except KeyError as e:
+            print(f"[x] Skipping {model} for {method} (because of {e})")
             continue
 
 detailed_breakdown_parent_path = Path(options.detailed_breakdown if options.detailed_breakdown else "DetailedBreakdown")
@@ -554,8 +590,8 @@ for model in models:
             Packing: '{(functions_results[model]['I8-I8'][functions['Conv']['GEMM']['Packing']['Overall']['I8-I8']][0] * results[model]['I8-I8']) / (model_method_result[functions['Conv']['GEMM']['Packing']['Overall'][method]][0] * results[model][method]):.2f}'
 
 """
-        except KeyError:
-            print(f"[x] Skipping {model} for {method}")
+        except KeyError as e:
+            print(f"[x] Skipping {model} for {method} (because of {e})")
             continue
 
 detailed_breakdown_parent_path = Path(options.detailed_speedup if options.detailed_speedup else "DetailedSpeedups")
@@ -587,6 +623,8 @@ for key in detailed_comparison_data_generator_lambdas.keys():
     )
 
 
+exit(0)
+
 print("Generating Detiled Figures TeXs")
 
 detailed_comparison_figure_tex_parent_path = Path(join(detailed_comparison_parent_path, "Figures-Texs"))
@@ -599,6 +637,8 @@ selected_methods = [
     'I8-I8',
     'No-Caching',
     'GEMMLOWP',
+    'SelfDependent-W4A8',
+    'SelfDependent-W8A4',
     'SelfDependent-W4A4',
     'ULPPACK-W4A4',
     'I4-I4',

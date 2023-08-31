@@ -1,0 +1,121 @@
+I8-I8:
+    Overall: '821.42'
+    Conv:
+        Overall: '663.62'
+        GEMM: 
+            Overall: '663.29'
+            Kernel:  '564.80'
+            Packing: '63.35'
+        Others (Im2Col):
+            Overall: '1.81
+'
+No-Caching:
+    Overall: '850.72'
+    Conv:
+        Overall: '688.42'
+        GEMM: 
+            Overall: '688.16'
+            Kernel:  '576.09'
+            Packing: '71.16'
+        Others (Im2Col):
+            Overall: '1.88
+'
+GEMMLOWP:
+    Overall: '903.11'
+    Conv:
+        Overall: '740.38'
+        GEMM: 
+            Overall: '740.11'
+            Kernel:  '702.67'
+            Packing: '702.67'
+        Others (Im2Col):
+            Overall: '1.90
+'
+FP32:
+    Overall: '1614.53'
+    Conv:
+        Overall: '1453.49'
+        GEMM: 
+            Overall: '1453.17'
+            Kernel:  '960.36'
+            Packing: '384.86'
+        Others (Im2Col):
+            Overall: '2.43
+'
+No-Caching-FP32:
+    Overall: '1608.75'
+    Conv:
+        Overall: '1447.81'
+        GEMM: 
+            Overall: '1447.49'
+            Kernel:  '958.22'
+            Packing: '382.35'
+        Others (Im2Col):
+            Overall: '2.26
+'
+Eigen:
+    Overall: '1610.46'
+    Conv:
+        Overall: '1449.83'
+        GEMM: 
+            Overall: '1449.51'
+            Kernel:  '957.78'
+            Packing: '383.24'
+        Others (Im2Col):
+            Overall: '2.26
+'
+ULPPACK-W4A4:
+    Overall: '808.89'
+    Conv:
+        Overall: '644.69'
+        GEMM: 
+            Overall: '644.21'
+            Kernel:  '515.85'
+            Packing: '92.18'
+        Others (Im2Col):
+            Overall: '1.71
+'
+SelfDependent-W4A4:
+    Overall: '666.26'
+    Conv:
+        Overall: '509.47'
+        GEMM: 
+            Overall: '509.20'
+            Kernel:  '466.57'
+            Packing: '11.26'
+        Others (Im2Col):
+            Overall: '1.74
+'
+SelfDependent-W4A8:
+    Overall: '849.98'
+    Conv:
+        Overall: '689.92'
+        GEMM: 
+            Overall: '689.58'
+            Kernel:  '470.17'
+            Packing: '182.00'
+        Others (Im2Col):
+            Overall: '1.88
+'
+SelfDependent-W8A4:
+    Overall: '675.12'
+    Conv:
+        Overall: '517.27'
+        GEMM: 
+            Overall: '516.93'
+            Kernel:  '473.97'
+            Packing: '12.03'
+        Others (Im2Col):
+            Overall: '1.77
+'
+BSM-W8A8:
+    Overall: '770.18'
+    Conv:
+        Overall: '609.76'
+        GEMM: 
+            Overall: '609.45'
+            Kernel:  '486.43'
+            Packing: '87.95'
+        Others (Im2Col):
+            Overall: '1.86
+'
