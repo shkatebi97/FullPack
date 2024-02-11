@@ -9,6 +9,8 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#include <iomanip>
+#include <iostream>
 
 using namespace std;
 using namespace LowPrecision;
@@ -37,7 +39,7 @@ inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape sha
             if (no_print_hex)
                 std::cout << (int)matrix[(i * shape.size[1]) + j] << ", ";
             else
-                std::cout << "0x" << (int)matrix[(i * shape.size[1]) + j] << ", ";
+                std::cout << "0x" << std::setfill('0') << std::setw(2) << (uint)matrix[(i * shape.size[1]) + j] << ", ";
         std::cout << "]" << std::endl;
     }
     std::cout << "]";
@@ -56,7 +58,7 @@ inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape sha
             if (no_print_hex)
                 output << (int)matrix[(i * shape.size[1]) + j] << ", ";
             else
-                output << "0x" << (int)matrix[(i * shape.size[1]) + j] << ", ";
+                output << "0x" << std::setfill('0') << std::setw(2) << (uint)matrix[(i * shape.size[1]) + j] << ", ";
         output << "]" << endl;
     }
     output << "]";
@@ -5216,6 +5218,7 @@ int main(int argc, char *argv[]){
     bool singlebatch_benchmark_enable = false;
     bool multibatch_benchmark_enable = false;
     bool integrity_test = true;
+    bool gather_timing_details = false;
 
     int  selected_test = 0xffff;
     int  selected_benchmark_enable = 0xffff;
@@ -5413,7 +5416,7 @@ int main(int argc, char *argv[]){
                 else if (selected_test == "BarrelShiftMultiplierW4A8")
                     test_gemm_api |= 0x00200000; 
                 else if (selected_test == "BarrelShiftMultiplierW2A2")
-                    test_gemm_api |= 0x00400000; 
+                    test_gemm_api |= 0x00400000;
             }
         } else
             test_gemm_api = 0xffffff;
@@ -5590,6 +5593,10 @@ int main(int argc, char *argv[]){
                     selected_benchmark_real_multi_gemm_api |= 0x00100000;
                 else if (selected_test == "BarrelShiftMultiplierW2A2")
                     selected_benchmark_real_multi_gemm_api |= 0x00200000;
+                else if (selected_test == "--gather-timing-details")
+                    gather_timing_details = true;
+                else
+                    throw std::invalid_argument("Invalid test method provided. Please provide a valid test method.");
             }
         } else
             selected_benchmark_real_multi_gemm_api = 0xffffff;
@@ -7015,7 +7022,7 @@ int main(int argc, char *argv[]){
     benchmark_mode.multi_mul_api_different_size_benchmark_time_path     = multi_mul_api_different_size_benchmark_time_file;
     benchmark_mode.multi_mul_api_different_size_benchmark_speedup_path  = multi_mul_api_different_size_benchmark_speedup_file;
 
-    run_benchmark(benchmark_iterations, benchmark_mode);
+    run_benchmark(benchmark_iterations, benchmark_mode, gather_timing_details);
 
     return 0;
 }

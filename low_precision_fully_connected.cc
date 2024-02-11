@@ -112,6 +112,8 @@ namespace LowPrecision{
                 return Method::kSelfDependentW2A2;
             else if (retval == std::string("BSM-W8A8"))
                 return Method::kBarrelShiftMulW8A8;
+            else if (retval == std::string("BSM-W4A4"))
+                return Method::kBarrelShiftMulW4A4;
             else
                 return Method::kNoOptimization;
         } 
@@ -227,7 +229,8 @@ namespace LowPrecision{
                 (method & Method::kSelfDependentW4A8)               ||
                 (method & Method::kSelfDependentW8A4)               ||
                 (method & Method::kSelfDependentW2A2)               ||
-                (method & Method::kBarrelShiftMulW8A8)
+                (method & Method::kBarrelShiftMulW8A8)              ||
+                (method & Method::kBarrelShiftMulW4A4)
                 ;
         }
         bool RequiresOutputUnpacking(Method method){
@@ -462,6 +465,10 @@ namespace LowPrecision{
                 least_dim_size  = 8;
                 reduction_coeff = 1;
             }
+            else if (method == LowPrecision::Method::kBarrelShiftMulW4A4){
+                least_dim_size  = 16;
+                reduction_coeff = 2;
+            }
 
             int least_row_size = 4;
             if (method & LowPrecision::Method::k8x8){
@@ -537,6 +544,10 @@ namespace LowPrecision{
             else if (method == LowPrecision::Method::kBarrelShiftMulW8A8){
                 least_dim_size  = 8;
                 reduction_coeff = 1;
+            }
+            else if (method == LowPrecision::Method::kBarrelShiftMulW4A4){
+                least_dim_size  = 16;
+                reduction_coeff = 2;
             }
 
             int least_row_size = 4;

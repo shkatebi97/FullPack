@@ -187,7 +187,8 @@ cc_library(
         "kernels/ULPPACK.cc",
         # BarrelShiftMultiplier sources
         "kernels/BarrelShiftMultiplier.cc",
-        "kernels/BarrelShiftMultiplier-kernels/W8A8.cc"
+        "kernels/BarrelShiftMultiplier-kernels/W8A8.cc",
+        "kernels/BarrelShiftMultiplier-kernels/W4A4.cc",
         # SelfDependent sources
         "kernels/SelfDependent.cc",
         "kernels/SelfDependent-kernels/W4A4.cc",

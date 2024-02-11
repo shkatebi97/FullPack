@@ -10,6 +10,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::QuantizeFilter(input, k_shape, output, layout);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::QuantizeFilter(input, k_shape, output, layout);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -19,6 +21,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::QuantizeFilter(input, k_shape, output, layout);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::QuantizeFilter(input, k_shape, output, layout);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -28,6 +32,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::QuantizeInput(input, shape, output, layout);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::QuantizeInput(input, shape, output, layout);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -37,6 +43,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::QuantizeInput(input, shape, output, layout);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::QuantizeInput(input, shape, output, layout);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -46,6 +54,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::UnpackOutput(input, shape, output);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::UnpackOutput(input, shape, output);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -60,6 +70,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::MultiplyInt8SingleBatch(input, input_shape, kernel, kernel_shape, output, output_shape);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::MultiplyInt8SingleBatch(input, input_shape, kernel, kernel_shape, output, output_shape);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -75,6 +87,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::MultiplyInt8MultiBatched(input, input_shape, kernel, kernel_shape, output, output_shape);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::MultiplyInt8MultiBatched(input, input_shape, kernel, kernel_shape, output, output_shape);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -90,6 +104,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::MultiplyInt8MultiBatched(input, input_shape, kernel, kernel_shape, output, output_shape);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::MultiplyInt8MultiBatched(input, input_shape, kernel, kernel_shape, output, output_shape);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }
@@ -103,6 +119,8 @@ namespace LowPrecision{
                 {
                 case LowPrecision::Method::kBarrelShiftMulW8A8:
                     return LowPrecision::FullyConnected::BSM::W8A8::MultiplyInt8MultiBatchedBlock(input, kernel, output, params);
+                case LowPrecision::Method::kBarrelShiftMulW4A4:
+                    return LowPrecision::FullyConnected::BSM::W4A4::MultiplyInt8MultiBatchedBlock(input, kernel, output, params);
                 default:
                     return LowPrecision::Status::NotSupported;
                 }

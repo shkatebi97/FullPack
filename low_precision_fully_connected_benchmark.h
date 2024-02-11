@@ -19,11 +19,20 @@ vector<pair<size_t, size_t>> extractSizesSingleBatch(std::string str);
 vector<tuple<size_t, size_t, size_t>> extractSizesMultiBatch(std::string str);
 
 typedef struct {
+    LowPrecision::TimingDetailes* filter_preparation_timing_profiler = nullptr;
+    LowPrecision::TimingDetailes* input_preprocess_timing_profiler = nullptr;
+    LowPrecision::TimingDetailes* output_preprocess_timing_profiler = nullptr;
+    LowPrecision::TimingDetailes* multiplication_timing_profiler = nullptr;
+} TimingDetailes_t;
+
+typedef struct {
     bool disable_print = false;
     bool fill = false;
     bool process_unsinged = false;
     bool use_external_timing_profiler = false;
     bool is_gem5 = false;
+    bool return_timing_details = false;
+    TimingDetailes_t* timing_details = nullptr;
 } GemmAPIConfig_t;
 
 
@@ -554,10 +563,18 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
         LowPrecision::deallocate(kernel_scratchpads);
     LowPrecision::deallocate(output_scratchpads);
     
-    delete filter_preparation_timing_profiler;
-    delete input_preprocess_timing_profiler;
-    delete output_preprocess_timing_profiler;
-    delete multiplication_timing_profiler;
+    if (config.return_timing_details){
+        config.timing_details->filter_preparation_timing_profiler = filter_preparation_timing_profiler;
+        config.timing_details->input_preprocess_timing_profiler = input_preprocess_timing_profiler;
+        config.timing_details->output_preprocess_timing_profiler = output_preprocess_timing_profiler;
+        config.timing_details->multiplication_timing_profiler = multiplication_timing_profiler;
+    }
+    else {
+        delete filter_preparation_timing_profiler;
+        delete input_preprocess_timing_profiler;
+        delete output_preprocess_timing_profiler;
+        delete multiplication_timing_profiler;
+    }
 
     if (!disable_print)
         cout << "\r"
@@ -1640,7 +1657,7 @@ double run_terter_mb_benchmark(size_t benchmark_iterations, Shape input_shape, S
     return time_consumed;
 }
 
-void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
+void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks, bool detailed_timing = false){
     int _num_batches          = 512,
         _num_inputs           = 512,
         _num_outputs          = 512;
@@ -2053,11 +2070,13 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
     }
     if (benchmarks.real_multi_gemm_api_benchmark_enable){
         if (verbosity >= 2)
-            cout << "Running Real Multi-Batch GEMM API benchmark" << endl;
+            cout << "Running Real Multi-Batch GEMM API benchmark" << ((detailed_timing)?(" (With Timing Detail Activated)"):("")) << endl;
 
         bool show_speedups  = LowPrecision::FullyConnected::GetVariableFromEnv( "ShowSpeedups" ) == "TRUE";
         bool is_gem5        = LowPrecision::FullyConnected::GetVariableFromEnv( "IS_GEM5" ) == "TRUE";
         double baseline_time = 1, benchmark_time;
+        TimingDetailes_t timing_details;
+        bool gather_timing_details = detailed_timing;
 
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x80000000 || show_speedups){
             baseline_time = run_real_ruy_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, disable_progress);
@@ -2076,7 +2095,7 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
             }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00000001){ // kInt8Int4
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Int4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Int4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2093,9 +2112,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00000002){ // kInt8Binary
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Binary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Binary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2112,9 +2154,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00000004){ // kInt8Ternary
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Ternary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt8Ternary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2131,9 +2196,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00000010){ // kInt4ActInt8Weight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2150,9 +2238,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00000020){ // kInt4ActInt4Weight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt4Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kInt4ActInt4Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2169,9 +2280,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00000040){ // kTernaryActInt8Weight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2188,9 +2322,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00000200){ // kTernaryActTernaryWeight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActTernaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kTernaryActTernaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2207,9 +2364,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00000100){ // kBinaryActBinaryWeight
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBinaryActBinaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBinaryActBinaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2226,9 +2406,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00002000){ // kULPPACKW4A4
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kULPPACKW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kULPPACKW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2245,9 +2448,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00004000){ // kSelfDependentW4A4
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2264,9 +2490,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00008000){ // kSelfDependentW4A8
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW4A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW4A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2283,9 +2532,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00010000){ // kSelfDependentW8A4
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW8A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kSelfDependentW8A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2302,9 +2574,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00020000){ // kBarrelShiftMulW8A8
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW8A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW8A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2321,9 +2616,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00040000){ // kBarrelShiftMulW4A4
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2340,9 +2658,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00080000){ // kBarrelShiftMulW8A4
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW8A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW8A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2359,9 +2700,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00100000){ // kBarrelShiftMulW4A8
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW4A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW4A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2378,9 +2742,32 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00200000){ // kBarrelShiftMulW2A2
-            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW2A2, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5}));
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kBarrelShiftMulW2A2, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\r[" 
@@ -2397,9 +2784,33 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks){
                 else
                     cout << benchmark_time << ",";
             }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
         }
         if (verbosity == 1)
             cout << endl;
+        
     }
     if (benchmarks.real_multi_mul_api_benchmark_enable){
         cout << "Running Real Multi-Batch Mul API benchmark" << endl;
