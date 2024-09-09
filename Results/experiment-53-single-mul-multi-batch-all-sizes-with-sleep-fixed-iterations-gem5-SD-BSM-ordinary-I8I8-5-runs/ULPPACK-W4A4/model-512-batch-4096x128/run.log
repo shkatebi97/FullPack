@@ -1,0 +1,78 @@
+warn: The `get_runtime_isa` function is deprecated. Please migrate away from using this function.
+warn: The `get_runtime_isa` function is deprecated. Please migrate away from using this function.
+Global frequency set at 1000000000000 ticks per second
+warn: No dot file generated. Please install pydot to generate the dot file and pdf.
+build/ARM/mem/dram_interface.cc:690: warn: DRAM device capacity (512 Mbytes) does not match the address range assigned (4096 Mbytes)
+build/ARM/base/remote_gdb.cc:416: warn: Sockets disabled, not accepting gdb connections
+Redirecting stdout and stderr to ../../ULPPACK-W4A4/model-512-batch-4096x128/run.log
+gem5 Simulator System.  https://www.gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 version 22.1.0.0
+gem5 compiled Aug 13 2024 13:34:13
+gem5 started Sep  8 2024 17:36:44
+gem5 executing on user01, pid 2441435
+command line: /home/user01/gem5/build/ARM/gem5.fast --redirect-stdout --stdout-file run.log --stderr-file err.log --listener-mode off -d ../../ULPPACK-W4A4/model-512-batch-4096x128 /home/user01/gem5/configs/example/se.py -n 1 --mem-size 4GB --mem-type LPDDR3_1600_1x32 --caches --l2cache --cpu-clock 2.45GHz --l1d_size 128kB --l1i_size 128kB --cpu-type ex5_big --interp-dir /usr/aarch64-linux-gnu/ --redirects /lib=/usr/aarch64-linux-gnu/lib --fast-forward 1844674407370955161 --env env -c /home/user01/benchmark_model -o '--graph=/home/user01/different-sizes-fcs-multi-batch-smaller/f32i8/model-512-batch-4096x128.tflite --use_xnnpack=false --use_caching=true --num_threads=1 --num_runs=5 --warmup_runs=1 --min_secs=1e-09 --warmup_min_secs=1e-09 '
+
+Setting the interpreter path to: /usr/aarch64-linux-gnu/ 
+For dynamically linked applications you might still need to setup the --redirects so that libraries are found
+
+Switch at instruction count:1844674407370955161
+build/ARM/sim/simulate.cc:192: info: Entering event queue @ 0.  Starting simulation...
+build/ARM/sim/syscall_emul.cc:74: warn: ignoring syscall set_robust_list(...)
+build/ARM/sim/syscall_emul.cc:74: warn: ignoring syscall rt_sigaction(...)
+build/ARM/sim/syscall_emul.cc:74: warn: ignoring syscall rt_sigaction(...)
+build/ARM/sim/syscall_emul.cc:85: warn: ignoring syscall rt_sigprocmask(...)
+      (further warnings will be suppressed)
+build/ARM/sim/mem_state.cc:443: info: Increasing stack size by one page.
+STARTING!
+build/ARM/sim/mem_state.cc:443: info: Increasing stack size by one page.
+build/ARM/sim/mem_state.cc:443: info: Increasing stack size by one page.
+build/ARM/sim/mem_state.cc:443: info: Increasing stack size by one page.
+Duplicate flags: num_threads
+Log parameter values verbosely: [0]
+Min num runs: [5]
+Min runs duration (seconds): [1e-09]
+Num threads: [1]
+Use caching: [1]
+Min warmup runs: [1]
+Min warmup runs duration (seconds): [1e-09]
+Graph: [/home/user01/different-sizes-fcs-multi-batch-smaller/f32i8/model-512-batch-4096x128.tflite]
+#threads used for CPU inference: [1]
+Use xnnpack: [0]
+Loaded model /home/user01/different-sizes-fcs-multi-batch-smaller/f32i8/model-512-batch-4096x128.tflite
+build/ARM/sim/mem_state.cc:443: info: Increasing stack size by one page.
+INFO: Initialized TensorFlow Lite runtime.
+Applying FC Low-Precision for Kernel shape (4096, 128, ), Input shape (512, 4096, ), Output shape (512, 128, ), ID: 0, Method: ULPPACKW4A4
+	Allocating Filter Shape: (4096, 128, ) DONE
+	Preparing Filter With Shape: (4096, 128, ) DONE
+	Allocating An Input Temporary Tensor With Shape: (512, 4096, ) DONE
+The input model file size (MB): 0.525296
+Initialized session in 0.3ms.
+Running benchmark for at least 1 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+count=1 curr=30636
+
+Running benchmark for at least 5 iterations and at least 1e-09 seconds but terminate if exceeding 150 seconds.
+build/ARM/sim/power_state.cc:105: warn: PowerState: Already in the requested power state, request ignored
+build/ARM/arch/arm/isa.hh:210: warn: User mode does not have SPSR
+build/ARM/arch/arm/isa.hh:210: warn: User mode does not have SPSR
+Switched CPUS @ tick 65417116152
+switching cpus
+**** REAL SIMULATION ****
+build/ARM/sim/simulate.cc:192: info: Entering event queue @ 65417116152.  Starting simulation...
+count=5 first=34867 curr=34827 min=34827 max=34867 avg=34845.4 std=15
+
+Inference timings in us: Init: 300, First inference: 30636, Warmup (avg): 30636, Inference (avg): 34845.4
+Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+Memory footprint delta from the start of the tool (MB): init=0 overall=0
+Total GEMM API Timing   : 165503
+	GEMM            : 153409
+	Input  Packing  : 12092.4
+	Filter Packing  : 81.727
+	Output Packing  : 0.124
+	Output UnPacking: 0.106
+	Input  Padding  : 0.163
+	Filter Padding  : 0.016
+	Output Padding  : 0.665
+	Output UnPadding: 0.174
+Exiting @ tick 306446511528 because exiting with last active thread context

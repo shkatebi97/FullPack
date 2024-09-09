@@ -940,7 +940,7 @@ namespace LowPrecision{
                             int32_t* c6 = c5 + c_stride;
                             int32_t* c7 = c6 + c_stride;
 
-                            if (BarrelShiftMulW8A8_InKernelUnpack){
+                            #if BarrelShiftMulW8A8_InKernelUnpack
                                 uint16x8_t vACC_Or0C0123,
                                         vACC_Or0C4567,
                                         vACC_Or1C0123,
@@ -1061,7 +1061,7 @@ namespace LowPrecision{
                                 vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 4, vACC_Ar76543210_x_Wc65432107, 7);
                                 vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 6, vACC_Ar76543210_x_Wc76543210, 7);
                                 vst1q_s32(c7+4, vACC_Or7C4567);
-                            } else {
+                            #else
                                 uint32x4_t vACC_Ar76543210_x_Wc76543210_high, vACC_Ar76543210_x_Wc76543210_low,
                                         vACC_Ar76543210_x_Wc07654321_high, vACC_Ar76543210_x_Wc07654321_low,
                                         vACC_Ar76543210_x_Wc10765432_high, vACC_Ar76543210_x_Wc10765432_low,
@@ -1110,7 +1110,7 @@ namespace LowPrecision{
                                 vst1q_s32(c7, vACC_Ar76543210_x_Wc65432107_low);
                                 vACC_Ar76543210_x_Wc65432107_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc65432107, 0);
                                 vst1q_s32(c7+4, vACC_Ar76543210_x_Wc65432107_high);
-                            }
+                            #endif
                         }
                     }
                     return Status::Success;
