@@ -1132,6 +1132,9 @@ namespace LowPrecision {
             }
             
         }
+        namespace Float32{
+            LowPrecision::Status QuantizeInput();
+        }
 
         void doScallingFactorMultiplication(int32_t* input, const float* scalling_factor, float* output,
                                             int batch_n, int input_n);

@@ -936,6 +936,12 @@ void run_mul_api_tests(LowPrecision::Method method){
     LowPrecision::deallocate(output_data_MB_ruy);
 }
 
+void run_f32i8_tests(){
+    cout<< "This is Float32Int8 method"<<endl;
+    Status ret = LowPrecision::FullyConnected::Float32::QuantizeInput();
+    cout << "LowPrecision::FullyConnected::Int4::QuantizeInput-RowMajor Return Status \t=> " << ((ret)?("\033[1m\033[31m"):("\033[1m\033[32m")) << ((ret)?("FAILED"):("PASSED")) << "\033[0m" << endl;
+}
+
 void run_i8i4_tests(
     const int* _template,
     const int8_t* _answers,
@@ -5317,6 +5323,7 @@ int main(int argc, char *argv[]){
                 selected_benchmark_enable = 0x0800;  
             else if (selected_benchmark == "Int8")
                 selected_benchmark_enable = 0x8000; 
+
         }
     }
     else if (input_mode == "test-mul-api"){
@@ -5417,6 +5424,8 @@ int main(int argc, char *argv[]){
                     test_gemm_api |= 0x00200000; 
                 else if (selected_test == "BarrelShiftMultiplierW2A2")
                     test_gemm_api |= 0x00400000;
+                else if (selected_test == "Float32Int8")
+                    test_gemm_api |= 0x01000000;
             }
         } else
             test_gemm_api = 0xffffff;
@@ -5533,6 +5542,8 @@ int main(int argc, char *argv[]){
                 selected_benchmark_real_multi_mul_api = 0x0800;
             else if (selected_test == "Int8")
                 selected_benchmark_real_multi_mul_api = 0x8000;
+            else if (selected_test == "Float32Int8")
+                selected_benchmark_real_multi_mul_api = 0x4000;
         }
         else
             selected_benchmark_real_multi_mul_api = 0xffff;
@@ -5760,7 +5771,9 @@ int main(int argc, char *argv[]){
             else if (input_mode == "Int8ActInt8WeightBarrelShiftMul")
                 selected_test = 0x1000; 
             else if (input_mode == "Int8")
-                selected_test = 0x8000; 
+                selected_test = 0x8000;
+            else if (input_mode == "Float32Int8")
+                selected_test = 0x4000;
         }
     }
     
@@ -6910,6 +6923,9 @@ int main(int argc, char *argv[]){
                     i3i3_num_batch     = 4;
         run_i3i3_tests(i3i3_template, i3i3_answers, i3i3_kernel_fill_mode, i3i3_num_inputs, i3i3_num_output, i3i3_num_batch);
     }
+    if (mode & 0x4000)/* Float32InputsInt8Weights*/{
+        run_f32i8_tests();
+    }
 
     if (test_mul_api){
         if (test_mul_api == 0x010000)
@@ -6989,6 +7005,8 @@ int main(int argc, char *argv[]){
             run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A8);
         if (test_gemm_api &  0x00400000)
             run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW2A2);
+        if (test_gemm_api &  0x01000000)
+            run_gemm_api_tests(LowPrecision::Method::kFloat32Int8);
     }
 
     benchmark_mode_t benchmark_mode;

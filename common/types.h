@@ -317,6 +317,7 @@ typedef enum {
     kBarrelShiftMulW4A8             = 0x008000000000,
     kBarrelShiftMulW8A4             = 0x010000000000,
     kBarrelShiftMulW2A2             = 0x020000000000,
+    kFloat32Int8                    = 0x040000000000,
 } Method;
 
 inline const char* get_method_string(Method method){
@@ -451,6 +452,9 @@ inline const char* get_method_string(Method method){
         break;
     case kBarrelShiftMulW2A2:
         strcpy(output, std::string("BarrelShiftMulW2A2").c_str());
+        break;
+    case kFloat32Int8:
+        strcpy(output, std::string("Float32Int8").c_str());
         break;
     default:
         strcpy(output, std::string("NotDefined").c_str());

@@ -2002,6 +2002,12 @@ namespace LowPrecision{
                         return (get_as<uint8_t>(input) << (shift_amount * 4)) & (0x0f << ((shift_amount) * 4));
             }
         }
+        
+        namespace Float32 {
+            Status QuantizeInput(){
+                return Status::Success;
+            }
+        }
     }
 }
 #endif
