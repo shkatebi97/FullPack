@@ -50,6 +50,5 @@
 #define BarrelShiftMulW8A8_UnpackWithTLB 0 // This is not implemented!
 #define BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad 0
 
-#define IS_ARM true
 
 #endif

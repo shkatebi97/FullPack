@@ -768,6 +768,24 @@ namespace LowPrecision{
                 LowPrecision::deallocate(input_ptr);
             return ret;
         }
+        Status QuantizeInput(LowPrecision::Method method, const float32_t* input, LowPrecision::Shape shape, float32_t* output, LowPrecision::MemLayout layout){
+            float32_t* input_ptr = const_cast<float32_t*>(input);
+            Shape input_padded_shape;
+            input_padded_shape = GetPaddedShape(method, shape, true, LowPrecision::MatrixType::Input);
+            bool need_padding = input_padded_shape != shape;
+            if (need_padding){
+                input_ptr = ::LowPrecision::allocate<float32_t>(input_padded_shape.flatsize);
+                Status pad_ret = PadMatrixFromShapeToShape(input, input_ptr, shape, input_padded_shape);
+                if (pad_ret != Status::Success) return pad_ret;
+            }
+            LowPrecision::Status ret = Status::NotSupported;
+            if(method == Method::kFloat32Int8)
+                ret = LowPrecision::FullyConnected::Float32::QuantizeInput(input, input_padded_shape, output, layout);
+            
+            if (need_padding)
+                LowPrecision::deallocate(input_ptr);
+            return ret;
+        }
         Status UnpackOutput(LowPrecision::Method method, const int32_t* input, LowPrecision::Shape shape, int32_t* output){
             LowPrecision::Status ret = Status::NotSupported;
             if (method == LowPrecision::Method::kInt8Int4)
@@ -804,6 +822,7 @@ namespace LowPrecision{
                 ret = LowPrecision::FullyConnected::BSM::UnpackOutput(method, input, shape, output);
             return ret;
         }
+
         Status Multiply(
             LowPrecision::Method method,
             const int8_t* input, LowPrecision::Shape input_shape,
@@ -1100,6 +1119,15 @@ namespace LowPrecision{
             //     );
             return Status::NotImplemented;
         }
+        Status MultiplyInt8SingleBatch(
+            LowPrecision::Method method,
+            const float32_t* input, LowPrecision::Shape input_shape,
+            const int8_t* kernel, LowPrecision::Shape kernel_shape,
+            float32_t* output, LowPrecision::Shape output_shape
+        ){
+            return Status::NotImplemented;
+        }
+
         Status MultiplyInt8MultiBatched(
             LowPrecision::Method method,
             const int8_t* input, LowPrecision::Shape input_shape,
@@ -1328,6 +1356,24 @@ namespace LowPrecision{
                 );
             return ret;
         }
+        Status MultiplyInt8MultiBatched(
+            LowPrecision::Method method,
+            const float32_t* input, LowPrecision::Shape input_shape,
+            const int8_t* kernel, LowPrecision::Shape kernel_shape,
+            float32_t* output, LowPrecision::Shape output_shape,
+            LowPrecision::MulParams params
+        ){
+            LowPrecision::Status ret = Status::NotSupported;
+            if (method == LowPrecision::Method::kFloat32Int8)
+                ret = LowPrecision::FullyConnected::Float32::MultiplyFloat32MultiBatched(
+                    input, input_shape,
+                    kernel, kernel_shape,
+                    output, output_shape,
+                    params
+                );
+            return ret;
+        }
+
         Status MultiplyInt8MultiBatchedBlockProcessing(
             LowPrecision::Method method,
             const int8_t* input, LowPrecision::Shape input_shape,
@@ -1521,6 +1567,15 @@ namespace LowPrecision{
         ){
             return Status::NotImplemented;
         }
+        Status MultiplyInt8MultiBatchedBlockProcessing(
+            LowPrecision::Method method,
+            const float32_t* input, LowPrecision::Shape input_shape,
+            const int8_t* kernel, LowPrecision::Shape kernel_shape,
+            float32_t* output, LowPrecision::Shape output_shape
+        ){
+            return Status::NotImplemented;
+        }
+
         Shape GetPaddedShape(const LowPrecision::Method method, const Shape& input_shape, bool pad_rows_too, LowPrecision::MatrixType type){
             int least_row_size = 4;
             int least_dim_size = 16;

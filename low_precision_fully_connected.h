@@ -25,6 +25,7 @@
 // #define PRINT_VALUES_DETAILED false
 namespace LowPrecision {
     class Matrix {
+        DataType                 _data_type              = DataType::Int8;
         bool                     _data_is_int32          = false; 
 
         bool                     _use_single_scratchpad  = false;
@@ -99,7 +100,7 @@ namespace LowPrecision {
         LowPrecision::Shape getFinalShape()                             { return _prepared_shape; }
         LowPrecision::MemLayout getMemLayout()                          { return _mem_layout; }
         LowPrecision::MatrixType getMatrixType()                        { return _type; }
-        LowPrecision::DataType getDataType()                            { return ((_data_is_int32)?(LowPrecision::DataType::Int32):(LowPrecision::DataType::Int8)); }
+        LowPrecision::DataType getDataType()                            { return _data_type; }
         bool getSignStatus()                                            { return !_process_unsigned; }
     
         void useSingleScratchpad(bool enable = true)                    { _use_single_scratchpad = enable; }
@@ -114,15 +115,23 @@ namespace LowPrecision {
         void setScratchpad(int8_t* data)                                { _scratchpad           = data; }
         void setPaddingScratchpad(int8_t* data)                         { _padded_data          = data; }
 
-        void setData(int32_t* data)                                     { _data                 = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; }
-        void setScratchpad(int32_t* data)                               { _scratchpad           = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; }
-        void setPaddingScratchpad(int32_t* data)                        { _padded_data          = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; }
+        void setData(int32_t* data)                                     { _data                 = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; _data_type = DataType::Int32; }
+        void setScratchpad(int32_t* data)                               { _scratchpad           = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; _data_type = DataType::Int32; }
+        void setPaddingScratchpad(int32_t* data)                        { _padded_data          = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; _data_type = DataType::Int32; }
+        
+        void setData(float32_t* data)                                   { _data                 = LowPrecision::get_pointer_as<int8_t>(data); _data_type = DataType::Float32; }
+        void setScratchpad(float32_t* data)                             { _scratchpad           = LowPrecision::get_pointer_as<int8_t>(data); _data_type = DataType::Float32; }
+        void setPaddingScratchpad(float32_t* data)                      { _padded_data          = LowPrecision::get_pointer_as<int8_t>(data); _data_type = DataType::Float32; }
 
         void setDataAndScratchpad(int8_t* data, int8_t* scratchpad)     { _data                 = data;
                                                                           _scratchpad           = scratchpad; }
         void setDataAndScratchpad(int32_t* data, int32_t* scratchpad)   { _data                 = LowPrecision::get_pointer_as<int8_t>(data);
                                                                           _scratchpad           = LowPrecision::get_pointer_as<int8_t>(scratchpad);
-                                                                          _data_is_int32        = true; }
+                                                                          _data_is_int32        = true;
+                                                                          _data_type            = DataType::Int32; }
+        void setDataAndScratchpad(float32_t* data, float32_t* scratchpad) { _data               = LowPrecision::get_pointer_as<int8_t>(data);
+                                                                          _scratchpad           = LowPrecision::get_pointer_as<int8_t>(scratchpad);
+                                                                          _data_type            = DataType::Float32; }
 
         void setDataAndScratchpadAndShape(const int8_t* data, const int8_t* scratchpad, LowPrecision::Shape shape)
                                                                         { _data                 = const_cast<int8_t*>(data);
@@ -132,7 +141,13 @@ namespace LowPrecision {
                                                                         { _data                 = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(data));
                                                                           _scratchpad           = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(scratchpad));
                                                                           _shape                = shape;
-                                                                          _data_is_int32        = true; }
+                                                                          _data_is_int32        = true; 
+                                                                          _data_type            = DataType::Int32; }
+        void setDataAndScratchpadAndShape(const float32_t* data, const float32_t* scratchpad, LowPrecision::Shape shape)
+                                                                        { _data                 = LowPrecision::get_pointer_as<int8_t>(const_cast<float32_t*>(data));
+                                                                          _scratchpad           = LowPrecision::get_pointer_as<int8_t>(const_cast<float32_t*>(scratchpad));
+                                                                          _shape                = shape;
+                                                                          _data_type            = DataType::Float32; }
 
         void setDataAndPaddingAndScratchpadAndShape(const int8_t* data, const int8_t* scratchpad, const int8_t* padded_data, LowPrecision::Shape shape)
                                                                         { _data                 = const_cast<int8_t*>(data);
@@ -144,7 +159,14 @@ namespace LowPrecision {
                                                                           _scratchpad           = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(scratchpad));
                                                                           _padded_data          = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(padded_data));
                                                                           _shape                = shape;
-                                                                          _data_is_int32        = true; }
+                                                                          _data_is_int32        = true;
+                                                                          _data_type            = DataType::Int32; }
+        void setDataAndPaddingAndScratchpadAndShape(const float32_t* data, const float32_t* scratchpad, const float32_t* padded_data, LowPrecision::Shape shape)
+                                                                        { _data                 = LowPrecision::get_pointer_as<int8_t>(const_cast<float32_t*>(data));
+                                                                          _scratchpad           = LowPrecision::get_pointer_as<int8_t>(const_cast<float32_t*>(scratchpad));
+                                                                          _padded_data          = LowPrecision::get_pointer_as<int8_t>(const_cast<float32_t*>(padded_data));
+                                                                          _shape                = shape;
+                                                                          _data_type            = DataType::Float32; }
 
         void setShape(LowPrecision::Shape shape)                        { _shape                = shape; }
         void setPreparedShape(LowPrecision::Shape shape)                { _prepared_shape       = shape; }
@@ -314,6 +336,7 @@ namespace LowPrecision {
         LowPrecision::Status QuantizeFilter(LowPrecision::Method method, const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout);
         LowPrecision::Status QuantizeInput(LowPrecision::Method method, const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout);
         LowPrecision::Status QuantizeInput(LowPrecision::Method method, const uint8_t* input, LowPrecision::Shape shape, uint8_t* output, LowPrecision::MemLayout layout);
+        LowPrecision::Status QuantizeInput(LowPrecision::Method method, const float32_t* input, LowPrecision::Shape shape, float32_t* output, LowPrecision::MemLayout layout);
         LowPrecision::Status UnpackOutput(LowPrecision::Method method, const int32_t* input, LowPrecision::Shape shape, int32_t* output);
         LowPrecision::Status Multiply(
             LowPrecision::Method method,
@@ -1133,7 +1156,14 @@ namespace LowPrecision {
             
         }
         namespace Float32{
-            LowPrecision::Status QuantizeInput();
+            LowPrecision::Status QuantizeInput(const float32_t* input, Shape shape, float32_t* output, MemLayout layout);
+            LowPrecision::Status QuantizeFilter(const int8_t* input, Shape k_shape, int8_t* output, MemLayout layout);
+            LowPrecision::Status MultiplyFloat32MultiBatched(
+                const float32_t* input, Shape input_shape,
+                const int8_t* kernel, Shape kernel_shape,
+                float32_t* output, Shape output_shape,
+                MulParams params
+            );
         }
 
         void doScallingFactorMultiplication(int32_t* input, const float* scalling_factor, float* output,
@@ -1160,6 +1190,13 @@ namespace LowPrecision {
         const uint8_t* kernel, LowPrecision::Shape kernel_shape,
         int32_t* output, LowPrecision::Shape output_shape,
         LowPrecision::MulParams params = LowPrecision::MulParams());
+    LowPrecision::Status MultiplyBackend(
+        LowPrecision::Method method,
+        const float32_t* input, LowPrecision::Shape input_shape,
+        const int8_t* kernel, LowPrecision::Shape kernel_shape,
+        float32_t* output, LowPrecision::Shape output_shape,
+        LowPrecision::MulParams params
+    );
 
     LowPrecision::Status PrepareMatrixAsFilterForMethod(Matrix& matrix, Method method, TimingDetailes* timing=nullptr);
     LowPrecision::Status PrepareMatrixAsInputForMethod(Matrix& matrix, Method method, TimingDetailes* timing=nullptr);
