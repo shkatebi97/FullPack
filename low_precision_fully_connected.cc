@@ -258,6 +258,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kBarrelShiftMulW8A4:
                 case LowPrecision::Method::kBarrelShiftMulW2A2:
                     return LowPrecision::FullyConnected::BSM::InputPreProcess(method);
+                case LowPrecision::Method::kFloat32Int8:
+                    return LowPrecision::FullyConnected::Float32::InputPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -282,6 +284,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kBarrelShiftMulW8A4:
                 case LowPrecision::Method::kBarrelShiftMulW2A2:
                     return LowPrecision::FullyConnected::BSM::FilterPreProcess(method);
+                case LowPrecision::Method::kFloat32Int8:
+                    return LowPrecision::FullyConnected::Float32::FilterPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -306,6 +310,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kBarrelShiftMulW8A4:
                 case LowPrecision::Method::kBarrelShiftMulW2A2:
                     return LowPrecision::FullyConnected::BSM::OutputPreProcess(method);
+                case LowPrecision::Method::kFloat32Int8:
+                    return LowPrecision::FullyConnected::Float32::OutputPreProcess();
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -469,6 +475,10 @@ namespace LowPrecision{
                 least_dim_size  = 16;
                 reduction_coeff = 2;
             }
+            else if (method == LowPrecision::Method::kFloat32Int8){
+                least_dim_size  = 4;
+                reduction_coeff = 1;
+            }
 
             int least_row_size = 4;
             if (method & LowPrecision::Method::k8x8){
@@ -549,6 +559,11 @@ namespace LowPrecision{
                 least_dim_size  = 16;
                 reduction_coeff = 2;
             }
+            else if (method == LowPrecision::Method::kFloat32Int8){
+                least_dim_size  = 4;
+                reduction_coeff = 1;
+            }
+
 
             int least_row_size = 4;
             if (method & LowPrecision::Method::k8x8){
@@ -613,6 +628,8 @@ namespace LowPrecision{
                 ret = LowPrecision::FullyConnected::SelfDependent::QuantizeFilter(method, input_ptr, input_padded_shape, output, layout);
             else if (method &  LowPrecision::Method::kBarrelShiftMul)
                 ret = LowPrecision::FullyConnected::BSM::QuantizeFilter(method, input_ptr, input_padded_shape, output, layout);
+            else if (method &  LowPrecision::Method::kFloat32Int8)
+                ret = LowPrecision::FullyConnected::Float32::QuantizeFilter(input_ptr, input_padded_shape, output, layout);
             
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
@@ -715,6 +732,8 @@ namespace LowPrecision{
                 ret = LowPrecision::FullyConnected::SelfDependent::QuantizeInput(method, input_ptr, input_padded_shape, output, layout);
             else if (method &  LowPrecision::Method::kBarrelShiftMul)
                 ret = LowPrecision::FullyConnected::BSM::QuantizeInput(method, input_ptr, input_padded_shape, output, layout);
+            else if (method &  LowPrecision::Method::kFloat32Int8)
+                ret = LowPrecision::FullyConnected::Float32::QuantizeInput(LowPrecision::get_pointer_as<float32_t>(input_ptr), input_padded_shape, LowPrecision::get_pointer_as<float32_t>(output), layout);
             
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
@@ -763,6 +782,8 @@ namespace LowPrecision{
                 ret = LowPrecision::FullyConnected::SelfDependent::QuantizeInput(method, input_ptr, input_padded_shape, output, layout);
             else if (method &  LowPrecision::Method::kBarrelShiftMul)
                 ret = LowPrecision::FullyConnected::BSM::QuantizeInput(method, input_ptr, input_padded_shape, output, layout);
+            else if (method &  LowPrecision::Method::kFloat32Int8)
+                ret = LowPrecision::FullyConnected::Float32::QuantizeInput(LowPrecision::get_pointer_as<float32_t>(input_ptr), input_padded_shape, LowPrecision::get_pointer_as<float32_t>(output), layout);
             
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
@@ -1266,6 +1287,13 @@ namespace LowPrecision{
                     output, output_shape,
                     params
                 );
+            else if (method &  LowPrecision::Method::kFloat32Int8)
+                ret = LowPrecision::FullyConnected::Float32::MultiplyFloat32MultiBatched(
+                    LowPrecision::get_pointer_as<float32_t>(input), input_shape,
+                    kernel, kernel_shape,
+                    LowPrecision::get_pointer_as<float32_t>(output), output_shape,
+                    params
+                );
             // else if (method == LowPrecision::Method::kBinaryActInt8Weight)
             //         ret = LowPrecision::FullyConnected::BinaryInputsInt8Weights::MultiplyInt8MultiBatched(
             //             input, input_shape,
@@ -1356,23 +1384,7 @@ namespace LowPrecision{
                 );
             return ret;
         }
-        Status MultiplyInt8MultiBatched(
-            LowPrecision::Method method,
-            const float32_t* input, LowPrecision::Shape input_shape,
-            const int8_t* kernel, LowPrecision::Shape kernel_shape,
-            float32_t* output, LowPrecision::Shape output_shape,
-            LowPrecision::MulParams params
-        ){
-            LowPrecision::Status ret = Status::NotSupported;
-            if (method == LowPrecision::Method::kFloat32Int8)
-                ret = LowPrecision::FullyConnected::Float32::MultiplyFloat32MultiBatched(
-                    input, input_shape,
-                    kernel, kernel_shape,
-                    output, output_shape,
-                    params
-                );
-            return ret;
-        }
+
 
         Status MultiplyInt8MultiBatchedBlockProcessing(
             LowPrecision::Method method,
@@ -1611,6 +1623,8 @@ namespace LowPrecision{
                 least_row_size = 8;
                 least_dim_size = 8;
             }
+            else if (method == LowPrecision::Method::kFloat32Int8)
+                least_dim_size = 4;
             else if (method == LowPrecision::Method::kNoOptimization){
                 least_row_size = 1;
                 least_dim_size = 1;

@@ -14,7 +14,9 @@ namespace LowPrecision{
         using ::LowPrecision::MulParams;
         
         namespace Float32 {
-            
+            LowPrecision::PreprocessType InputPreProcess() { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType FilterPreProcess(){ return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType OutputPreProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
             // not implimented for m and k != 4*x
             void doInputPackImpl(float32_t* src_ptr_1, float32_t* src_ptr_2,
                                         float32_t* src_ptr_3, float32_t* src_ptr_4,
@@ -25,8 +27,9 @@ namespace LowPrecision{
                 
                 auto dst_ptr = dst_ptr_r;
                 asm volatile(
-                    "mov x0, %[src_ptr_1]\n\t"
+                    //"mov x0, %[src_ptr_1]\n\t"
                     
+                    "mov %w[j], wzr\n\t"
                     "0:\n\t"
 
                     "mov %w[i], wzr\n\t"
@@ -64,7 +67,7 @@ namespace LowPrecision{
 
 
                     
-                    "mov %[src_ptr_1], x0\n\t"
+                    //"mov %[src_ptr_1], x0\n\t"
 
                     :   [ dst_ptr ]   "+r"(dst_ptr)
                     :   [ src_ptr_1 ]   "r" (src_ptr_1), [ src_ptr_2 ] "r" (src_ptr_2),
@@ -87,12 +90,10 @@ namespace LowPrecision{
                 float32_t* packed_ptr = packed;
                 doInputPackImpl(src_ptr_1, src_ptr_2, src_ptr_3, src_ptr_4, packed_ptr, rows, columns);
             }
-
             Status QuantizeInput(const float32_t* input, Shape shape, float32_t* output, MemLayout layout){
 
                 float32_t* input_casted = const_cast<float32_t*>(input);
 
-                // Maybe can use doLowPrecisionPack() on LowPrecisionPacking.cc
                 doInputPack(input_casted, output, shape.size[0], shape.size[1]);
                 return Status::Success;
             }
@@ -213,8 +214,8 @@ namespace LowPrecision{
             ){
                 int lhs_batches = input_shape.size[0],
                     lhs_columns = input_shape.size[1],
-                    rhs_rows    = kernel_shape.size[0],
-                    rhs_columns = kernel_shape.size[1];
+                    rhs_rows    = kernel_shape.size[1],
+                    rhs_columns = kernel_shape.size[0];
 
                 if (lhs_columns != rhs_columns)
                     return Status::SizesMisMatch;

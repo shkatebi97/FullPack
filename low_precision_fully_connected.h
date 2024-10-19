@@ -144,8 +144,8 @@ namespace LowPrecision {
                                                                           _data_is_int32        = true; 
                                                                           _data_type            = DataType::Int32; }
         void setDataAndScratchpadAndShape(const float32_t* data, const float32_t* scratchpad, LowPrecision::Shape shape)
-                                                                        { _data                 = LowPrecision::get_pointer_as<int8_t>(const_cast<float32_t*>(data));
-                                                                          _scratchpad           = LowPrecision::get_pointer_as<int8_t>(const_cast<float32_t*>(scratchpad));
+                                                                        { _data                 = LowPrecision::get_pointer_as<int8_t>(data);
+                                                                          _scratchpad           = LowPrecision::get_pointer_as<int8_t>(scratchpad);
                                                                           _shape                = shape;
                                                                           _data_type            = DataType::Float32; }
 
@@ -1156,6 +1156,9 @@ namespace LowPrecision {
             
         }
         namespace Float32{
+            LowPrecision::PreprocessType InputPreProcess();
+            LowPrecision::PreprocessType FilterPreProcess();
+            LowPrecision::PreprocessType OutputPreProcess();
             LowPrecision::Status QuantizeInput(const float32_t* input, Shape shape, float32_t* output, MemLayout layout);
             LowPrecision::Status QuantizeFilter(const int8_t* input, Shape k_shape, int8_t* output, MemLayout layout);
             LowPrecision::Status MultiplyFloat32MultiBatched(

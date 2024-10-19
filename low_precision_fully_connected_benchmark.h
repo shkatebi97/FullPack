@@ -41,7 +41,7 @@ typedef struct {
     bool        singlebatch_benchmark = true;
     int         selected_benchmark_mode = 0xffffffff;
 
-    bool        calc_operations_per_second = true;
+    bool        calc_operations_per_second = false;
 
     bool        real_mul_api_benchmark_enable = true;
     int         real_mul_api_benchmark_mode = 0xffffffff;
@@ -355,8 +355,12 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
     vector<int8_t*> input_vec   (benchmark_iterations, nullptr);
     vector<int32_t*>output_vec  (benchmark_iterations, nullptr);
 
+    int k = 1;
+    if(method == LowPrecision::Method::kFloat32Int8)
+        k = 4;
+
     // Allocating Matrices
-    int8_t*  input_data         = LowPrecision::allocate<int8_t>(input_shape.flatsize * benchmark_iterations);
+    int8_t*  input_data = LowPrecision::allocate<int8_t>(k* input_shape.flatsize * benchmark_iterations);
     int8_t*  kernel_data        = LowPrecision::allocate<int8_t>(kernel_shape.flatsize);
     int32_t* output_data        = LowPrecision::allocate<int32_t>(output_shape.flatsize * benchmark_iterations);
 
@@ -391,7 +395,8 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
     
     // Allocating Filter, Kernel Scratchpads, And Input Scratchpads
     int8_t*  filter_data        = LowPrecision::allocate<int8_t>(filter_shape.flatsize);
-    int8_t*  input_scratchpads  = LowPrecision::allocate<int8_t>(input_scratchpads_allocation_size);
+    int8_t*  input_scratchpads = LowPrecision::allocate<int8_t>(k * input_scratchpads_allocation_size);
+
     int8_t*  kernel_scratchpads = nullptr;
     if (kernel_scratchpads_allocation_size)
         kernel_scratchpads      = LowPrecision::allocate<int8_t>(kernel_scratchpads_allocation_size);
@@ -406,7 +411,7 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
     cout.flush();
     
     for (int i = 0 ; i < benchmark_iterations ; i++){
-        input_vec.at(i)  = input_data  + i * input_shape.flatsize;
+        input_vec.at(i)  = input_data  + i * k * input_shape.flatsize;
         output_vec.at(i) = output_data + i * output_shape.flatsize;
     }
 
@@ -414,7 +419,7 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
         // Filling Input with 1s and 0s
         for (int i = 0 ; i < input_shape.size[0] ; i++)
             for (int j = 0 ; j < input_shape.size[1] ; j++)
-                input_data[i * input_shape.size[1] + j] = ((j % 2)?(1):(0));
+                input_data[i * input_shape.size[1] + k * j] = ((j % 2)?(1):(0));
 
         // Filling Kernel with 1s
         for (int i = 0 ; i < kernel_shape.size[0] ; i++)
@@ -2808,6 +2813,49 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks, boo
                 timing_details.output_preprocess_timing_profiler = nullptr;
             }
         }
+        if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x00400000){ // kFLOAT#@Int8
+            benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, LowPrecision::Method::kFloat32Int8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+            if (verbosity >= 2){
+                if (show_speedups)
+                    cout << "\r[" 
+                        << LowPrecision::get_method_string(LowPrecision::Method::kFloat32Int8) 
+                        << "] speedup: " 
+                        << (((baseline_time - benchmark_time) / baseline_time) * 100)
+                        << "%                                               ";
+                else if (benchmarks.calc_operations_per_second)
+                    cout << "\r'" << LowPrecision::get_method_string(LowPrecision::Method::kFloat32Int8) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << " GOPS for " << benchmark_time << " seconds run                                                      ";
+                cout << endl;
+            } else if (verbosity >= 1) {
+                if (benchmarks.calc_operations_per_second)
+                    cout << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / benchmark_time) / 1000000000) << ",";
+                else
+                    cout << benchmark_time << ",";
+            }
+            if (gather_timing_details){
+                std::cout << "GEMM API Timing                : " 
+                        << timing_details.filter_preparation_timing_profiler->total() + 
+                            timing_details.input_preprocess_timing_profiler->total() + 
+                            timing_details.multiplication_timing_profiler->total() + 
+                            timing_details.output_preprocess_timing_profiler->total() 
+                        << std::endl;
+                std::cout << "\t" << "Filter Preparation     : " << timing_details.filter_preparation_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "Input Preparation      : " << timing_details.input_preprocess_timing_profiler->total() << std::endl;
+                std::cout << "\t" << "GEMM                   : " << timing_details.multiplication_timing_profiler->total() << std::endl;
+                std::cout << "\t\t" << "Multiplication : " << timing_details.multiplication_timing_profiler->gemm << std::endl;
+                std::cout << "\t\t" << "Unpacking      : " << timing_details.multiplication_timing_profiler->dst_unpacking << std::endl;
+                std::cout << "\t" << "Output Preparation     : " << timing_details.output_preprocess_timing_profiler->total() << std::endl;
+
+                delete timing_details.filter_preparation_timing_profiler;
+                delete timing_details.input_preprocess_timing_profiler;
+                delete timing_details.multiplication_timing_profiler;
+                delete timing_details.output_preprocess_timing_profiler;
+                timing_details.filter_preparation_timing_profiler = nullptr;
+                timing_details.input_preprocess_timing_profiler = nullptr;
+                timing_details.multiplication_timing_profiler = nullptr;
+                timing_details.output_preprocess_timing_profiler = nullptr;
+            }
+        }
+
         if (verbosity == 1)
             cout << endl;
         
