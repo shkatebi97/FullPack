@@ -1,3 +1,4 @@
+#if IS_ARM
 #include<cstddef>
 #include<cstdint>
 #include<chrono>
@@ -77,3 +78,4 @@ void mat_transpose(T *A, T *A_packed, size_t M, size_t N) {
     }
   }
 }
+#endif

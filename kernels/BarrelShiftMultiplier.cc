@@ -1,7 +1,5 @@
 #include "../low_precision_fully_connected.h"
 
-
-#ifdef IS_ARM
 namespace LowPrecision{
     namespace FullyConnected{
         namespace BSM {
@@ -139,43 +137,6 @@ namespace LowPrecision{
         }
     }
 }
-#else
-namespace LowPrecision{
-    namespace FullyConnected{
-        namespace BSM {
-            LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
-            LowPrecision::Status QuantizeFilter(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
-            LowPrecision::Status QuantizeInput(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
-            LowPrecision::Status QuantizeInput(const uint8_t* input, LowPrecision::Shape shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
-            LowPrecision::Status MultiplyInt8SingleBatch(
-                const int8_t* input, LowPrecision::Shape input_shape,
-                const int8_t* kernel, LowPrecision::Shape kernel_shape,
-                int32_t* output, LowPrecision::Shape output_shape
-            ){ return LowPrecision::Status::NotImplemented; }
-            LowPrecision::Status MultiplyInt8MultiBatched(
-                const int8_t* input, LowPrecision::Shape input_shape,
-                const int8_t* kernel, LowPrecision::Shape kernel_shape,
-                int32_t* output, LowPrecision::Shape output_shape,
-                LowPrecision::MulParams params = LowPrecision::MulParams()
-            ){ return LowPrecision::Status::NotImplemented; }
-            LowPrecision::Status MultiplyInt8MultiBatched(
-                const uint8_t* input, LowPrecision::Shape input_shape,
-                const uint8_t* kernel, LowPrecision::Shape kernel_shape,
-                int32_t* output, LowPrecision::Shape output_shape,
-                LowPrecision::MulParams params = LowPrecision::MulParams()
-            ){ return LowPrecision::Status::NotImplemented; }
-            LowPrecision::Status MultiplyInt8MultiBatchedBlock(
-                const int8_t* input, const int8_t* kernel,
-                int32_t* output, const Params params){ return LowPrecision::Status::NotImplemented; }
-            LowPrecision::PreprocessType InputPreProcess()  { return LowPrecision::PreprocessType::PaddingAndPacking; }
-            LowPrecision::PreprocessType FilterPreProcess() { return LowPrecision::PreprocessType::PaddingAndPacking; }
-            LowPrecision::PreprocessType OutputPreProcess() { return OutputPostProcess(); }
-            LowPrecision::PreprocessType OutputPostProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
-            LowPrecision::GEMMType GEMMSupport(){ return LowPrecision::GEMMType::SupportsGEMMAndGEMV; }
-        }
-    }
-}
-#endif
 
 
 

@@ -1,6 +1,5 @@
 #include "../../low_precision_fully_connected.h"
 
-#ifdef IS_ARM
 namespace LowPrecision{
     namespace FullyConnected{
         namespace SelfDependent {
@@ -16,6 +15,7 @@ namespace LowPrecision{
                         doLowPrecisionWeightPack(const_cast<int8_t*>(input), output, k_shape.size[0] / 2, k_shape.size[1]);
                     }
                     else {
+                        #if defined(IS_ARM)
                         int new_weights_length = (k_shape.size[0] / 2) * k_shape.size[1];
                         int8_t* temp = LowPrecision::allocate<int8_t>(new_weights_length);
                         uint8_t* temp_u = get_pointer_as<uint8_t>(temp);
@@ -49,6 +49,24 @@ namespace LowPrecision{
                         k_shape_T = k_shape.T();
                         doLowPrecisionWeightPack(temp, output, k_shape_T.size[0], k_shape_T.size[1] / 2);
                         LowPrecision::deallocate(temp);
+                        #elif (defined(IS_X86) || defined(IS_X86_64)) && (defined(HAS_AVX512) || defined(HAS_AVX2) || defined(HAS_AVX))
+                        size_t p = 0;
+                        // std::cout << k_shape.size[0] << "x" << k_shape.size[1] << std::endl;
+                        for (size_t k = 0 ; k < k_shape.size[0] ; k+=8) {
+                            for (size_t n = 0 ; n < k_shape.size[1] ; n++) {
+                                output[p++] = int8_t(uint8_t(input[k * k_shape.size[1] + n] & 0x0f) |
+                                                uint8_t((input[(k + 1) * k_shape.size[1] + n] << 4)  & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[(k + 2) * k_shape.size[1] + n] & 0x0f) |
+                                                uint8_t((input[(k + 3) * k_shape.size[1] + n] << 4)  & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[(k + 4) * k_shape.size[1] + n] & 0x0f) |
+                                                uint8_t((input[(k + 5) * k_shape.size[1] + n] << 4)  & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[(k + 6) * k_shape.size[1] + n] & 0x0f) |
+                                                uint8_t((input[(k + 7) * k_shape.size[1] + n] << 4)  & 0xf0));
+                            }
+                        }
+                        #else
+                        return Status::NotImplemented;
+                        #endif
                     }
                     return Status::Success;
                 }
@@ -65,12 +83,14 @@ namespace LowPrecision{
                     else {
                         // TODO: `FilterPackingStep` is not implemeneted without cvector, which is deprecated.
                         return LowPrecision::Status::NotImplemented;
+                        #ifdef IS_ARM
                         uint8_t* temp = output;
                         uint8_t* input_u = const_cast<uint8_t*>(input);
                         int i , K = k_shape.size[0], N = k_shape.size[1];
                         for (int i = 0 ; i < N ; i += 8){
                             FilterPackingStep(input_u + i, output + (i * (K / 2)), K, N);
                         }
+                        #endif
                     }
                     return Status::Success;
                 }
@@ -89,6 +109,7 @@ namespace LowPrecision{
                         std::copy(input, input + (shape.flatsize / 2), output);
                     }
                     else {
+                        #if defined(IS_ARM)
                         #if SelfDependent_LHS_Packing != SelfDependent_ASM_TLB_Packing
 
                         int8_t* temp = output;
@@ -475,6 +496,23 @@ namespace LowPrecision{
 
                         #endif
                         #endif
+                        #elif (defined(IS_X86) || defined(IS_X86_64)) && (defined(HAS_AVX512) || defined(HAS_AVX2) || defined(HAS_AVX))
+                        size_t p = 0;
+                        for (size_t m = 0 ; m < shape.size[0] ; m++) {
+                            for (size_t k = 0 ; k < shape.size[1] ; k+=8) {
+                                output[p++] = int8_t(uint8_t(input[m * shape.size[1] + k] & 0x0f) |
+                                                uint8_t((input[m * shape.size[1] + k + 1] << 4) & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[m * shape.size[1] + k + 2] & 0x0f) |
+                                                uint8_t((input[m * shape.size[1] + k + 3] << 4) & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[m * shape.size[1] + k + 4] & 0x0f) |
+                                                uint8_t((input[m * shape.size[1] + k + 5] << 4) & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[m * shape.size[1] + k + 6] & 0x0f) |
+                                                uint8_t((input[m * shape.size[1] + k + 7] << 4) & 0xf0));
+                            }
+                        }
+                        #else
+                        return Status::NotImplemented;
+                        #endif
                     }
                     return Status::Success;
                 }
@@ -493,6 +531,7 @@ namespace LowPrecision{
                     else {
                         // TODO: `InputPackingStep` is not implemeneted without cvector, which is deprecated.
                         return LowPrecision::Status::NotImplemented;
+                        #ifdef IS_ARM
                         uint8_t* temp = output;
                         uint8_t* input_u = const_cast<uint8_t*>(input);
                         int M = shape.size[0], K = shape.size[1];
@@ -501,6 +540,7 @@ namespace LowPrecision{
                             InputPackingStep(input_u + (i * K), output + ((i / 2) * K), K, K);
                         #else
                         InputPackingStep(input_u, output, M * K, K);
+                        #endif
                         #endif
                     }
                     return Status::Success;
@@ -512,6 +552,7 @@ namespace LowPrecision{
                 ){
                     // TODO: This has not been tested yet, it might not work.
                     return LowPrecision::Status::NotImplemented;
+                    #ifdef IS_ARM
                     int lhs_columns = input_shape.size[input_shape.number_dims - 1] ,
                         rhs_rows = kernel_shape.size[0] ,
                         rhs_columns = kernel_shape.size[1];
@@ -648,6 +689,7 @@ namespace LowPrecision{
                         "v24", "v25", "v26", "v27",
                         "v28", "v29", "v30", "v31"
                     );
+                    #endif
 
                     return Status::Success;
                 }
@@ -668,6 +710,7 @@ namespace LowPrecision{
                     
                     int need_downcasting = (params.need_downcasting)?(0xff):(0x00);
                     
+                    #ifdef IS_ARM
                     // This might cause issues; had changed to work with `test-gemm-api` test
                     // if (lhs_columns != rhs_columns)
                     //     return Status::SizesMisMatch;
@@ -1099,6 +1142,485 @@ namespace LowPrecision{
                         "v28", "v29", "v30", "v31",
                         "x0" , "x1" , "x2"
                     );
+                    #elif (defined(IS_X86) || defined(IS_X86_64)) && defined(HAS_AVX512)
+                    // Define Constants
+                    std::stringstream out;
+                    std::int16_t lhs_r0_data[32];
+                    std::int16_t lhs_r1_data[32];
+                    std::int16_t lhs_r2_data[32];
+                    std::int16_t lhs_r3_data[32];
+
+                    // Define Masks
+                    __mmask32 mask = _mm512_movepi16_mask(MASK);
+
+                    // Initialize Accumulators
+                    // ACC1: LHS Row #1
+                    __m512i accum_data_Rc0_Lr0;
+                    __m512i accum_data_Rc1_Lr0;
+                    __m512i accum_data_Rc2_Lr0;
+                    __m512i accum_data_Rc3_Lr0;
+                    // ACC2: LHS Row #2
+                    __m512i accum_data_Rc0_Lr1;
+                    __m512i accum_data_Rc1_Lr1;
+                    __m512i accum_data_Rc2_Lr1;
+                    __m512i accum_data_Rc3_Lr1;
+                    // ACC3: LHS Row #3
+                    __m512i accum_data_Rc0_Lr2;
+                    __m512i accum_data_Rc1_Lr2;
+                    __m512i accum_data_Rc2_Lr2;
+                    __m512i accum_data_Rc3_Lr2;
+                    // ACC4: LHS Row #4
+                    __m512i accum_data_Rc0_Lr3;
+                    __m512i accum_data_Rc1_Lr3;
+                    __m512i accum_data_Rc2_Lr3;
+                    __m512i accum_data_Rc3_Lr3;
+
+                    // Load LHS
+                    __m512i lhs_r0, lhs_r0_shifted;
+                    __m512i lhs_r1, lhs_r1_shifted;
+                    __m512i lhs_r2, lhs_r2_shifted;
+                    __m512i lhs_r3, lhs_r3_shifted;
+
+                    auto process_block_sd = [=](__m512i& _rhs, __m512i& _rhs_shifted, __m512i& lhs_row, __m512i& lhs_row_shifted, __m512i& accum, std::stringstream& out) {
+                        #ifdef x86_DEBUG
+                        __m512i accum_t = accum;
+                        #endif
+                        accum = _mm512_add_epi32(accum, _mm512_madd_epi16(lhs_row, _rhs));
+                        #ifdef x86_DEBUG
+                        out << "process_block_sd " << print_m512i_epi32(accum_t) << std::endl
+                            << "\t-> " << print_m512i_epi16(lhs_row) << " . " << print_m512i_epi16(_rhs) << std::endl
+                            << "\t\t-> " << print_m512i_epi32(accum) << std::endl;
+                        #endif
+                        accum = _mm512_add_epi32(accum, _mm512_madd_epi16(lhs_row_shifted, _rhs_shifted));
+                        #ifdef x86_DEBUG
+                        out << "process_block_sd " << print_m512i_epi32(accum_t) << std::endl
+                            << "\t-> " << print_m512i_epi16(lhs_row_shifted) << " . " << print_m512i_epi16(_rhs_shifted) << std::endl
+                            << "\t\t-> " << print_m512i_epi32(accum) << std::endl;
+                        #endif
+                    };
+
+                    for (size_t m = 0 ; m < M ; m += 4){
+                        for (size_t n = 0 ; n < N ; n += 64) {
+                            // Initialize Accumulators
+                            // ACC1: LHS Row #1
+                            accum_data_Rc0_Lr0 = _mm512_setzero_epi32();
+                            accum_data_Rc1_Lr0 = _mm512_setzero_epi32();
+                            accum_data_Rc2_Lr0 = _mm512_setzero_epi32();
+                            accum_data_Rc3_Lr0 = _mm512_setzero_epi32();
+                            // ACC2: LHS Row #2
+                            accum_data_Rc0_Lr1 = _mm512_setzero_epi32();
+                            accum_data_Rc1_Lr1 = _mm512_setzero_epi32();
+                            accum_data_Rc2_Lr1 = _mm512_setzero_epi32();
+                            accum_data_Rc3_Lr1 = _mm512_setzero_epi32();
+                            // ACC3: LHS Row #3
+                            accum_data_Rc0_Lr2 = _mm512_setzero_epi32();
+                            accum_data_Rc1_Lr2 = _mm512_setzero_epi32();
+                            accum_data_Rc2_Lr2 = _mm512_setzero_epi32();
+                            accum_data_Rc3_Lr2 = _mm512_setzero_epi32();
+                            // ACC4: LHS Row #4
+                            accum_data_Rc0_Lr3 = _mm512_setzero_epi32();
+                            accum_data_Rc1_Lr3 = _mm512_setzero_epi32();
+                            accum_data_Rc2_Lr3 = _mm512_setzero_epi32();
+                            accum_data_Rc3_Lr3 = _mm512_setzero_epi32();
+
+                            // Load RHSs
+                            auto rhs_tmp = kernel + n;
+                            __m512i rhs_c00_15 = _mm512_cvtepi8_epi16(_mm256_loadu_epi8(rhs_tmp));
+                            __m512i rhs_c16_31 = _mm512_cvtepi8_epi16(_mm256_loadu_epi8(rhs_tmp + 32));
+                            __m512i rhs_c32_47 = _mm512_cvtepi8_epi16(_mm256_loadu_epi8(rhs_tmp + 64));
+                            __m512i rhs_c48_63 = _mm512_cvtepi8_epi16(_mm256_loadu_epi8(rhs_tmp + 96));
+                            __m512i rhs_c00_15_shifted = _mm512_shrdi_epi16(rhs_c00_15, _mm512_setzero_si512(), 4);
+                            __m512i rhs_c16_31_shifted = _mm512_shrdi_epi16(rhs_c16_31, _mm512_setzero_si512(), 4);
+                            __m512i rhs_c32_47_shifted = _mm512_shrdi_epi16(rhs_c32_47, _mm512_setzero_si512(), 4);
+                            __m512i rhs_c48_63_shifted = _mm512_shrdi_epi16(rhs_c48_63, _mm512_setzero_si512(), 4);
+                            rhs_tmp += 2 * N;
+
+                            #ifdef x86_DEBUG
+                            out << "lhs_r0_data=" << print_m512i_epi16(lhs_r0_data) << std::endl;
+                            out << "lhs_r1_data=" << print_m512i_epi16(lhs_r1_data) << std::endl;
+                            out << "lhs_r2_data=" << print_m512i_epi16(lhs_r2_data) << std::endl;
+                            out << "lhs_r3_data=" << print_m512i_epi16(lhs_r3_data) << std::endl;
+
+                            out << "rhs_c00_15=" << print_m512i_epi16(rhs_c00_15) << std::endl;
+                            out << "rhs_c16_31=" << print_m512i_epi16(rhs_c16_31) << std::endl;
+                            out << "rhs_c32_47=" << print_m512i_epi16(rhs_c32_47) << std::endl;
+                            out << "rhs_c48_63=" << print_m512i_epi16(rhs_c48_63) << std::endl;
+                            __m512i accum_data_Rc0_Lr0_tmp = accum_data_Rc0_Lr0,
+                                    accum_data_Rc0_Lr1_tmp = accum_data_Rc0_Lr1,
+                                    accum_data_Rc0_Lr2_tmp = accum_data_Rc0_Lr2,
+                                    accum_data_Rc0_Lr3_tmp = accum_data_Rc0_Lr3;
+                            #endif
+
+                            for (size_t k = 0 ; k < K ; k += 4) {
+                                if (k % 64 == 0) {
+                                    // Store the widened LHS data
+                                    _mm512_storeu_si512(lhs_r0_data,
+                                                        _mm512_cvtepi8_epi16(_mm256_loadu_epi8(input + (m + 0) * (K / 2) + (k / 2))));
+                                    _mm512_storeu_si512(lhs_r1_data,
+                                                        _mm512_cvtepi8_epi16(_mm256_loadu_epi8(input + (m + 1) * (K / 2) + (k / 2))));
+                                    _mm512_storeu_si512(lhs_r2_data,
+                                                        _mm512_cvtepi8_epi16(_mm256_loadu_epi8(input + (m + 2) * (K / 2) + (k / 2))));
+                                    _mm512_storeu_si512(lhs_r3_data,
+                                                        _mm512_cvtepi8_epi16(_mm256_loadu_epi8(input + (m + 3) * (K / 2) + (k / 2))));
+                                    #ifdef x86_DEBUG
+                                    out << "Updating lhs_r0_data for k=" << k << " to " << print_m512i_epi16(lhs_r0_data) << " from lhs + " << (m + 0) * (K / 2) + (k / 2) << std::endl;
+                                    out << "Updating lhs_r1_data for k=" << k << " to " << print_m512i_epi16(lhs_r1_data) << " from lhs + " << (m + 1) * (K / 2) + (k / 2) << std::endl;
+                                    out << "Updating lhs_r2_data for k=" << k << " to " << print_m512i_epi16(lhs_r2_data) << " from lhs + " << (m + 2) * (K / 2) + (k / 2) << std::endl;
+                                    out << "Updating lhs_r3_data for k=" << k << " to " << print_m512i_epi16(lhs_r3_data) << " from lhs + " << (m + 3) * (K / 2) + (k / 2) << std::endl;
+                                    #endif
+                                }
+                                #ifdef x86_DEBUG
+                                accum_data_Rc0_Lr0_tmp = accum_data_Rc0_Lr0,
+                                accum_data_Rc0_Lr1_tmp = accum_data_Rc0_Lr1,
+                                accum_data_Rc0_Lr2_tmp = accum_data_Rc0_Lr2,
+                                accum_data_Rc0_Lr3_tmp = accum_data_Rc0_Lr3;
+                                #endif
+                                auto current_col = (k / 2) % 32;
+                                
+                                lhs_r0 = _mm512_mask_set1_epi16(_mm512_set1_epi16(lhs_r0_data[current_col]), mask, lhs_r0_data[current_col+1]);
+                                lhs_r1 = _mm512_mask_set1_epi16(_mm512_set1_epi16(lhs_r1_data[current_col]), mask, lhs_r1_data[current_col+1]);
+                                lhs_r2 = _mm512_mask_set1_epi16(_mm512_set1_epi16(lhs_r2_data[current_col]), mask, lhs_r2_data[current_col+1]);
+                                lhs_r3 = _mm512_mask_set1_epi16(_mm512_set1_epi16(lhs_r3_data[current_col]), mask, lhs_r3_data[current_col+1]);
+                                lhs_r0_shifted = _mm512_shrdi_epi16(lhs_r0, _mm512_setzero_si512(), 4);
+                                lhs_r1_shifted = _mm512_shrdi_epi16(lhs_r1, _mm512_setzero_si512(), 4);
+                                lhs_r2_shifted = _mm512_shrdi_epi16(lhs_r2, _mm512_setzero_si512(), 4);
+                                lhs_r3_shifted = _mm512_shrdi_epi16(lhs_r3, _mm512_setzero_si512(), 4);
+
+
+                                // Output Columns 0 to 15
+                                process_block_sd(rhs_c00_15, rhs_c00_15_shifted, lhs_r0, lhs_r0_shifted, accum_data_Rc0_Lr0, out);
+                                process_block_sd(rhs_c00_15, rhs_c00_15_shifted, lhs_r1, lhs_r1_shifted, accum_data_Rc0_Lr1, out);
+                                process_block_sd(rhs_c00_15, rhs_c00_15_shifted, lhs_r2, lhs_r2_shifted, accum_data_Rc0_Lr2, out);
+                                process_block_sd(rhs_c00_15, rhs_c00_15_shifted, lhs_r3, lhs_r3_shifted, accum_data_Rc0_Lr3, out);
+                                #ifdef x86_DEBUG
+                                out << k << "-0 " << print_m512i_epi32(accum_data_Rc0_Lr0_tmp) << std::endl
+                                        << "\t-> " << print_m512i_epi16(lhs_r0) << " . " << print_m512i_epi16(rhs_c00_15) << std::endl
+                                        << "\t\t-> " << print_m512i_epi32(accum_data_Rc0_Lr0) << std::endl;
+                                out << k << "-1 " << print_m512i_epi32(accum_data_Rc0_Lr1_tmp) << std::endl
+                                        << "\t-> " << print_m512i_epi16(lhs_r1) << " . " << print_m512i_epi16(rhs_c00_15) << std::endl
+                                        << "\t\t-> " << print_m512i_epi32(accum_data_Rc0_Lr1) << std::endl;
+                                out << k << "-2 " << print_m512i_epi32(accum_data_Rc0_Lr2_tmp) << std::endl
+                                        << "\t-> " << print_m512i_epi16(lhs_r2) << " . " << print_m512i_epi16(rhs_c00_15) << std::endl
+                                        << "\t\t-> " << print_m512i_epi32(accum_data_Rc0_Lr2) << std::endl;
+                                out << k << "-3 " << print_m512i_epi32(accum_data_Rc0_Lr3_tmp) << std::endl
+                                        << "\t-> " << print_m512i_epi16(lhs_r3) << " . " << print_m512i_epi16(rhs_c00_15) << std::endl
+                                        << "\t\t-> " << print_m512i_epi32(accum_data_Rc0_Lr3) << std::endl;
+                                #endif
+
+                                // Output Columns 16 to 31
+                                process_block_sd(rhs_c16_31, rhs_c16_31_shifted, lhs_r0, lhs_r0_shifted, accum_data_Rc1_Lr0, out);
+                                process_block_sd(rhs_c16_31, rhs_c16_31_shifted, lhs_r1, lhs_r1_shifted, accum_data_Rc1_Lr1, out);
+                                process_block_sd(rhs_c16_31, rhs_c16_31_shifted, lhs_r2, lhs_r2_shifted, accum_data_Rc1_Lr2, out);
+                                process_block_sd(rhs_c16_31, rhs_c16_31_shifted, lhs_r3, lhs_r3_shifted, accum_data_Rc1_Lr3, out);
+
+                                // Output Columns 32 to 47
+                                process_block_sd(rhs_c32_47, rhs_c32_47_shifted, lhs_r0, lhs_r0_shifted, accum_data_Rc2_Lr0, out);
+                                process_block_sd(rhs_c32_47, rhs_c32_47_shifted, lhs_r1, lhs_r1_shifted, accum_data_Rc2_Lr1, out);
+                                process_block_sd(rhs_c32_47, rhs_c32_47_shifted, lhs_r2, lhs_r2_shifted, accum_data_Rc2_Lr2, out);
+                                process_block_sd(rhs_c32_47, rhs_c32_47_shifted, lhs_r3, lhs_r3_shifted, accum_data_Rc2_Lr3, out);
+
+                                // Output Columns 48 to 63
+                                process_block_sd(rhs_c48_63, rhs_c48_63_shifted, lhs_r0, lhs_r0_shifted, accum_data_Rc3_Lr0, out);
+                                process_block_sd(rhs_c48_63, rhs_c48_63_shifted, lhs_r1, lhs_r1_shifted, accum_data_Rc3_Lr1, out);
+                                process_block_sd(rhs_c48_63, rhs_c48_63_shifted, lhs_r2, lhs_r2_shifted, accum_data_Rc3_Lr2, out);
+                                process_block_sd(rhs_c48_63, rhs_c48_63_shifted, lhs_r3, lhs_r3_shifted, accum_data_Rc3_Lr3, out);
+
+                                rhs_c00_15 = _mm512_cvtepi8_epi16(_mm256_loadu_epi8(rhs_tmp));
+                                rhs_c16_31 = _mm512_cvtepi8_epi16(_mm256_loadu_epi8(rhs_tmp + 32));
+                                rhs_c32_47 = _mm512_cvtepi8_epi16(_mm256_loadu_epi8(rhs_tmp + 64));
+                                rhs_c48_63 = _mm512_cvtepi8_epi16(_mm256_loadu_epi8(rhs_tmp + 96));
+                                rhs_c00_15_shifted = _mm512_shrdi_epi16(rhs_c00_15, _mm512_setzero_si512(), 4);
+                                rhs_c16_31_shifted = _mm512_shrdi_epi16(rhs_c16_31, _mm512_setzero_si512(), 4);
+                                rhs_c32_47_shifted = _mm512_shrdi_epi16(rhs_c32_47, _mm512_setzero_si512(), 4);
+                                rhs_c48_63_shifted = _mm512_shrdi_epi16(rhs_c48_63, _mm512_setzero_si512(), 4);
+                                rhs_tmp += 2 * N;
+                                #ifdef x86_DEBUG
+                                out << "rhs_c00_15 (m=" << m << " n=" << n << " k=" << k << ") = " << print_m512i_epi16(rhs_c00_15) << std::endl;
+                                out << "rhs_c16_31 (m=" << m << " n=" << n << " k=" << k << ") = " << print_m512i_epi16(rhs_c16_31) << std::endl;
+                                out << "rhs_c32_47 (m=" << m << " n=" << n << " k=" << k << ") = " << print_m512i_epi16(rhs_c32_47) << std::endl;
+                                out << "rhs_c48_63 (m=" << m << " n=" << n << " k=" << k << ") = " << print_m512i_epi16(rhs_c48_63) << std::endl;
+                                #endif
+                            }
+                            #ifdef x86_DEBUG
+                            out << "accum_data_Rc0_Lr0=" << print_m512i_epi32(accum_data_Rc0_Lr0) << std::endl;
+                            out << "accum_data_Rc0_Lr1=" << print_m512i_epi32(accum_data_Rc0_Lr1) << std::endl;
+                            out << "accum_data_Rc0_Lr2=" << print_m512i_epi32(accum_data_Rc0_Lr2) << std::endl;
+                            out << "accum_data_Rc0_Lr3=" << print_m512i_epi32(accum_data_Rc0_Lr3) << std::endl;
+                            #endif
+
+                            // Output Columns 0-15,16-31,32-47,48-63 and Row 0
+                            _mm512_storeu_epi32(output + N * (0 + m) + n + 00, accum_data_Rc0_Lr0);
+                            _mm512_storeu_epi32(output + N * (0 + m) + n + 16, accum_data_Rc1_Lr0);
+                            _mm512_storeu_epi32(output + N * (0 + m) + n + 32, accum_data_Rc2_Lr0);
+                            _mm512_storeu_epi32(output + N * (0 + m) + n + 48, accum_data_Rc3_Lr0);
+
+                            // Output Columns 0-15,16-31,32-47,48-63 and Row 1
+                            _mm512_storeu_epi32(output + N * (1 + m) + n + 00, accum_data_Rc0_Lr1);
+                            _mm512_storeu_epi32(output + N * (1 + m) + n + 16, accum_data_Rc1_Lr1);
+                            _mm512_storeu_epi32(output + N * (1 + m) + n + 32, accum_data_Rc2_Lr1);
+                            _mm512_storeu_epi32(output + N * (1 + m) + n + 48, accum_data_Rc3_Lr1);
+
+                            // Output Columns 0-15,16-31,32-47,48-63 and Row 2
+                            _mm512_storeu_epi32(output + N * (2 + m) + n + 00, accum_data_Rc0_Lr2);
+                            _mm512_storeu_epi32(output + N * (2 + m) + n + 16, accum_data_Rc1_Lr2);
+                            _mm512_storeu_epi32(output + N * (2 + m) + n + 32, accum_data_Rc2_Lr2);
+                            _mm512_storeu_epi32(output + N * (2 + m) + n + 48, accum_data_Rc3_Lr2);
+
+                            // Output Columns 0-15,16-31,32-47,48-63 and Row 3
+                            _mm512_storeu_epi32(output + N * (3 + m) + n + 00, accum_data_Rc0_Lr3);
+                            _mm512_storeu_epi32(output + N * (3 + m) + n + 16, accum_data_Rc1_Lr3);
+                            _mm512_storeu_epi32(output + N * (3 + m) + n + 32, accum_data_Rc2_Lr3);
+                            _mm512_storeu_epi32(output + N * (3 + m) + n + 48, accum_data_Rc3_Lr3);
+                        }
+                    }
+                    #elif (defined(IS_X86) || defined(IS_X86_64)) && defined(HAS_AVX2)
+                    std::stringstream out;
+                    std::int16_t lhs_r0_data[16];
+                    std::int16_t lhs_r1_data[16];
+                    std::int16_t lhs_r2_data[16];
+                    std::int16_t lhs_r3_data[16];
+
+                    // Initialize Accumulators
+                    // ACC1: LHS Row #1
+                    __m256i accum_data_Rc0_Lr0;
+                    __m256i accum_data_Rc1_Lr0;
+                    __m256i accum_data_Rc2_Lr0;
+                    __m256i accum_data_Rc3_Lr0;
+                    // ACC2: LHS Row #2
+                    __m256i accum_data_Rc0_Lr1;
+                    __m256i accum_data_Rc1_Lr1;
+                    __m256i accum_data_Rc2_Lr1;
+                    __m256i accum_data_Rc3_Lr1;
+                    // ACC3: LHS Row #3
+                    __m256i accum_data_Rc0_Lr2;
+                    __m256i accum_data_Rc1_Lr2;
+                    __m256i accum_data_Rc2_Lr2;
+                    __m256i accum_data_Rc3_Lr2;
+                    // ACC4: LHS Row #4
+                    __m256i accum_data_Rc0_Lr3;
+                    __m256i accum_data_Rc1_Lr3;
+                    __m256i accum_data_Rc2_Lr3;
+                    __m256i accum_data_Rc3_Lr3;
+
+                    // Load LHS
+                    __m256i lhs_r0, lhs_r0_shifted;
+                    __m256i lhs_r1, lhs_r1_shifted;
+                    __m256i lhs_r2, lhs_r2_shifted;
+                    __m256i lhs_r3, lhs_r3_shifted;
+
+                    auto process_block_sd = [=](__m256i& _rhs, __m256i& _rhs_shifted, __m256i& lhs_row, __m256i& lhs_row_shifted, __m256i& accum, std::stringstream& out) {
+                        #ifdef X86_DEBUG
+                        __m256i accum_t = accum;
+                        #endif
+                        accum = _mm256_add_epi32(accum, _mm256_madd_epi16(lhs_row, _rhs));
+                        #ifdef X86_DEBUG
+                        out << "process_block_sd " << print_m256i_epi32(accum_t) << std::endl
+                            << "\t-> " << print_m256i_epi16(lhs_row) << " . " << print_m256i_epi16(_rhs) << std::endl
+                            << "\t\t-> " << print_m256i_epi32(accum) << std::endl;
+                        #endif
+                        accum = _mm256_add_epi32(accum, _mm256_madd_epi16(lhs_row_shifted, _rhs_shifted));
+                        #ifdef X86_DEBUG
+                        out << "process_block_sd " << print_m256i_epi32(accum_t) << std::endl
+                            << "\t-> " << print_m256i_epi16(lhs_row_shifted) << " . " << print_m256i_epi16(_rhs_shifted) << std::endl
+                            << "\t\t-> " << print_m256i_epi32(accum) << std::endl;
+                        #endif
+                    };
+
+                    for (size_t m = 0 ; m < M ; m += 4){
+                        for (size_t n = 0 ; n < N ; n += 32) {
+                            // Initialize Accumulators
+                            // ACC1: LHS Row #1
+                            accum_data_Rc0_Lr0 = _mm256_xor_si256(accum_data_Rc0_Lr0, accum_data_Rc0_Lr0);
+                            accum_data_Rc1_Lr0 = _mm256_xor_si256(accum_data_Rc1_Lr0, accum_data_Rc1_Lr0);
+                            accum_data_Rc2_Lr0 = _mm256_xor_si256(accum_data_Rc2_Lr0, accum_data_Rc2_Lr0);
+                            accum_data_Rc3_Lr0 = _mm256_xor_si256(accum_data_Rc3_Lr0, accum_data_Rc3_Lr0);
+                            // ACC2: LHS Row #2
+                            accum_data_Rc0_Lr1 = _mm256_xor_si256(accum_data_Rc0_Lr1, accum_data_Rc0_Lr1);
+                            accum_data_Rc1_Lr1 = _mm256_xor_si256(accum_data_Rc1_Lr1, accum_data_Rc1_Lr1);
+                            accum_data_Rc2_Lr1 = _mm256_xor_si256(accum_data_Rc2_Lr1, accum_data_Rc2_Lr1);
+                            accum_data_Rc3_Lr1 = _mm256_xor_si256(accum_data_Rc3_Lr1, accum_data_Rc3_Lr1);
+                            // ACC3: LHS Row #3
+                            accum_data_Rc0_Lr2 = _mm256_xor_si256(accum_data_Rc0_Lr2, accum_data_Rc0_Lr2);
+                            accum_data_Rc1_Lr2 = _mm256_xor_si256(accum_data_Rc1_Lr2, accum_data_Rc1_Lr2);
+                            accum_data_Rc2_Lr2 = _mm256_xor_si256(accum_data_Rc2_Lr2, accum_data_Rc2_Lr2);
+                            accum_data_Rc3_Lr2 = _mm256_xor_si256(accum_data_Rc3_Lr2, accum_data_Rc3_Lr2);
+                            // ACC4: LHS Row #4
+                            accum_data_Rc0_Lr3 = _mm256_xor_si256(accum_data_Rc0_Lr3, accum_data_Rc0_Lr3);
+                            accum_data_Rc1_Lr3 = _mm256_xor_si256(accum_data_Rc1_Lr3, accum_data_Rc1_Lr3);
+                            accum_data_Rc2_Lr3 = _mm256_xor_si256(accum_data_Rc2_Lr3, accum_data_Rc2_Lr3);
+                            accum_data_Rc3_Lr3 = _mm256_xor_si256(accum_data_Rc3_Lr3, accum_data_Rc3_Lr3);
+
+                            // Load RHSs
+                            auto rhs_tmp = kernel + n;
+                            #if SelfDependent_Less_Loads
+                            __m256i rhs_00_31 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp));
+                            __m256i rhs_32_63 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp + 32));
+                            __m256i rhs_c00_15 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(rhs_00_31));
+                            __m256i rhs_c16_31 = _mm256_cvtepi8_epi16(_mm256_extracti128_si256(rhs_00_31, 1));
+                            __m256i rhs_c32_47 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(rhs_32_63));
+                            __m256i rhs_c48_63 = _mm256_cvtepi8_epi16(_mm256_extracti128_si256(rhs_32_63, 1));
+                            #else
+                            __m256i rhs_c00_15 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp))));
+                            __m256i rhs_c16_31 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp + 16))));
+                            __m256i rhs_c32_47 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp + 32))));
+                            __m256i rhs_c48_63 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp + 48))));
+                            #endif
+                            __m256i rhs_c00_15_shifted = _mm256_srli_epi16(rhs_c00_15, 4);
+                            __m256i rhs_c16_31_shifted = _mm256_srli_epi16(rhs_c16_31, 4);
+                            __m256i rhs_c32_47_shifted = _mm256_srli_epi16(rhs_c32_47, 4);
+                            __m256i rhs_c48_63_shifted = _mm256_srli_epi16(rhs_c48_63, 4);
+                            rhs_tmp += 2 * N;
+
+                            #ifdef X86_DEBUG
+                            out << "lhs_r0_data=" << print_m256i_epi16(lhs_r0_data) << std::endl;
+                            out << "lhs_r1_data=" << print_m256i_epi16(lhs_r1_data) << std::endl;
+                            out << "lhs_r2_data=" << print_m256i_epi16(lhs_r2_data) << std::endl;
+                            out << "lhs_r3_data=" << print_m256i_epi16(lhs_r3_data) << std::endl;
+
+                            out << "rhs_c00_15=" << print_m256i_epi16(rhs_c00_15) << std::endl;
+                            out << "rhs_c16_31=" << print_m256i_epi16(rhs_c16_31) << std::endl;
+                            out << "rhs_c32_47=" << print_m256i_epi16(rhs_c32_47) << std::endl;
+                            out << "rhs_c48_63=" << print_m256i_epi16(rhs_c48_63) << std::endl;
+                            __m256i accum_data_Rc0_Lr0_tmp = accum_data_Rc0_Lr0,
+                                    accum_data_Rc0_Lr1_tmp = accum_data_Rc0_Lr1,
+                                    accum_data_Rc0_Lr2_tmp = accum_data_Rc0_Lr2,
+                                    accum_data_Rc0_Lr3_tmp = accum_data_Rc0_Lr3;
+                            #endif
+
+                            for (size_t k = 0 ; k < K ; k += 4) {
+                                if (k % 32 == 0) {
+                                    // Store the widened LHS data
+                                    _mm256_storeu_si256(reinterpret_cast<__m256i*>(lhs_r0_data),
+                                                        _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(input + (m + 0) * (K / 2) + (k / 2))))));
+                                    _mm256_storeu_si256(reinterpret_cast<__m256i*>(lhs_r1_data),
+                                                        _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(input + (m + 1) * (K / 2) + (k / 2))))));
+                                    _mm256_storeu_si256(reinterpret_cast<__m256i*>(lhs_r2_data),
+                                                        _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(input + (m + 2) * (K / 2) + (k / 2))))));
+                                    _mm256_storeu_si256(reinterpret_cast<__m256i*>(lhs_r3_data),
+                                                        _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(input + (m + 3) * (K / 2) + (k / 2))))));
+                                    #ifdef X86_DEBUG
+                                    out << "Updating lhs_r0_data for k=" << k << " to " << print_m512i_epi16(lhs_r0_data) << " from lhs + " << (m + 0) * (K / 2) + (k / 2) << std::endl;
+                                    out << "Updating lhs_r1_data for k=" << k << " to " << print_m512i_epi16(lhs_r1_data) << " from lhs + " << (m + 1) * (K / 2) + (k / 2) << std::endl;
+                                    out << "Updating lhs_r2_data for k=" << k << " to " << print_m512i_epi16(lhs_r2_data) << " from lhs + " << (m + 2) * (K / 2) + (k / 2) << std::endl;
+                                    out << "Updating lhs_r3_data for k=" << k << " to " << print_m512i_epi16(lhs_r3_data) << " from lhs + " << (m + 3) * (K / 2) + (k / 2) << std::endl;
+                                    #endif
+                                }
+                                #ifdef X86_DEBUG
+                                accum_data_Rc0_Lr0_tmp = accum_data_Rc0_Lr0,
+                                accum_data_Rc0_Lr1_tmp = accum_data_Rc0_Lr1,
+                                accum_data_Rc0_Lr2_tmp = accum_data_Rc0_Lr2,
+                                accum_data_Rc0_Lr3_tmp = accum_data_Rc0_Lr3;
+                                #endif
+                                auto current_col = (k / 2) % 16;
+                                
+                                lhs_r0 = _mm256_blend_epi16(_mm256_set1_epi16(lhs_r0_data[current_col]), _mm256_set1_epi16(lhs_r0_data[current_col+1]), 0xAA);
+                                lhs_r1 = _mm256_blend_epi16(_mm256_set1_epi16(lhs_r1_data[current_col]), _mm256_set1_epi16(lhs_r1_data[current_col+1]), 0xAA);
+                                lhs_r2 = _mm256_blend_epi16(_mm256_set1_epi16(lhs_r2_data[current_col]), _mm256_set1_epi16(lhs_r2_data[current_col+1]), 0xAA);
+                                lhs_r3 = _mm256_blend_epi16(_mm256_set1_epi16(lhs_r3_data[current_col]), _mm256_set1_epi16(lhs_r3_data[current_col+1]), 0xAA);
+                                lhs_r0_shifted = _mm256_srli_epi16(lhs_r0, 4);
+                                lhs_r1_shifted = _mm256_srli_epi16(lhs_r1, 4);
+                                lhs_r2_shifted = _mm256_srli_epi16(lhs_r2, 4);
+                                lhs_r3_shifted = _mm256_srli_epi16(lhs_r3, 4);
+
+
+                                // Output Columns 0 to 15
+                                process_block_sd(rhs_c00_15, rhs_c00_15_shifted, lhs_r0, lhs_r0_shifted, accum_data_Rc0_Lr0, out);
+                                process_block_sd(rhs_c00_15, rhs_c00_15_shifted, lhs_r1, lhs_r1_shifted, accum_data_Rc0_Lr1, out);
+                                process_block_sd(rhs_c00_15, rhs_c00_15_shifted, lhs_r2, lhs_r2_shifted, accum_data_Rc0_Lr2, out);
+                                process_block_sd(rhs_c00_15, rhs_c00_15_shifted, lhs_r3, lhs_r3_shifted, accum_data_Rc0_Lr3, out);
+                                #ifdef X86_DEBUG
+                                out << k << "-0 " << print_m256i_epi32(accum_data_Rc0_Lr0_tmp) << std::endl
+                                        << "\t-> " << print_m256i_epi16(lhs_r0) << " . " << print_m256i_epi16(rhs_c00_15) << std::endl
+                                        << "\t\t-> " << print_m256i_epi32(accum_data_Rc0_Lr0) << std::endl;
+                                out << k << "-1 " << print_m256i_epi32(accum_data_Rc0_Lr1_tmp) << std::endl
+                                        << "\t-> " << print_m256i_epi16(lhs_r1) << " . " << print_m256i_epi16(rhs_c00_15) << std::endl
+                                        << "\t\t-> " << print_m256i_epi32(accum_data_Rc0_Lr1) << std::endl;
+                                out << k << "-2 " << print_m256i_epi32(accum_data_Rc0_Lr2_tmp) << std::endl
+                                        << "\t-> " << print_m256i_epi16(lhs_r2) << " . " << print_m256i_epi16(rhs_c00_15) << std::endl
+                                        << "\t\t-> " << print_m256i_epi32(accum_data_Rc0_Lr2) << std::endl;
+                                out << k << "-3 " << print_m256i_epi32(accum_data_Rc0_Lr3_tmp) << std::endl
+                                        << "\t-> " << print_m256i_epi16(lhs_r3) << " . " << print_m256i_epi16(rhs_c00_15) << std::endl
+                                        << "\t\t-> " << print_m256i_epi32(accum_data_Rc0_Lr3) << std::endl;
+                                #endif
+
+                                // Output Columns 16 to 31
+                                process_block_sd(rhs_c16_31, rhs_c16_31_shifted, lhs_r0, lhs_r0_shifted, accum_data_Rc1_Lr0, out);
+                                process_block_sd(rhs_c16_31, rhs_c16_31_shifted, lhs_r1, lhs_r1_shifted, accum_data_Rc1_Lr1, out);
+                                process_block_sd(rhs_c16_31, rhs_c16_31_shifted, lhs_r2, lhs_r2_shifted, accum_data_Rc1_Lr2, out);
+                                process_block_sd(rhs_c16_31, rhs_c16_31_shifted, lhs_r3, lhs_r3_shifted, accum_data_Rc1_Lr3, out);
+
+                                // Output Columns 32 to 47
+                                process_block_sd(rhs_c32_47, rhs_c32_47_shifted, lhs_r0, lhs_r0_shifted, accum_data_Rc2_Lr0, out);
+                                process_block_sd(rhs_c32_47, rhs_c32_47_shifted, lhs_r1, lhs_r1_shifted, accum_data_Rc2_Lr1, out);
+                                process_block_sd(rhs_c32_47, rhs_c32_47_shifted, lhs_r2, lhs_r2_shifted, accum_data_Rc2_Lr2, out);
+                                process_block_sd(rhs_c32_47, rhs_c32_47_shifted, lhs_r3, lhs_r3_shifted, accum_data_Rc2_Lr3, out);
+
+                                // Output Columns 48 to 63
+                                process_block_sd(rhs_c48_63, rhs_c48_63_shifted, lhs_r0, lhs_r0_shifted, accum_data_Rc3_Lr0, out);
+                                process_block_sd(rhs_c48_63, rhs_c48_63_shifted, lhs_r1, lhs_r1_shifted, accum_data_Rc3_Lr1, out);
+                                process_block_sd(rhs_c48_63, rhs_c48_63_shifted, lhs_r2, lhs_r2_shifted, accum_data_Rc3_Lr2, out);
+                                process_block_sd(rhs_c48_63, rhs_c48_63_shifted, lhs_r3, lhs_r3_shifted, accum_data_Rc3_Lr3, out);
+                                
+                                #if SelfDependent_Less_Loads
+                                rhs_00_31 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp));
+                                rhs_32_63 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp + 32));
+                                rhs_c00_15 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(rhs_00_31));
+                                rhs_c16_31 = _mm256_cvtepi8_epi16(_mm256_extracti128_si256(rhs_00_31, 1));
+                                rhs_c32_47 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(rhs_32_63));
+                                rhs_c48_63 = _mm256_cvtepi8_epi16(_mm256_extracti128_si256(rhs_32_63, 1));
+                                #else
+                                rhs_c00_15 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp))));
+                                rhs_c16_31 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp + 16))));
+                                rhs_c32_47 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp + 32))));
+                                rhs_c48_63 = _mm256_cvtepi8_epi16(_mm256_castsi256_si128(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(rhs_tmp + 48))));
+                                #endif
+                                rhs_c00_15_shifted = _mm256_srli_epi16(rhs_c00_15, 4);
+                                rhs_c16_31_shifted = _mm256_srli_epi16(rhs_c16_31, 4);
+                                rhs_c32_47_shifted = _mm256_srli_epi16(rhs_c32_47, 4);
+                                rhs_c48_63_shifted = _mm256_srli_epi16(rhs_c48_63, 4);
+                                rhs_tmp += 2 * N;
+                                #ifdef X86_DEBUG
+                                out << "rhs_c00_15 (m=" << m << " n=" << n << " k=" << k << ") = " << print_m512i_epi16(rhs_c00_15) << std::endl;
+                                out << "rhs_c16_31 (m=" << m << " n=" << n << " k=" << k << ") = " << print_m512i_epi16(rhs_c16_31) << std::endl;
+                                out << "rhs_c32_47 (m=" << m << " n=" << n << " k=" << k << ") = " << print_m512i_epi16(rhs_c32_47) << std::endl;
+                                out << "rhs_c48_63 (m=" << m << " n=" << n << " k=" << k << ") = " << print_m512i_epi16(rhs_c48_63) << std::endl;
+                                #endif
+                            }
+                            #ifdef X86_DEBUG
+                            out << "accum_data_Rc0_Lr0=" << print_m512i_epi32(accum_data_Rc0_Lr0) << std::endl;
+                            out << "accum_data_Rc0_Lr1=" << print_m512i_epi32(accum_data_Rc0_Lr1) << std::endl;
+                            out << "accum_data_Rc0_Lr2=" << print_m512i_epi32(accum_data_Rc0_Lr2) << std::endl;
+                            out << "accum_data_Rc0_Lr3=" << print_m512i_epi32(accum_data_Rc0_Lr3) << std::endl;
+                            #endif
+
+                            // Output Columns 0-15,16-31,32-47,48-63 and Row 0
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (0 + m) + n +  0), accum_data_Rc0_Lr0);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (0 + m) + n +  8), accum_data_Rc1_Lr0);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (0 + m) + n + 16), accum_data_Rc2_Lr0);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (0 + m) + n + 24), accum_data_Rc3_Lr0);
+
+                            // Output Columns 0-15,16-31,32-47,48-63 and Row 1
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (1 + m) + n +  0), accum_data_Rc0_Lr1);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (1 + m) + n +  8), accum_data_Rc1_Lr1);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (1 + m) + n + 16), accum_data_Rc2_Lr1);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (1 + m) + n + 24), accum_data_Rc3_Lr1);
+
+                            // Output Columns 0-15,16-31,32-47,48-63 and Row 2
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (2 + m) + n +  0), accum_data_Rc0_Lr2);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (2 + m) + n +  8), accum_data_Rc1_Lr2);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (2 + m) + n + 16), accum_data_Rc2_Lr2);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (2 + m) + n + 24), accum_data_Rc3_Lr2);
+
+                            // Output Columns 0-15,16-31,32-47,48-63 and Row 3
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (3 + m) + n +  0), accum_data_Rc0_Lr3);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (3 + m) + n +  8), accum_data_Rc1_Lr3);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (3 + m) + n + 16), accum_data_Rc2_Lr3);
+                            _mm256_storeu_si256(reinterpret_cast<__m256i*>(output + N * (3 + m) + n + 24), accum_data_Rc3_Lr3);
+                        }
+                    }
+                    #else
+                    return NotImplemented;
+                    #endif
                     return Status::Success;
                 }
                 LowPrecision::Status MultiplyInt8MultiBatched(
@@ -1108,6 +1630,7 @@ namespace LowPrecision{
                     LowPrecision::MulParams params
                 ){
                     return LowPrecision::Status::NotUpdated;
+                    #ifdef IS_ARM
                     int lhs_batches = input_shape.size[0],
                         lhs_columns = input_shape.size[1],
                         rhs_rows    = kernel_shape.size[0],
@@ -1696,6 +2219,7 @@ namespace LowPrecision{
                     }
                     
                     return Status::Success;
+                    #endif
                 }
                 LowPrecision::Status MultiplyInt8MultiBatchedBlock(
                     const int8_t* input, const int8_t* kernel,
@@ -1855,41 +2379,16 @@ namespace LowPrecision{
                 LowPrecision::PreprocessType OutputPreProcess() { return OutputPostProcess(); }
                 LowPrecision::PreprocessType OutputPostProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery;}
                 LowPrecision::GEMMType GEMMSupport(){ return LowPrecision::GEMMType::SupportsGEMM; }
+                LowPrecision::LeastSize MethodLeaseSize() {
+                    #if defined(IS_ARM)
+                    return LowPrecision::LeastSize{4, 32, 4};
+                    #elif (defined(IS_X86) || defined(IS_X86_64)) && defined(HAS_AVX512)
+                    return LowPrecision::LeastSize{4, 8, 64};
+                    #else
+                    return LowPrecision::LeastSize{4, 32, 4};
+                    #endif
+                }
             }
         }
     }
 }
-#else
-namespace LowPrecision{
-    namespace FullyConnected{
-        namespace SelfDependent {
-            namespace W4A4{
-                LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
-                LowPrecision::Status QuantizeFilter(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
-                LowPrecision::Status QuantizeInput(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
-                LowPrecision::Status QuantizeInput(const uint8_t* input, LowPrecision::Shape shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
-                LowPrecision::Status MultiplyInt8SingleBatch(
-                    const int8_t* input, LowPrecision::Shape input_shape,
-                    const int8_t* kernel, LowPrecision::Shape kernel_shape,
-                    int32_t* output, LowPrecision::Shape output_shape
-                ){ return LowPrecision::Status::NotImplemented; }
-                LowPrecision::Status MultiplyInt8MultiBatched(
-                    const int8_t* input, LowPrecision::Shape input_shape,
-                    const int8_t* kernel, LowPrecision::Shape kernel_shape,
-                    int32_t* output, LowPrecision::Shape output_shape,
-                    LowPrecision::MulParams params = LowPrecision::MulParams()
-                ){ return LowPrecision::Status::NotImplemented; }
-                LowPrecision::Status MultiplyInt8MultiBatched(
-                    const uint8_t* input, LowPrecision::Shape input_shape,
-                    const uint8_t* kernel, LowPrecision::Shape kernel_shape,
-                    int32_t* output, LowPrecision::Shape output_shape,
-                    LowPrecision::MulParams params = LowPrecision::MulParams()
-                ){ return LowPrecision::Status::NotImplemented; }
-                LowPrecision::Status MultiplyInt8MultiBatchedBlock(
-                    const int8_t* input, const int8_t* kernel,
-                    int32_t* output, const Params params){ return LowPrecision::Status::NotImplemented; }
-            }
-        }
-    }
-}
-#endif

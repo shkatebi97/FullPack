@@ -297,11 +297,13 @@ void run_gemm_api_tests(LowPrecision::Method method){
     LowPrecision::Status trusted_ret;
     trusted_ret = calculate_trusted_output(input_data_MB, kernel_data, output_trusted_MB, input_shape_MB, kernel_shape, output_shape_MB, LowPrecision::IsSelfDependent(method));
 
+    #if IS_ARM
     if (is_gem5)
         asm volatile (
             ".word	0xff520110\n\t"
             :::
         );
+    #endif
 
     if (LowPrecision::mask_out_source(trusted_ret) == LowPrecision::Status::Success)
         cout << method_name << " Trusted Output Generation" << spaces.substr((spaces.size() < 20)?(spaces.size()):(20)) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
@@ -740,7 +742,9 @@ void run_mul_api_tests(LowPrecision::Method method){
         );
         ruy_rhs_MB.set_data(input_data_MB);
 
+        #if IS_ARM
         ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs_MB, ruy_mul_params, _ruy_context, &ruy_dst_MB);
+        #endif
 
         bool sanityCheckPass = true;
         for (int i = 0 ; i < output_shape_MB.size[0] ; i++)
@@ -892,7 +896,9 @@ void run_mul_api_tests(LowPrecision::Method method){
         );
         ruy_rhs.set_data(activation_data);
 
+        #if IS_ARM
         ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs, ruy_mul_params, _ruy_context, &ruy_dst);
+        #endif
         
         cout << "I8-I8" << " Mul API Single-Batch Test" << spaces << "=> \033[1m\033[32mPASSED\033[0m" << endl;
 
@@ -918,7 +924,9 @@ void run_mul_api_tests(LowPrecision::Method method){
         );
         ruy_rhs_MB.set_data(activation_data_MB);
 
+        #if IS_ARM
         ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs_MB, ruy_mul_params, _ruy_context, &ruy_dst_MB);
+        #endif
 
         cout << "I8-I8" << " Mul API Multi-Batch Test" << spaces << "=> \033[1m\033[32mPASSED\033[0m" << endl;
     }
@@ -5229,6 +5237,7 @@ int main(int argc, char *argv[]){
     int  selected_benchmark_real_single_mul_api = 0x0000;
     int  selected_benchmark_real_multi_mul_api = 0x0000;
     int  selected_benchmark_real_multi_gemm_api = 0x0000;
+    int  selected_benchmark_real_multi_gemm_api_different_sizes = 0x0000;
     int  enable_single_mul_api_increasing_size_benchmark = 0x0000;
     int  enable_single_mul_api_different_size_benchmark = 0x0000;
     int  enable_multi_mul_api_different_size_benchmark = 0x0000;
@@ -5237,6 +5246,8 @@ int main(int argc, char *argv[]){
     std::string single_mul_api_different_size_benchmark_speedup_file = "/data/local/tmp/single-mul-api-different-size-speedup.csv";
     std::string multi_mul_api_different_size_benchmark_time_file = "/data/local/tmp/multi-mul-api-different-size-time.csv";
     std::string multi_mul_api_different_size_benchmark_speedup_file = "/data/local/tmp/multi-mul-api-different-size-speedup.csv";
+    std::string multi_gemm_api_different_size_benchmark_time_file = "/tmp/multi-gemm-api-different-size-time.csv";
+    std::string multi_gemm_api_different_size_benchmark_speedup_file = "/tmp/multi-gemm-api-different-size-speedup.csv";
 
     if (LowPrecision::FullyConnected::GetVariableFromEnv( "BenchmarkIterations" ) != "")
         benchmark_iterations = std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv( "BenchmarkIterations" ));
@@ -5371,7 +5382,7 @@ int main(int argc, char *argv[]){
                 std::cout << "Parsing method " << selected_test << std::endl;
                 if (selected_test == "All")
                     test_gemm_api |= 0xffffffff; 
-                else if (selected_test == "Int8")
+                else if (selected_test == "Baseline")
                     test_gemm_api |= 0x80000000; 
                 else if (selected_test == "Int4")
                     test_gemm_api |= 0x00000001; 
@@ -5547,7 +5558,7 @@ int main(int argc, char *argv[]){
                 selected_test = argv[i + 2];
                 if (selected_test == "All")
                     selected_benchmark_real_multi_gemm_api |= 0xffffffff; 
-                else if (selected_test == "Int8")
+                else if (selected_test == "Baseline")
                     selected_benchmark_real_multi_gemm_api |= 0x80000000; 
                 else if (selected_test == "Int4")
                     selected_benchmark_real_multi_gemm_api |= 0x00000001; 
@@ -5725,6 +5736,76 @@ int main(int argc, char *argv[]){
             multi_mul_api_different_size_benchmark_time_file = string(argv[3]);
             multi_mul_api_different_size_benchmark_speedup_file = string(argv[4]);
         }
+    }
+    else if (input_mode == "benchmark-real-multi-gemm-api-different-size"){
+        singlebatch_benchmark_enable = false;
+        multibatch_benchmark_enable = false;
+        integrity_test = false;
+        if (argc >= 3){
+            for (size_t i = 0; i < argc - 2; i++){
+                std::string selected_test = "";
+                selected_test = argv[i + 2];
+                if (selected_test == "All")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0xffffffff; 
+                else if (selected_test == "Int8")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x80000000; 
+                else if (selected_test == "Int4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000001; 
+                else if (selected_test == "Binary")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000002; 
+                else if (selected_test == "Ternary")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000004; 
+                else if (selected_test == "Quaternary")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000008; 
+                else if (selected_test == "Int4InputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000010; 
+                else if (selected_test == "Int4InputsInt4Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000020; 
+                else if (selected_test == "BinaryInputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000080; 
+                else if (selected_test == "BinaryInputsBinaryWeights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000100; 
+                else if (selected_test == "BinaryInputsBinaryWeightsXOR")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000800; 
+                else if (selected_test == "TernaryInputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000040; 
+                else if (selected_test == "TernaryInputsTernaryWeights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000200; 
+                else if (selected_test == "Int3InputsInt3Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000400;
+                else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00001000; 
+                else if (selected_test == "ULPPACK-W4A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00002000; 
+                else if (selected_test == "SelfDependentW4A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00004000; 
+                else if (selected_test == "SelfDependentW4A8")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00008000;
+                else if (selected_test == "SelfDependentW8A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00010000;
+                else if (selected_test == "BarrelShiftMultiplierW8A8")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00020000;
+                else if (selected_test == "BarrelShiftMultiplierW4A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00040000;
+                else if (selected_test == "BarrelShiftMultiplierW8A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00080000;
+                else if (selected_test == "BarrelShiftMultiplierW4A8")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00100000;
+                else if (selected_test == "BarrelShiftMultiplierW2A2")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00200000;
+                else if (selected_test == "--gather-timing-details")
+                    gather_timing_details = true;
+                else if (selected_test == "--time-csv"){
+                    multi_gemm_api_different_size_benchmark_time_file = argv[i + 3]; i++;
+                }
+                else if (selected_test == "--speedup-csv"){
+                    multi_gemm_api_different_size_benchmark_speedup_file = argv[i + 3]; i++;
+                }
+                else
+                    throw std::invalid_argument("Invalid test method provided. Please provide a valid test method.");
+            }
+        } else
+            selected_benchmark_real_multi_gemm_api_different_sizes = 0xffffff;
     }
     else{
         singlebatch_benchmark_enable = false;
@@ -7021,6 +7102,11 @@ int main(int argc, char *argv[]){
     benchmark_mode.multi_mul_api_different_size_benchmark_mode          = enable_multi_mul_api_different_size_benchmark;
     benchmark_mode.multi_mul_api_different_size_benchmark_time_path     = multi_mul_api_different_size_benchmark_time_file;
     benchmark_mode.multi_mul_api_different_size_benchmark_speedup_path  = multi_mul_api_different_size_benchmark_speedup_file;
+
+    benchmark_mode.multi_gemm_api_different_size_benchmark_enable       = selected_benchmark_real_multi_gemm_api_different_sizes != 0;
+    benchmark_mode.multi_gemm_api_different_size_benchmark_mode         = selected_benchmark_real_multi_gemm_api_different_sizes;
+    benchmark_mode.multi_gemm_api_different_size_benchmark_time_path    = multi_gemm_api_different_size_benchmark_time_file;
+    benchmark_mode.multi_gemm_api_different_size_benchmark_speedup_path = multi_gemm_api_different_size_benchmark_speedup_file;
 
     run_benchmark(benchmark_iterations, benchmark_mode, gather_timing_details);
 

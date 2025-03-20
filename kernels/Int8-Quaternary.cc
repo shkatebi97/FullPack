@@ -1,8 +1,5 @@
-#ifdef BAZEL_BUILD
 #include "../low_precision_fully_connected.h"
-#else
-#include "../low_precision_fully_connected.h"
-#endif
+
 #ifdef IS_ARM
 namespace LowPrecision{
     namespace FullyConnected{
@@ -675,6 +672,99 @@ namespace LowPrecision{
                       "v28", "v29", "v30", "v31"
                 );
             }
+            void doMultiplication(const int8_t* activation, 
+                                    int8_t* weights, 
+                                    int32_t* dst_1, int32_t* dst_2,
+                                    int32_t* dst_3, int32_t* dst_4,
+                                    int size){}
+            uint8_t quantizeAndPackBitsStep(const int8_t& input, int shift_amount){
+            #if LWO_PRECISION_QUATERNARY_V1_0
+                if      (input ==  1)
+                    return 0x00 << shift_amount;
+                else if (input == -1)
+                    return 0x02 << shift_amount;
+                else if (input <  -1)
+                    return 0x03 << shift_amount;
+                else
+                    return 0x01 << shift_amount;
+            #elif LWO_PRECISION_QUATERNARY_V1_1
+                if      (input ==  1)
+                    return 0x00 << shift_amount;
+                else if (input == -1)
+                    return 0x02 << shift_amount;
+                else if (input <  -1)
+                    return 0x03 << shift_amount;
+                else
+                    return 0x01 << shift_amount;
+            #endif
+            }
+        }
+    }
+}
+#else
+namespace LowPrecision{
+    namespace FullyConnected{
+        using ::LowPrecision::Method;
+        using ::LowPrecision::Shape;
+        using ::LowPrecision::Status;
+        using ::LowPrecision::DataType;
+        using ::LowPrecision::MemLayout;
+        namespace Quaternary{
+            int8_t* PaddingWeightsIfNeeded(const int8_t* weight, Shape shape){
+                int padding_size = (shape.size[1] % 64)?(64 - (shape.size[1] % 64)):(0);
+                Shape new_shape;
+                new_shape.number_dims = shape.number_dims;
+                new_shape.size = new int[new_shape.number_dims];
+                new_shape.size[0] = shape.size[0];
+                new_shape.size[1] = shape.size[1] + padding_size;
+                new_shape.flatsize = new_shape.size[0] * new_shape.size[1];
+                int8_t* new_weight = allocate<int8_t>(new_shape.flatsize);
+                for(int i = 0 ; i < shape.size[0] ; i++){
+                    for(int j = 0 ; j < shape.size[1] ; j++)
+                        new_weight[i * new_shape.size[1] + j] = weight[i * shape.size[1] + j];
+                    for (int j = shape.size[1]; j < shape.size[1] + padding_size; j++)
+                        new_weight[i * new_shape.size[1] + j] = 0;
+                }
+                return new_weight;
+            }
+            size_t TransformInputShape(int* shape, int n_dims){
+                shape[n_dims - 1] = ::ceil(shape[n_dims - 1] / 16.0) * 16 / (8 / 8);
+                return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
+            }
+            size_t TransformFilterShape(int* shape, int n_dims){
+                shape[n_dims - 1] = ceil(shape[n_dims - 1] / 16.0) * 16 / (8 / 2);
+                return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
+            }
+            Status QuantizeFilter(const int8_t* input, Shape k_shape, int8_t* output, MemLayout layout){
+                return Status::NotImplemented;
+            }
+            Status QuantizeInput(const int8_t* input, Shape shape, int8_t* output, MemLayout layout){
+                return Status::NotImplemented;
+            }
+            Status MultiplyInt8SingleBatch(
+                const int8_t* input, Shape input_shape,
+                const int8_t* kernel, Shape kernel_shape,
+                int32_t* output, Shape output_shape
+            ){
+                return Status::NotImplemented;
+            }
+            Status MultiplyInt8(
+                const int8_t* input, Shape input_shape,
+                const int8_t* kernel, Shape kernel_shape,
+                int32_t* output, Shape output_shape
+            ){
+                return Status::NotImplemented;
+            }
+            Status MultiplyInt8MultiBatched(
+                const int8_t* input, Shape input_shape,
+                const int8_t* kernel, Shape kernel_shape,
+                int32_t* output, Shape output_shape
+            ){
+                return Status::NotImplemented;
+            }
+            void doMultiplication1Col(const int8_t* activation, 
+                                    int8_t* weights, 
+                                    int32_t* dst, int size){}
             void doMultiplication(const int8_t* activation, 
                                     int8_t* weights, 
                                     int32_t* dst_1, int32_t* dst_2,

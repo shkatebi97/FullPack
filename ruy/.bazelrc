@@ -10,3 +10,34 @@ build:aarch64 --cpu=aarch64
 # build.
 
 build:aarch64 --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
+
+# #####################################################################
+#                                  x86_64
+# #####################################################################
+# Use our custom-configured c++ toolchain.
+
+build:linux_x86_64 --crosstool_top=//toolchain:x86_64_suite
+
+# Use --cpu as a differentiator.
+
+build:linux_x86_64 --cpu=k8
+
+build:avx512 --copt=-mavx512f
+build:avx512 --copt=-mavx512dq
+build:avx512 --copt=-mavx512cd
+build:avx512 --copt=-mavx512bw
+build:avx512 --copt=-mavx512vl
+build:avx512 --copt=-mavx2
+build:avx512 --copt=-mfma
+build:avx512 --copt=-mavx
+
+build:avx2 --copt=-mavx2
+build:avx2 --copt=-mfma
+build:avx2 --copt=-mavx
+
+build:avx --copt=-mavx
+
+# Use the default Bazel C++ toolchain to build the tools used during the
+# build.
+
+build:linux_x86_64 --host_crosstool_top=@bazel_tools//tools/cpp:toolchain

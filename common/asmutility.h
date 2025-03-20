@@ -1,3 +1,4 @@
+#if defined(IS_ARM)
 #define LOAD_ONE_DATA(R)                                \
   "cmp %w[i], #" #R "\n"                                \
   "beq 5f\n"                                            \
@@ -320,3 +321,9 @@
   "ld1 { v4.h }[" #R "], [%[src_ptr_4]], #2\n"
 
 #define PREFETCH_DATA(SRC,OFFSET) "prfm PLDL1STRM, [%[" SRC "], #" #OFFSET "]\n"
+
+#elif (defined(IS_X86) || defined(IS_X86_64)) && defined(HAS_AVX512)
+
+#define MASK _mm512_set_epi16(0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000, 0xffff, 0x0000)
+
+#endif

@@ -1,8 +1,6 @@
-#ifdef BAZEL_BUILD
+
 #include "../low_precision_fully_connected.h"
-#else
-#include "../low_precision_fully_connected.h"
-#endif
+
 #ifdef IS_ARM
 namespace LowPrecision{
     namespace FullyConnected{
@@ -441,6 +439,51 @@ namespace LowPrecision{
                 );
 
                 return Status::Success;
+            }
+            uint8_t quantizeAndPackBitsStep(const int8_t& input, int shift_amount){
+                if (input < 0)
+                    if (input < -8)
+                        return (get_as<uint8_t>(-8) << (shift_amount * 4)) & (0x0f << ((shift_amount) * 4));
+                    else
+                        return (get_as<uint8_t>(input) << (shift_amount * 4)) & (0x0f << ((shift_amount) * 4));
+                else
+                    if(input >  7)
+                        return (get_as<uint8_t>(7) << (shift_amount * 4)) & (0x0f << ((shift_amount) * 4));
+                    else
+                        return (get_as<uint8_t>(input) << (shift_amount * 4)) & (0x0f << ((shift_amount) * 4));
+            }
+        }
+    }
+}
+#else
+namespace LowPrecision{
+    namespace FullyConnected{
+        using ::LowPrecision::Method;
+        using ::LowPrecision::Shape;
+        using ::LowPrecision::Status;
+        using ::LowPrecision::DataType;
+        using ::LowPrecision::MemLayout;
+        namespace Int3InputsInt3Weights {
+            size_t TransformFilterShape(int* shape, int n_dims){
+                shape[n_dims - 1] = ceil(shape[n_dims - 1] / 8.0) * 8 / floor(16 / 3) * 2;
+                return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
+            }
+            size_t TransformInputShape(int* shape, int n_dims){
+                shape[n_dims - 1] /= ceil(shape[n_dims - 1] / 8.0) * 8 / floor(16 / 3) * 2;
+                return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
+            }
+            Status QuantizeFilter(const int8_t* input, Shape k_shape, int8_t* output, MemLayout layout){
+                return Status::NotImplemented;
+            }
+            Status QuantizeInput(const int8_t* input, Shape shape, int8_t* output, MemLayout layout){
+                return Status::NotImplemented;
+            }
+            Status MultiplyInt8SingleBatch(
+                const int8_t* input, Shape input_shape,
+                const int8_t* kernel, Shape kernel_shape,
+                int32_t* output, Shape output_shape
+            ){
+                return Status::NotImplemented;
             }
             uint8_t quantizeAndPackBitsStep(const int8_t& input, int shift_amount){
                 if (input < 0)

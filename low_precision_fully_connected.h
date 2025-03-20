@@ -15,12 +15,17 @@
 #include <time.h>
 #include <assert.h>
 #include <cstring>
+#include <stdint.h>
+#include <tuple>
 
-#ifdef IS_ARM
+#if defined(IS_ARM)
 #include <arm_neon.h>
+#elif (defined(IS_X86) || defined(IS_X86_64)) && (defined(HAS_AVX512) || defined(HAS_AVX2))
+#include "common/asmutility.h"
+#include <sstream>
+#include <immintrin.h>
 #endif
 
-#ifdef IS_ARM
 // #define PRINT_VALUES true
 // #define PRINT_VALUES_DETAILED false
 namespace LowPrecision {
@@ -286,6 +291,7 @@ namespace LowPrecision {
         size_t getCount(){ return _timings.size(); }
     };
     typedef std::vector<Shape> ShapeList;
+    typedef std::tuple<int,int,int> LeastSize;
     static TimingManager timingManager;
     namespace FullyConnected {
         static long int id = 0;
@@ -851,6 +857,7 @@ namespace LowPrecision {
             LowPrecision::PreprocessType OutputPreProcess(LowPrecision::Method method);
             LowPrecision::PreprocessType OutputPostProcess(LowPrecision::Method method);
             LowPrecision::GEMMType GEMMSupport(LowPrecision::Method method);
+            LowPrecision::LeastSize MethodLeaseSize(LowPrecision::Method method);
             namespace W4A4{
                 LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout);
                 LowPrecision::Status QuantizeFilter(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout);
@@ -883,6 +890,7 @@ namespace LowPrecision {
                 LowPrecision::PreprocessType OutputPreProcess();
                 LowPrecision::PreprocessType OutputPostProcess();
                 LowPrecision::GEMMType GEMMSupport();
+                LowPrecision::LeastSize MethodLeaseSize();
             }
             namespace W4A8{
                 LowPrecision::Status QuantizeFilter(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout);
@@ -1048,6 +1056,7 @@ namespace LowPrecision {
                 LowPrecision::Status MultiplyInt8MultiBatchedBlock(
                     const int8_t* input, const int8_t* kernel,
                     int32_t* output, const Params params);
+                #if IS_ARM
                 void unpack_8x8_block_barrelshift_mul(
                     uint16x8_t& vACC_Ar76543210_x_Wc76543210,
                     uint16x8_t& vACC_Ar76543210_x_Wc07654321,
@@ -1068,6 +1077,7 @@ namespace LowPrecision {
                     int16x8_t& vACC_Ar76543210_x_Wc54321076,
                     int16x8_t& vACC_Ar76543210_x_Wc65432107
                 );
+                #endif
                 inline void unpack_8x8_block_barrelshift(const int32_t* O, int32_t* O_unpack, size_t offset);
                 LowPrecision::PreprocessType InputPreProcess();
                 LowPrecision::PreprocessType FilterPreProcess();
@@ -1103,6 +1113,7 @@ namespace LowPrecision {
                 LowPrecision::Status MultiplyInt8MultiBatchedBlock(
                     const int8_t* input, const int8_t* kernel,
                     int32_t* output, const Params params);
+                #if IS_ARM
                 void unpack_8x8_block_barrelshift_mul(
                     uint16x8_t& vACC_Ar76543210_x_Wc76543210,
                     uint16x8_t& vACC_Ar76543210_x_Wc07654321,
@@ -1123,6 +1134,7 @@ namespace LowPrecision {
                     int16x8_t& vACC_Ar76543210_x_Wc54321076,
                     int16x8_t& vACC_Ar76543210_x_Wc65432107
                 );
+                #endif
                 inline void unpack_8x8_block_barrelshift(const int32_t* O, int32_t* O_unpack, size_t offset);
                 LowPrecision::PreprocessType InputPreProcess();
                 LowPrecision::PreprocessType FilterPreProcess();
@@ -1172,30 +1184,4 @@ namespace LowPrecision {
     void doScallingFactorMultiplication(int32_t* input, const float* scalling_factor, float* output,
                                         int batch_n, int input_n);
 }
-#else
-namespace LowPrecision{
-    namespace FullyConnected{
-        bool IsAppliable(
-            LowPrecision::Method method, LowPrecision::Shape input_shape, 
-            LowPrecision::DataType input_type, LowPrecision::DataType filter_type,
-            LowPrecision::DataType output_type, bool Is_FC) { return false; }
-        LowPrecision::Method GetMethodFromEnv() { return Method::kNoOptimization; }
-        std::string GetVariableFromEnv(std::string variable) { return std::string(); }
-        LowPrecision::DataType GetDataType(int type) { return LowPrecision::DataType::NotAvailable; }
-        LowPrecision::Status QuantizeFilterToInt4(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout) { return LowPrecision::Status::NotSupported; }
-        LowPrecision::Status MultiplyInt8Int4(
-            const int8_t* input, LowPrecision::Shape input_shape,
-            const int8_t* kernel, LowPrecision::Shape kernel_shape,
-            int32_t* output, LowPrecision::Shape output_shape) { return LowPrecision::Status::NotSupported; }
-        void do4BitMultiplication(const int8_t* activation, 
-                                int8_t* weights, 
-                                int32_t& dst_1, int32_t& dst_2,
-                                int32_t& dst_3, int32_t& dst_4, 
-                                int size) {  }
-        uint8_t quantizeTo4BitIntAndPackBitsStep(const int8_t& input, int shift_amount){ return 0; }
-        void doScallingFactorMultiplication(int32_t* input, const float* scalling_factor, float* output,
-                                            int batch_n, int input_n){ }
-    }
-}
-#endif
 #endif

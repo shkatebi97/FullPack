@@ -1,7 +1,5 @@
 #include "low_precision_fully_connected.h"
 
-#ifndef IS_ARM
-#else
 namespace LowPrecision{
     unsigned long int Shape::last_id = 0;
     TimingManager::~TimingManager(){
@@ -400,166 +398,158 @@ namespace LowPrecision{
             }
         }
         size_t TransformFilterShape(LowPrecision::Method method, int* shape, int n_dims){
-            int least_dim_size = 16, reduction_coeff = 1;
+            int K = 16, N = 4, reduction_coeff = 1;
             if (method == LowPrecision::Method::kInt4ActInt8Weight){
-                least_dim_size  = 32;
+                K = 32;
                 reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kInt4ActInt4Weight){
-                least_dim_size  = 32;
+                K = 32;
                 reduction_coeff = 2;
             }
             else if (method == LowPrecision::Method::kTernaryActInt8Weight){
-                least_dim_size  = 64;
+                K = 64;
                 reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kTernaryActTernaryWeight){
-                least_dim_size  = 64;
+                K = 64;
                 reduction_coeff = 4;
             }
             else if (method == LowPrecision::Method::kBinaryActInt8Weight){
-                least_dim_size  = 128;
+                K = 128;
                 reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kBinaryActBinaryWeight){
-                least_dim_size  = 128;
+                K = 128;
                 reduction_coeff = 8;
             }
             else if (method == LowPrecision::Method::kBinaryActBinaryWeightXOR){
-                least_dim_size  = 128;
+                K = 128;
                 reduction_coeff = 8;
             }
             else if (method == LowPrecision::Method::kInt8Int4){
-                least_dim_size  = 32;
+                K = 32;
                 reduction_coeff = 2;
             }
             else if (method == LowPrecision::Method::kInt8Binary){
-                least_dim_size  = 128;
+                K = 128;
                 reduction_coeff = 8;
             }
             else if (method == LowPrecision::Method::kInt8Ternary){
-                least_dim_size  = 64;
+                K = 64;
                 reduction_coeff = 4;
             }
             else if (method == LowPrecision::Method::kInt8QuaTernary){
-                least_dim_size  = 64;
+                K = 64;
                 reduction_coeff = 4;
-            }
-            else if (method == LowPrecision::Method::kSelfDependentW4A4){
-                least_dim_size  = 32;
-                reduction_coeff = 2;
-            }
-            else if (method == LowPrecision::Method::kSelfDependentW4A8){
-                least_dim_size  = 32;
-                reduction_coeff = 2;
-            }
-            else if (method == LowPrecision::Method::kSelfDependentW8A4){
-                least_dim_size  = 32;
-                reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kSelfDependentW2A2){
-                least_dim_size  = 64;
+                K = 64;
                 reduction_coeff = 4;
             }
+            else if (method == LowPrecision::Method::kSelfDependentW4A4 ||
+                     method == LowPrecision::Method::kSelfDependentW4A8 ||
+                     method == LowPrecision::Method::kSelfDependentW8A4
+            ) {
+                LowPrecision::LeastSize least_size = LowPrecision::FullyConnected::SelfDependent::MethodLeaseSize(method);
+                K = std::get<1>(least_size);
+                N = std::get<2>(least_size);
+                reduction_coeff = 2;
+            }
             else if (method == LowPrecision::Method::kBarrelShiftMulW8A8){
-                least_dim_size  = 8;
+                K = 8;
                 reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kBarrelShiftMulW4A4){
-                least_dim_size  = 16;
+                K = 16;
                 reduction_coeff = 2;
             }
 
-            int least_row_size = 4;
             if (method & LowPrecision::Method::k8x8){
-                least_row_size = 8;
+                N = 8;
             }
             
-            shape[n_dims - 2] = (::ceil(shape[n_dims - 2] / ((float)least_dim_size)) * least_dim_size) / reduction_coeff;
-            shape[n_dims - 1] = ::ceil(shape[n_dims - 1] / ((float)least_row_size)) * least_row_size;
+            shape[n_dims - 2] = (::ceil(shape[n_dims - 2] / (float(K))) * K) / reduction_coeff;
+            shape[n_dims - 1] = ::ceil(shape[n_dims - 1] / (float(N))) * N;
             return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
         }
         size_t TransformInputShape(LowPrecision::Method method, int* shape, int n_dims){
-            int least_dim_size = 16, reduction_coeff = 1;
+            int K = 16, M = 4, reduction_coeff = 1;
             if (method == LowPrecision::Method::kInt4ActInt8Weight){
-                least_dim_size  = 32;
+                K  = 32;
                 reduction_coeff = 2;
             }
             else if (method == LowPrecision::Method::kInt4ActInt4Weight){
-                least_dim_size  = 32;
+                K  = 32;
                 reduction_coeff = 2;
             }
             else if (method == LowPrecision::Method::kTernaryActInt8Weight){
-                least_dim_size  = 64;
+                K  = 64;
                 reduction_coeff = 4;
             }
             else if (method == LowPrecision::Method::kTernaryActTernaryWeight){
-                least_dim_size  = 64;
+                K  = 64;
                 reduction_coeff = 4;
             }
             else if (method == LowPrecision::Method::kBinaryActInt8Weight){
-                least_dim_size  = 128;
+                K  = 128;
                 reduction_coeff = 8;
             }
             else if (method == LowPrecision::Method::kBinaryActBinaryWeight){
-                least_dim_size  = 128;
+                K  = 128;
                 reduction_coeff = 8;
             }
             else if (method == LowPrecision::Method::kBinaryActBinaryWeightXOR){
-                least_dim_size  = 128;
+                K  = 128;
                 reduction_coeff = 8;
             }
             else if (method == LowPrecision::Method::kInt8Int4){
-                least_dim_size  = 32;
+                K  = 32;
                 reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kInt8Binary){
-                least_dim_size  = 128;
+                K  = 128;
                 reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kInt8Ternary){
-                least_dim_size  = 64;
+                K  = 64;
                 reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kInt8QuaTernary){
-                least_dim_size  = 64;
+                K  = 64;
                 reduction_coeff = 1;
-            }
-            else if (method == LowPrecision::Method::kSelfDependentW4A4){
-                least_dim_size  = 32;
-                reduction_coeff = 2;
-            }
-            else if (method == LowPrecision::Method::kSelfDependentW4A8){
-                least_dim_size  = 32;
-                reduction_coeff = 1;
-            }
-            else if (method == LowPrecision::Method::kSelfDependentW8A4){
-                least_dim_size  = 32;
-                reduction_coeff = 2;
             }
             else if (method == LowPrecision::Method::kSelfDependentW2A2){
-                least_dim_size  = 64;
+                K  = 64;
                 reduction_coeff = 4;
             }
+            else if (method == LowPrecision::Method::kSelfDependentW4A4 ||
+                     method == LowPrecision::Method::kSelfDependentW4A8 ||
+                     method == LowPrecision::Method::kSelfDependentW8A4
+            ) {
+                LowPrecision::LeastSize least_size = LowPrecision::FullyConnected::SelfDependent::MethodLeaseSize(method);
+                M = std::get<0>(least_size);
+                K = std::get<1>(least_size);
+                reduction_coeff = 2;
+            }
             else if (method == LowPrecision::Method::kBarrelShiftMulW8A8){
-                least_dim_size  = 8;
+                K  = 8;
                 reduction_coeff = 1;
             }
             else if (method == LowPrecision::Method::kBarrelShiftMulW4A4){
-                least_dim_size  = 16;
+                K  = 16;
                 reduction_coeff = 2;
             }
 
-            int least_row_size = 4;
             if (method & LowPrecision::Method::k8x8){
-                least_row_size = 8;
-                least_dim_size = 8;
+                M = 8;
+                K = 8;
             }
 
-            shape[n_dims - 1] = (::ceil(shape[n_dims - 1] / ((float)least_dim_size)) * least_dim_size) / reduction_coeff;
+            shape[n_dims - 1] = (::ceil(shape[n_dims - 1] / (float(K))) * K) / reduction_coeff;
             bool is_multibatch = n_dims >= 2 && shape[n_dims - 2] > 1;
             if (is_multibatch && !(method & LowPrecision::Method::k8x8))
-                shape[n_dims - 2] = ::ceil(shape[n_dims - 2] / ((float)least_row_size)) * least_row_size;
+                shape[n_dims - 2] = ::ceil(shape[n_dims - 2] / (float(M))) * M;
             else if(method & LowPrecision::Method::k8x8)
                 shape[n_dims - 2] = ::ceil(shape[n_dims - 2] / 8.0) * 8;
             return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
@@ -1522,50 +1512,58 @@ namespace LowPrecision{
             return Status::NotImplemented;
         }
         Shape GetPaddedShape(const LowPrecision::Method method, const Shape& input_shape, bool pad_rows_too, LowPrecision::MatrixType type){
-            int least_row_size = 4;
-            int least_dim_size = 16;
+            int N = 4, M = 4;
+            int K = 16;
             if (method == LowPrecision::Method::kInt4ActInt8Weight)
-                least_dim_size = 32;
+                K = 32;
             else if (method == LowPrecision::Method::kInt4ActInt4Weight)
-                least_dim_size = 32;
+                K = 32;
             else if (method == LowPrecision::Method::kTernaryActInt8Weight)
-                least_dim_size = 64;
+                K = 64;
             else if (method == LowPrecision::Method::kTernaryActTernaryWeight)
-                least_dim_size = 64;
+                K = 64;
             else if (method == LowPrecision::Method::kBinaryActInt8Weight)
-                least_dim_size = 128;
+                K = 128;
             else if (method == LowPrecision::Method::kBinaryActBinaryWeight)
-                least_dim_size = 128;
+                K = 128;
             else if (method == LowPrecision::Method::kBinaryActBinaryWeightXOR)
-                least_dim_size = 128;
+                K = 128;
             else if (method == LowPrecision::Method::kInt8Int4)
-                least_dim_size = 32;
+                K = 32;
             else if (method == LowPrecision::Method::kInt8Binary)
-                least_dim_size = 128;
+                K = 128;
             else if (method == LowPrecision::Method::kInt8Ternary)
-                least_dim_size = 64;
+                K = 64;
             else if (method == LowPrecision::Method::kInt8QuaTernary)
-                least_dim_size = 64;
-            else if (method == LowPrecision::Method::kSelfDependentW4A4)
-                least_dim_size = 32;
-            else if (method == LowPrecision::Method::kSelfDependentW4A8)
-                least_dim_size = 32;
-            else if (method == LowPrecision::Method::kSelfDependentW8A4)
-                least_dim_size = 32;
+                K = 64;
+            // else if (method == LowPrecision::Method::kSelfDependentW4A4)
+            //     K = 32;
+            // else if (method == LowPrecision::Method::kSelfDependentW4A8)
+            //     K = 32;
+            // else if (method == LowPrecision::Method::kSelfDependentW8A4)
+            //     K = 32;
+            else if (LowPrecision::IsSelfDependent(method) != LowPrecision::SelfDependentType::NotSelfDependent) {
+                LowPrecision::LeastSize least_size = LowPrecision::FullyConnected::SelfDependent::MethodLeaseSize(method);
+                M = std::get<0>(least_size);
+                K = std::get<1>(least_size);
+                N = std::get<2>(least_size);
+            }
             else if (method & LowPrecision::Method::k8x8){
-                least_row_size = 8;
-                least_dim_size = 8;
+                M = 8;
+                K = 8;
+                N = 8;
             }
             else if (method == LowPrecision::Method::kNoOptimization){
-                least_row_size = 1;
-                least_dim_size = 1;
+                M = 1;
+                K = 1;
+                N = 1;
             }
             if (input_shape.number_dims == 1){
-                int padding_size = (input_shape.size[0] % least_dim_size)?(least_dim_size - (input_shape.size[0] % least_dim_size)):(0);
+                int padding_size = (input_shape.size[0] % K)?(K - (input_shape.size[0] % K)):(0);
                 Shape new_shape;
                 new_shape.number_dims = input_shape.number_dims;
                 new_shape.size = new int[new_shape.number_dims];
-                new_shape.size[0] = ::ceil(input_shape.size[0] / ((float)least_dim_size)) * least_dim_size;
+                new_shape.size[0] = ::ceil(input_shape.size[0] / ((float)K)) * K;
                 new_shape.flatsize = ::LowPrecision::FullyConnected::CalcFlatSize(new_shape.size, 1);
                 return new_shape;
             }
@@ -1574,22 +1572,22 @@ namespace LowPrecision{
             new_shape.size = new int[new_shape.number_dims];
             if (type == LowPrecision::MatrixType::Weight){
                 if (pad_rows_too)
-                    new_shape.size[1] = ::ceil(input_shape.size[1] / ((float)least_row_size)) * least_row_size;
+                    new_shape.size[1] = ::ceil(input_shape.size[1] / (float(N))) * N;
                 else
                     new_shape.size[1] = input_shape.size[1];
-                new_shape.size[0] = ::ceil(input_shape.size[0] / ((float)least_dim_size)) * least_dim_size;
+                new_shape.size[0] = ::ceil(input_shape.size[0] / (float(K))) * K;
             } else if (type == LowPrecision::MatrixType::Output){
                 if (pad_rows_too)
-                    new_shape.size[0] = ::ceil(input_shape.size[0] / ((float)least_row_size)) * least_row_size;
+                    new_shape.size[0] = ::ceil(input_shape.size[0] / (float(M))) * M;
                 else
                     new_shape.size[0] = input_shape.size[0];
-                new_shape.size[1] = ::ceil(input_shape.size[1] / ((float)least_row_size)) * least_row_size;
+                new_shape.size[1] = ::ceil(input_shape.size[1] / (float(N))) * N;
             } else {
                 if (pad_rows_too)
-                    new_shape.size[0] = ::ceil(input_shape.size[0] / ((float)least_row_size)) * least_row_size;
+                    new_shape.size[0] = ::ceil(input_shape.size[0] / (float(M))) * M;
                 else
                     new_shape.size[0] = input_shape.size[0];
-                new_shape.size[1] = ::ceil(input_shape.size[1] / ((float)least_dim_size)) * least_dim_size;
+                new_shape.size[1] = ::ceil(input_shape.size[1] / (float(K))) * K;
             }
             new_shape.flatsize = ::LowPrecision::FullyConnected::CalcFlatSize(new_shape.size, 2);
             return new_shape;
@@ -1652,6 +1650,7 @@ namespace LowPrecision{
             #ifdef DOWNCASTING_FUSED_IN_KERNEL
             return Status::Success;
             #else
+            #ifdef IS_ARM
             #ifdef VECTORIZED_DOWNCASTING_WITH_SCALAR_DIVISION
             size_t size = shape.flatsize, i = 0;
             asm (
@@ -1742,7 +1741,7 @@ namespace LowPrecision{
                   "w12", "w13", "w14", "w15"
             );
             return Status::Success;
-#else
+            #else
             if (shape.number_dims == 1){
                 for (int i = 0; i < shape.size[0]; i++)
                     output[i] = input[i] / downcast_coeff;
@@ -1755,7 +1754,8 @@ namespace LowPrecision{
             else
                 return Status::NotSupported;
             return Status::Success;
-#endif
+            #endif
+            #endif
             #endif
         }
         void doScallingFactorMultiplication(int32_t* input, const float* scalling_factor, float* output,
@@ -2551,4 +2551,3 @@ namespace LowPrecision{
     }
 
 }
-#endif

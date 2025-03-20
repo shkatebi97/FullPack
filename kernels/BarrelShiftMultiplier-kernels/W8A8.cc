@@ -1,5 +1,5 @@
 #include "../../low_precision_fully_connected.h"
-#ifdef IS_ARM
+
 namespace LowPrecision{
     namespace FullyConnected{
         using ::LowPrecision::Method;
@@ -112,6 +112,7 @@ namespace LowPrecision{
 
                     int need_downcasting = (params.need_downcasting)?(0xff):(0x00);
                     
+                    #ifdef IS_ARM
                     if (lhs_columns != rhs_rows)
                         return Status::SizesMisMatch;
                     if(lhs_columns == 0 || rhs_columns == 0 || lhs_batches == 0)
@@ -727,6 +728,9 @@ namespace LowPrecision{
                             #endif
                         }
                     }
+                    #else
+                    return Status::NotImplemented;
+                    #endif
                     return Status::Success;
                 }
                 Status MultiplyInt8MultiBatched(
@@ -742,6 +746,7 @@ namespace LowPrecision{
                     
                     int need_downcasting = (params.need_downcasting)?(0xff):(0x00);
                     
+                    #ifdef IS_ARM
                     if (lhs_columns != rhs_rows)
                         return Status::SizesMisMatch;
                     if(lhs_columns == 0 || rhs_rows == 0 || lhs_batches == 0)
@@ -1113,12 +1118,16 @@ namespace LowPrecision{
                             #endif
                         }
                     }
+                    #else
+                    return Status::NotImplemented;
+                    #endif
                     return Status::Success;
                 }
                 Status MultiplyInt8MultiBatchedBlock(
                     const int8_t* input, const int8_t* kernel,
                     int32_t* output, const Params params
                 ){ return Status::NotImplemented; }
+                #if IS_ARM
                 inline void unpack_8x8_block_barrelshift_mul(
                     uint16x8_t& vACC_Ar76543210_x_Wc76543210,
                     uint16x8_t& vACC_Ar76543210_x_Wc07654321,
@@ -1129,6 +1138,7 @@ namespace LowPrecision{
                     uint16x8_t& vACC_Ar76543210_x_Wc54321076,
                     uint16x8_t& vACC_Ar76543210_x_Wc65432107
                 ){
+                    #ifdef IS_ARM
                     asm volatile(
                         "ins v0.h[0], %[vACC_Ar76543210_x_Wc76543210].h[0]\n\t"
                         "ins v1.h[1], %[vACC_Ar76543210_x_Wc76543210].h[1]\n\t"
@@ -1222,6 +1232,7 @@ namespace LowPrecision{
                         :
                         : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7"
                     );
+                    #endif
                 }
                 inline void unpack_8x8_block_barrelshift_mul(
                     int16x8_t& vACC_Ar76543210_x_Wc76543210,
@@ -1233,6 +1244,7 @@ namespace LowPrecision{
                     int16x8_t& vACC_Ar76543210_x_Wc54321076,
                     int16x8_t& vACC_Ar76543210_x_Wc65432107
                 ){
+                    #ifdef IS_ARM
                     asm volatile(
                         "ins v0.h[0], %[vACC_Ar76543210_x_Wc76543210].h[0]\n\t"
                         "ins v1.h[1], %[vACC_Ar76543210_x_Wc76543210].h[1]\n\t"
@@ -1326,7 +1338,9 @@ namespace LowPrecision{
                         :
                         : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7"
                     );
+                    #endif
                 }
+                #endif
                 inline void unpack_8x8_block_barrelshift(const int32_t* O, int32_t* O_unpack, size_t offset){
                     #if BarrelShiftMulW8A8_SimpleUnpack
                     for (size_t i = 0 ; i < 8 ; i++)
@@ -1351,6 +1365,7 @@ namespace LowPrecision{
                     const int32_t* O_6 = O + 6 * offset;
                     const int32_t* O_7 = O + 7 * offset;
 
+                    #ifdef IS_ARM
                     asm volatile(
                         "ld2 {v16.4s, v17.4s}, [%[O_0]], #32\n\t"
                         "ld2 {v18.4s, v19.4s}, [%[O_1]], #32\n\t"
@@ -1464,9 +1479,9 @@ namespace LowPrecision{
                         "v24", "v25", "v26", "v27", "v28", "v29", "v30", "v31"
                     );
                     #endif
+                    #endif
                 }
             }
         }
     }
 }
-#endif
