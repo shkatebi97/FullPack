@@ -32,25 +32,20 @@ jobs:
       run: |
         sudo apt-get install -y build-essential g++-aarch64-linux-gnu gcc-aarch64-linux-gnu qemu-efi-aarch64 qemu-system-aarch64 qemu-utils binutils-aarch64-linux-gnu
 
-    - name: test
-      run: |
-        ls -l /usr/aarch64-linux-gnu/include/bits
-        ls -l /usr/aarch64-linux-gnu/include/bits/stdint-uintn.h
-
     - name: Build Project
       run: |
         make
 
     - name: Run SelfDependentW4A4 Test
       run: |
-        ./low_precision_fully_connected_test test-gemm-api SelfDependentW4A4
+        qemu-aarch64-static ./low_precision_fully_connected_test test-gemm-api SelfDependentW4A4
 
     - name: Run SelfDependentW4A8 Test
       run: |
-        ./low_precision_fully_connected_test test-gemm-api SelfDependentW4A8
+        qemu-aarch64-static ./low_precision_fully_connected_test test-gemm-api SelfDependentW4A8
 
     - name: Run BarrelShiftMultiplierW8A8 Test
       run: |
-        ./low_precision_fully_connected_test test-gemm-api BarrelShiftMultiplierW8A8
+        qemu-aarch64-static ./low_precision_fully_connected_test test-gemm-api BarrelShiftMultiplierW8A8
 
 
