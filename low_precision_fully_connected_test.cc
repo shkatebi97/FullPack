@@ -27,6 +27,8 @@ using namespace LowPrecision::FullyConnected;
 #define PRINT_FILTER_IN_HEX false
 #define PRINT_FILTER false
 
+int verbosity_level = 0;
+
 template <typename T>
 inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape shape, bool no_print_hex = true){
     if (no_print_hex)
@@ -121,11 +123,13 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
         To shift_value_A = pow(2, self_dependent_shifts_A);
         To shift_value_W = pow(2, self_dependent_shifts_W);
 
-        std::cout << "Caculating Trusted Output with Activations shift value of " << shift_value_A
-                  << " and Weights shift value of " << shift_value_W 
-                  << " and offset of " << self_dependent_offset;
+        if (verbosity_level > 0)
+            std::cout << "Caculating Trusted Output with Activations shift value of " << shift_value_A
+                      << " and Weights shift value of " << shift_value_W 
+                      << " and offset of " << self_dependent_offset;
         if (self_dependent_shifts_A == self_dependent_shifts_W){
-            std::cout << " (met self_dependent_shifts_A == self_dependent_shifts_W and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            if (verbosity_level > 0)
+                std::cout << " (met self_dependent_shifts_A == self_dependent_shifts_W and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
             for (size_t m = 0; m < M; m++)
                 for (size_t n = 0; n < N; n++)
                     for (size_t k = 0; k < K; k++)
@@ -175,7 +179,8 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
                                     else
                                         output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
         } else if (self_dependent_shifts_A == 0){
-            std::cout << " (met self_dependent_shifts_A == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            if (verbosity_level > 0)
+                std::cout << " (met self_dependent_shifts_A == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
             for (size_t m = 0; m < M; m++)
                 for (size_t n = 0; n < N; n++)
                     for (size_t k = 0; k < K; k++)
@@ -208,7 +213,8 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
         else
             return Status::NotImplemented;
     } else {
-        std::cout << "Caculating Trusted Output" << std::endl;
+        if (verbosity_level > 0)
+            std::cout << "Caculating Trusted Output" << std::endl;
 
         size_t M = input_shape.size[0];
         size_t K = kernel_shape.size[0];
@@ -239,8 +245,9 @@ void extract_gemm_size(std::string gemm_size, int& num_batch, int& num_inputs, i
     return;
 }
 
-void run_gemm_api_tests(LowPrecision::Method method){
-    std::cout << "Testing GEMM API" << std::endl;
+bool run_gemm_api_tests(LowPrecision::Method method){
+    if (verbosity_level > 0)
+        std::cout << "Testing GEMM API" << std::endl;
     int num_spaces = 50 - string((method != kNoOptimization)?(LowPrecision::get_method_string(method)):("I8-I8")).length();
     vector<char> spaces_vec(num_spaces, ' ');
     string spaces(spaces_vec.begin(), spaces_vec.end());
@@ -249,8 +256,8 @@ void run_gemm_api_tests(LowPrecision::Method method){
 
     // Setting Constant Values
     int num_batch               = ((LowPrecision::FullyConnected::GetVariableFromEnv("NumBatches") != "")?(std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv("NumBatches"))):(8)),
-        num_inputs              = ((LowPrecision::FullyConnected::GetVariableFromEnv("NumInputs")  != "")?(std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv("NumInputs") )):(8)),
-        num_output              = ((LowPrecision::FullyConnected::GetVariableFromEnv("NumOutputs") != "")?(std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv("NumOutputs"))):(16));
+        num_inputs              = ((LowPrecision::FullyConnected::GetVariableFromEnv("NumInputs")  != "")?(std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv("NumInputs") )):(32)),
+        num_output              = ((LowPrecision::FullyConnected::GetVariableFromEnv("NumOutputs") != "")?(std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv("NumOutputs"))):(32));
     bool singed_input           = !(LowPrecision::FullyConnected::GetVariableFromEnv( "ProcessUnsinged" ) == "TRUE");
     bool no_verbosity           = LowPrecision::FullyConnected::GetVariableFromEnv( "VERBOSITY" ) == "0";
     bool no_hex_verbosity       = LowPrecision::FullyConnected::GetVariableFromEnv( "VERBOSITY" ) == "1";
@@ -263,7 +270,8 @@ void run_gemm_api_tests(LowPrecision::Method method){
     extract_gemm_size(gemm_size, num_batch, num_inputs, num_output);
 
     // Creating Size Arrays
-    std::cout << "Creating Shapes..." << std::endl;
+    if (verbosity_level > 0)
+        std::cout << "Creating Shapes..." << std::endl;
     int _input_shape_MB[2]      = { num_batch , num_inputs },
         _kernel_shape[2]        = { num_inputs, num_output },
         _output_shape_MB[2]     = { num_batch , num_output };
@@ -274,7 +282,8 @@ void run_gemm_api_tests(LowPrecision::Method method){
           output_shape_MB       = get_shape(_output_shape_MB,       2);
     
     // Reporting GEMM Sizes
-    std::cout << "[" << method_name << "] Processing GEMM With The Size of " << num_batch << 'x' << num_inputs << 'x' << num_output << std::endl;
+    if (verbosity_level > 0)
+        std::cout << "[" << method_name << "] Processing GEMM With The Size of " << num_batch << 'x' << num_inputs << 'x' << num_output << std::endl;
     
     // Allocating Matrices
     int8_t*  input_data_MB      = LowPrecision::allocate<int8_t>(input_shape_MB.flatsize);
@@ -297,11 +306,13 @@ void run_gemm_api_tests(LowPrecision::Method method){
     LowPrecision::Status trusted_ret;
     trusted_ret = calculate_trusted_output(input_data_MB, kernel_data, output_trusted_MB, input_shape_MB, kernel_shape, output_shape_MB, LowPrecision::IsSelfDependent(method));
 
+    #if IS_ARM
     if (is_gem5)
         asm volatile (
             ".word	0xff520110\n\t"
             :::
         );
+    #endif
 
     if (LowPrecision::mask_out_source(trusted_ret) == LowPrecision::Status::Success)
         cout << method_name << " Trusted Output Generation" << spaces.substr((spaces.size() < 20)?(spaces.size()):(20)) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
@@ -320,19 +331,25 @@ void run_gemm_api_tests(LowPrecision::Method method){
     LowPrecision::ShapeList output_scratchpads_shape_list = LowPrecision::GetOutputShapeListForMethod(method, input_shape_MB, kernel_shape, output_shape_MB);
 
     // Reporting Required Input Scratchpads 
-    std::cout << "Input Scratchpads: " << input_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
-    for (Shape shape : input_scratchpads_shape_list)
-        std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    if (verbosity_level > 0){
+        std::cout << "Input Scratchpads: " << input_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
+        for (Shape shape : input_scratchpads_shape_list)
+            std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    }
 
     // Reporting Required Kernel Scratchpads 
-    std::cout << "Kernel Scratchpads: " << kernel_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
-    for (Shape shape : kernel_scratchpads_shape_list)
-        std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    if (verbosity_level > 0){
+        std::cout << "Kernel Scratchpads: " << kernel_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
+        for (Shape shape : kernel_scratchpads_shape_list)
+            std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    }
 
     // Reporting Required Output Scratchpads 
-    std::cout << "Output Scratchpads: " << output_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
-    for (Shape shape : output_scratchpads_shape_list)
-        std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    if (verbosity_level > 0){
+        std::cout << "Output Scratchpads: " << output_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
+        for (Shape shape : output_scratchpads_shape_list)
+            std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    }
     
     // Seperating the Shape of the Kernel Final Space from Scratchpads
     Shape filter_shape;
@@ -433,7 +450,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
                                                         << ")" << endl;
 
     // PreGEMM Print
-    if(pre_gemm_print){
+    if(pre_gemm_print && verbosity_level > 0){
         print_2D_matrix("Kernel", kernel_data, kernel_shape, no_hex_verbosity);
         if (kernel_scratchpads_shape_list.size() >= 1)
             print_2D_matrix("Filter", filter_data, filter_shape, no_hex_verbosity);
@@ -472,7 +489,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
             // sanityCheckPass &= output_data_ruy_MB[i * output_shape_MB.size[1] + j] == output_data_MB[i * output_shape_MB.size[1] + j];
 
     if ((!sanityCheckPass && !no_verbosity) || sanity_in_file != ""){
-        if (sanity_in_file == ""){
+        if (sanity_in_file == "" && verbosity_level > 0){
             print_2D_matrix("Kernel", kernel_data, kernel_shape, no_hex_verbosity);
             if (kernel_scratchpads_shape_list.size() >= 1)
                 print_2D_matrix("Filter", filter_data, filter_shape, no_hex_verbosity);
@@ -494,7 +511,7 @@ void run_gemm_api_tests(LowPrecision::Method method){
                 print_2D_matrix("Output-Scratchpad-#2", output_scratchpads + output_scratchpads_shape_list[0].flatsize, output_scratchpads_shape_list[1], no_hex_verbosity);
             
             print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, no_hex_verbosity);
-        } else {
+        } else if (verbosity_level > 0){
             std::cout << "Saving Sanity Output to " << sanity_in_file << std::endl;
             std::ofstream output_file;
             output_file.open(sanity_in_file, std::ofstream::out);
@@ -533,12 +550,27 @@ void run_gemm_api_tests(LowPrecision::Method method){
     LowPrecision::deallocate(kernel_data);
     LowPrecision::deallocate(output_data_MB);
     LowPrecision::deallocate(output_data_ruy_MB);
-    // LowPrecision::deallocate(filter_data);
-    // LowPrecision::deallocate(input_scratchpads);
+    LowPrecision::deallocate(filter_data);
+    LowPrecision::deallocate(input_scratchpads);
     if (kernel_scratchpads_allocation_size)
         LowPrecision::deallocate(kernel_scratchpads);
-    LowPrecision::deallocate(output_scratchpads);
+    if (output_scratchpads_allocation_size)
+        LowPrecision::deallocate(output_scratchpads);
 
+    if (
+        LowPrecision::mask_out_source(trusted_ret)               == LowPrecision::Status::Success &&
+        LowPrecision::mask_out_source(filter_preparation_status) == LowPrecision::Status::Success &&
+        LowPrecision::mask_out_source(input_preparation_status)  == LowPrecision::Status::Success &&
+        LowPrecision::mask_out_source(output_preparation_status) == LowPrecision::Status::Success &&
+        LowPrecision::mask_out_source(gemm_status)               == LowPrecision::Status::Success &&
+        sanityCheckPass
+    ) {
+        cout << LowPrecision::get_method_string(method) << " GEMM API Test" << spaces.substr(8) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+        return true;
+    } else {
+        cout << LowPrecision::get_method_string(method) << " GEMM API Test" << spaces.substr(8) << "=> \033[1m\033[31mFAILED\033[0m" << endl;
+        return false;
+    }
 }
 
 void run_mul_api_tests(LowPrecision::Method method){
@@ -740,7 +772,9 @@ void run_mul_api_tests(LowPrecision::Method method){
         );
         ruy_rhs_MB.set_data(input_data_MB);
 
+        #if IS_ARM
         ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs_MB, ruy_mul_params, _ruy_context, &ruy_dst_MB);
+        #endif
 
         bool sanityCheckPass = true;
         for (int i = 0 ; i < output_shape_MB.size[0] ; i++)
@@ -892,7 +926,9 @@ void run_mul_api_tests(LowPrecision::Method method){
         );
         ruy_rhs.set_data(activation_data);
 
+        #if IS_ARM
         ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs, ruy_mul_params, _ruy_context, &ruy_dst);
+        #endif
         
         cout << "I8-I8" << " Mul API Single-Batch Test" << spaces << "=> \033[1m\033[32mPASSED\033[0m" << endl;
 
@@ -918,7 +954,9 @@ void run_mul_api_tests(LowPrecision::Method method){
         );
         ruy_rhs_MB.set_data(activation_data_MB);
 
+        #if IS_ARM
         ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs_MB, ruy_mul_params, _ruy_context, &ruy_dst_MB);
+        #endif
 
         cout << "I8-I8" << " Mul API Multi-Batch Test" << spaces << "=> \033[1m\033[32mPASSED\033[0m" << endl;
     }
@@ -5229,6 +5267,7 @@ int main(int argc, char *argv[]){
     int  selected_benchmark_real_single_mul_api = 0x0000;
     int  selected_benchmark_real_multi_mul_api = 0x0000;
     int  selected_benchmark_real_multi_gemm_api = 0x0000;
+    int  selected_benchmark_real_multi_gemm_api_different_sizes = 0x0000;
     int  enable_single_mul_api_increasing_size_benchmark = 0x0000;
     int  enable_single_mul_api_different_size_benchmark = 0x0000;
     int  enable_multi_mul_api_different_size_benchmark = 0x0000;
@@ -5237,9 +5276,13 @@ int main(int argc, char *argv[]){
     std::string single_mul_api_different_size_benchmark_speedup_file = "/data/local/tmp/single-mul-api-different-size-speedup.csv";
     std::string multi_mul_api_different_size_benchmark_time_file = "/data/local/tmp/multi-mul-api-different-size-time.csv";
     std::string multi_mul_api_different_size_benchmark_speedup_file = "/data/local/tmp/multi-mul-api-different-size-speedup.csv";
+    std::string multi_gemm_api_different_size_benchmark_time_file = "/tmp/multi-gemm-api-different-size-time.csv";
+    std::string multi_gemm_api_different_size_benchmark_speedup_file = "/tmp/multi-gemm-api-different-size-speedup.csv";
 
     if (LowPrecision::FullyConnected::GetVariableFromEnv( "BenchmarkIterations" ) != "")
         benchmark_iterations = std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv( "BenchmarkIterations" ));
+    if (LowPrecision::FullyConnected::GetVariableFromEnv( "VerbosityLevel" ) != "")
+        verbosity_level = std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv( "VerbosityLevel" ));
     if (input_mode == "benchmark"){
         singlebatch_benchmark_enable = true;
         multibatch_benchmark_enable = true;
@@ -5368,11 +5411,10 @@ int main(int argc, char *argv[]){
             for (size_t i = 0; i < argc - 2; i++){
                 std::string selected_test = "";
                 selected_test = argv[2 + i];
-                std::cout << "Parsing method " << selected_test << std::endl;
+                if (verbosity_level > 0)
+                    std::cout << "Parsing method " << selected_test << std::endl;
                 if (selected_test == "All")
                     test_gemm_api |= 0xffffffff; 
-                else if (selected_test == "Int8")
-                    test_gemm_api |= 0x80000000; 
                 else if (selected_test == "Int4")
                     test_gemm_api |= 0x00000001; 
                 else if (selected_test == "Binary")
@@ -5417,6 +5459,10 @@ int main(int argc, char *argv[]){
                     test_gemm_api |= 0x00200000; 
                 else if (selected_test == "BarrelShiftMultiplierW2A2")
                     test_gemm_api |= 0x00400000;
+                else {
+                    std::cout << "unrecognised method: " << selected_test << std::endl;
+                    return -1;
+                }
             }
         } else
             test_gemm_api = 0xffffff;
@@ -5547,7 +5593,7 @@ int main(int argc, char *argv[]){
                 selected_test = argv[i + 2];
                 if (selected_test == "All")
                     selected_benchmark_real_multi_gemm_api |= 0xffffffff; 
-                else if (selected_test == "Int8")
+                else if (selected_test == "Baseline")
                     selected_benchmark_real_multi_gemm_api |= 0x80000000; 
                 else if (selected_test == "Int4")
                     selected_benchmark_real_multi_gemm_api |= 0x00000001; 
@@ -5725,6 +5771,76 @@ int main(int argc, char *argv[]){
             multi_mul_api_different_size_benchmark_time_file = string(argv[3]);
             multi_mul_api_different_size_benchmark_speedup_file = string(argv[4]);
         }
+    }
+    else if (input_mode == "benchmark-real-multi-gemm-api-different-size"){
+        singlebatch_benchmark_enable = false;
+        multibatch_benchmark_enable = false;
+        integrity_test = false;
+        if (argc >= 3){
+            for (size_t i = 0; i < argc - 2; i++){
+                std::string selected_test = "";
+                selected_test = argv[i + 2];
+                if (selected_test == "All")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0xffffffff; 
+                else if (selected_test == "Int8")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x80000000; 
+                else if (selected_test == "Int4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000001; 
+                else if (selected_test == "Binary")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000002; 
+                else if (selected_test == "Ternary")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000004; 
+                else if (selected_test == "Quaternary")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000008; 
+                else if (selected_test == "Int4InputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000010; 
+                else if (selected_test == "Int4InputsInt4Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000020; 
+                else if (selected_test == "BinaryInputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000080; 
+                else if (selected_test == "BinaryInputsBinaryWeights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000100; 
+                else if (selected_test == "BinaryInputsBinaryWeightsXOR")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000800; 
+                else if (selected_test == "TernaryInputsInt8Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000040; 
+                else if (selected_test == "TernaryInputsTernaryWeights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000200; 
+                else if (selected_test == "Int3InputsInt3Weights")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00000400;
+                else if (selected_test == "Int8ActInt8WeightBarrelShiftMul")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00001000; 
+                else if (selected_test == "ULPPACK-W4A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00002000; 
+                else if (selected_test == "SelfDependentW4A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00004000; 
+                else if (selected_test == "SelfDependentW4A8")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00008000;
+                else if (selected_test == "SelfDependentW8A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00010000;
+                else if (selected_test == "BarrelShiftMultiplierW8A8")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00020000;
+                else if (selected_test == "BarrelShiftMultiplierW4A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00040000;
+                else if (selected_test == "BarrelShiftMultiplierW8A4")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00080000;
+                else if (selected_test == "BarrelShiftMultiplierW4A8")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00100000;
+                else if (selected_test == "BarrelShiftMultiplierW2A2")
+                    selected_benchmark_real_multi_gemm_api_different_sizes |= 0x00200000;
+                else if (selected_test == "--gather-timing-details")
+                    gather_timing_details = true;
+                else if (selected_test == "--time-csv"){
+                    multi_gemm_api_different_size_benchmark_time_file = argv[i + 3]; i++;
+                }
+                else if (selected_test == "--speedup-csv"){
+                    multi_gemm_api_different_size_benchmark_speedup_file = argv[i + 3]; i++;
+                }
+                else
+                    throw std::invalid_argument("Invalid test method provided. Please provide a valid test method.");
+            }
+        } else
+            selected_benchmark_real_multi_gemm_api_different_sizes = 0xffffff;
     }
     else{
         singlebatch_benchmark_enable = false;
@@ -6944,51 +7060,74 @@ int main(int argc, char *argv[]){
     
     if (test_gemm_api){
         if (test_gemm_api == 0x80000000)
-            run_gemm_api_tests(LowPrecision::Method::kNoOptimization);
+            if (!run_gemm_api_tests(LowPrecision::Method::kNoOptimization))
+                return -1;
         if (test_gemm_api &  0x00000001)
-            run_gemm_api_tests(LowPrecision::Method::kInt8Int4);
+            if (!run_gemm_api_tests(LowPrecision::Method::kInt8Int4))
+                return -1;
         if (test_gemm_api &  0x00000002)
-            run_gemm_api_tests(LowPrecision::Method::kInt8Binary);
+            if (!run_gemm_api_tests(LowPrecision::Method::kInt8Binary))
+                return -1;
         if (test_gemm_api &  0x00000004)
-            run_gemm_api_tests(LowPrecision::Method::kInt8Ternary);
+            if (!run_gemm_api_tests(LowPrecision::Method::kInt8Ternary))
+                return -1;
         if (test_gemm_api &  0x00000008)
-            run_gemm_api_tests(LowPrecision::Method::kInt8QuaTernary);
+            if (!run_gemm_api_tests(LowPrecision::Method::kInt8QuaTernary))
+                return -1;
         if (test_gemm_api &  0x00000010)
-            run_gemm_api_tests(LowPrecision::Method::kInt4ActInt8Weight);
+            if (!run_gemm_api_tests(LowPrecision::Method::kInt4ActInt8Weight))
+                return -1;
         if (test_gemm_api &  0x00000020)
-            run_gemm_api_tests(LowPrecision::Method::kInt4ActInt4Weight);
+            if (!run_gemm_api_tests(LowPrecision::Method::kInt4ActInt4Weight))
+                return -1;
         if (test_gemm_api &  0x00000040)
-            run_gemm_api_tests(LowPrecision::Method::kTernaryActInt8Weight);
+            if (!run_gemm_api_tests(LowPrecision::Method::kTernaryActInt8Weight))
+                return -1;
         if (test_gemm_api &  0x00000200)
-            run_gemm_api_tests(LowPrecision::Method::kTernaryActTernaryWeight);
+            if (!run_gemm_api_tests(LowPrecision::Method::kTernaryActTernaryWeight))
+                return -1;
         if (test_gemm_api &  0x00000080)
-            run_gemm_api_tests(LowPrecision::Method::kBinaryActInt8Weight);
+            if (!run_gemm_api_tests(LowPrecision::Method::kBinaryActInt8Weight))
+                return -1;
         if (test_gemm_api &  0x00000100)
-            run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeight);
+            if (!run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeight))
+                return -1;
         if (test_gemm_api &  0x00000800)
-            run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeightXOR);
+            if (!run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeightXOR))
+                return -1;
         if (test_gemm_api &  0x00000400)
-            run_gemm_api_tests(LowPrecision::Method::kInt3ActInt3Weight);
+            if (!run_gemm_api_tests(LowPrecision::Method::kInt3ActInt3Weight))
+                return -1;
         if (test_gemm_api &  0x00002000)
-            run_gemm_api_tests(LowPrecision::Method::kULPPACKW4A4);
+            if (!run_gemm_api_tests(LowPrecision::Method::kULPPACKW4A4))
+                return -1;
         if (test_gemm_api &  0x00004000)
-            run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A4);
+            if (!run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A4))
+                return -1;
         if (test_gemm_api &  0x00008000)
-            run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A8);
+            if (!run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A8))
+                return -1;
         if (test_gemm_api &  0x00010000)
-            run_gemm_api_tests(LowPrecision::Method::kSelfDependentW8A4);
+            if (!run_gemm_api_tests(LowPrecision::Method::kSelfDependentW8A4))
+                return -1;
         if (test_gemm_api &  0x00020000)
-            run_gemm_api_tests(LowPrecision::Method::kSelfDependentW2A2);
+            if (!run_gemm_api_tests(LowPrecision::Method::kSelfDependentW2A2))
+                return -1;
         if (test_gemm_api &  0x00040000)
-            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW8A8);
+            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW8A8))
+                return -1;
         if (test_gemm_api &  0x00080000)
-            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A4);
+            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A4))
+                return -1;
         if (test_gemm_api &  0x00100000)
-            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW8A4);
+            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW8A4))
+                return -1;
         if (test_gemm_api &  0x00200000)
-            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A8);
+            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A8))
+                return -1;
         if (test_gemm_api &  0x00400000)
-            run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW2A2);
+            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW2A2))
+                return -1;
     }
 
     benchmark_mode_t benchmark_mode;
@@ -7021,6 +7160,11 @@ int main(int argc, char *argv[]){
     benchmark_mode.multi_mul_api_different_size_benchmark_mode          = enable_multi_mul_api_different_size_benchmark;
     benchmark_mode.multi_mul_api_different_size_benchmark_time_path     = multi_mul_api_different_size_benchmark_time_file;
     benchmark_mode.multi_mul_api_different_size_benchmark_speedup_path  = multi_mul_api_different_size_benchmark_speedup_file;
+
+    benchmark_mode.multi_gemm_api_different_size_benchmark_enable       = selected_benchmark_real_multi_gemm_api_different_sizes != 0;
+    benchmark_mode.multi_gemm_api_different_size_benchmark_mode         = selected_benchmark_real_multi_gemm_api_different_sizes;
+    benchmark_mode.multi_gemm_api_different_size_benchmark_time_path    = multi_gemm_api_different_size_benchmark_time_file;
+    benchmark_mode.multi_gemm_api_different_size_benchmark_speedup_path = multi_gemm_api_different_size_benchmark_speedup_file;
 
     run_benchmark(benchmark_iterations, benchmark_mode, gather_timing_details);
 

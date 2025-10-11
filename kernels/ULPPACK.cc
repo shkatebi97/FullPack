@@ -1,6 +1,7 @@
 #include "../low_precision_fully_connected.h"
 #include "ULPPACK/test.h"
 #include "ULPPACK/ULPPACK.h"
+
 #ifdef IS_ARM64
 namespace LowPrecision{
     namespace FullyConnected{
@@ -211,8 +212,7 @@ namespace LowPrecision{
         }
     }
 }
-#endif
-#ifdef IS_ARM32
+#else
 namespace LowPrecision{
     namespace FullyConnected{
         using ::LowPrecision::Method;
@@ -230,10 +230,10 @@ namespace LowPrecision{
                 shape[n_dims - 1] = ::ceil(shape[n_dims - 1] / 16.0) * 16 / (8 / 8);
                 return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
             }
-            Status QuantizeFilter(const int8_t* input, Shape k_shape, int8_t* output, MemLayout layout){
+            Status QuantizeFilter(const int8_t* input, Shape k_shape, int8_t* output, MemLayout layout, size_t Wb, size_t Ab){
                 return Status::NotImplemented;
             }
-            Status QuantizeInput(const int8_t* input, Shape shape, int8_t* output, MemLayout layout){
+            Status QuantizeInput(const int8_t* input, Shape shape, int8_t* output, MemLayout layout, size_t Wb, size_t Ab){
                 return Status::NotImplemented;
             }
             Status MultiplyInt8SingleBatch(
@@ -252,6 +252,11 @@ namespace LowPrecision{
             ){
                 return Status::NotImplemented;
             }
+            LowPrecision::PreprocessType InputPreProcess() { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType FilterPreProcess(){ return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType OutputPreProcess(){ return LowPrecision::FullyConnected::ULPPACK::OutputPostProcess(); }
+            LowPrecision::PreprocessType OutputPostProcess(){ return LowPrecision::PreprocessType::PaddingIfNeccessery; }
+            LowPrecision::GEMMType GEMMSupport(){ return LowPrecision::GEMMType::SupportsGEMM; }
         }
     }
 }

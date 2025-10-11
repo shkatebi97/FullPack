@@ -7,10 +7,12 @@ from os import listdir, getcwd, chdir, stat
 from os.path import isfile, join, splitext, isdir, split, dirname, realpath
 from time import time_ns
 import os, tempfile
+from threading import Lock
 from multiprocessing import Pool as ThreadPool
 from os import listdir, sched_getaffinity
 import json
 import re, math
+import logging
 
 def ordered(obj):
     if isinstance(obj, dict):
@@ -155,6 +157,12 @@ parser.add_option('--discard-report',
 parser.add_option('--benchmark-tool-path',
     action="store", dest="benchmark_tool_path",
     help="Set the path to benchmark tool file", default=None)
+parser.add_option('-j', '--max-threads',
+    action="store", dest="max_threads",
+    help="Set the maximum number of threads that the processes are allowed to use", default=None)
+parser.add_option('--parse-sizes',
+    action="store_true", dest="parse_size",
+    help="Set to parse sizes from model names", default=False)
 
 options, args = parser.parse_args()
 
@@ -184,6 +192,10 @@ benchmarks = [
     'Binary-I8',
     'Binary-Binary',
     'Binary-Binary-XOR',
+    'SelfDependent-W4A4',
+    'SelfDependent-W4A8',
+    'SelfDependent-W8A4',
+    'BSM-W8A8',
 ]
 special_benchmarks = [
     'XNNPack',
@@ -196,6 +208,7 @@ special_benchmarks = [
     'ULPPACK-W1A1',
     'ULPPACK-W2A2',
     'ULPPACK-W3A3',
+    'ULPPACK-W4A4',
 ]
 
 if options.special_benchmarks:
@@ -236,6 +249,10 @@ benchmarks_fast_forward = {
     'ULPPACK-W1A1': 1844674407370955161,
     'ULPPACK-W2A2': 1844674407370955161,
     'ULPPACK-W3A3': 1844674407370955161,
+    'SelfDependent-W4A4': 1844674407370955161,
+    'SelfDependent-W4A8': 1844674407370955161,
+    'SelfDependent-W8A4': 1844674407370955161,
+    'BSM-W8A8': 1844674407370955161,
 }
 iterations = 5
 verbose_level = 2
@@ -245,7 +262,10 @@ operation_size = 1
 num_layers = 3
 do_adb = False
 do_gem5 = True
-nproc = len(sched_getaffinity(0))
+if options.max_threads is None:
+    nproc = len(sched_getaffinity(0))
+else:
+    nproc = int(options.max_threads)
 n_threads = nproc
 mcpat_threads = 4
 discard_cache = options.discard_cache
@@ -402,6 +422,35 @@ if len(benchmarks) and do_adb:
     )
     print("Sent:", tool_remote_path)
 
+if options.parse_size:
+    import progressbar
+    class ProgressBar():
+        """Progress Bar"""
+        def __init__(self, max_value: int, current: int = 0):
+            self.mutex = Lock()
+            self.max_value = max_value
+            self.current = current
+            self.progressbar = progressbar.ProgressBar(max_value=self.max_value, redirect_stdout=True)
+
+        def update(self, value: int) -> int:
+            """update"""
+            if value < 0:
+                return 0
+            else:
+                with self.mutex:
+                    self.current += value
+                    self.update_progressbar()
+                return value
+
+        def update_progressbar(self):
+            """update_progressbar"""
+            self.progressbar.update(self.current)
+
+        def finish(self):
+            """finish"""
+            self.progressbar.finish()
+
+
 if do_adb:
     for benchmark in benchmarks:
         output = run([
@@ -420,9 +469,13 @@ if do_adb:
         print(output)
 elif do_gem5:
     def workload(args):
+        global progress
         benchmark, (model, discard_cache) = args
         benchmark_name = benchmark
         model_name = splitext(model)[0].split('/')[-1]
+        if progress is not None:
+            model_name_parts = model_name.split("-")
+            model_size = int(model_name_parts[1]) * eval(model_name_parts[3].replace("x", "*"))
         start_t = time_ns()
         Path(join(output_dir, benchmark, model_name)).mkdir(exist_ok=True, parents=True)
         env_file = open(join(output_dir, benchmark, model_name, "env"), 'wb')
@@ -464,7 +517,10 @@ elif do_gem5:
                 with open(join(output_dir, benchmark, model_name, "run.log")) as f:
                     lines = f.readlines()
                     if len(lines) > 4 and "Inference (avg): " in lines[-4]:
-                        print("[{}]-[{}] Found in cache. Skipping.".format(benchmark_name, model_name))
+                        if progress is None:
+                            print("[{}]-[{}] Found in cache. Skipping.".format(benchmark_name, model_name))
+                        if progress is not None:
+                            progress.update(model_size)
                         return ""
             if options.shadow_run:
                 print("[{}]-[{}] Will be running gem5 in normal mode. Output file: {}".format(benchmark_name, model_name, join(output_dir, benchmark, model_name, "run.log")))
@@ -486,7 +542,8 @@ elif do_gem5:
             for k, v in env_variables.items():
                 envs[k] = v
             set_env(envs, env_file)
-            print("[{}]-[{}] Running gem5. Output file: {}".format(benchmark_name, model_name, join(output_dir, benchmark, model_name, "run.log")))
+            if progress is None:
+                print("[{}]-[{}] Running gem5. Output file: {}".format(benchmark_name, model_name, join(output_dir, benchmark, model_name, "run.log")))
             Path(join(output_dir, benchmark, model_name)).mkdir(exist_ok=True, parents=True)
             output = run([
                 simulator_path,
@@ -510,10 +567,13 @@ elif do_gem5:
                 ),
             ], cwd=join(output_dir, benchmark, model_name), env=host_env_var)
             end_t = time_ns()
-            print("[{}]-[{}] Done in {:.2f} seconds.".format(benchmark_name, model_name, (end_t - start_t)/1e+9))
+            if progress is None:
+                print("[{}]-[{}] Done in {:.2f} seconds.".format(benchmark_name, model_name, (end_t - start_t)/1e+9))
         finally:
-            pass
             env_file.close()
+        
+        if progress is not None:
+            progress.update(model_size)
         return output
 
     models = []
@@ -534,9 +594,24 @@ elif do_gem5:
     workloads_args = [ (benchmark, model) for benchmark in benchmarks for model in models ]
 
     print("Running with {} workers".format(min(len(models) * len(benchmarks), n_threads)))
+    if options.parse_size and not options.shadow_run:
+        progressbar.streams.wrap_stderr()
+        max_val = 0
+        for model in models:
+            model_name = splitext(model[0])[0].split('/')[-1]
+            model_name_parts = model_name.split("-")
+            max_val += int(model_name_parts[1]) * eval(model_name_parts[3].replace("x", "*"))
+        progress = ProgressBar(max_value=len(benchmarks)*max_val)
+        progress.update(1)
+    else:
+        progress = None
+
+    logging.basicConfig()
     pool = ThreadPool(n_threads)
     cwd = getcwd()
     outputs = pool.map(workload, workloads_args, 1)
+    if options.parse_size and not options.shadow_run:
+        progress.finish()
     chdir(cwd)
 
 print("Generating output files for each benchmark.")

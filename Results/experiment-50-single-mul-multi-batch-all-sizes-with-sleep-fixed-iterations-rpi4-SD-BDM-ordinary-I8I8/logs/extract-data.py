@@ -22,6 +22,9 @@ parser = optparse.OptionParser()
 parser.add_option('-b', '--batch-size',
     action="store", dest="batch_size",
     help="Set batch size", default=512)
+parser.add_option('--add-batch-size',
+    action="append", dest="batch_sizes_list", type=int,
+    help="Add batch size to a list", default=[])
 parser.add_option('-n', '--iterations',
     action="store", dest="iterations",
     help="Set iteration count", default=200)
@@ -47,6 +50,11 @@ parser.add_option('-o', '--output-size-range',
 options, _ = parser.parse_args()
 
 batch_size = int(options.batch_size)
+batch_sizes_list = options.batch_sizes_list
+multiple_batches = False
+if len(batch_sizes_list) > 0:
+    batch_size = None
+    multiple_batches = True
 iterations = 1
 warmup_iterations = 1
 
@@ -71,7 +79,7 @@ extra_complex_metrics = [
 ]
 
 
-if batch_size <= 1:
+if batch_size is not None and batch_size <= 1:
     method_kernels = singlebatch_method_kernels
 else:
     method_kernels = multibatch_method_kernels
@@ -827,7 +835,7 @@ methods = sorted(methods, key=lambda column: methods_order.index(column))
 
 Path("Excels").mkdir(exist_ok=True, parents=True)
 
-workbook = xlsxwriter.Workbook(join("Excels", f'{Path.cwd().__str__().split("/")[-2]}-results.xlsx'))
+workbook = xlsxwriter.Workbook(join("Excels", f'{Path.cwd().__str__().split("/")[-2]}-{"all" if multiple_batches else batch_size}-results.xlsx'))
 
 extras = [
     lambda k, i, j, n_t, n_r, n_c: speedup_based_on_basline_str.format(num_column_to_spreadsheet_letter(1 + j).upper(), methods_order.index("I8-I8") * (n_r + 2) + (i + 3), k * (n_r + 2) + (i + 3)),
@@ -869,19 +877,33 @@ extras_titles = [
     "Speed-up against ULPPACK-W4A4",
 ]
 
-print("Generating {}".format(join("Excels", f'{Path.cwd().__str__().split("/")[-2]}-results.xlsx')))
+print("Generating {}".format(join("Excels", f'{Path.cwd().__str__().split("/")[-2]}-{"all" if multiple_batches else batch_size}-results.xlsx')))
 
-remove_baseline_extra(
-    add_colorscale_to_groups(
-        add_extra_min_max(
-            add_worksheet_to_workbook(
-                workbook, "Variable-Sizes", methods, input_sizes, output_sizes, batch_size, results, 
-                extra=extras, extra_value=extras_values, extra_title=extras_titles, extra_is_extras=True,
-                transform=lambda x: x
+if multiple_batches:
+    for bs in batch_sizes_list:
+        remove_baseline_extra(
+            add_colorscale_to_groups(
+                add_extra_min_max(
+                    add_worksheet_to_workbook(
+                        workbook, f"{bs}", methods, input_sizes, output_sizes, bs, results, 
+                        extra=extras, extra_value=extras_values, extra_title=extras_titles, extra_is_extras=True,
+                        transform=lambda x: x
+                    )
+                )
+            )
+        )
+else:
+    remove_baseline_extra(
+        add_colorscale_to_groups(
+            add_extra_min_max(
+                add_worksheet_to_workbook(
+                    workbook, "Variable-Sizes", methods, input_sizes, output_sizes, batch_size, results, 
+                    extra=extras, extra_value=extras_values, extra_title=extras_titles, extra_is_extras=True,
+                    transform=lambda x: x
+                )
             )
         )
     )
-)
 
 workbook.close()
 

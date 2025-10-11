@@ -1,3 +1,4 @@
+#if IS_ARM
 #include <arm_neon.h>
 // #include "test.h"
 
@@ -1481,3 +1482,4 @@ static void pack_qnnpack4x8multi_type2_rhs(uint8_t *W, uint8_t *W_pack, size_t M
         W_pack[p++] = (W[i*N+k] << shift);
       }
 }
+#endif

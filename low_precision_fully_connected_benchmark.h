@@ -15,8 +15,11 @@ using namespace std;
 using namespace LowPrecision;
 using namespace LowPrecision::FullyConnected;
 
+ruy::Context* _ruy_context = nullptr;
+
 vector<pair<size_t, size_t>> extractSizesSingleBatch(std::string str);
 vector<tuple<size_t, size_t, size_t>> extractSizesMultiBatch(std::string str);
+vector<tuple<Shape,Shape,Shape>> convertToShape(vector<tuple<size_t, size_t, size_t>> sizes);
 
 typedef struct {
     LowPrecision::TimingDetailes* filter_preparation_timing_profiler = nullptr;
@@ -67,11 +70,172 @@ typedef struct {
     int         multi_mul_api_different_size_benchmark_mode = 0xffffffff;
     std::string multi_mul_api_different_size_benchmark_time_path = "";
     std::string multi_mul_api_different_size_benchmark_speedup_path = "";
+
+    bool        multi_gemm_api_different_size_benchmark_enable = true;
+    int         multi_gemm_api_different_size_benchmark_mode = 0xffffffff;
+    std::string multi_gemm_api_different_size_benchmark_time_path = "";
+    std::string multi_gemm_api_different_size_benchmark_speedup_path = "";
 } benchmark_mode_t; 
 
-double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false, bool fill = false){
+double run_real_ruy_fp_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false, bool fill = false){
+    string size_str = to_string(input_shape.size[0]) + "x" + to_string(kernel_shape.size[0]) + "x" + to_string(output_shape.size[1]);
+
     if (!disable_print)
-        cout << "\r[Int8Int8] Preparing";
+        cout << "\r[FP32FP32-" << size_str << "] Preparing";
+    cout.flush();
+
+    vector<float*> input_vec       (benchmark_iterations, nullptr);
+    vector<float*> activation_vec  (benchmark_iterations, nullptr);
+    vector<float*>output_vec      (benchmark_iterations, nullptr);
+
+    float*  all_input_ptr       = allocate<float> (input_shape.flatsize      * benchmark_iterations);
+    float* all_output_ptr      = allocate<float>(output_shape.flatsize     * benchmark_iterations);
+    float*  filter_ptr          = allocate<float> (kernel_shape.flatsize);
+
+    if (fill){
+        LowPrecision::one_minus_one_vector(all_input_ptr,   input_shape.flatsize  * benchmark_iterations);
+        LowPrecision::one_minus_one_vector(filter_ptr,      kernel_shape.flatsize);
+    }
+
+    if (!disable_print)
+        cout << "\r[FP32FP32-" << size_str << "] Setting Pointers";
+    cout.flush();
+
+    for (int i = 0 ; i < benchmark_iterations ; i++){
+        input_vec.at(i)         = all_input_ptr      + i * input_shape.flatsize;
+        output_vec.at(i)        = all_output_ptr     + i * output_shape.flatsize;
+    }
+
+    // Creating Context and Parameters
+    if (_ruy_context == nullptr)
+        _ruy_context = new ruy::Context;
+    ruy::MulParams<float, float> ruy_mul_params;
+#ifdef DISABLE_KERNELS_MEM_ACCESS
+    ruy::Matrix<float> ruy_lhs;
+    ruy::Matrix<float> ruy_rhs;
+    ruy::Matrix<float> ruy_dst;
+
+    // Creating Filter Matrix
+    ruy::MakeSimpleLayout(
+        kernel_shape.size[0], 
+        kernel_shape.size[1], 
+        ruy::Order::kRowMajor,
+        ruy_lhs.mutable_layout()
+    );
+    ruy_lhs.set_data(filter_ptr);
+    ruy_lhs.set_cache_policy(ruy::CachePolicy::kAlwaysCache);
+
+    // Creating Output Matrix
+    ruy::MakeSimpleLayout(
+        (output_shape.number_dims == 2)?(output_shape.size[0]):(output_shape.size[0]), 
+        (output_shape.number_dims == 2)?(output_shape.size[1]):(1),
+        ruy::Order::kColMajor,
+        ruy_dst.mutable_layout()
+    );
+    ruy_dst.set_data(output_vec.at(0));
+
+    // Creating Input Matrix
+    ruy::MakeSimpleLayout(
+        (input_shape.number_dims == 2)?(input_shape.size[0]):(input_shape.size[0]), 
+        (input_shape.number_dims == 2)?(input_shape.size[1]):(1),
+        ruy::Order::kColMajor,
+        ruy_rhs.mutable_layout()
+    );
+    ruy_rhs.set_data(input_vec.at(0));
+#endif
+    struct timespec tstart={0,0},
+                    tend={0,0};
+
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tstart);
+    for (int i = 0 ; i < benchmark_iterations ; i++){
+        // Show Progress
+        if (benchmark_iterations >= 100){
+            if ((i == 0 || i % ((int)(benchmark_iterations / 100)) == 0) && !disable_print){
+                cout << "\r[FP32FP32-" << size_str << "] Processing Real Mul API with [ " 
+                    << (((float)i) / benchmark_iterations) * 100 
+                    << "% ]               ";
+                cout.flush();
+            }
+        }
+        else {
+            if (!disable_print) {
+                cout << "\r[FP32FP32-" << size_str << "] Processing Real Mul API with [ " 
+                    << (((float)i) / benchmark_iterations) * 100 
+                    << "% ]               ";
+                cout.flush();
+            }
+        }
+
+#ifndef DISABLE_KERNELS_MEM_ACCESS
+        ruy::Matrix<float> ruy_lhs;
+        ruy::Matrix<float> ruy_rhs;
+        ruy::Matrix<float> ruy_dst;
+
+        int M = input_shape.size[0],
+            K = kernel_shape.size[0],
+            N = kernel_shape.size[1];
+        if (input_shape.number_dims == 1 || (input_shape.number_dims == 2 && input_shape.size[1] == 1)){
+            M = 1;
+            K = kernel_shape.size[0];
+            N = kernel_shape.size[1];
+        }
+
+        // Creating Filter Matrix
+        ruy::MakeSimpleLayout(
+            N, 
+            K, 
+            ruy::Order::kRowMajor,
+            ruy_lhs.mutable_layout()
+        );
+        ruy_lhs.set_data(filter_ptr);
+        ruy_lhs.set_cache_policy(ruy::CachePolicy::kAlwaysCache);
+
+        // Creating Output Matrix
+        ruy::MakeSimpleLayout(
+            N,
+            M,
+            ruy::Order::kColMajor,
+            ruy_dst.mutable_layout()
+        );
+        ruy_dst.set_data(output_vec.at(i));
+
+        // Creating Input Matrix
+        ruy::MakeSimpleLayout(
+            K,
+            M,
+            ruy::Order::kColMajor,
+            ruy_rhs.mutable_layout()
+        );
+        ruy_rhs.set_data(input_vec.at(i));
+#endif
+        // printf("LHS: [ %d x %d ] - %d\n", ruy_lhs.layout().rows(), ruy_lhs.layout().cols(), ruy_lhs.layout().order());
+        // printf("RHS: [ %d x %d ] - %d\n", ruy_rhs.layout().rows(), ruy_rhs.layout().cols(), ruy_rhs.layout().order());
+        // printf("DST: [ %d x %d ] - %d\n", ruy_dst.layout().rows(), ruy_dst.layout().cols(), ruy_dst.layout().order());
+        ruy::Mul(ruy_lhs, ruy_rhs, ruy_mul_params, _ruy_context, &ruy_dst);
+    }
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tend);
+
+    if (!disable_print)
+        cout << "\r[FP32FP32-" << size_str << "] Ruy Mul API Finished Clearing...                           ";
+    cout.flush();
+    
+    LowPrecision::deallocate(all_input_ptr);
+    LowPrecision::deallocate(all_output_ptr);
+    LowPrecision::deallocate(filter_ptr);
+
+    long double time_consumed = LowPrecision::calculate_time_diff_seconds(tstart, tend);
+
+    if (!disable_print)
+        cout << "\r[FP32FP32-" << size_str << "] Ruy Mul API: " << time_consumed << " s.                           ";
+    cout.flush();
+
+    return time_consumed;
+}
+double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false, bool fill = false){
+    string size_str = to_string(input_shape.size[0]) + "x" + to_string(kernel_shape.size[0]) + "x" + to_string(output_shape.size[1]);
+
+    if (!disable_print)
+        cout << "\r[Int8Int8-" << size_str << "] Preparing";
     cout.flush();
 
     vector<int8_t*> input_vec       (benchmark_iterations, nullptr);
@@ -88,7 +252,7 @@ double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Sh
     }
 
     if (!disable_print)
-        cout << "\r[Int8Int8] Setting Pointers";
+        cout << "\r[Int8Int8-" << size_str << "] Setting Pointers";
     cout.flush();
 
     for (int i = 0 ; i < benchmark_iterations ; i++){
@@ -97,7 +261,8 @@ double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Sh
     }
 
     // Creating Context and Parameters
-    ruy::Context* _ruy_context = new ruy::Context;
+    if (_ruy_context == nullptr)
+        _ruy_context = new ruy::Context;
     ruy::MulParams<int32_t, int32_t> ruy_mul_params;
 #ifdef DISABLE_KERNELS_MEM_ACCESS
     ruy::Matrix<int8_t> ruy_lhs;
@@ -138,11 +303,21 @@ double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Sh
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tstart);
     for (int i = 0 ; i < benchmark_iterations ; i++){
         // Show Progress
-        if ((i == 0 || i % ((int)(benchmark_iterations / 100)) == 0) && !disable_print){
-            cout << "\r[Int8Int8] Processing Real Mul API with [ " 
-                 << (((float)i) / benchmark_iterations) * 100 
-                 << "% ]               ";
-            cout.flush();
+        if (benchmark_iterations >= 100){
+            if ((i == 0 || i % ((int)(benchmark_iterations / 100)) == 0) && !disable_print){
+                cout << "\r[Int8Int8-" << size_str << "] Processing Real Mul API with [ " 
+                    << (((float)i) / benchmark_iterations) * 100 
+                    << "% ]               ";
+                cout.flush();
+            }
+        }
+        else {
+            if (!disable_print) {
+                cout << "\r[Int8Int8-" << size_str << "] Processing Real Mul API with [ " 
+                    << (((float)i) / benchmark_iterations) * 100 
+                    << "% ]               ";
+                cout.flush();
+            }
         }
 
 #ifndef DISABLE_KERNELS_MEM_ACCESS
@@ -150,10 +325,19 @@ double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Sh
         ruy::Matrix<int8_t> ruy_rhs;
         ruy::Matrix<int32_t> ruy_dst;
 
+        int M = input_shape.size[0],
+            K = kernel_shape.size[0],
+            N = kernel_shape.size[1];
+        if (input_shape.number_dims == 1 || (input_shape.number_dims == 2 && input_shape.size[1] == 1)){
+            M = 1;
+            K = kernel_shape.size[0];
+            N = kernel_shape.size[1];
+        }
+
         // Creating Filter Matrix
         ruy::MakeSimpleLayout(
-            kernel_shape.size[0], 
-            kernel_shape.size[1], 
+            N, 
+            K, 
             ruy::Order::kRowMajor,
             ruy_lhs.mutable_layout()
         );
@@ -162,8 +346,8 @@ double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Sh
 
         // Creating Output Matrix
         ruy::MakeSimpleLayout(
-            (output_shape.number_dims == 2)?(output_shape.size[1]):(output_shape.size[0]), 
-            (output_shape.number_dims == 2)?(output_shape.size[0]):(1),
+            N,
+            M,
             ruy::Order::kColMajor,
             ruy_dst.mutable_layout()
         );
@@ -171,19 +355,22 @@ double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Sh
 
         // Creating Input Matrix
         ruy::MakeSimpleLayout(
-            (input_shape.number_dims == 2)?(input_shape.size[1]):(input_shape.size[0]), 
-            (input_shape.number_dims == 2)?(input_shape.size[0]):(1),
+            K,
+            M,
             ruy::Order::kColMajor,
             ruy_rhs.mutable_layout()
         );
         ruy_rhs.set_data(input_vec.at(i));
 #endif
+        // printf("LHS: [ %d x %d ] - %d\n", ruy_lhs.layout().rows(), ruy_lhs.layout().cols(), ruy_lhs.layout().order());
+        // printf("RHS: [ %d x %d ] - %d\n", ruy_rhs.layout().rows(), ruy_rhs.layout().cols(), ruy_rhs.layout().order());
+        // printf("DST: [ %d x %d ] - %d\n", ruy_dst.layout().rows(), ruy_dst.layout().cols(), ruy_dst.layout().order());
         ruy::Mul(ruy_lhs, ruy_rhs, ruy_mul_params, _ruy_context, &ruy_dst);
     }
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tend);
 
     if (!disable_print)
-        cout << "\r[Int8Int8] Ruy Mul API Finished Clearing...                           ";
+        cout << "\r[Int8Int8-" << size_str << "] Ruy Mul API Finished Clearing...                           ";
     cout.flush();
     
     LowPrecision::deallocate(all_input_ptr);
@@ -193,7 +380,7 @@ double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Sh
     long double time_consumed = LowPrecision::calculate_time_diff_seconds(tstart, tend);
 
     if (!disable_print)
-        cout << "\r[Int8Int8] Ruy Mul API: " << time_consumed << " s.                           ";
+        cout << "\r[Int8Int8-" << size_str << "] Ruy Mul API: " << time_consumed << " s.                           ";
     cout.flush();
 
     return time_consumed;
@@ -428,6 +615,7 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
              << "Preparing                               ";
     cout.flush();
 
+    #if IS_ARM
     if (is_gem5){
         cout << "Switching Gem5 CPU" << endl;
         asm volatile (
@@ -435,6 +623,7 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
             :::
         );
     }
+    #endif
 
     // Creating Filter Matrix
     LowPrecision::Matrix filter_matrix;
@@ -475,14 +664,25 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tstart);
     for (int i = 0 ; i < benchmark_iterations ; i++){
         // Show Progress
-        if ((i == 0 || i % ((int)(benchmark_iterations / 100)) == 0) 
-            && !disable_print 
-        ){
+        
+        if (benchmark_iterations >= 100){
+            if ((i == 0 || i % ((int)(benchmark_iterations / 100)) == 0) 
+                && !disable_print 
+            ){
+                cout << "\r"
+                    << "[" << method_name << "] "
+                    << "Processing GEMM API [ " 
+                    << (((float)i) / benchmark_iterations) * 100 
+                    << "% ]               ";
+                cout.flush();
+            }
+        }
+        else {
             cout << "\r"
-                 << "[" << method_name << "] "
-                 << "Processing GEMM API [ " 
-                 << (((float)i) / benchmark_iterations) * 100 
-                 << "% ]               ";
+                << "[" << method_name << "] "
+                << "Processing GEMM API [ " 
+                << (((float)i) / benchmark_iterations) * 100 
+                << "% ]               ";
             cout.flush();
         }
 
@@ -557,8 +757,8 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
     LowPrecision::deallocate(kernel_data);
     LowPrecision::deallocate(output_data);
     
-    // LowPrecision::deallocate(filter_data);
-    // LowPrecision::deallocate(input_scratchpads);
+    LowPrecision::deallocate(filter_data);
+    LowPrecision::deallocate(input_scratchpads);
     if (kernel_scratchpads_allocation_size)
         LowPrecision::deallocate(kernel_scratchpads);
     LowPrecision::deallocate(output_scratchpads);
@@ -1687,6 +1887,7 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks, boo
     disable_progress = disable_progress || (verbosity <= 1);
     bool process_unsinged = LowPrecision::FullyConnected::GetVariableFromEnv( "ProcessUnsinged" ) == "TRUE";
     bool use_external_timing_profiler = LowPrecision::FullyConnected::GetVariableFromEnv( "UseExternalTimer" ) == "TRUE";
+    benchmarks.calc_operations_per_second = LowPrecision::FullyConnected::GetVariableFromEnv( "ShowTime" ) != "TRUE";
 
     if (benchmarks.multibatch_benchmark && benchmarks.selected_benchmark_mode == 0xffff){
         double baseline_time = 0, benchmark_time;
@@ -2071,20 +2272,30 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks, boo
     if (benchmarks.real_multi_gemm_api_benchmark_enable){
         if (verbosity >= 2)
             cout << "Running Real Multi-Batch GEMM API benchmark" << ((detailed_timing)?(" (With Timing Detail Activated)"):("")) << endl;
-
+        
+        std::string baseline_type_flag = LowPrecision::FullyConnected::GetVariableFromEnv( "FP32Baseline" );
+        bool use_fp32_baseline = baseline_type_flag == "TRUE" || baseline_type_flag == "True" || baseline_type_flag == "true" || baseline_type_flag == "1";
+        if (verbosity >= 2)
+            if (use_fp32_baseline)
+                cout << "Running FP32 Baseline." << endl;
+            else
+                cout << "Running Int8 Baseline." << endl;
         bool show_speedups  = LowPrecision::FullyConnected::GetVariableFromEnv( "ShowSpeedups" ) == "TRUE";
         bool is_gem5        = LowPrecision::FullyConnected::GetVariableFromEnv( "IS_GEM5" ) == "TRUE";
         double baseline_time = 1, benchmark_time;
         TimingDetailes_t timing_details;
         bool gather_timing_details = detailed_timing;
 
-        if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x80000000 || show_speedups){
-            baseline_time = run_real_ruy_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, disable_progress);
+        if (benchmarks.real_multi_gemm_api_benchmark_mode & 0x80000000 || show_speedups || use_fp32_baseline){
+            if (use_fp32_baseline)
+                baseline_time = run_real_ruy_fp_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, disable_progress);
+            else
+                baseline_time = run_real_ruy_benchmark(benchmark_iterations, input_MB_shape, kernel_shape, output_MB_shape, disable_progress);
             if (verbosity >= 2){
                 if (show_speedups)
                     cout << "\rBaseline Time: " << baseline_time << " seconds                   "  << endl;
                 else if (benchmarks.calc_operations_per_second)
-                    cout << "\r'i8i8' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / baseline_time) / 1000000000) << " GOPS for " << baseline_time << " seconds run                                                      \n";
+                    cout << "\r'" << ((use_fp32_baseline)?("fp32fp32"):("i8i8")) << "' Multibatch OPS : "      << ((double)(((2 * ((double)_num_batches) * ((double)_num_inputs) * ((double)_num_outputs)) * ((double)benchmark_iterations)) / baseline_time) / 1000000000) << " GOPS for " << baseline_time << " seconds run                                                      \n";
                 else
                     cout << endl;
             } else if (verbosity >= 1) {
@@ -2811,6 +3022,361 @@ void run_benchmark(size_t benchmark_iterations, benchmark_mode_t benchmarks, boo
         if (verbosity == 1)
             cout << endl;
         
+    }
+    if (benchmarks.multi_gemm_api_different_size_benchmark_enable){
+        if (verbosity >= 2)
+            cout << "Running Real Multi-Batch GEMM API Different Size benchmark" << ((detailed_timing)?(" (With Timing Detail Activated)"):("")) << endl;
+        
+        vector<tuple<size_t, size_t, size_t>> sizes_v;
+        if (LowPrecision::FullyConnected::GetVariableFromEnv( "Sizes" ) == ""){
+            cerr << "No 'Sizes' variable is specified. Falling back to default sizes" << endl;
+            sizes_v.push_back(tuple<size_t, size_t, size_t>(num_batches, num_inputs, num_outputs));
+        }
+        else
+            sizes_v = extractSizesMultiBatch(LowPrecision::FullyConnected::GetVariableFromEnv( "Sizes" ));
+        
+        auto shapes = convertToShape(sizes_v);
+
+        cout << "Running Multi-Batch GEMM API Different Size benchmark with below sizes: " << endl;
+        for (size_t i = 0; i < sizes_v.size(); i++)
+            cout << "\t" << get<0>(sizes_v[i]) << " x " << get<1>(sizes_v[i]) << " x " << get<2>(sizes_v[i]) << endl;
+        
+        std::string baseline_type_flag = LowPrecision::FullyConnected::GetVariableFromEnv( "FP32Baseline" );
+        bool use_fp32_baseline = baseline_type_flag == "TRUE" || baseline_type_flag == "True" || baseline_type_flag == "true" || baseline_type_flag == "1";
+        if (use_fp32_baseline)
+            cout << "Running FP32 Baseline." << endl;
+        else
+            cout << "Running Int8 Baseline." << endl;
+        
+        string time_csv_file_context = ((use_fp32_baseline)?("kFp32Fp32,"):("kInt8In8,")), speedup_csv_file_context = ((use_fp32_baseline)?("kFp32Fp32,"):("kInt8In8,"));
+
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000001){ // kInt8Int4
+            time_csv_file_context += "kInt8Int4,";
+            speedup_csv_file_context += "kInt8Int4,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000002){ // kInt8Binary
+            time_csv_file_context += "kInt8Binary,";
+            speedup_csv_file_context += "kInt8Binary,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000004){ // kInt8Ternary
+            time_csv_file_context += "kInt8Ternary,";
+            speedup_csv_file_context += "kInt8Ternary,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000010){ // kInt4ActInt8Weight
+            time_csv_file_context += "kInt4ActInt8Weight,";
+            speedup_csv_file_context += "kInt4ActInt8Weight,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000020){ // kInt4ActInt4Weight
+            time_csv_file_context += "kInt4ActInt4Weight,";
+            speedup_csv_file_context += "kInt4ActInt4Weight,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000040){ // kTernaryActInt8Weight
+            time_csv_file_context += "kTernaryActInt8Weight,";
+            speedup_csv_file_context += "kTernaryActInt8Weight,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000200){ // kTernaryActTernaryWeight
+            time_csv_file_context += "kTernaryActTernaryWeight,";
+            speedup_csv_file_context += "kTernaryActTernaryWeight,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000100){ // kBinaryActBinaryWeight
+            time_csv_file_context += "kBinaryActBinaryWeight,";
+            speedup_csv_file_context += "kBinaryActBinaryWeight,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00002000){ // kULPPACKW4A4
+            time_csv_file_context += "kULPPACKW4A4,";
+            speedup_csv_file_context += "kULPPACKW4A4,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00004000){ // kSelfDependentW4A4
+            time_csv_file_context += "kSelfDependentW4A4,";
+            speedup_csv_file_context += "kSelfDependentW4A4,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00008000){ // kSelfDependentW4A8
+            time_csv_file_context += "kSelfDependentW4A8,";
+            speedup_csv_file_context += "kSelfDependentW4A8,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00010000){ // kSelfDependentW8A4
+            time_csv_file_context += "kSelfDependentW8A4,";
+            speedup_csv_file_context += "kSelfDependentW8A4,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00020000){ // kBarrelShiftMulW8A8
+            time_csv_file_context += "kBarrelShiftMulW8A8,";
+            speedup_csv_file_context += "kBarrelShiftMulW8A8,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00040000){ // kBarrelShiftMulW4A4
+            time_csv_file_context += "kBarrelShiftMulW4A4,";
+            speedup_csv_file_context += "kBarrelShiftMulW4A4,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00080000){ // kBarrelShiftMulW8A4
+            time_csv_file_context += "kBarrelShiftMulW8A4,";
+            speedup_csv_file_context += "kBarrelShiftMulW8A4,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00100000){ // kBarrelShiftMulW4A8
+            time_csv_file_context += "kBarrelShiftMulW4A8,";
+            speedup_csv_file_context += "kBarrelShiftMulW4A8,";
+        }
+        if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00200000){ // kBarrelShiftMulW2A2
+            time_csv_file_context += "kBarrelShiftMulW2A2,";
+            speedup_csv_file_context += "kBarrelShiftMulW2A2,";
+        }
+
+        time_csv_file_context    += "\n";
+        speedup_csv_file_context += "\n";
+
+        bool is_gem5        = LowPrecision::FullyConnected::GetVariableFromEnv( "IS_GEM5" ) == "TRUE";
+        double baseline_time = 1, benchmark_time;
+        TimingDetailes_t timing_details;
+        bool gather_timing_details = detailed_timing;
+
+        for(size_t i = 0 ; i < shapes.size() ; i++){
+            tuple<Shape,Shape,Shape>& shape = shapes.at(i);
+            tuple<size_t,size_t,size_t>& size = sizes_v.at(i);
+            string size_string;
+            size_string += "[";
+            size_string += to_string(get<0>(size));
+            size_string += "x";
+            size_string += to_string(get<1>(size));
+            size_string += "x";
+            size_string += to_string(get<2>(size));
+            size_string += "]";
+            double baseline_time = 1, benchmark_time = 0;
+
+            time_csv_file_context += size_string + ",";
+            speedup_csv_file_context += size_string + ",";
+
+            if (use_fp32_baseline) {
+                baseline_time = run_real_ruy_fp_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), disable_progress);
+            }
+            else {
+                baseline_time = run_real_ruy_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), disable_progress);
+            }
+            cout << "\r" << size_string << " Baseline Execution Time: " <<  baseline_time << endl;
+            time_csv_file_context    += to_string(baseline_time) + ",";
+            speedup_csv_file_context += "1,";
+
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000001){ // kInt8Int4
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kInt8Int4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Int4) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000002){ // kInt8Binary
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kInt8Binary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Binary) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000004){ // kInt8Ternary
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kInt8Ternary, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kInt8Ternary) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000010){ // kInt4ActInt8Weight
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kInt4ActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt8Weight) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000020){ // kInt4ActInt4Weight
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kInt4ActInt4Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kInt4ActInt4Weight) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000040){ // kTernaryActInt8Weight
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kTernaryActInt8Weight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActInt8Weight) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000200){ // kTernaryActTernaryWeight
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kTernaryActTernaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kTernaryActTernaryWeight) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00000100){ // kBinaryActBinaryWeight
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kBinaryActBinaryWeight, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kBinaryActBinaryWeight) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00002000){ // kULPPACKW4A4
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kULPPACKW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kULPPACKW4A4) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00004000){ // kSelfDependentW4A4
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kSelfDependentW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW4A4) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00008000){ // kSelfDependentW4A8
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kSelfDependentW4A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW4A8) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00010000){ // kSelfDependentW8A4
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kSelfDependentW8A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kSelfDependentW8A4) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00020000){ // kBarrelShiftMulW8A8
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kBarrelShiftMulW8A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kBarrelShiftMulW8A8) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00040000){ // kBarrelShiftMulW4A4
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kBarrelShiftMulW4A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kBarrelShiftMulW4A4) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00080000){ // kBarrelShiftMulW8A4
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kBarrelShiftMulW8A4, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kBarrelShiftMulW8A4) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00100000){ // kBarrelShiftMulW4A8
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kBarrelShiftMulW4A8, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kBarrelShiftMulW4A8) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+            if (benchmarks.multi_gemm_api_different_size_benchmark_mode & 0x00200000){ // kBarrelShiftMulW2A2
+                benchmark_time = run_real_gemm_api_benchmark(benchmark_iterations, get<0>(shape), get<1>(shape), get<2>(shape), LowPrecision::Method::kBarrelShiftMulW2A2, GemmAPIConfig_t({.disable_print = disable_progress, .fill = false, .process_unsinged = process_unsinged, .use_external_timing_profiler = use_external_timing_profiler, .is_gem5 = is_gem5, .return_timing_details = gather_timing_details, .timing_details = &timing_details}));
+                double speedup = 0;
+                if (benchmark_time >= 0)
+                    speedup = baseline_time / benchmark_time;
+                cout << "\r" << size_string
+                     << " [" << LowPrecision::get_method_string(LowPrecision::Method::kBarrelShiftMulW2A2) << "] " 
+                     << "Execution Time: " << benchmark_time << " seconds ( " << speedup << "x speedup )"
+                     << "                                         " << endl;
+                time_csv_file_context    += to_string(benchmark_time) + ",";
+                speedup_csv_file_context += to_string(speedup) + ",";
+            }
+
+            time_csv_file_context    += "\n";
+            speedup_csv_file_context += "\n";
+        }
+
+        ofstream time_csv_file(benchmarks.multi_gemm_api_different_size_benchmark_time_path, ios::out | ios::trunc);
+        ofstream speedup_csv_file(benchmarks.multi_gemm_api_different_size_benchmark_speedup_path, ios::out | ios::trunc);
+
+        if (!time_csv_file)
+            cerr << "Could not open file '"<< benchmarks.multi_gemm_api_different_size_benchmark_time_path <<"' for writing." << endl;
+        else{
+            time_csv_file << time_csv_file_context;
+            time_csv_file.close();
+        }
+        if (!speedup_csv_file)
+            cerr << "Could not open file '"<< benchmarks.multi_gemm_api_different_size_benchmark_speedup_path <<"' for writing." << endl;
+        else{
+            speedup_csv_file << speedup_csv_file_context;
+            speedup_csv_file.close();
+        }
     }
     if (benchmarks.real_multi_mul_api_benchmark_enable){
         cout << "Running Real Multi-Batch Mul API benchmark" << endl;
@@ -3663,5 +4229,21 @@ vector<tuple<size_t, size_t, size_t>> extractSizesMultiBatch(string str){
     return result;
 }
 
+vector<tuple<Shape,Shape,Shape>> convertToShape(vector<tuple<size_t, size_t, size_t>> sizes) {
+    vector<tuple<Shape,Shape,Shape>> o;
+    for (tuple<size_t, size_t, size_t> size : sizes) {
+        int M = get<0>(size),
+            K = get<1>(size),
+            N = get<2>(size);
+        int lhs_size[2] = { M, K },
+            rhs_size[2] = { K, N },
+            dst_size[2] = { M, N };
+        Shape lhs_shape = get_shape(lhs_size, 2),
+              rhs_shape = get_shape(rhs_size, 2),
+              dst_shape = get_shape(dst_size, 2);
+        o.push_back(tuple<Shape,Shape,Shape>{lhs_shape, rhs_shape, dst_shape});
+    }
+    return o;
+}
 
 

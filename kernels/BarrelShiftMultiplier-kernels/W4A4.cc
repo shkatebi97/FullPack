@@ -1,4 +1,5 @@
 #include "../../low_precision_fully_connected.h"
+
 #ifdef IS_ARM
 namespace LowPrecision{
     namespace FullyConnected{
@@ -168,9 +169,9 @@ namespace LowPrecision{
                             const int8_t* a = input  + mr_block_start * K / 2;
                             int32_t*      c = output + mr_block_start * N + nr_block_start;
                             int k = K;
+                            int8x8_t vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
                             #if BarrelShiftMulW8A8_UnpackWithSmallStore == 1 && BarrelShiftMulW8A8_InKernelUnpack == 1
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad == 0
-                                    int8x8_t vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
                                 #endif
                             #else
                             int16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_s32(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
@@ -1495,6 +1496,40 @@ namespace LowPrecision{
                     );
                     #endif
                 }
+            }
+        }
+    }
+}
+#else
+namespace LowPrecision{
+    namespace FullyConnected{
+        namespace BSM {
+            namespace W4A4{
+                template <> LowPrecision::Status QuantizeFilter<int8_t>(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
+                template <> LowPrecision::Status QuantizeFilter<uint8_t>(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
+                template <> LowPrecision::Status QuantizeInput<int8_t>(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
+                template <> LowPrecision::Status QuantizeInput<uint8_t>(const uint8_t* input, LowPrecision::Shape shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status UnpackOutput(const int32_t* input, Shape shape, int32_t* output) { return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status MultiplyInt8SingleBatch(
+                    const int8_t* input, LowPrecision::Shape input_shape,
+                    const int8_t* kernel, LowPrecision::Shape kernel_shape,
+                    int32_t* output, LowPrecision::Shape output_shape
+                ){ return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status MultiplyInt8MultiBatched(
+                    const int8_t* input, LowPrecision::Shape input_shape,
+                    const int8_t* kernel, LowPrecision::Shape kernel_shape,
+                    int32_t* output, LowPrecision::Shape output_shape,
+                    LowPrecision::MulParams params
+                ){ return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status MultiplyInt8MultiBatched(
+                    const uint8_t* input, LowPrecision::Shape input_shape,
+                    const uint8_t* kernel, LowPrecision::Shape kernel_shape,
+                    int32_t* output, LowPrecision::Shape output_shape,
+                    LowPrecision::MulParams params
+                ){ return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status MultiplyInt8MultiBatchedBlock(
+                    const int8_t* input, const int8_t* kernel,
+                    int32_t* output, const Params params){ return LowPrecision::Status::NotImplemented; }
             }
         }
     }

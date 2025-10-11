@@ -5,7 +5,7 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+#if IS_ARM
 #include <arm_neon.h>
 #include "test.h"
 
@@ -665,3 +665,4 @@ std::pair<double,double> calc_qnnpack4x8multi(uint8_t *A, uint8_t *B_before_pack
   mat_del(&B);
   return {t_elapsed,t_pack};
 }
+#endif

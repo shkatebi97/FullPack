@@ -2,7 +2,7 @@
 #include "../../common/asmutility.h"
 #include <iostream>
 
-#ifdef IS_ARM
+// #ifdef IS_ARM
 //////////////////////////////////////
 ///////////     Int8         /////////
 //////////////////////////////////////
@@ -89,6 +89,7 @@ void doLowPrecisionWeightPackImpl(int8_t* src_ptr_1, int8_t* src_ptr_2,
                             int8_t* dst_ptr_r,   int size){
     int i;
     auto dst_ptr = dst_ptr_r;
+    #ifdef IS_ARM
     asm volatile(
         "mov %w[i], wzr\n"
         "mov x0, %[src_ptr_1]\n"
@@ -171,6 +172,7 @@ void doLowPrecisionWeightPackImpl(int8_t* src_ptr_1, int8_t* src_ptr_2,
           [ size ]      "r" (size)
         : "v1", "v2", "v3", "v4", "x0", "x1", "x2", "x3", "x4"
     );
+    #endif
 }
 
 void doLowPrecisionWeightPackImpl(int8_t* src_ptr_1, int8_t* src_ptr_2,
@@ -178,6 +180,7 @@ void doLowPrecisionWeightPackImpl(int8_t* src_ptr_1, int8_t* src_ptr_2,
                             int8_t* dst_ptr_r, int size, int rows){
     int i, j;
     auto dst_ptr = dst_ptr_r;
+    #ifdef IS_ARM
     asm volatile(
         "mov %w[j], wzr\n\t"
         "mov x0, %[src_ptr_1]\n"
@@ -264,6 +267,7 @@ void doLowPrecisionWeightPackImpl(int8_t* src_ptr_1, int8_t* src_ptr_2,
           [ size ]      "r" (size),      [ rows ]      "r" (rows)
         : "v1", "v2", "v3", "v4", "x0", "x1", "x2", "x3", "x4"
     );
+    #endif
 }
 
 void doLowPrecision2BatchInputPack(
@@ -273,6 +277,7 @@ void doLowPrecision2BatchInputPack(
     int8_t *src_ptr_1 = src + 0 * columns;
     int8_t *src_ptr_2 = src + 1 * columns;
     int8_t *packed_ptr = packed;
+    #ifdef IS_ARM
     asm volatile(
         "mov %w[j], wzr\n"
 
@@ -321,6 +326,7 @@ void doLowPrecision2BatchInputPack(
           [ depth ]         "r"(depth)
         : "v1", "v2", "v3", "v4"
     );
+    #endif
 }
 
 //////////////////////////////////////
@@ -395,6 +401,7 @@ void doLowPrecisionWeightPackImpl(int32_t* src_ptr_1, int32_t* src_ptr_2,
     int i;
 
     auto dst_ptr = dst_ptr_r;
+    #ifdef IS_ARM
     asm volatile(
         "mov %w[i], wzr\n"
 
@@ -450,6 +457,7 @@ void doLowPrecisionWeightPackImpl(int32_t* src_ptr_1, int32_t* src_ptr_2,
           [ size ] "r"(size)
         : "v1", "v2", "v3", "v4"
     );
+    #endif
 }
 
 //////////////////////////////////////
@@ -523,7 +531,7 @@ void doLowPrecisionWeightPackImpl(int16_t* src_ptr_1, int16_t* src_ptr_2,
                             int16_t* dst_ptr_r,   int size){
     int i;
     auto dst_ptr = dst_ptr_r;
-
+    #ifdef IS_ARM
     asm volatile(
         "mov %w[i], wzr\n"
 
@@ -583,22 +591,23 @@ void doLowPrecisionWeightPackImpl(int16_t* src_ptr_1, int16_t* src_ptr_2,
           [ size ] "r"(size)
         : "v1", "v2", "v3", "v4"
     );
+    #endif
 }
 
-#else
-void doLowPrecisionPack(const int8_t* src, int8_t* packed, int rows, int columns){  }
-void doLowPrecisionWeightPack(int8_t* src, int8_t* packed, int rows, int columns){ }
-void doLowPrecisionWeightPackImpl(int8_t* src_ptr_1, int8_t* src_ptr_2,
-                            int8_t* src_ptr_3, int8_t* src_ptr_4,
-                            int8_t* dst_ptr_r,   int size){ }
-void doLowPrecisionPack(const int32_t* src, int32_t* packed, int rows, int columns){  }
-void doLowPrecisionWeightPack(int32_t* src, int32_t* packed, int rows, int columns){ }
-void doLowPrecisionWeightPackImpl(int32_t* src_ptr_1, int32_t* src_ptr_2,
-                            int32_t* src_ptr_3, int32_t* src_ptr_4,
-                            int32_t* dst_ptr_r,   int size){ }
-void doLowPrecisionPack(const int16_t* src, int16_t* packed, int rows, int columns){  }
-void doLowPrecisionWeightPack(int16_t* src, int16_t* packed, int rows, int columns){ }
-void doLowPrecisionWeightPackImpl(int16_t* src_ptr_1, int16_t* src_ptr_2,
-                            int16_t* src_ptr_3, int16_t* src_ptr_4,
-                            int16_t* dst_ptr_r,   int size){ }
-#endif
+// #else
+// void doLowPrecisionPack(const int8_t* src, int8_t* packed, int rows, int columns){  }
+// void doLowPrecisionWeightPack(int8_t* src, int8_t* packed, int rows, int columns){ }
+// void doLowPrecisionWeightPackImpl(int8_t* src_ptr_1, int8_t* src_ptr_2,
+//                             int8_t* src_ptr_3, int8_t* src_ptr_4,
+//                             int8_t* dst_ptr_r,   int size){ }
+// void doLowPrecisionPack(const int32_t* src, int32_t* packed, int rows, int columns){  }
+// void doLowPrecisionWeightPack(int32_t* src, int32_t* packed, int rows, int columns){ }
+// void doLowPrecisionWeightPackImpl(int32_t* src_ptr_1, int32_t* src_ptr_2,
+//                             int32_t* src_ptr_3, int32_t* src_ptr_4,
+//                             int32_t* dst_ptr_r,   int size){ }
+// void doLowPrecisionPack(const int16_t* src, int16_t* packed, int rows, int columns){  }
+// void doLowPrecisionWeightPack(int16_t* src, int16_t* packed, int rows, int columns){ }
+// void doLowPrecisionWeightPackImpl(int16_t* src_ptr_1, int16_t* src_ptr_2,
+//                             int16_t* src_ptr_3, int16_t* src_ptr_4,
+//                             int16_t* dst_ptr_r,   int size){ }
+// #endif

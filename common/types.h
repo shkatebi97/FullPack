@@ -488,10 +488,15 @@ typedef enum {
 } MatrixType;
 
 typedef enum {
-    Nothing             = 0x0,
-    PaddingIfNeccessery = 0x1,
-    Packing             = 0x2,
-    PaddingAndPacking   = 0x3,
+    Nothing             = 0x0000,
+    
+    PaddingIfNeccessery = 0x0001,
+    Packing             = 0x0002,
+    PaddingAndPacking   = 0x0003,
+    DataMask            = 0x00ff,
+
+    Offline             = 0x0100,
+    TimingMask          = 0xff00,
 } PreprocessType;
 
 typedef enum {

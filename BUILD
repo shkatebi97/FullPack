@@ -97,7 +97,22 @@ IS_ARM_FLAGS = select({
     "//tensorflow:android_arm": ["IS_ARM", "IS_ARM32"],
     "//tensorflow:android_arm64": ["IS_ARM", "IS_ARM64"],
     "//tensorflow:linux_armhf": ["IS_ARM", "IS_ARM32"],
-    "//conditions:default": [],
+    "//conditions:default": ["IS_X86_64", "IS_X86"],
+})
+
+ARCH_FLAGS = select({
+    ":chromiumos_arm64": ["-march=armv8.2-a+fp16"],
+    ":cpu_aarch64": ["-march=armv8.2-a+fp16"],
+    ":cpu_arm64": ["-march=armv8.2-a+fp16"],
+    ":cpu_arm64e": ["-march=armv8.2-a+fp16"],
+    ":cpu_ios_arm64": ["-march=armv8.2-a+fp16"],
+    ":cpu_ios_arm64e": ["-march=armv8.2-a+fp16"],
+    ":cpu_arm64_v8a": ["-march=armv8.2-a+fp16"],
+    # ":linux_arm64": ["-march=armv8.2-a+fp16"],
+    "//tensorflow:android_arm": [],
+    "//tensorflow:android_arm64": ["-march=armv8.2-a+fp16"],
+    "//tensorflow:linux_armhf": [],
+    "//conditions:default": ["-march=native"],
 })
 
 ULPPACK_copts = ["-flax-vector-conversions", "-lpthread", "-lstdc++", "-Wno-pointer-arith", "-std=c++14" ]
@@ -197,7 +212,7 @@ cc_library(
         "kernels/SelfDependent-kernels/W2A2.cc",
     ],
     hdrs = ["low_precision_fully_connected.h"],
-    copts = tflite_copts() + tf_opts_nortti_if_android() + ["-march=armv8.2-a+fp16", "-lm"] + ULPPACK_copts,
+    copts = tflite_copts() + tf_opts_nortti_if_android() + ARCH_FLAGS + ["-lm"] + ULPPACK_copts,
     defines = [
         "TFLITE_BUILD",
         "BAZEL_BUILD"

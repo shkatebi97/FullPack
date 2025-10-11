@@ -1,4 +1,5 @@
 #ifndef CVECTOR_H
+#ifdef IS_ARM
 #include <arm_neon.h>
 
 #define CVECTOR_STRING_VALUE(n) #n
@@ -1952,4 +1953,5 @@ inline v_int8x16_t& v_int8x16_t::fill(v_int8x16_t& a){
 }
 
 #define CVECTOR_H
+#endif // IS_ARM
 #endif // CVECTOR_H
