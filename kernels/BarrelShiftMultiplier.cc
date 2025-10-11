@@ -123,14 +123,22 @@ namespace LowPrecision{
                     return LowPrecision::Status::NotSupported;
                 }
             }
-            LowPrecision::PreprocessType InputPreProcess(LowPrecision::Method method) { return LowPrecision::PreprocessType::PaddingAndPacking; }
+            LowPrecision::PreprocessType InputPreProcess(LowPrecision::Method method) {
+                #if BarrelShiftMulW8A8_FusedLayers
+                    return LowPrecision::PreprocessType(LowPrecision::PreprocessType::PaddingAndPacking | LowPrecision::PreprocessType::Offline);
+                #else
+                    return LowPrecision::PreprocessType::PaddingAndPacking;
+                #endif
+            }
             LowPrecision::PreprocessType FilterPreProcess(LowPrecision::Method method){ return LowPrecision::PreprocessType::PaddingAndPacking; }
             LowPrecision::PreprocessType OutputPreProcess(LowPrecision::Method method){ return LowPrecision::FullyConnected::BSM::OutputPostProcess(method); }
             LowPrecision::PreprocessType OutputPostProcess(LowPrecision::Method method){
-                #if BarrelShiftMulW8A8_InKernelUnpack
-                return LowPrecision::PreprocessType::PaddingIfNeccessery;
+                #if BarrelShiftMulW8A8_FusedLayers
+                    return LowPrecision::PreprocessType(LowPrecision::PreprocessType::PaddingAndPacking | LowPrecision::PreprocessType::Offline);
+                #elif BarrelShiftMulW8A8_InKernelUnpack
+                        return LowPrecision::PreprocessType::PaddingIfNeccessery;
                 #else
-                return LowPrecision::PreprocessType::PaddingAndPacking;
+                        return LowPrecision::PreprocessType::PaddingAndPacking;
                 #endif
             }
             LowPrecision::GEMMType GEMMSupport(LowPrecision::Method method){ return LowPrecision::GEMMType::SupportsGEMM; }

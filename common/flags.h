@@ -45,6 +45,8 @@
 #define SelfDependent_Less_Loads 0
 
 
+#define BarrelShiftMulW8A8_FusedLayers 0
+#define BarrelShiftMulW8A8_FusedLayers_IrregularStore 1
 #define BarrelShiftMulW8A8_SimpleUnpack 0
 #define BarrelShiftMulW8A8_InKernelUnpack 1
 #define BarrelShiftMulW8A8_UnpackWithSmallStore 1

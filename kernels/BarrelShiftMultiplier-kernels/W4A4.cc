@@ -169,9 +169,9 @@ namespace LowPrecision{
                             const int8_t* a = input  + mr_block_start * K / 2;
                             int32_t*      c = output + mr_block_start * N + nr_block_start;
                             int k = K;
+                            int8x8_t vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
                             #if BarrelShiftMulW8A8_UnpackWithSmallStore == 1 && BarrelShiftMulW8A8_InKernelUnpack == 1
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad == 0
-                                    int8x8_t vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
                                 #endif
                             #else
                             int16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_s32(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 

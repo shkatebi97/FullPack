@@ -2138,7 +2138,11 @@ namespace LowPrecision{
     }
     Status PrepareMatrixAsInputForMethod(Matrix& matrix, Method method, TimingDetailes* timing){
         LowPrecision::PreprocessType method_required_preprocess
-                                        = LowPrecision::FullyConnected::InputPreProcess(method);
+                                        = LowPrecision::PreprocessType(
+                                            LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::DataMask
+                                        );
+        bool method_required_offline_preprocess
+                                        = LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::Offline;
         bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
              requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
 
@@ -2160,7 +2164,7 @@ namespace LowPrecision{
         matrix.setPreparedShape(matrix.getShape());
         Shape padded_shape = FullyConnected::GetPaddedShape(method, matrix.getShape(), true, LowPrecision::MatrixType::Input);
 
-        TimingDetailes::SaveTimestamp(timing, tstart);
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
         if (requires_padding && padded_shape != unpacked_shape){
             if (contain_padding_scratchpad || using_single_scratchpad){
                 if (!isvalid_padding_scratchpad){
@@ -2204,11 +2208,11 @@ namespace LowPrecision{
                 return (Status)(((uint64_t)Status::NeedPaddingScratchpad) | ((uint64_t)Status::PreparingInput));
             }
         }
-        TimingDetailes::SaveTimestamp(timing, tend);
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_preprocess);
 
-        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::LHSPadding);
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::LHSPadding, method_required_offline_preprocess);
 
-        TimingDetailes::SaveTimestamp(timing, tstart);
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
         if (requires_packing){
             Shape packed_shape;
             packed_shape = unpacked_shape;
@@ -2241,15 +2245,19 @@ namespace LowPrecision{
             // matrix.setPreparedShape(packed_shape);
             matrix.setPreparedShape(unpacked_shape);
         }
-        TimingDetailes::SaveTimestamp(timing, tend);
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_preprocess);
 
-        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::LHSPacking);
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::LHSPacking, method_required_offline_preprocess);
 
         return Status::Success;
     }
     Status PrepareMatrixAsOutputForMethod(Matrix& matrix, Method method, TimingDetailes* timing){
         LowPrecision::PreprocessType method_required_preprocess
-                                        = LowPrecision::FullyConnected::OutputPreProcess(method);
+                                        = LowPrecision::PreprocessType(
+                                            LowPrecision::FullyConnected::OutputPreProcess(method) & LowPrecision::PreprocessType::DataMask
+                                        );
+        bool method_required_offline_preprocess
+                                        = LowPrecision::FullyConnected::OutputPostProcess(method) & LowPrecision::PreprocessType::Offline;
         bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
              requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
 
@@ -2266,7 +2274,7 @@ namespace LowPrecision{
         
         matrix.setPreparedShape(matrix.getShape());
 
-        TimingDetailes::SaveTimestamp(timing, tstart);
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
         if (requires_padding && padded_shape != matrix.getShape()){
             if (contain_padding_scratchpad || using_single_scratchpad){
                 if (using_single_scratchpad && padded_shape != matrix.getShape()){
@@ -2285,25 +2293,29 @@ namespace LowPrecision{
                 return (Status)(((uint64_t)Status::NeedPaddingScratchpad) | ((uint64_t)Status::PreparingOutput));
             }
         }
-        TimingDetailes::SaveTimestamp(timing, tend);
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_preprocess);
 
-        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTPadding);
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTPadding, method_required_offline_preprocess);
 
-        TimingDetailes::SaveTimestamp(timing, tstart);
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
         if (requires_packing){
             if (!contain_scratchpad){
                 return (Status)(((uint64_t)Status::NeedPackingScratchpad) | ((uint64_t)Status::PreparingOutput));
             }
         }
-        TimingDetailes::SaveTimestamp(timing, tend);
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_preprocess);
 
-        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTPacking);
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTPacking, method_required_offline_preprocess);
         
         return Status::Success;
     }
     Status PostprocessMatrixAsOutputForMethod(Matrix& matrix, Method method, TimingDetailes* timing){
         LowPrecision::PreprocessType method_required_postprocess
-                                        = LowPrecision::FullyConnected::OutputPostProcess(method);
+                                        = LowPrecision::PreprocessType(
+                                            LowPrecision::FullyConnected::OutputPostProcess(method) & LowPrecision::PreprocessType::DataMask
+                                        );
+        bool method_required_offline_postprocess
+                                        = LowPrecision::FullyConnected::OutputPostProcess(method) & LowPrecision::PreprocessType::Offline;
         bool requires_packing           = method_required_postprocess & LowPrecision::PreprocessType::Packing,
              requires_padding           = method_required_postprocess & LowPrecision::PreprocessType::PaddingIfNeccessery,
              requires_downcasting       = matrix.getNeedDowncast();
@@ -2325,7 +2337,7 @@ namespace LowPrecision{
         Shape padded_shape   = matrix.getFinalShape();
         Shape original_shape = matrix.getShape();
         
-        TimingDetailes::SaveTimestamp(timing, tstart);
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_postprocess);
         if (requires_packing){
             if (contain_scratchpad){
                 LowPrecision::Status unpacking_ret;
@@ -2336,11 +2348,11 @@ namespace LowPrecision{
                 return (Status)(((uint64_t) Status::NeedPackingScratchpad) | ((uint64_t) Status::PostprocessingOutput));
             }
         }
-        TimingDetailes::SaveTimestamp(timing, tend);
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_postprocess);
 
-        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTUnPacking);
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTUnPacking, method_required_offline_postprocess);
 
-        TimingDetailes::SaveTimestamp(timing, tstart);
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_postprocess);
         if (requires_padding && padded_shape != original_shape){
             if (contain_padding_scratchpad){
                 LowPrecision::Status unpadding_ret;
@@ -2362,9 +2374,9 @@ namespace LowPrecision{
                 return (Status)(((uint64_t)Status::NeedPaddingScratchpad) | ((uint64_t)Status::PreparingOutput));
             }
         }
-        TimingDetailes::SaveTimestamp(timing, tend);
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_postprocess);
 
-        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTUnPadding);
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTUnPadding, method_required_offline_postprocess);
 
         return Status::Success;
     }
@@ -2414,7 +2426,9 @@ namespace LowPrecision{
         ShapeList list;
 
         LowPrecision::PreprocessType method_required_preprocess
-                                        = LowPrecision::FullyConnected::OutputPreProcess(method);
+                                        = LowPrecision::PreprocessType(
+                                            LowPrecision::FullyConnected::OutputPreProcess(method) & LowPrecision::PreprocessType::DataMask
+                                        );
         bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
              requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
         Shape input_padded_shape        = FullyConnected::GetPaddedShape(method, input_shape, true, LowPrecision::MatrixType::Input),
@@ -2426,6 +2440,7 @@ namespace LowPrecision{
         Shape output_padded_shape;
         output_padded_shape = input_padded_shape;
         output_padded_shape.size[output_padded_shape.number_dims - 1] = filter_padded_shape.size[filter_padded_shape.number_dims - 1];
+        output_padded_shape.flatsize = FullyConnected::CalcFlatSize(output_padded_shape.size, output_padded_shape.number_dims);
 
         if (output_need_unpadding && output_padded_shape != output_shape){
             assert(requires_padding == output_need_unpadding);

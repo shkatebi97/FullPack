@@ -179,9 +179,15 @@ namespace LowPrecision {
     };
     class MulParams{
     public:
+        #if BarrelShiftMulW8A8_FusedLayers
+        bool disable_bsm_fused_layers;
+        #endif
         bool need_downcasting;
         MulParams(){
             need_downcasting = false;
+            #if BarrelShiftMulW8A8_FusedLayers
+            disable_bsm_fused_layers = false;
+            #endif
         }
     };
     class TimingDetailes{
@@ -228,12 +234,12 @@ namespace LowPrecision {
                                        lhs_padding + rhs_padding + dst_padding + 
                                        dst_unpacking + dst_unpadding +
                                        gemm; }
-        static inline void SaveTimestamp(TimingDetailes* timing, struct timespec& t){
-            if (timing != nullptr && timing->activated())
+        static inline void SaveTimestamp(TimingDetailes* timing, struct timespec& t, bool dont_capture = false){
+            if (timing != nullptr && timing->activated() && !dont_capture)
                 clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
         }
-        static inline void SaveDifference(TimingDetailes* timing, struct timespec& ts, struct timespec& te, TimingElement element){
-            if (timing != nullptr && timing->activated()){
+        static inline void SaveDifference(TimingDetailes* timing, struct timespec& ts, struct timespec& te, TimingElement element, bool dont_capture = false){
+            if (timing != nullptr && timing->activated() && !dont_capture){
                 long double t = calculate_time_diff_seconds(ts, te);
                 switch (element){
                 case TimingDetailes::TimingElement::Multiplication:
