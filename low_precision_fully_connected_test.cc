@@ -1,7 +1,9 @@
 #include "low_precision_fully_connected_benchmark.h"
+#ifndef IS_RISCV
 #include "ruy/ruy.h"
 #include "ruy/context.h"
 #include "ruy/profiler/profiler.h"
+#endif
 #include <stdio.h>
 #include <string>
 #include <vector>
@@ -573,6 +575,7 @@ bool run_gemm_api_tests(LowPrecision::Method method){
     }
 }
 
+#ifndef IS_RISCV
 void run_mul_api_tests(LowPrecision::Method method){
     int num_spaces = 40 - string((method != kNoOptimization)?(LowPrecision::get_method_string(method)):("I8-I8")).length();
     vector<char> spaces_vec(num_spaces, ' ');
@@ -736,6 +739,7 @@ void run_mul_api_tests(LowPrecision::Method method){
         ///////////////// Multi Batch Sanity API Test /////////////////
         ///////////////////////////////////////////////////////////////
 
+        #ifndef IS_RISCV
         // Creating Context and Parameters
         ruy::profiler::ScopeLabel profile("Ruy");
         ruy::Context* _ruy_context = new ruy::Context;
@@ -775,7 +779,9 @@ void run_mul_api_tests(LowPrecision::Method method){
         #if IS_ARM
         ruy::Mul<ruy::Path::kNeon>(ruy_lhs, ruy_rhs_MB, ruy_mul_params, _ruy_context, &ruy_dst_MB);
         #endif
-
+        #else
+        throw std::runtime_error("Ruy Sanity Check is not supported on RISC-V platform");
+        #endif
         bool sanityCheckPass = true;
         for (int i = 0 ; i < output_shape_MB.size[0] ; i++)
             for (int j = 0 ; j < output_shape_MB.size[1] ; j++)
@@ -885,6 +891,7 @@ void run_mul_api_tests(LowPrecision::Method method){
             cout << LowPrecision::get_method_string(method) << " Mul API Multi-Batch Sanity Test" << spaces.substr(7) << "=> \033[1m\033[31mFAILED\033[0m" << endl;
     }
     else{
+        #ifndef IS_RISCV
         // Creating Context and Parameters
         ruy::Context* _ruy_context = new ruy::Context;
         ruy::MulParams<int32_t, int32_t> ruy_mul_params;
@@ -959,6 +966,9 @@ void run_mul_api_tests(LowPrecision::Method method){
         #endif
 
         cout << "I8-I8" << " Mul API Multi-Batch Test" << spaces << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+        #else
+        throw std::runtime_error("Ruy Mul API Test for NoOptimization Method is not supported on RISC-V platform");
+        #endif
     }
 
     // Deallication of created pointers
@@ -5248,6 +5258,131 @@ void run_i3i3_tests(
     deallocate(output_data_R_MB);
     cout << "LowPrecision::FullyConnected::Int3InputsInt3Weights  Deallocation\t\t\t\t=> \033[1m\033[32mPASSED\033[0m" << endl;
 }
+#else
+void run_mul_api_tests(LowPrecision::Method method){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_i8i4_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_i8bin_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_i8ter_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_i8qua_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_i4i8_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_i4i4_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_teri8_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_bini8_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_binbin_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_binbinxor_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_terter_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+void run_i3i3_tests(
+    const int* _template,
+    const int8_t* _answers,
+    const int kernel_fill_mode,
+    const int num_inputs,
+    const int num_output,
+    const int num_batch
+    ){
+    throw runtime_error("Not Supported in RISC-V");
+}
+#endif
 
 int main(int argc, char *argv[]){
     std::string input_mode = "";

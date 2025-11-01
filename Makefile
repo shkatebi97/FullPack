@@ -1,9 +1,13 @@
 MKDIR=mkdir
 TARGET_ISA ?= aarch64
-RUY_LIB=ruy/bazel-bin/ruy
-RUY_LIB_PROFILER=ruy/bazel-bin/ruy/profiler
-RUY_INC=ruy
+RUY_LIB=-Lruy/bazel-bin/ruy
+RUY_LIB_PROFILER=-Lruy/bazel-bin/ruy/profiler
+RUY_INC=-Iruy
 RUY_CCFLAGS := 	-Wall -Wextra -Wc++14-compat -Wundef -lpthread
+RUY_LIB_PROFILER_LINK := -linstrumentation
+CPU_LIB=-Lruy/bazel-bin/external/cpuinfo
+CPU_INC=-Iruy/third_party/cpuinfo/include
+CPU_LIB_LINK := -lcpuinfo_impl -lclog
 ifeq ($(TARGET_ISA), aarch64)
 	RUY_LIB_LINK := -lcontext -lkernel_arm -lpack_arm -lfrontend -lprepacked_cache -lcontext_get_ctx -lctx -lallocator -lcpuinfo -lthread_pool -lprepare_packed_matrices -ltrmul -lblock_map -lapply_multiplier -lblocking_counter -ldenormal -lsystem_aligned_alloc -ltune -lwait
 	ARCH_MODIFIER_FLAGS := -march=armv8.2-a+fp16
@@ -28,11 +32,39 @@ else ifeq ($(TARGET_ISA), x86_64-avx)
 	ARCH_DEFINES := -DIS_X86 -DIS_X86_64 -DHAS_AVX
 	CXX := /usr/bin/g++
 	CC := /usr/bin/gcc
+else ifeq ($(TARGET_ISA), riscv64-vector-internal)
+	RUY_LIB_LINK:=
+	RUY_LIB:=
+	RUY_LIB_PROFILER:=
+	RUY_INC:=
+	RUY_CCFLAGS:=
+	RUY_LIB_PROFILER_LINK:=
+	CPU_LIB:=
+	CPU_INC:=
+	CPU_LIB_LINK:=
+	ARCH_MODIFIER_FLAGS :=
+	SHARED_CCFLAGS = -lstdc++ -std=c++20 $(OPTIMIZATION_FLAG) -Wno-pointer-arith -Wno-narrowing $(ARCH_DEFINES) -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
+	ARCH_DEFINES := -DIS_RISCV -DIS_RISCV64 -DHAS_VEXTENSION
+	TOOLCHAIN_INSTALL_PREFIX?=/riscv/_install
+# 	Can be riscv64-unknown-linux-gnu or riscv64-unknown-elf
+	ifeq ($(TARGET_TYPE), linux)
+		TARGET:=riscv64-unknown-linux-gnu
+	else ifeq ($(TARGET_TYPE), newlib)
+		TARGET:=riscv64-unknown-elf
+	endif
+	CXX:=$(TOOLCHAIN_INSTALL_PREFIX)/bin/$(TARGET)-g++
+	CC:=$(TOOLCHAIN_INSTALL_PREFIX)/bin/$(TARGET)-gcc
+	SYSROOT?=$(INSTALL_PREFIX)/$(TARGET)
+	SUB_PARAM?=
+else ifeq ($(TARGET_ISA), riscv64-vector)
+# 	Can be gem5/llvm-rv64gcv-newlib or gem5/llvm-rv64gcv-linux
+	TARGET_TYPE?=linux
+	ifeq ($(TARGET_TYPE), linux)
+		RISCV_BUILDER_IMAGE:=gem5/llvm-rv64gcv-linux
+	else ifeq ($(TARGET_TYPE), newlib)
+		RISCV_BUILDER_IMAGE:=gem5/llvm-rv64gcv-newlib
+	endif
 endif
-RUY_LIB_PROFILER_LINK := -linstrumentation
-CPU_LIB=ruy/bazel-bin/external/cpuinfo
-CPU_INC=ruy/third_party/cpuinfo/include
-CPU_LIB_LINK := -lcpuinfo_impl -lclog
 
 KERNELS_OBJS := kernels/Int8-Int4.o kernels/Int4-Int8.o kernels/Int4-Int4.o kernels/Int8-Ternary.o kernels/Ternary-Int8.o kernels/Ternary-Ternary.o kernels/Int8-Binary.o kernels/Binary-Int8.o kernels/Binary-Binary.o kernels/Binary-Binary-XOR.o kernels/Int8-Quaternary.o kernels/Int3-Int3.o kernels/ULPPACK.o kernels/ULPPACK/4x8-neon-multipack-type2.o kernels/ULPPACK/4x8-neon-multipack.o kernels/SelfDependent-kernels/W4A4.o kernels/SelfDependent-kernels/W4A8.o kernels/SelfDependent-kernels/W8A4.o kernels/SelfDependent-kernels/W2A2.o kernels/SelfDependent.o kernels/BarrelShiftMultiplier-kernels/W8A8.o kernels/BarrelShiftMultiplier-kernels/W4A4.o kernels/BarrelShiftMultiplier.o
 
@@ -45,7 +77,7 @@ else
     OPTIMIZATION_FLAG = -O3
 endif
 
-SHARED_CCFLAGS = -pthread -lstdc++ $(OPTIMIZATION_FLAG) -Wno-pointer-arith -Wno-narrowing $(ARCH_DEFINES) -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
+SHARED_CCFLAGS ?= -pthread -lstdc++ $(OPTIMIZATION_FLAG) -Wno-pointer-arith -Wno-narrowing $(ARCH_DEFINES) -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
 CCFLAGS = -static $(SHARED_CCFLAGS)
 
 ENABLE_RUY_PROFILER ?= 0
@@ -57,8 +89,20 @@ else
     KERNELS_MEM_ACCESS_FLAGS = -UDISABLE_KERNELS_MEM_ACCESS
 endif
 
-all:												Build-Ruy \
-													libfullpack.so \
+ifeq ($(TARGET_ISA), riscv64-vector)
+all: 												docker-build
+
+docker-build:
+	docker run --rm -v $(PWD):/workspace -w /workspace $(RISCV_BUILDER_IMAGE) /bin/bash -c "make TARGET_ISA=riscv64-vector-internal DEBUG=$(DEBUG) DISABLE_KERNELS_MEM_ACCESS=$(DISABLE_KERNELS_MEM_ACCESS) TARGET_TYPE=$(TARGET_TYPE) $(SUB_PARAM)"
+else
+all: 												link
+endif
+
+ifeq ($(TARGET_ISA), aarch64 x86_64-avx512 x86_64-avx2 x86_64-avx)
+link:												Build-Ruy
+endif
+
+link:												libfullpack.so \
 													low_precision_fully_connected.o \
 													ops-implementations/mul/LowPrecisionPacking.o \
 													low_precision_fully_connected_test.o \
@@ -68,7 +112,7 @@ all:												Build-Ruy \
 													common/half.hpp \
 													common/asmutility.h \
 													Makefile
-	$(CXX) low_precision_fully_connected.o ops-implementations/mul/LowPrecisionPacking.o low_precision_fully_connected_test.o $(KERNELS_OBJS) -L$(RUY_LIB) $(RUY_LIB_LINK) -L$(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) -L$(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o low_precision_fully_connected_test
+	$(CXX) low_precision_fully_connected.o ops-implementations/mul/LowPrecisionPacking.o low_precision_fully_connected_test.o $(KERNELS_OBJS) $(RUY_LIB) $(RUY_LIB_LINK) $(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) $(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o low_precision_fully_connected_test
 
 libfullpack.so:										low_precision_fully_connected.o \
 													ops-implementations/mul/LowPrecisionPacking.o \
@@ -79,8 +123,14 @@ libfullpack.so:										low_precision_fully_connected.o \
 													Makefile
 	$(CXX) -shared ops-implementations/mul/LowPrecisionPacking.o $(KERNELS_OBJS) $(SHARED_CCFLAGS) ${LDFLAGS} -o libfullpack.so
 
+ifneq ($(TARGET_ISA), riscv-vector riscv64-vector-internal)
 Build-Ruy:					
 	$(MAKE) -C ruy ENABLE_RUY_PROFILER=$(ENABLE_RUY_PROFILER) DEBUG=$(DEBUG) DISABLE_KERNELS_MEM_ACCESS=$(DISABLE_KERNELS_MEM_ACCESS) TARGET_ISA=$(TARGET_ISA)
+else
+Build-Ruy:
+	@echo "Ruy does not support RISC-V Vector target ISA."
+	@false
+endif
 
 ############################# Kernels Start #############################
 
@@ -294,7 +344,7 @@ low_precision_fully_connected_test.o:				low_precision_fully_connected_test.cc \
 													common/flags.h \
 													low_precision_fully_connected_benchmark.h \
 													Makefile
-	$(CXX) low_precision_fully_connected_test.cc  $(KERNELS_MEM_ACCESS_FLAGS) -I$(RUY_INC) $(CCFLAGS) ${LDFLAGS} -o low_precision_fully_connected_test.o -c
+	$(CXX) low_precision_fully_connected_test.cc  $(KERNELS_MEM_ACCESS_FLAGS) $(RUY_INC) $(CCFLAGS) ${LDFLAGS} -o low_precision_fully_connected_test.o -c
 
 test-16bit-2bit-packing:							test-16bit-2bit-packing.o \
 													Makefile

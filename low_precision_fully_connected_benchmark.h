@@ -1,6 +1,8 @@
 #include "low_precision_fully_connected.h"
+#ifndef IS_RISCV
 #include "ruy/ruy.h"
 #include "ruy/context.h"
+#endif
 #include <assert.h>
 #include <stdio.h>
 #include <fstream>
@@ -15,7 +17,9 @@ using namespace std;
 using namespace LowPrecision;
 using namespace LowPrecision::FullyConnected;
 
+#ifndef IS_RISCV
 ruy::Context* _ruy_context = nullptr;
+#endif
 
 vector<pair<size_t, size_t>> extractSizesSingleBatch(std::string str);
 vector<tuple<size_t, size_t, size_t>> extractSizesMultiBatch(std::string str);
@@ -77,6 +81,7 @@ typedef struct {
     std::string multi_gemm_api_different_size_benchmark_speedup_path = "";
 } benchmark_mode_t; 
 
+#ifndef IS_RISCV
 double run_real_ruy_fp_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false, bool fill = false){
     string size_str = to_string(input_shape.size[0]) + "x" + to_string(kernel_shape.size[0]) + "x" + to_string(output_shape.size[1]);
 
@@ -385,6 +390,14 @@ double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Sh
 
     return time_consumed;
 }
+#else
+double run_real_ruy_fp_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false, bool fill = false) {
+    throw runtime_error("Ruy benchmarks are not supported on RISC-V platform.");
+}
+double run_real_ruy_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false, bool fill = false) {
+    throw runtime_error("Ruy benchmarks are not supported on RISC-V platform.");
+}
+#endif
 double run_real_mul_api_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, Method method, bool disable_print = false, bool fill = false, bool process_unsinged = false){
     if (!disable_print)
         cout << "\r"
@@ -785,6 +798,7 @@ double run_real_gemm_api_benchmark(size_t benchmark_iterations, Shape input_shap
     return time_consumed;
 }
 
+#ifndef IS_RISCV
 double run_i8i8_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int8 Single-Batched For " << benchmark_iterations << " Iterations...";
@@ -846,6 +860,11 @@ double run_i8i8_benchmark(size_t benchmark_iterations, Shape input_shape, Shape 
     cout.flush();
     return time_consumed;
 }
+#else
+double run_i8i8_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+    throw runtime_error("Ruy benchmarks are not supported on RISC-V platform.");
+}
+#endif
 double run_i8i4_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int4 For " << benchmark_iterations << " Iterations...";
@@ -1427,6 +1446,7 @@ double run_i3i3_benchmark(size_t benchmark_iterations, Shape input_shape, Shape 
     return time_consumed;
 }
 
+#ifndef IS_RISCV
 double run_i8i8_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int8 Multi-Batched For " << benchmark_iterations << " Iterations...";
@@ -1489,6 +1509,11 @@ double run_i8i8_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Sha
     cout.flush();
     return time_consumed;
 }
+#else
+double run_i8i8_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
+    throw runtime_error("Ruy benchmarks are not supported on RISC-V platform.");
+}
+#endif
 double run_i8i4_mb_benchmark(size_t benchmark_iterations, Shape input_shape, Shape kernel_shape, Shape output_shape, bool disable_print = false){
     if (!disable_print)
         cout << "\rPreparing Benchmark Of Int4 Multi-Batched For " << benchmark_iterations << " Iterations...";
