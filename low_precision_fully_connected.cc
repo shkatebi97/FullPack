@@ -1576,20 +1576,27 @@ namespace LowPrecision{
                 else
                     new_shape.size[1] = input_shape.size[1];
                 new_shape.size[0] = ::ceil(input_shape.size[0] / (float(K))) * K;
+                assert(new_shape.number_dims <= 2 && "Expected 2 dimensions for the weight matrix");
             } else if (type == LowPrecision::MatrixType::Output){
                 if (pad_rows_too)
                     new_shape.size[0] = ::ceil(input_shape.size[0] / (float(M))) * M;
                 else
                     new_shape.size[0] = input_shape.size[0];
                 new_shape.size[1] = ::ceil(input_shape.size[1] / (float(N))) * N;
+                if (new_shape.number_dims > 2)
+                    for (int i = 2; i < new_shape.number_dims; i++)
+                        new_shape.size[i] = input_shape.size[i];
             } else {
                 if (pad_rows_too)
                     new_shape.size[0] = ::ceil(input_shape.size[0] / (float(M))) * M;
                 else
                     new_shape.size[0] = input_shape.size[0];
                 new_shape.size[1] = ::ceil(input_shape.size[1] / (float(K))) * K;
+                if (new_shape.number_dims > 2)
+                    for (int i = 2; i < new_shape.number_dims; i++)
+                        new_shape.size[i] = input_shape.size[i];
             }
-            new_shape.flatsize = ::LowPrecision::FullyConnected::CalcFlatSize(new_shape.size, 2);
+            new_shape.flatsize = ::LowPrecision::FullyConnected::CalcFlatSize(new_shape.size, new_shape.number_dims);
             return new_shape;
         }
         Status TransformShapeToPaddedShape(const LowPrecision::Method method, int* input_sizes, int num_dims, bool pad_rows_too){
@@ -2138,25 +2145,25 @@ namespace LowPrecision{
     }
     Status PrepareMatrixAsInputForMethod(Matrix& matrix, Method method, TimingDetailes* timing){
         LowPrecision::PreprocessType method_required_preprocess
-                                        = LowPrecision::PreprocessType(
-                                            LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::DataMask
-                                        );
+                                          = LowPrecision::PreprocessType(
+                                              LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::DataMask
+                                          );
         bool method_required_offline_preprocess
-                                        = LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::Offline;
-        bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
-             requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
+                                          = LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::Offline;
+        bool requires_packing             = method_required_preprocess & LowPrecision::PreprocessType::Packing,
+             potentially_requires_padding = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
 
-        bool contain_scratchpad         = matrix.getNeedScratchpad(),
-             contain_padding_scratchpad = matrix.getPaddingScratchpadSetting();
+        bool contain_scratchpad           = matrix.getNeedScratchpad(),
+             contain_padding_scratchpad   = matrix.getPaddingScratchpadSetting();
 
-        bool isvalid_scratchpad         = matrix.isScratchpadValid(),
-             isvalid_padding_scratchpad = matrix.isPaddedDataValid();
+        bool isvalid_scratchpad           = matrix.isScratchpadValid(),
+             isvalid_padding_scratchpad   = matrix.isPaddedDataValid();
         
-        bool using_single_scratchpad    = matrix.isUseSingleScratchpad();
+        bool using_single_scratchpad      = matrix.isUseSingleScratchpad();
 
-        bool process_unsinged = !matrix.getSignStatus();
-        int8_t* unpacked_data = matrix.getData();
-        Shape unpacked_shape  = matrix.getShape();
+        bool process_unsinged             = !matrix.getSignStatus();
+        int8_t* unpacked_data             = matrix.getData();
+        Shape unpacked_shape              = matrix.getShape();
 
         struct timespec tstart = {0,0},
                         tend = {0,0};
@@ -2165,7 +2172,7 @@ namespace LowPrecision{
         Shape padded_shape = FullyConnected::GetPaddedShape(method, matrix.getShape(), true, LowPrecision::MatrixType::Input);
 
         TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
-        if (requires_padding && padded_shape != unpacked_shape){
+        if (potentially_requires_padding && padded_shape != unpacked_shape){
             if (contain_padding_scratchpad || using_single_scratchpad){
                 if (!isvalid_padding_scratchpad){
                     if (padded_shape != matrix.getShape()){
@@ -2385,11 +2392,14 @@ namespace LowPrecision{
         ShapeList list;
 
         LowPrecision::PreprocessType method_required_preprocess
-                                        = LowPrecision::FullyConnected::InputPreProcess(method);
-        bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
-                requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
+                                            = LowPrecision::PreprocessType(
+                                                  LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::DataMask
+                                            );
+        bool requires_packing               = method_required_preprocess & LowPrecision::PreprocessType::Packing,
+             potentially_requires_padding   = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
         Shape padded_shape = FullyConnected::GetPaddedShape(method, base_shape, true, LowPrecision::MatrixType::Input);
-        if (padded_shape != base_shape && requires_padding)
+
+        if (padded_shape != base_shape && potentially_requires_padding)
             list.push_back(padded_shape);
         
         Shape packed_shape;
@@ -2405,7 +2415,9 @@ namespace LowPrecision{
         ShapeList list;
 
         LowPrecision::PreprocessType method_required_preprocess
-                                        = LowPrecision::FullyConnected::FilterPreProcess(method);
+                                        = LowPrecision::PreprocessType(
+                                              LowPrecision::FullyConnected::FilterPreProcess(method) & LowPrecision::PreprocessType::DataMask
+                                        );
         bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
              requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
         Shape padded_shape = FullyConnected::GetPaddedShape(method, base_shape, true, LowPrecision::MatrixType::Weight);
@@ -2455,9 +2467,9 @@ namespace LowPrecision{
     LowPrecision::Status GEMM(Matrix& lhs, Matrix& rhs, Matrix& dst, Method method, TimingDetailes* timing){
         // Check if LHS matrix is processed and ready.
         if (lhs.getPaddingScratchpadSetting() && !lhs.isPaddedDataValid())
-            return (Status)(((uint64_t)Status::LHSNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::LHSPaddedNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (lhs.getNeedScratchpad() && !lhs.isScratchpadValid())
-            return (Status)(((uint64_t)Status::LHSNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::LHSScratchpadNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (lhs.getData() == nullptr)
             return (Status)(((uint64_t)Status::LHSNotInitialized) | ((uint64_t)Status::GEMMAPI));
         else if (!Shape::Validate(lhs.getFinalShape()))
@@ -2465,9 +2477,9 @@ namespace LowPrecision{
 
         // Check if RHS matrix is processed and ready.
         if (rhs.getPaddingScratchpadSetting() && !rhs.isPaddedDataValid())
-            return (Status)(((uint64_t)Status::RHSNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::RHSPaddedNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (rhs.getNeedScratchpad() && !rhs.isScratchpadValid())
-            return (Status)(((uint64_t)Status::RHSNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::RHSScratchpadNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (rhs.getData() == nullptr)
             return (Status)(((uint64_t)Status::RHSNotInitialized) | ((uint64_t)Status::GEMMAPI));
         else if (!Shape::Validate(rhs.getFinalShape()))
@@ -2475,9 +2487,9 @@ namespace LowPrecision{
 
         // Check if DST matrix is processed and ready.
         if (dst.getPaddingScratchpadSetting() && dst.getPaddedData() == nullptr)
-            return (Status)(((uint64_t)Status::DSTNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::DSTPaddedNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (dst.getNeedScratchpad() && dst.getScratchpad() == nullptr)
-            return (Status)(((uint64_t)Status::DSTNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::DSTScratchpadNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (dst.getData() == nullptr)
             return (Status)(((uint64_t)Status::DSTNotInitialized) | ((uint64_t)Status::GEMMAPI));
         else if (!Shape::Validate(dst.getFinalShape()))
