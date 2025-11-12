@@ -554,6 +554,86 @@ namespace LowPrecision{
                 shape[n_dims - 2] = ::ceil(shape[n_dims - 2] / 8.0) * 8;
             return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
         }
+        template<typename RHS_T> 
+        Status QuantizeFilter(LowPrecision::Method method, const RHS_T* input, LowPrecision::Shape k_shape, RHS_T* output, LowPrecision::MemLayout layout){
+            RHS_T* input_ptr = const_cast<RHS_T*>(input);
+            Shape input_padded_shape;
+            input_padded_shape = GetPaddedShape(method, k_shape, true, LowPrecision::MatrixType::Weight);
+            bool need_padding = input_padded_shape != k_shape;
+            if (need_padding){
+                input_ptr = ::LowPrecision::allocate<RHS_T>(input_padded_shape.flatsize);
+                Status pad_ret = PadMatrixFromShapeToShape(input, input_ptr, k_shape, input_padded_shape);
+                if (pad_ret != Status::Success) return pad_ret;
+            }
+            
+            LowPrecision::Status ret = Status::NotSupported;
+            if (method == LowPrecision::Method::kULPPACKW1A1) {
+                ret = LowPrecision::FullyConnected::ULPPACK::QuantizeFilter(
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape, 
+                    get_pointer_as<int8_t>(output),
+                    layout,
+                    1, 1
+                );
+            }
+            else if (method == LowPrecision::Method::kULPPACKW2A2) {
+                ret = LowPrecision::FullyConnected::ULPPACK::QuantizeFilter(
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape, 
+                    get_pointer_as<int8_t>(output),
+                    layout,
+                    2, 2
+                );
+            }
+            else if (method == LowPrecision::Method::kULPPACKW3A3) {
+                ret = LowPrecision::FullyConnected::ULPPACK::QuantizeFilter(
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape, 
+                    get_pointer_as<int8_t>(output),
+                    layout,
+                    3, 3
+                );
+            }
+            else if (method == LowPrecision::Method::kULPPACKW4A4) {
+                ret = LowPrecision::FullyConnected::ULPPACK::QuantizeFilter(
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape, 
+                    get_pointer_as<int8_t>(output),
+                    layout,
+                    4, 4
+                );
+            }
+            else if (method &  LowPrecision::Method::kSelfDependent) {
+                ret = LowPrecision::FullyConnected::SelfDependent::QuantizeFilter(
+                    method, 
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape, 
+                    get_pointer_as<int8_t>(output),
+                    layout
+                );
+            }
+            else if (method &  LowPrecision::Method::kBarrelShiftMul) {
+                ret = LowPrecision::FullyConnected::BSM::QuantizeFilter(
+                    method, 
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape, 
+                    get_pointer_as<int8_t>(output),
+                    layout
+                );
+            } else if (method == LowPrecision::Method::kAF32WI8) {
+                ret = LowPrecision::FullyConnected::Float32::QuantizeFilter(
+                    method, 
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape, 
+                    get_pointer_as<int8_t>(output),
+                    layout
+                );
+            }
+
+            if (need_padding)
+                LowPrecision::deallocate(input_ptr);
+            return ret;
+        }
         Status QuantizeFilter(LowPrecision::Method method, const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){
             int8_t* input_ptr = const_cast<int8_t*>(input);
             Shape input_padded_shape;
@@ -651,6 +731,87 @@ namespace LowPrecision{
                 ret = LowPrecision::FullyConnected::SelfDependent::QuantizeFilter(method, input_ptr, input_padded_shape, output, layout);
             else if (method &  LowPrecision::Method::kBarrelShiftMul)
                 ret = LowPrecision::FullyConnected::BSM::QuantizeFilter(method, input_ptr, input_padded_shape, output, layout);
+            
+            if (need_padding)
+                LowPrecision::deallocate(input_ptr);
+            return ret;
+        }
+        template<typename LHS_T> 
+        Status QuantizeInput(LowPrecision::Method method, const LHS_T* input, LowPrecision::Shape shape, LHS_T* output, LowPrecision::MemLayout layout){
+            LHS_T* input_ptr = const_cast<LHS_T*>(input);
+            Shape input_padded_shape;
+            input_padded_shape = GetPaddedShape(method, shape, true, LowPrecision::MatrixType::Input);
+            bool need_padding = input_padded_shape != shape;
+            if (need_padding){
+                input_ptr = ::LowPrecision::allocate<LHS_T>(input_padded_shape.flatsize);
+                Status pad_ret = PadMatrixFromShapeToShape(input, input_ptr, shape, input_padded_shape);
+                if (pad_ret != Status::Success) return pad_ret;
+            }
+            
+            LowPrecision::Status ret = Status::NotSupported;
+            if (method == LowPrecision::Method::kULPPACKW1A1) {
+                ret = LowPrecision::FullyConnected::ULPPACK::QuantizeInput(
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape,
+                    get_pointer_as<int8_t>(output),
+                    layout,
+                    1, 1
+                );
+            }
+            else if (method == LowPrecision::Method::kULPPACKW2A2) {
+                ret = LowPrecision::FullyConnected::ULPPACK::QuantizeInput(
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape,
+                    get_pointer_as<int8_t>(output),
+                    layout,
+                    2, 2
+                );
+            }
+            else if (method == LowPrecision::Method::kULPPACKW3A3) {
+                ret = LowPrecision::FullyConnected::ULPPACK::QuantizeInput(
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape,
+                    get_pointer_as<int8_t>(output),
+                    layout,
+                    3, 3
+                );
+            }
+            else if (method == LowPrecision::Method::kULPPACKW4A4) {
+                ret = LowPrecision::FullyConnected::ULPPACK::QuantizeInput(
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape,
+                    get_pointer_as<int8_t>(output),
+                    layout,
+                    4, 4
+                );
+            }
+            else if (method &  LowPrecision::Method::kSelfDependent) {
+                ret = LowPrecision::FullyConnected::SelfDependent::QuantizeInput(
+                    method,
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape,
+                    get_pointer_as<int8_t>(output),
+                    layout
+                );
+            }
+            else if (method &  LowPrecision::Method::kBarrelShiftMul) {
+                ret = LowPrecision::FullyConnected::BSM::QuantizeInput(
+                    method,
+                    get_pointer_as<int8_t>(input_ptr),
+                    input_padded_shape,
+                    get_pointer_as<int8_t>(output),
+                    layout
+                );
+            }
+            else if (method == LowPrecision::Method::kAF32WI8) {
+                ret = LowPrecision::FullyConnected::Float32::QuantizeInput(
+                    method,
+                    get_pointer_as<float32_t>(input_ptr),
+                    input_padded_shape,
+                    get_pointer_as<float32_t>(output),
+                    layout
+                );
+            }
             
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
@@ -758,6 +919,31 @@ namespace LowPrecision{
                 LowPrecision::deallocate(input_ptr);
             return ret;
         }
+        template<typename OUT_T> 
+        Status UnpackOutput(LowPrecision::Method method, const OUT_T* input, LowPrecision::Shape shape, OUT_T* output){
+            LowPrecision::Status ret = Status::NotSupported;
+            if (method &  LowPrecision::Method::kULPPACK)
+                ret = Status::NotNeeded;
+            else if (method &  LowPrecision::Method::kSelfDependent)
+                ret = Status::NotNeeded;
+            else if (method &  LowPrecision::Method::kBarrelShiftMul) {
+                ret = LowPrecision::FullyConnected::BSM::UnpackOutput(
+                    method, 
+                    get_pointer_as<int32_t>(input), 
+                    shape, 
+                    get_pointer_as<int32_t>(output)
+                );
+            }
+            else if (method == LowPrecision::Method::kAF32WI8) {
+                ret = LowPrecision::FullyConnected::Float32::UnpackOutput(
+                    method, 
+                    get_pointer_as<float32_t>(input), 
+                    shape, 
+                    get_pointer_as<float32_t>(output)
+                );
+            }
+            return ret;
+        }
         Status UnpackOutput(LowPrecision::Method method, const int32_t* input, LowPrecision::Shape shape, int32_t* output){
             LowPrecision::Status ret = Status::NotSupported;
             if (method == LowPrecision::Method::kInt8Int4)
@@ -793,6 +979,20 @@ namespace LowPrecision{
             else if (method &  LowPrecision::Method::kBarrelShiftMul)
                 ret = LowPrecision::FullyConnected::BSM::UnpackOutput(method, input, shape, output);
             return ret;
+        }
+        template<typename LHS_T, typename RHS_T, typename OUT_T>
+        Status Multiply(
+            LowPrecision::Method method,
+            const LHS_T* input, LowPrecision::Shape input_shape,
+            const RHS_T* kernel, LowPrecision::Shape kernel_shape,
+            OUT_T* output, LowPrecision::Shape output_shape,
+            LowPrecision::MulParams params
+        ){
+            // bool is_multibatched = input_shape.number_dims == 2 && input_shape.size[0] > 1;
+            // if (is_multibatched)
+                return (Status)(MultiplyInt8MultiBatched(method, input, input_shape, kernel, kernel_shape, output, output_shape, params) | ((uint64_t)Status::MultiMultiply));
+            // else
+            //     return (Status)(MultiplyInt8SingleBatch(method, input, input_shape, kernel, kernel_shape, output, output_shape) | ((uint64_t)Status::SingleMultiply));
         }
         Status Multiply(
             LowPrecision::Method method,
@@ -1089,6 +1289,90 @@ namespace LowPrecision{
             //         7, 7
             //     );
             return Status::NotImplemented;
+        }
+        template<typename LHS_T, typename RHS_T, typename OUT_T>
+        LowPrecision::Status MultiplyInt8MultiBatched(
+            LowPrecision::Method method,
+            const LHS_T* input, LowPrecision::Shape input_shape,
+            const RHS_T* kernel, LowPrecision::Shape kernel_shape,
+            OUT_T* output, LowPrecision::Shape output_shape,
+            LowPrecision::MulParams params
+        ){
+            LowPrecision::Status ret;
+            if (method == LowPrecision::Method::kULPPACKW1A1)
+                ret = LowPrecision::FullyConnected::ULPPACK::MultiplyInt8MultiBatched(
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    1, 1
+                );
+            else if (method == LowPrecision::Method::kULPPACKW2A2)
+                ret = LowPrecision::FullyConnected::ULPPACK::MultiplyInt8MultiBatched(
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    2, 2
+                );
+            else if (method == LowPrecision::Method::kULPPACKW3A3)
+                ret = LowPrecision::FullyConnected::ULPPACK::MultiplyInt8MultiBatched(
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    3, 3
+                );
+            else if (method == LowPrecision::Method::kULPPACKW4A4)
+                ret = LowPrecision::FullyConnected::ULPPACK::MultiplyInt8MultiBatched(
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    4, 4
+                );
+            else if (method == LowPrecision::Method::kULPPACKW5A5)
+                ret = LowPrecision::FullyConnected::ULPPACK::MultiplyInt8MultiBatched(
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    5, 5
+                );
+            else if (method == LowPrecision::Method::kULPPACKW6A6)
+                ret = LowPrecision::FullyConnected::ULPPACK::MultiplyInt8MultiBatched(
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    6, 6
+                );
+            else if (method == LowPrecision::Method::kULPPACKW7A7)
+                ret = LowPrecision::FullyConnected::ULPPACK::MultiplyInt8MultiBatched(
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    7, 7
+                );
+            else if (method &  LowPrecision::Method::kSelfDependent)
+                ret = LowPrecision::FullyConnected::SelfDependent::MultiplyInt8MultiBatched(
+                    method,
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    params
+                );
+            else if (method &  LowPrecision::Method::kBarrelShiftMul)
+                ret = LowPrecision::FullyConnected::BSM::MultiplyInt8MultiBatched(
+                    method,
+                    get_pointer_as<int8_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<int32_t>(output), output_shape,
+                    params
+                );
+            else if (method == LowPrecision::Method::kAF32WI8)
+                ret = LowPrecision::FullyConnected::Float32::MultiplyInt8MultiBatched(
+                    method,
+                    get_pointer_as<float32_t>(input), input_shape,
+                    get_pointer_as<int8_t>(kernel), kernel_shape,
+                    get_pointer_as<float32_t>(output), output_shape,
+                    params
+                );
+            return ret;
         }
         Status MultiplyInt8MultiBatched(
             LowPrecision::Method method,
@@ -2036,6 +2320,14 @@ namespace LowPrecision{
         int32_t* output, LowPrecision::Shape output_shape,
         LowPrecision::MulParams params
     ){ return FullyConnected::Multiply(method, input, input_shape, kernel, kernel_shape, output, output_shape, params); }
+    template<typename LHS_T, typename RHS_T, typename OUT_T>
+    Status MultiplyBackend(
+        LowPrecision::Method method,
+        const LHS_T* input, LowPrecision::Shape input_shape,
+        const RHS_T* kernel, LowPrecision::Shape kernel_shape,
+        OUT_T* output, LowPrecision::Shape output_shape,
+        LowPrecision::MulParams params
+    ){ return FullyConnected::Multiply(method, input, input_shape, kernel, kernel_shape, output, output_shape, params); }
 
     Status PrepareMatrixAsFilterForMethod(Matrix& matrix, Method method, TimingDetailes* timing){
         LowPrecision::PreprocessType method_required_preprocess
@@ -2381,6 +2673,355 @@ namespace LowPrecision{
         return Status::Success;
     }
 
+    template<typename T>
+    LowPrecision::Status PrepareMatrixAsFilterForMethod(Matrix_t<T>& matrix, Method method, TimingDetailes* timing){
+        LowPrecision::PreprocessType method_required_preprocess
+                                        = LowPrecision::FullyConnected::FilterPreProcess(method);
+        bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
+             requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
+
+        bool contain_scratchpad         = matrix.getNeedScratchpad(),
+             contain_padding_scratchpad = matrix.getPaddingScratchpadSetting();
+
+        bool isvalid_scratchpad         = matrix.isScratchpadValid(),
+             isvalid_padding_scratchpad = matrix.isPaddedDataValid();
+
+        Shape unpacked_shape, padded_shape;
+        bool process_unsinged = !matrix.getSignStatus();
+        T* unpacked_data      =  matrix.getData();
+        unpacked_shape        =  matrix.getShape();
+        padded_shape          =  FullyConnected::GetPaddedShape(method, matrix.getShape(), true, LowPrecision::MatrixType::Weight);
+
+        struct timespec tstart = {0,0},
+                        tend = {0,0};
+        
+        matrix.setPreparedShape(matrix.getShape());
+
+        TimingDetailes::SaveTimestamp(timing, tstart);
+        if (requires_padding && padded_shape != unpacked_shape){
+            if (contain_padding_scratchpad){
+                if (!isvalid_padding_scratchpad){
+                    if (padded_shape != matrix.getShape()){
+                        if (matrix.getPaddedData() == nullptr)
+                            return (Status)(Status::NotAllocated | ((uint64_t)Status::PreparingFilter));
+                        Status pad_ret;
+                        // if (process_unsinged)
+                        //     pad_ret = FullyConnected::PadMatrixFromShapeToShape(
+                        //         LowPrecision::get_pointer_as<uint8_t>(matrix.getData()), 
+                        //         LowPrecision::get_pointer_as<uint8_t>(matrix.getPaddedData()), 
+                        //         matrix.getShape(), 
+                        //         padded_shape);
+                        // else
+                            pad_ret = FullyConnected::PadMatrixFromShapeToShape(
+                                matrix.getData(), 
+                                matrix.getPaddedData(), 
+                                matrix.getShape(), 
+                                padded_shape);
+                        unpacked_data = matrix.getPaddedData();
+                        unpacked_shape = padded_shape;
+                        if (pad_ret != Status::Success)
+                            return (Status)(pad_ret | ((uint64_t)Status::PreparingFilter));
+                        else
+                            matrix.setPaddedDataValid();
+                    }
+                }
+                matrix.setPreparedShape(unpacked_shape);
+            } else {
+                return (Status)(((uint64_t)Status::NeedPaddingScratchpad) | ((uint64_t)Status::PreparingFilter));
+            }
+        }
+        TimingDetailes::SaveTimestamp(timing, tend);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::RHSPadding);
+
+        TimingDetailes::SaveTimestamp(timing, tstart);
+        if (requires_packing){
+            Shape packed_shape;
+            packed_shape = unpacked_shape;
+            if (contain_scratchpad){
+                if (!isvalid_scratchpad){
+                    packed_shape.flatsize = FullyConnected::TransformFilterShape(method, packed_shape.size, packed_shape.number_dims);
+                    Status packing_ret;
+                    // if (process_unsinged)
+                    //     packing_ret = FullyConnected::QuantizeFilter(
+                    //         method, 
+                    //         LowPrecision::get_pointer_as<uint8_t>(unpacked_data), 
+                    //         unpacked_shape, 
+                    //         LowPrecision::get_pointer_as<uint8_t>(matrix.getScratchpad()), 
+                    //         matrix.getMemLayout());
+                    // else
+                        packing_ret = FullyConnected::QuantizeFilter<T>(
+                            method, 
+                            unpacked_data, 
+                            unpacked_shape, 
+                            matrix.getScratchpad(), 
+                            matrix.getMemLayout());
+                    if (packing_ret != Status::Success)
+                        return (Status)(packing_ret | ((uint64_t)Status::PreparingFilter));
+                    else
+                        matrix.setScratchpadValid();
+                }
+            } else {
+                return (Status)(((uint64_t)Status::NeedPackingScratchpad) | ((uint64_t)Status::PreparingFilter));
+            }
+            // matrix.setPreparedShape(packed_shape);
+            matrix.setPreparedShape(unpacked_shape);
+        }
+        TimingDetailes::SaveTimestamp(timing, tend);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::RHSPacking);
+
+        return Status::Success;
+    }
+    template<typename T>
+    LowPrecision::Status PrepareMatrixAsInputForMethod(Matrix_t<T>& matrix, Method method, TimingDetailes* timing){
+        LowPrecision::PreprocessType method_required_preprocess
+                                        = LowPrecision::PreprocessType(
+                                            LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::DataMask
+                                        );
+        bool method_required_offline_preprocess
+                                        = LowPrecision::FullyConnected::InputPreProcess(method) & LowPrecision::PreprocessType::Offline;
+        bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
+             requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
+
+        bool contain_scratchpad         = matrix.getNeedScratchpad(),
+             contain_padding_scratchpad = matrix.getPaddingScratchpadSetting();
+
+        bool isvalid_scratchpad         = matrix.isScratchpadValid(),
+             isvalid_padding_scratchpad = matrix.isPaddedDataValid();
+        
+        bool using_single_scratchpad    = matrix.isUseSingleScratchpad();
+
+        bool process_unsinged = !matrix.getSignStatus();
+        T* unpacked_data      = matrix.getData();
+        Shape unpacked_shape  = matrix.getShape();
+
+        struct timespec tstart = {0,0},
+                        tend = {0,0};
+        
+        matrix.setPreparedShape(matrix.getShape());
+        Shape padded_shape = FullyConnected::GetPaddedShape(method, matrix.getShape(), true, LowPrecision::MatrixType::Input);
+
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
+        if (requires_padding && padded_shape != unpacked_shape){
+            if (contain_padding_scratchpad || using_single_scratchpad){
+                if (!isvalid_padding_scratchpad){
+                    if (padded_shape != matrix.getShape()){
+                        if (using_single_scratchpad){
+                            Shape scratchpad_shape;
+                            scratchpad_shape = padded_shape;
+                            scratchpad_shape.flatsize = FullyConnected::TransformInputShape(method, scratchpad_shape.size, scratchpad_shape.number_dims);
+                            T* padding_scratchpad;
+                            // if (process_unsinged)
+                            //     padding_scratchpad = LowPrecision::get_pointer_as<int8_t>(LowPrecision::get_pointer_as<uint8_t>(matrix.getScratchpad()) + scratchpad_shape.flatsize);
+                            // else
+                                padding_scratchpad = matrix.getScratchpad() + scratchpad_shape.flatsize;
+                            matrix.setPaddingScratchpad(padding_scratchpad);
+                            matrix.setPaddingScratchpadSetting();
+                            contain_padding_scratchpad = matrix.getPaddingScratchpadSetting();
+                        }
+                        Status pad_ret;
+                        // if (process_unsinged)
+                        //     pad_ret = FullyConnected::PadMatrixFromShapeToShape(
+                        //         LowPrecision::get_pointer_as<uint8_t>(matrix.getData()),
+                        //         LowPrecision::get_pointer_as<uint8_t>(matrix.getPaddedData()), 
+                        //         matrix.getShape(), 
+                        //         padded_shape);
+                        // else
+                            pad_ret = FullyConnected::PadMatrixFromShapeToShape(
+                                matrix.getData(),
+                                matrix.getPaddedData(), 
+                                matrix.getShape(), 
+                                padded_shape);
+                        unpacked_data = matrix.getPaddedData();
+                        unpacked_shape = padded_shape;
+                        if (pad_ret != Status::Success)
+                            return (Status)(pad_ret | ((uint64_t)Status::PreparingInput));
+                        else
+                            matrix.setPaddedDataValid();
+                    }
+                }
+                matrix.setPreparedShape(unpacked_shape);
+            } else {
+                return (Status)(((uint64_t)Status::NeedPaddingScratchpad) | ((uint64_t)Status::PreparingInput));
+            }
+        }
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_preprocess);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::LHSPadding, method_required_offline_preprocess);
+
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
+        if (requires_packing){
+            // Shape packed_shape;
+            // packed_shape = unpacked_shape;
+            if (contain_scratchpad){
+                if (!isvalid_scratchpad){
+                    // packed_shape.flatsize = FullyConnected::TransformInputShape(method, packed_shape.size, packed_shape.number_dims);
+                    Status packing_ret;
+                    // if (process_unsinged)
+                    //     packing_ret = FullyConnected::QuantizeInput(
+                    //         method, 
+                    //         LowPrecision::get_pointer_as<uint8_t>(unpacked_data), 
+                    //         unpacked_shape, 
+                    //         LowPrecision::get_pointer_as<uint8_t>(matrix.getScratchpad()), 
+                    //         matrix.getMemLayout());
+                    // else
+                        packing_ret = FullyConnected::QuantizeInput<T>(
+                            method, 
+                            unpacked_data, 
+                            unpacked_shape, 
+                            matrix.getScratchpad(), 
+                            matrix.getMemLayout());
+                    if (packing_ret != Status::Success)
+                        return (Status)(packing_ret | ((uint64_t)Status::PreparingInput));
+                    else
+                        matrix.setScratchpadValid();
+                }
+            } else {
+                return (Status)(((uint64_t)Status::NeedPackingScratchpad) | ((uint64_t)Status::PreparingInput));
+            }
+            // matrix.setPreparedShape(packed_shape);
+            matrix.setPreparedShape(unpacked_shape);
+        }
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_preprocess);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::LHSPacking, method_required_offline_preprocess);
+
+        return Status::Success;
+    }
+    template<typename T>
+    LowPrecision::Status PrepareMatrixAsOutputForMethod(Matrix_t<T>& matrix, Method method, TimingDetailes* timing){
+        LowPrecision::PreprocessType method_required_preprocess
+                                        = LowPrecision::PreprocessType(
+                                            LowPrecision::FullyConnected::OutputPreProcess(method) & LowPrecision::PreprocessType::DataMask
+                                        );
+        bool method_required_offline_preprocess
+                                        = LowPrecision::FullyConnected::OutputPostProcess(method) & LowPrecision::PreprocessType::Offline;
+        bool requires_packing           = method_required_preprocess & LowPrecision::PreprocessType::Packing,
+             requires_padding           = method_required_preprocess & LowPrecision::PreprocessType::PaddingIfNeccessery;
+
+        bool contain_scratchpad         = matrix.getNeedScratchpad(),
+             contain_padding_scratchpad = matrix.getPaddingScratchpadSetting();
+        
+        bool using_single_scratchpad    = matrix.isUseSingleScratchpad();
+
+        T* unpacked_data = matrix.getData();
+        Shape padded_shape = FullyConnected::GetPaddedShape(method, matrix.getShape(), true, LowPrecision::MatrixType::Output);
+
+        struct timespec tstart = {0,0},
+                        tend = {0,0};
+        
+        matrix.setPreparedShape(matrix.getShape());
+
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
+        if (requires_padding && padded_shape != matrix.getShape()){
+            if (contain_padding_scratchpad || using_single_scratchpad){
+                if (using_single_scratchpad && padded_shape != matrix.getShape()){
+                    Shape scratchpad_shape;
+                    scratchpad_shape = padded_shape;
+                    scratchpad_shape.flatsize = FullyConnected::TransformInputShape(method, scratchpad_shape.size, scratchpad_shape.number_dims);
+                    // if (matrix.getDataType() == LowPrecision::DataType::Int32)
+                    //     matrix.setPaddingScratchpad(LowPrecision::get_pointer_as<int32_t>(matrix.getScratchpad()) + scratchpad_shape.flatsize);
+                    // else 
+                        matrix.setPaddingScratchpad(matrix.getScratchpad() + scratchpad_shape.flatsize);
+                    matrix.setPaddingScratchpadSetting();
+                    contain_padding_scratchpad = matrix.getPaddingScratchpadSetting();
+                }
+                matrix.setPreparedShape(padded_shape);
+            } else {
+                return (Status)(((uint64_t)Status::NeedPaddingScratchpad) | ((uint64_t)Status::PreparingOutput));
+            }
+        }
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_preprocess);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTPadding, method_required_offline_preprocess);
+
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_preprocess);
+        if (requires_packing){
+            if (!contain_scratchpad){
+                return (Status)(((uint64_t)Status::NeedPackingScratchpad) | ((uint64_t)Status::PreparingOutput));
+            }
+        }
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_preprocess);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTPacking, method_required_offline_preprocess);
+        
+        return Status::Success;
+    }
+    template<typename T>
+    LowPrecision::Status PostprocessMatrixAsOutputForMethod(Matrix_t<T>& matrix, Method method, TimingDetailes* timing){
+        LowPrecision::PreprocessType method_required_postprocess
+                                        = LowPrecision::PreprocessType(
+                                            LowPrecision::FullyConnected::OutputPostProcess(method) & LowPrecision::PreprocessType::DataMask
+                                        );
+        bool method_required_offline_postprocess
+                                        = LowPrecision::FullyConnected::OutputPostProcess(method) & LowPrecision::PreprocessType::Offline;
+        bool requires_packing           = method_required_postprocess & LowPrecision::PreprocessType::Packing,
+             requires_padding           = method_required_postprocess & LowPrecision::PreprocessType::PaddingIfNeccessery,
+             requires_downcasting       = matrix.getNeedDowncast();
+
+        bool contain_scratchpad         = matrix.getNeedScratchpad(),
+             contain_padding_scratchpad = matrix.getPaddingScratchpadSetting();
+
+        T* final_data      = matrix.getData();
+        T* unpacked_data   = nullptr;
+
+        if (requires_padding && contain_padding_scratchpad)
+            unpacked_data = matrix.getPaddedData();
+        else 
+            unpacked_data = matrix.getData();
+
+        struct timespec tstart = {0,0},
+                        tend = {0,0};
+
+        Shape padded_shape   = matrix.getFinalShape();
+        Shape original_shape = matrix.getShape();
+        
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_postprocess);
+        if (requires_packing){
+            if (contain_scratchpad){
+                LowPrecision::Status unpacking_ret;
+                unpacking_ret = LowPrecision::FullyConnected::UnpackOutput<T>(method, matrix.getScratchpad(), padded_shape, unpacked_data);
+                if (LowPrecision::mask_out_source(unpacking_ret) != LowPrecision::Status::Success && LowPrecision::mask_out_source(unpacking_ret) != LowPrecision::Status::NotNeeded)
+                    return unpacking_ret;
+            } else {
+                return (Status)(((uint64_t) Status::NeedPackingScratchpad) | ((uint64_t) Status::PostprocessingOutput));
+            }
+        }
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_postprocess);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTUnPacking, method_required_offline_postprocess);
+
+        TimingDetailes::SaveTimestamp(timing, tstart, method_required_offline_postprocess);
+        if (requires_padding && padded_shape != original_shape){
+            if (contain_padding_scratchpad){
+                LowPrecision::Status unpadding_ret;
+                assert(!requires_downcasting);
+                // if (requires_downcasting)
+                //     unpadding_ret = LowPrecision::FullyConnected::DePadMatrixFromShapeToShape(
+                //                                             get_pointer_as<int32_t>(matrix.getPaddedData()),
+                //                                             get_pointer_as<int8_t>(matrix.getData()),
+                //                                             padded_shape, original_shape
+                //                     );
+                // else
+                    unpadding_ret = LowPrecision::FullyConnected::DePadMatrixFromShapeToShape(
+                                                            matrix.getPaddedData(),
+                                                            matrix.getData(),
+                                                            padded_shape, original_shape
+                                    );
+                if (LowPrecision::mask_out_source(unpadding_ret) != LowPrecision::Status::Success)
+                    return unpadding_ret;
+            } else {
+                return (Status)(((uint64_t)Status::NeedPaddingScratchpad) | ((uint64_t)Status::PreparingOutput));
+            }
+        }
+        TimingDetailes::SaveTimestamp(timing, tend, method_required_offline_postprocess);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::DSTUnPadding, method_required_offline_postprocess);
+
+        return Status::Success;
+    }
+
     LowPrecision::ShapeList GetInputShapeListForMethod(LowPrecision::Method method, LowPrecision::Shape base_shape){
         ShapeList list;
 
@@ -2559,10 +3200,167 @@ namespace LowPrecision{
 
         return Status::Success;
     }
+    
+    template<typename LHS_T, typename RHS_T, typename OUT_T> LowPrecision::Status
+    GEMM(Matrix_t<LHS_T>& lhs, Matrix_t<RHS_T>& rhs, Matrix_t<OUT_T>& dst, Method method, TimingDetailes* timing){
+        // Check if LHS matrix is processed and ready.
+        if (lhs.getPaddingScratchpadSetting() && !lhs.isPaddedDataValid())
+            return (Status)(((uint64_t)Status::LHSNotReady) | ((uint64_t)Status::GEMMAPI));
+        else if (lhs.getNeedScratchpad() && !lhs.isScratchpadValid())
+            return (Status)(((uint64_t)Status::LHSNotReady) | ((uint64_t)Status::GEMMAPI));
+        else if (lhs.getData() == nullptr)
+            return (Status)(((uint64_t)Status::LHSNotInitialized) | ((uint64_t)Status::GEMMAPI));
+        else if (!Shape::Validate(lhs.getFinalShape()))
+            return (Status)(((uint64_t)Status::LHSFinalShapeNotValid) | ((uint64_t)Status::GEMMAPI));
+
+        // Check if RHS matrix is processed and ready.
+        if (rhs.getPaddingScratchpadSetting() && !rhs.isPaddedDataValid())
+            return (Status)(((uint64_t)Status::RHSNotReady) | ((uint64_t)Status::GEMMAPI));
+        else if (rhs.getNeedScratchpad() && !rhs.isScratchpadValid())
+            return (Status)(((uint64_t)Status::RHSNotReady) | ((uint64_t)Status::GEMMAPI));
+        else if (rhs.getData() == nullptr)
+            return (Status)(((uint64_t)Status::RHSNotInitialized) | ((uint64_t)Status::GEMMAPI));
+        else if (!Shape::Validate(rhs.getFinalShape()))
+            return (Status)(((uint64_t)Status::RHSFinalShapeNotValid) | ((uint64_t)Status::GEMMAPI));
+
+        // Check if DST matrix is processed and ready.
+        if (dst.getPaddingScratchpadSetting() && dst.getPaddedData() == nullptr)
+            return (Status)(((uint64_t)Status::DSTNotReady) | ((uint64_t)Status::GEMMAPI));
+        else if (dst.getNeedScratchpad() && dst.getScratchpad() == nullptr)
+            return (Status)(((uint64_t)Status::DSTNotReady) | ((uint64_t)Status::GEMMAPI));
+        else if (dst.getData() == nullptr)
+            return (Status)(((uint64_t)Status::DSTNotInitialized) | ((uint64_t)Status::GEMMAPI));
+        else if (!Shape::Validate(dst.getFinalShape()))
+            return (Status)(((uint64_t)Status::DSTFinalShapeNotValid) | ((uint64_t)Status::GEMMAPI));
+        
+        // Ensure that LHS and RHS matrix signes are the same
+        if (lhs.getSignStatus() != rhs.getSignStatus())
+            return (Status)(((uint64_t)Status::InputsSignsDifferent) | ((uint64_t)Status::GEMMAPI));
+        // Ensure that DST matrix is singed
+        if (!dst.getSignStatus())
+            return (Status)(((uint64_t)Status::DSTCantBeUnsigned) | ((uint64_t)Status::GEMMAPI));
+        
+        bool process_unsigned = !lhs.getSignStatus();
+
+        LHS_T*  lhs_pointer = nullptr;
+        RHS_T*  rhs_pointer = nullptr;
+        OUT_T* dst_pointer = nullptr;
+
+        if (lhs.getNeedScratchpad())
+            lhs_pointer = lhs.getScratchpad();
+        else if (lhs.getPaddingScratchpadSetting())
+            lhs_pointer = lhs.getPaddedData();
+        else
+            lhs_pointer = lhs.getData();
+
+        if (rhs.getNeedScratchpad())
+            rhs_pointer = rhs.getScratchpad();
+        else if (rhs.getPaddingScratchpadSetting())
+            rhs_pointer = rhs.getPaddedData();
+        else
+            rhs_pointer = rhs.getData();
+
+        if (dst.getNeedScratchpad())
+            dst_pointer = dst.getScratchpad();
+        else if (dst.getPaddingScratchpadSetting())
+            dst_pointer = dst.getPaddedData();
+        else
+            dst_pointer = dst.getData();
+        
+        Shape lhs_final_shape, rhs_final_shape, dst_final_shape;
+
+        lhs_final_shape = lhs.getFinalShape();
+        rhs_final_shape = rhs.getFinalShape();
+        dst_final_shape = dst.getFinalShape();
+
+        LowPrecision::MulParams params;
+        LowPrecision::Status mul_backend_ret;
+
+        struct timespec tstart = {0,0},
+                        tend = {0,0};
+
+        TimingDetailes::SaveTimestamp(timing, tstart);
+        // if (process_unsigned)
+        //     mul_backend_ret = MultiplyBackend(
+        //         method, 
+        //         LowPrecision::get_pointer_as<uint8_t>(lhs_pointer), lhs_final_shape, 
+        //         LowPrecision::get_pointer_as<uint8_t>(rhs_pointer), rhs_final_shape, 
+        //         dst_pointer, dst_final_shape,
+        //         params);
+        // else
+            mul_backend_ret = MultiplyBackend(
+                method, 
+                lhs_pointer, lhs_final_shape, 
+                rhs_pointer, rhs_final_shape, 
+                dst_pointer, dst_final_shape, 
+                params);
+        TimingDetailes::SaveTimestamp(timing, tend);
+
+        TimingDetailes::SaveDifference(timing, tstart, tend, TimingDetailes::TimingElement::GEMM);
+
+        if (LowPrecision::mask_out_source(mul_backend_ret) != LowPrecision::Status::Success)
+            return mul_backend_ret;
+        
+        LowPrecision::Status postprocess_ret;
+        postprocess_ret = LowPrecision::PostprocessMatrixAsOutputForMethod(dst, method, timing);
+
+        if (LowPrecision::mask_out_source(postprocess_ret) != LowPrecision::Status::Success)
+            return postprocess_ret;
+
+        return Status::Success;
+    }
 
     void doScallingFactorMultiplication(int32_t* input, const float* scalling_factor, float* output,
                                         int batch_n, int input_n){
         FullyConnected::doScallingFactorMultiplication(input, scalling_factor, output, batch_n, input_n);
     }
+}
 
+// Template Instanciations
+namespace LowPrecision{
+    template LowPrecision::Status PrepareMatrixAsFilterForMethod<int8_t>(Matrix_t<int8_t>& matrix, Method method, TimingDetailes* timing);
+    template LowPrecision::Status PrepareMatrixAsInputForMethod<int8_t>(Matrix_t<int8_t>& matrix, Method method, TimingDetailes* timing);
+    template LowPrecision::Status PrepareMatrixAsOutputForMethod<int32_t>(Matrix_t<int32_t>& matrix, Method method, TimingDetailes* timing);
+    template LowPrecision::Status PostprocessMatrixAsOutputForMethod<int32_t>(Matrix_t<int32_t>& matrix, Method method, TimingDetailes* timing);
+    template LowPrecision::Status GEMM<int8_t, int8_t, int32_t>(Matrix_t<int8_t>& lhs, Matrix_t<int8_t>& rhs, Matrix_t<int32_t>& dst, Method method, TimingDetailes* timing);
+    template LowPrecision::Status MultiplyBackend<int8_t, int8_t, int32_t>(
+        LowPrecision::Method method,
+        const int8_t* input, LowPrecision::Shape input_shape,
+        const int8_t* kernel, LowPrecision::Shape kernel_shape,
+        int32_t* output, LowPrecision::Shape output_shape,
+        LowPrecision::MulParams params
+    );
+    namespace FullyConnected{
+        template LowPrecision::Status QuantizeFilter<int8_t>(
+            LowPrecision::Method method,
+            const int8_t* input, LowPrecision::Shape input_shape,
+            int8_t* output, LowPrecision::MemLayout layout
+        );
+        template LowPrecision::Status QuantizeInput<int8_t>(
+            LowPrecision::Method method,
+            const int8_t* input, LowPrecision::Shape input_shape,
+            int8_t* output, LowPrecision::MemLayout layout
+        );
+        template LowPrecision::Status UnpackOutput<int32_t>(
+            LowPrecision::Method method, 
+            const int32_t* input, LowPrecision::Shape shape, 
+            int32_t* output
+        );
+        template
+        LowPrecision::Status Multiply<int8_t, int8_t, int32_t>(
+            LowPrecision::Method method,
+            const int8_t* input, LowPrecision::Shape input_shape,
+            const int8_t* kernel, LowPrecision::Shape kernel_shape,
+            int32_t* output, LowPrecision::Shape output_shape,
+            LowPrecision::MulParams params
+        );
+        template
+        LowPrecision::Status MultiplyInt8MultiBatched<int8_t, int8_t, int32_t>(
+            LowPrecision::Method method,
+            const int8_t* input, LowPrecision::Shape input_shape,
+            const int8_t* kernel, LowPrecision::Shape kernel_shape,
+            int32_t* output, LowPrecision::Shape output_shape,
+            LowPrecision::MulParams params
+        );
+    }
 }
