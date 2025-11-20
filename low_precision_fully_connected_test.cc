@@ -950,7 +950,7 @@ bool run_gemm_api_tests(LowPrecision::Method method){
             print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[1].flatsize, input_scratchpads_shape_list[0], no_hex_verbosity);
         }
 
-        print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, output_file, no_hex_verbosity);
+        print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, no_hex_verbosity);
     }
 
     // Processing The Main GEMM
