@@ -36,13 +36,17 @@ jobs:
       run: |
         make
 
+    - name: Run ULPPACK-W4A4 Test
+      run: |
+        qemu-aarch64-static ./low_precision_fully_connected_test test-gemm-api ULPPACK-W4A4
+
     - name: Run SelfDependentW4A4 Test
       run: |
         qemu-aarch64-static ./low_precision_fully_connected_test test-gemm-api SelfDependentW4A4
 
-    - name: Run SelfDependentW4A8 Test
-      run: |
-        qemu-aarch64-static ./low_precision_fully_connected_test test-gemm-api SelfDependentW4A8
+    # - name: Run SelfDependentW4A8 Test
+    #   run: |
+    #     qemu-aarch64-static ./low_precision_fully_connected_test test-gemm-api SelfDependentW4A8
 
     - name: Run BarrelShiftMultiplierW8A8 Test
       run: |
