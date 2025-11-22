@@ -112,6 +112,8 @@ namespace LowPrecision{
                 return Method::kBarrelShiftMulW8A8;
             else if (retval == std::string("BSM-W4A4"))
                 return Method::kBarrelShiftMulW4A4;
+            else if (retval == std::string("AF32WI8"))
+                return Method::kAF32WI8;
             else
                 return Method::kNoOptimization;
         } 
@@ -256,6 +258,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kBarrelShiftMulW8A4:
                 case LowPrecision::Method::kBarrelShiftMulW2A2:
                     return LowPrecision::FullyConnected::BSM::InputPreProcess(method);
+                case LowPrecision::Method::kAF32WI8:
+                    return LowPrecision::FullyConnected::Float32::InputPreProcess(method);
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -280,6 +284,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kBarrelShiftMulW8A4:
                 case LowPrecision::Method::kBarrelShiftMulW2A2:
                     return LowPrecision::FullyConnected::BSM::FilterPreProcess(method);
+                case LowPrecision::Method::kAF32WI8:
+                    return LowPrecision::FullyConnected::Float32::FilterPreProcess(method);
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -304,6 +310,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kBarrelShiftMulW8A4:
                 case LowPrecision::Method::kBarrelShiftMulW2A2:
                     return LowPrecision::FullyConnected::BSM::OutputPreProcess(method);
+                case LowPrecision::Method::kAF32WI8:
+                    return LowPrecision::FullyConnected::Float32::OutputPreProcess(method);
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -328,6 +336,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kBarrelShiftMulW8A4:
                 case LowPrecision::Method::kBarrelShiftMulW2A2:
                     return LowPrecision::FullyConnected::BSM::OutputPostProcess(method);
+                case LowPrecision::Method::kAF32WI8:
+                    return LowPrecision::FullyConnected::Float32::OutputPostProcess(method);
                 default:
                     return LowPrecision::PreprocessType::Nothing;
             }
@@ -352,6 +362,8 @@ namespace LowPrecision{
                 case LowPrecision::Method::kBarrelShiftMulW8A4:
                 case LowPrecision::Method::kBarrelShiftMulW2A2:
                     return LowPrecision::FullyConnected::BSM::GEMMSupport(method);
+                case LowPrecision::Method::kAF32WI8:
+                    return LowPrecision::FullyConnected::Float32::GEMMSupport(method);
                 default:
                     return LowPrecision::GEMMType::SupportsNothing;
             }
@@ -464,6 +476,11 @@ namespace LowPrecision{
                 K = 16;
                 reduction_coeff = 2;
             }
+            else if (method == LowPrecision::Method::kAF32WI8){
+                K = 4;
+                reduction_coeff = 1;
+            }
+            
 
             if (method & LowPrecision::Method::k8x8){
                 N = 8;
@@ -539,6 +556,10 @@ namespace LowPrecision{
             else if (method == LowPrecision::Method::kBarrelShiftMulW4A4){
                 K  = 16;
                 reduction_coeff = 2;
+            }
+            else if (method == LowPrecision::Method::kAF32WI8){
+                K = 4;
+                reduction_coeff = 1;
             }
 
             if (method & LowPrecision::Method::k8x8){
@@ -3320,14 +3341,25 @@ namespace LowPrecision{
 namespace LowPrecision{
     template LowPrecision::Status PrepareMatrixAsFilterForMethod<int8_t>(Matrix_t<int8_t>& matrix, Method method, TimingDetailes* timing);
     template LowPrecision::Status PrepareMatrixAsInputForMethod<int8_t>(Matrix_t<int8_t>& matrix, Method method, TimingDetailes* timing);
+    template LowPrecision::Status PrepareMatrixAsInputForMethod<float32_t>(Matrix_t<float32_t>& matrix, Method method, TimingDetailes* timing);
     template LowPrecision::Status PrepareMatrixAsOutputForMethod<int32_t>(Matrix_t<int32_t>& matrix, Method method, TimingDetailes* timing);
+    template LowPrecision::Status PrepareMatrixAsOutputForMethod<float32_t>(Matrix_t<float32_t>& matrix, Method method, TimingDetailes* timing);
     template LowPrecision::Status PostprocessMatrixAsOutputForMethod<int32_t>(Matrix_t<int32_t>& matrix, Method method, TimingDetailes* timing);
+    template LowPrecision::Status PostprocessMatrixAsOutputForMethod<float32_t>(Matrix_t<float32_t>& matrix, Method method, TimingDetailes* timing);
     template LowPrecision::Status GEMM<int8_t, int8_t, int32_t>(Matrix_t<int8_t>& lhs, Matrix_t<int8_t>& rhs, Matrix_t<int32_t>& dst, Method method, TimingDetailes* timing);
+    template LowPrecision::Status GEMM<float32_t, int8_t, float32_t>(Matrix_t<float32_t>& lhs, Matrix_t<int8_t>& rhs, Matrix_t<float32_t>& dst, Method method, TimingDetailes* timing);
     template LowPrecision::Status MultiplyBackend<int8_t, int8_t, int32_t>(
         LowPrecision::Method method,
         const int8_t* input, LowPrecision::Shape input_shape,
         const int8_t* kernel, LowPrecision::Shape kernel_shape,
         int32_t* output, LowPrecision::Shape output_shape,
+        LowPrecision::MulParams params
+    );
+    template LowPrecision::Status MultiplyBackend<float32_t, int8_t, float32_t>(
+        LowPrecision::Method method,
+        const float32_t* input, LowPrecision::Shape input_shape,
+        const int8_t* kernel, LowPrecision::Shape kernel_shape,
+        float32_t* output, LowPrecision::Shape output_shape,
         LowPrecision::MulParams params
     );
     namespace FullyConnected{
@@ -3341,10 +3373,20 @@ namespace LowPrecision{
             const int8_t* input, LowPrecision::Shape input_shape,
             int8_t* output, LowPrecision::MemLayout layout
         );
+        template LowPrecision::Status QuantizeInput<float32_t>(
+            LowPrecision::Method method,
+            const float32_t* input, LowPrecision::Shape input_shape,
+            float32_t* output, LowPrecision::MemLayout layout
+        );
         template LowPrecision::Status UnpackOutput<int32_t>(
             LowPrecision::Method method, 
             const int32_t* input, LowPrecision::Shape shape, 
             int32_t* output
+        );
+        template LowPrecision::Status UnpackOutput<float32_t>(
+            LowPrecision::Method method, 
+            const float32_t* input, LowPrecision::Shape shape, 
+            float32_t* output
         );
         template
         LowPrecision::Status Multiply<int8_t, int8_t, int32_t>(
@@ -3355,11 +3397,27 @@ namespace LowPrecision{
             LowPrecision::MulParams params
         );
         template
+        LowPrecision::Status Multiply<float32_t, int8_t, float32_t>(
+            LowPrecision::Method method,
+            const float32_t* input, LowPrecision::Shape input_shape,
+            const int8_t* kernel, LowPrecision::Shape kernel_shape,
+            float32_t* output, LowPrecision::Shape output_shape,
+            LowPrecision::MulParams params
+        );
+        template
         LowPrecision::Status MultiplyInt8MultiBatched<int8_t, int8_t, int32_t>(
             LowPrecision::Method method,
             const int8_t* input, LowPrecision::Shape input_shape,
             const int8_t* kernel, LowPrecision::Shape kernel_shape,
             int32_t* output, LowPrecision::Shape output_shape,
+            LowPrecision::MulParams params
+        );
+        template
+        LowPrecision::Status MultiplyInt8MultiBatched<float32_t, int8_t, float32_t>(
+            LowPrecision::Method method,
+            const float32_t* input, LowPrecision::Shape input_shape,
+            const int8_t* kernel, LowPrecision::Shape kernel_shape,
+            float32_t* output, LowPrecision::Shape output_shape,
             LowPrecision::MulParams params
         );
     }

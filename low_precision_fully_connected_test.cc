@@ -30,18 +30,23 @@ using namespace LowPrecision::FullyConnected;
 int verbosity_level = 0;
 
 template <typename T>
-inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape shape, bool no_print_hex = true){
+inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape shape, bool no_print_hex = true) {
     if (no_print_hex)
-        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << std::endl;
+        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ", Size: " << sizeof(T) << ", Type: " << typeid(T).name() << ") [" << std::endl;
     else
-        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << std::endl << std::hex;
+        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ", Size: " << sizeof(T) << ", Type: " << typeid(T).name() << ") [" << std::endl << std::hex;
     for (int i = 0; i < shape.size[0]; i++){
         std::cout << "\t[ ";
-        for (int j = 0; j < shape.size[1]; j++)
-            if (no_print_hex)
-                std::cout << (int)matrix[(i * shape.size[1]) + j] << ", ";
-            else
-                std::cout << "0x" << std::setfill('0') << std::setw(2) << (uint)matrix[(i * shape.size[1]) + j] << ", ";
+        for (int j = 0; j < shape.size[1]; j++) {
+            unsigned char* base = get_pointer_as<unsigned char>(&matrix[(i * shape.size[1]) + j]);
+            std::cout << "0x";
+            for (int z = 0; z < sizeof(T); z++)
+                if (no_print_hex)
+                    std::cout << static_cast<int>(base[z]) << ", ";
+                else
+                    std::cout << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(base[z]);
+            std::cout << ", ";
+        }
         std::cout << "]" << std::endl;
     }
     std::cout << "]";
@@ -107,7 +112,7 @@ Status calculate_trusted_output(Ti1* input, Ti2* kernel, To* output, Shape input
     if (input_shape.size[1] != kernel_shape.size[0])
         return Status::SizesMisMatch;
     if (self_dependent_type != LowPrecision::SelfDependentType::NotSelfDependent){
-        static_assert(std::is_same<Ti1, Ti2>::value, "Ti1 and Ti2 must be the same type");
+        // static_assert(std::is_same<Ti1, Ti2>::value, "Ti1 and Ti2 must be the same type");
         size_t M = input_shape.size[0];
         size_t K = kernel_shape.size[0];
         size_t N = kernel_shape.size[1];
@@ -780,7 +785,7 @@ bool run_gemm_api_tests(LowPrecision::Method method){
     // Filling Input with 1s and 0s
     for (int i = 0 ; i < input_shape_MB.size[0] ; i++)
         for (int j = 0 ; j < input_shape_MB.size[1] ; j++)
-            input_data_MB[i * input_shape_MB.size[1] + j] = ((j % 2)?(1):(0));
+            input_data_MB[i * input_shape_MB.size[1] + j] = LHS_T((j % 2)?(1):(0));
 
     // Filling Kernel with 1s
     for (int i = 0 ; i < kernel_shape.size[0] ; i++)
@@ -838,6 +843,7 @@ bool run_gemm_api_tests(LowPrecision::Method method){
     
     // Seperating the Shape of the Kernel Final Space from Scratchpads
     Shape filter_shape;
+    assert(kernel_scratchpads_shape_list.size() > 0 && "Kernel Scratchpads Shape List is Empty!");
     filter_shape = kernel_scratchpads_shape_list.back();
     
     // Calculating The Amount of Required Space for Input Scratchpads
@@ -5930,6 +5936,8 @@ int main(int argc, char *argv[]){
                     test_gemm_api |= 0x00200000; 
                 else if (selected_test == "BarrelShiftMultiplierW2A2")
                     test_gemm_api |= 0x00400000;
+                else if (selected_test == "AF32WI8")
+                    test_gemm_api |= 0x00800000;
                 else {
                     std::cout << "unrecognised method: " << selected_test << std::endl;
                     return -1;
@@ -7644,6 +7652,8 @@ int main(int argc, char *argv[]){
                 failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBarrelShiftMulW4A8);
             if (test_gemm_api &  0x00400000)
                 failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBarrelShiftMulW2A2);
+            if (test_gemm_api &  0x00800000)
+                failed |= !run_gemm_api_tests<float32_t, int8_t, float32_t>(LowPrecision::Method::kAF32WI8);
             if (failed)
                 return -1;
         }

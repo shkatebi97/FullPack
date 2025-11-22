@@ -15,6 +15,8 @@
 
 // using half_float;
 
+typedef float float32_t;
+
 #ifdef TFLITE_BUILD
 namespace LowPrecision{
 #endif

@@ -10,31 +10,33 @@ ifeq ($(TARGET_ISA), aarch64)
 	ARCH_DEFINES := -DIS_ARM -DIS_ARM64
 	CXX := /usr/bin/aarch64-linux-gnu-g++
 	CC := /usr/bin/aarch64-linux-gnu-gcc
+	BUILD_DIR?=build-aarch64
 else ifeq ($(TARGET_ISA), x86_64-avx512)
 	RUY_LIB_LINK := -lallocator -lapply_multiplier -lcontext -lcontext_get_ctx -lcpuinfo -lctx -lfrontend -lhave_built_path_for_avx2_fma -lhave_built_path_for_avx512 -lhave_built_path_for_avx -lkernel_arm -lkernel_avx2_fma -lkernel_avx512 -lkernel_avx -lpack_arm -lpack_avx2_fma -lpack_avx512 -lpack_avx -lprepacked_cache -lprepare_packed_matrices -lsystem_aligned_alloc -lthread_pool -lblocking_counter -ltrmul -lblock_map -ldenormal -ltune -lwait
 	ARCH_MODIFIER_FLAGS := -mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl -mavx512vbmi2
 	ARCH_DEFINES := -DIS_X86 -DIS_X86_64 -DHAS_AVX512
 	CXX := /usr/bin/g++
 	CC := /usr/bin/gcc
+	BUILD_DIR?=build-x86_64-avx512
 else ifeq ($(TARGET_ISA), x86_64-avx2)
 	RUY_LIB_LINK := -lallocator -lapply_multiplier -lcontext -lcontext_get_ctx -lcpuinfo -lctx -lfrontend -lhave_built_path_for_avx2_fma -lhave_built_path_for_avx512 -lhave_built_path_for_avx -lkernel_arm -lkernel_avx2_fma -lkernel_avx512 -lkernel_avx -lpack_arm -lpack_avx2_fma -lpack_avx512 -lpack_avx -lprepacked_cache -lprepare_packed_matrices -lsystem_aligned_alloc -lthread_pool -lblocking_counter -ltrmul -lblock_map -ldenormal -ltune -lwait
 	ARCH_MODIFIER_FLAGS := -mavx2 -mfma
 	ARCH_DEFINES := -DIS_X86 -DIS_X86_64 -DHAS_AVX2
 	CXX := /usr/bin/g++
 	CC := /usr/bin/gcc
+	BUILD_DIR?=build-x86_64-avx2
 else ifeq ($(TARGET_ISA), x86_64-avx)
 	RUY_LIB_LINK := -lallocator -lapply_multiplier -lcontext -lcontext_get_ctx -lcpuinfo -lctx -lfrontend -lhave_built_path_for_avx2_fma -lhave_built_path_for_avx512 -lhave_built_path_for_avx -lkernel_arm -lkernel_avx2_fma -lkernel_avx512 -lkernel_avx -lpack_arm -lpack_avx2_fma -lpack_avx512 -lpack_avx -lprepacked_cache -lprepare_packed_matrices -lsystem_aligned_alloc -lthread_pool -lblocking_counter -ltrmul -lblock_map -ldenormal -ltune -lwait
 	ARCH_MODIFIER_FLAGS := -mavx
 	ARCH_DEFINES := -DIS_X86 -DIS_X86_64 -DHAS_AVX
 	CXX := /usr/bin/g++
 	CC := /usr/bin/gcc
+	BUILD_DIR?=build-x86_64-avx
 endif
 RUY_LIB_PROFILER_LINK := -linstrumentation
 CPU_LIB=ruy/bazel-bin/external/cpuinfo
 CPU_INC=ruy/third_party/cpuinfo/include
 CPU_LIB_LINK := -lcpuinfo_impl -lclog
-
-BUILD_DIR?=build
 
 KERNELS_OBJS := $(BUILD_DIR)/kernels-impl/Int8-Int4.o $(BUILD_DIR)/kernels-impl/Int4-Int8.o $(BUILD_DIR)/kernels-impl/Int4-Int4.o $(BUILD_DIR)/kernels-impl/Int8-Ternary.o $(BUILD_DIR)/kernels-impl/Ternary-Int8.o $(BUILD_DIR)/kernels-impl/Ternary-Ternary.o $(BUILD_DIR)/kernels-impl/Int8-Binary.o $(BUILD_DIR)/kernels-impl/Binary-Int8.o $(BUILD_DIR)/kernels-impl/Binary-Binary.o $(BUILD_DIR)/kernels-impl/Binary-Binary-XOR.o $(BUILD_DIR)/kernels-impl/Int8-Quaternary.o $(BUILD_DIR)/kernels-impl/Int3-Int3.o $(BUILD_DIR)/kernels-impl/ULPPACK.o $(BUILD_DIR)/kernels-impl/ULPPACK/4x8-neon-multipack-type2.o $(BUILD_DIR)/kernels-impl/ULPPACK/4x8-neon-multipack.o $(BUILD_DIR)/kernels-impl/SelfDependent-kernels/W4A4.o $(BUILD_DIR)/kernels-impl/SelfDependent-kernels/W4A8.o $(BUILD_DIR)/kernels-impl/SelfDependent-kernels/W8A4.o $(BUILD_DIR)/kernels-impl/SelfDependent-kernels/W2A2.o $(BUILD_DIR)/kernels-impl/SelfDependent.o $(BUILD_DIR)/kernels-impl/BarrelShiftMultiplier-kernels/W8A8.o $(BUILD_DIR)/kernels-impl/BarrelShiftMultiplier-kernels/W4A4.o $(BUILD_DIR)/kernels-impl/BarrelShiftMultiplier.o $(BUILD_DIR)/kernels-impl/Float32.o
 
@@ -60,7 +62,7 @@ else
 endif
 
 all:												Build-Ruy \
-													libfullpack.so \
+													$(BUILD_DIR)/libfullpack.so \
 													$(BUILD_DIR)/low_precision_fully_connected.o \
 													$(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o \
 													$(BUILD_DIR)/low_precision_fully_connected_test.o \
@@ -69,9 +71,9 @@ all:												Build-Ruy \
 													common/half.hpp \
 													common/asmutility.h \
 													Makefile
-	$(CXX) $(BUILD_DIR)/low_precision_fully_connected.o $(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o $(BUILD_DIR)/low_precision_fully_connected_test.o $(KERNELS_OBJS) -L$(RUY_LIB) $(RUY_LIB_LINK) -L$(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) -L$(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o low_precision_fully_connected_test
+	$(CXX) $(BUILD_DIR)/low_precision_fully_connected.o $(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o $(BUILD_DIR)/low_precision_fully_connected_test.o $(KERNELS_OBJS) -L$(RUY_LIB) $(RUY_LIB_LINK) -L$(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) -L$(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/low_precision_fully_connected_test
 
-libfullpack.so:										Create-Build-Directory \
+$(BUILD_DIR)/libfullpack.so:						Create-Build-Directory \
 													$(BUILD_DIR)/low_precision_fully_connected.o \
 													$(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o \
 													common/types.h \
@@ -79,7 +81,7 @@ libfullpack.so:										Create-Build-Directory \
 													common/half.hpp \
 													common/asmutility.h \
 													Makefile
-	$(CXX) -shared $(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o $(KERNELS_OBJS) $(SHARED_CCFLAGS) ${LDFLAGS} -o libfullpack.so
+	$(CXX) -shared $(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o $(KERNELS_OBJS) $(SHARED_CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/libfullpack.so
 
 Create-Build-Directory:
 	mkdir -p $(BUILD_DIR) \
@@ -321,6 +323,6 @@ $(BUILD_DIR)/low_precision_fully_connected_test.o:				low_precision_fully_connec
 	$(CXX) low_precision_fully_connected_test.cc  $(KERNELS_MEM_ACCESS_FLAGS) -I$(RUY_INC) $(CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/low_precision_fully_connected_test.o -c
 
 clean:
-	$(RM) -r $(BUILD_DIR)
+	$(RM) -r $(BUILD_DIR) build-*
 	$(MAKE) -C ruy DEBUG=$(DEBUG) clean
 
