@@ -97,6 +97,9 @@ namespace LowPrecision{
                         std::copy(input, input + (shape.flatsize / 2), output);
                     }
                     else {
+                        #if defined(IS_ARM)
+                        #if SelfDependent_LHS_Packing != SelfDependent_ASM_TLB_Packing
+
                         int8_t* temp = output;
                         if (is_multibatched){
                             int new_weights_length = ((int)shape.flatsize / 2);
@@ -105,9 +108,9 @@ namespace LowPrecision{
                         int i, j , size = shape.flatsize;
                         uint8_t* temp_u = get_pointer_as<uint8_t>(temp);
                         const uint8_t* input_u = get_pointer_as<uint8_t>(input);
-                        
+
+                        #endif
                         #if SelfDependent_Type == SelfDependent_Offset_Vector_Size
-                        
                         asm volatile(
                             "mov %w[i], wzr\n\t"
                             "movi v31.16b, #15\n\t"
@@ -180,7 +183,9 @@ namespace LowPrecision{
 
                             : [ i ] "+r"(i)
                             : [ input ]  "r" (input), [ size ] "r"(size), [ output ] "r"(temp)
-                            : "v0",  "v1",  "v2",  "v3", "v28", "v29", "v30", "v31", "w3",  "w4",  "w5",  "w6"
+                            : "v0",  "v1",  "v2",  "v3",
+                            "v28", "v29", "v30", "v31",
+                            "w3",  "w4",  "w5",  "w6"
                         );
                         #elif SelfDependent_Type == SelfDependent_Continious
                         #if SelfDependent_LHS_Packing == SelfDependent_Simple_Packing
@@ -325,7 +330,7 @@ namespace LowPrecision{
                         }
                         #undef SelfDependent_InputPacking_PackSingleElement_ShiftRight
                         #undef SelfDependent_InputPacking_PackSingleElement_ShiftLeft
-                        
+
                         #elif SelfDependent_LHS_Packing == SelfDependent_ASM_TLB_Packing
                         
                         uint64_t mask_half_1 = 0x0E0C0A0806040200,
@@ -476,8 +481,25 @@ namespace LowPrecision{
                               [ MH1 ] "r"(mask_half_1), [ MH2 ] "r"(mask_half_2), [ MA ] "r"(mask_and)
                             : "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v12", "v13", "v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22"
                         );
-                        
+
                         #endif
+                        #endif
+                        #elif (defined(IS_X86) || defined(IS_X86_64)) && (defined(HAS_AVX512) || defined(HAS_AVX2) || defined(HAS_AVX))
+                        size_t p = 0;
+                        for (size_t m = 0 ; m < shape.size[0] ; m++) {
+                            for (size_t k = 0 ; k < shape.size[1] ; k+=8) {
+                                output[p++] = int8_t(uint8_t(input[m * shape.size[1] + k] & 0x0f) |
+                                                uint8_t((input[m * shape.size[1] + k + 1] << 4) & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[m * shape.size[1] + k + 2] & 0x0f) |
+                                                uint8_t((input[m * shape.size[1] + k + 3] << 4) & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[m * shape.size[1] + k + 4] & 0x0f) |
+                                                uint8_t((input[m * shape.size[1] + k + 5] << 4) & 0xf0));
+                                output[p++] = int8_t(uint8_t(input[m * shape.size[1] + k + 6] & 0x0f) |
+                                                uint8_t((input[m * shape.size[1] + k + 7] << 4) & 0xf0));
+                            }
+                        }
+                        #else
+                        return Status::NotImplemented;
                         #endif
                     }
                     return Status::Success;
@@ -497,6 +519,7 @@ namespace LowPrecision{
                     else {
                         // TODO: `InputPackingStep` is not implemeneted without cvector, which is deprecated.
                         return LowPrecision::Status::NotImplemented;
+                        #ifdef IS_ARM
                         uint8_t* temp = output;
                         uint8_t* input_u = const_cast<uint8_t*>(input);
                         int M = shape.size[0], K = shape.size[1];
@@ -505,6 +528,7 @@ namespace LowPrecision{
                             InputPackingStep(input_u + (i * K), output + ((i / 2) * K), K, K);
                         #else
                         InputPackingStep(input_u, output, M * K, K);
+                        #endif
                         #endif
                     }
                     return Status::Success;
