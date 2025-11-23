@@ -3238,9 +3238,9 @@ namespace LowPrecision{
     GEMM(Matrix_t<LHS_T>& lhs, Matrix_t<RHS_T>& rhs, Matrix_t<OUT_T>& dst, Method method, TimingDetailes* timing){
         // Check if LHS matrix is processed and ready.
         if (lhs.getPaddingScratchpadSetting() && !lhs.isPaddedDataValid())
-            return (Status)(((uint64_t)Status::LHSNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::LHSPaddedNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (lhs.getNeedScratchpad() && !lhs.isScratchpadValid())
-            return (Status)(((uint64_t)Status::LHSNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::LHSScratchpadNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (lhs.getData() == nullptr)
             return (Status)(((uint64_t)Status::LHSNotInitialized) | ((uint64_t)Status::GEMMAPI));
         else if (!Shape::Validate(lhs.getFinalShape()))
@@ -3248,9 +3248,9 @@ namespace LowPrecision{
 
         // Check if RHS matrix is processed and ready.
         if (rhs.getPaddingScratchpadSetting() && !rhs.isPaddedDataValid())
-            return (Status)(((uint64_t)Status::RHSNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::RHSPaddedNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (rhs.getNeedScratchpad() && !rhs.isScratchpadValid())
-            return (Status)(((uint64_t)Status::RHSNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::RHSScratchpadNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (rhs.getData() == nullptr)
             return (Status)(((uint64_t)Status::RHSNotInitialized) | ((uint64_t)Status::GEMMAPI));
         else if (!Shape::Validate(rhs.getFinalShape()))
@@ -3258,9 +3258,9 @@ namespace LowPrecision{
 
         // Check if DST matrix is processed and ready.
         if (dst.getPaddingScratchpadSetting() && dst.getPaddedData() == nullptr)
-            return (Status)(((uint64_t)Status::DSTNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::DSTPaddedNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (dst.getNeedScratchpad() && dst.getScratchpad() == nullptr)
-            return (Status)(((uint64_t)Status::DSTNotReady) | ((uint64_t)Status::GEMMAPI));
+            return (Status)(((uint64_t)Status::DSTScratchpadNotReady) | ((uint64_t)Status::GEMMAPI));
         else if (dst.getData() == nullptr)
             return (Status)(((uint64_t)Status::DSTNotInitialized) | ((uint64_t)Status::GEMMAPI));
         else if (!Shape::Validate(dst.getFinalShape()))
