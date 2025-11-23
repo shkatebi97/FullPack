@@ -15,6 +15,8 @@
 
 // using half_float;
 
+typedef float float32_t;
+
 #ifdef TFLITE_BUILD
 namespace LowPrecision{
 #endif
@@ -329,6 +331,7 @@ typedef enum {
     kBarrelShiftMulW4A8             = 0x008000000000,
     kBarrelShiftMulW8A4             = 0x010000000000,
     kBarrelShiftMulW2A2             = 0x020000000000,
+    kAF32WI8                        = 0x040000000000,
 } Method;
 
 inline const char* get_method_string(Method method){
@@ -464,6 +467,9 @@ inline const char* get_method_string(Method method){
     case kBarrelShiftMulW2A2:
         strcpy(output, std::string("BarrelShiftMulW2A2").c_str());
         break;
+    case kAF32WI8:
+        strcpy(output, std::string("AF32WI8").c_str());
+        break;
     default:
         strcpy(output, std::string("NotDefined").c_str());
         break;
@@ -587,7 +593,11 @@ public:
     Shape():number_dims(0),size(nullptr),flatsize(0){id = last_id; last_id++;}
     ~Shape(){
         this->initilizied = false;
-        delete[] this->size;
+        if (this->size && this->allocated)
+            if (number_dims > 1)
+                delete[] this->size;
+            else
+                delete this->size;
         this->allocated = false;
     }
     Shape(const Shape& reference){
@@ -682,7 +692,7 @@ typedef half_float::half float16;
 
 template <typename T>
 T* allocate(size_t size){
-    return new T[size];
+    return new T[size]{0};
 }
 
 template <typename T>
@@ -840,6 +850,390 @@ inline bool check_for_fp16_support(){
     else
         return false;
 }
+
+template<typename T>
+class Matrix_t {
+    bool                     _use_single_scratchpad  = false;
+
+    bool                     _delete_data            = false;
+    bool                     _delete_scratchpad      = false;
+    bool                     _delete_padded_data     = false;
+
+    T*                       _data                   = nullptr;
+    T*                       _scratchpad             = nullptr;
+    T*                       _padded_data            = nullptr;
+
+    bool                     _data_is_in_scratchpad  = false;
+    bool                     _need_scratchpad        = false;
+
+    bool                     _padded_data_is_valid   = false;
+    bool                     _padding_scrathpad_set  = false;
+
+    LowPrecision::MemLayout  _mem_layout             = LowPrecision::MemLayout::kColumnMajor;
+    LowPrecision::Shape      _shape;
+    LowPrecision::Shape      _prepared_shape;
+    LowPrecision::MatrixType _type;
+    bool                     _need_downcast          = false;
+    int32_t                  _downcast_coeff         = 1;
+    bool                     _process_unsigned       = false;
+public:
+    Matrix_t(
+        LowPrecision::MatrixType type = LowPrecision::MatrixType::Unknown,
+        LowPrecision::MemLayout memLayout = LowPrecision::MemLayout::kColumnMajor
+    ){ _mem_layout = memLayout; _type = type; }
+    Matrix_t(const Matrix_t<T>& var) {
+        this->_data                     = var._data;
+        this->_scratchpad               = var._scratchpad;
+        this->_padded_data              = var._padded_data;
+        
+        this->_data_is_in_scratchpad    = var._data_is_in_scratchpad;
+        this->_need_scratchpad          = var._need_scratchpad;
+
+        this->_padded_data_is_valid     = var._padded_data_is_valid;
+        this->_padding_scrathpad_set    = var._padding_scrathpad_set;
+
+        this->_mem_layout               = var._mem_layout;
+        this->_shape                    = var._shape;
+        this->_type                     = var._type;
+    }
+    ~Matrix_t(){
+        if(_delete_data)
+            LowPrecision::deallocate(_data);
+        if(_delete_scratchpad)
+            LowPrecision::deallocate(_scratchpad);
+        if(_delete_padded_data)
+            LowPrecision::deallocate(_padded_data);
+    }
+    
+    bool isUseSingleScratchpad()                                    { return _use_single_scratchpad; }
+
+    bool isScratchpadValid()                                        { return _data_is_in_scratchpad; }
+    bool getNeedScratchpad()                                        { return _need_scratchpad; }
+
+    bool isPaddedDataValid()                                        { return _padded_data_is_valid; }
+    bool getPaddingScratchpadSetting()                              { return _padding_scrathpad_set; }
+
+    bool getNeedDowncast()                                          { return _need_downcast; }
+
+    T* getData()                                                    { return _data; }
+    T* getScratchpad()                                              { return _scratchpad; }
+    T* getPaddedData()                                              { return _padded_data; }
+
+    int32_t getDowncastCoeff()                                      { return _downcast_coeff; }
+    LowPrecision::Shape getShape()                                  { return _shape; }
+    LowPrecision::Shape getPreparedShape()                          { return _prepared_shape; }
+    LowPrecision::Shape getFinalShape()                             { return _prepared_shape; }
+    LowPrecision::MemLayout getMemLayout()                          { return _mem_layout; }
+    LowPrecision::MatrixType getMatrixType()                        { return _type; }
+    LowPrecision::DataType getDataType()                            { return LowPrecision::DataType::NotAvailable; }
+    bool getSignStatus()                                            { return !_process_unsigned; }
+
+    void useSingleScratchpad(bool enable = true)                    { _use_single_scratchpad = enable; }
+
+    void setScratchpadValid(bool enable_scratchpad = true)          { _data_is_in_scratchpad= enable_scratchpad; }
+    void setNeedScratchpad(bool need_scratchpad = true)             { _need_scratchpad      = need_scratchpad; }
+
+    void setPaddedDataValid(bool enable_padded_data = true)         { _padded_data_is_valid = enable_padded_data; }
+    void setPaddingScratchpadSetting(bool set_padding_sp = true)    { _padding_scrathpad_set= set_padding_sp; }
+
+    void setData(T* data)                                           { _data                 = data; }
+    void setScratchpad(T* data)                                     { _scratchpad           = data; }
+    void setPaddingScratchpad(T* data)                              { _padded_data          = data; }
+
+    void setDataAndScratchpad(T* data, T* scratchpad)               { _data                 = data;
+                                                                        _scratchpad           = scratchpad; }
+
+    void setDataAndScratchpadAndShape(const T* data, const T* scratchpad, LowPrecision::Shape shape)
+                                                                    { _data                 = const_cast<T*>(data);
+                                                                        _scratchpad           = const_cast<T*>(scratchpad);
+                                                                        _shape                = shape; }
+
+    void setDataAndPaddingAndScratchpadAndShape(const T* data, const T* scratchpad, const T* padded_data, LowPrecision::Shape shape)
+                                                                    { _data                 = const_cast<T*>(data);
+                                                                        _scratchpad           = const_cast<T*>(scratchpad);
+                                                                        _padded_data          = const_cast<T*>(padded_data);
+                                                                        _shape                = shape; }
+
+    void setShape(LowPrecision::Shape shape)                        { _shape                = shape; }
+    void setPreparedShape(LowPrecision::Shape shape)                { _prepared_shape       = shape; }
+    void setMemLayout(LowPrecision::MemLayout mem_layout)           { _mem_layout           = mem_layout; }
+    void setDowncastCoeff(int32_t downcast_coeff)                   { _downcast_coeff       = downcast_coeff; 
+                                                                        _need_downcast        = true; }
+    void setSignStatus(bool is_signed = true)                       { _process_unsigned     = !is_signed; }
+
+    void setDataForDelete(bool _delete = true)                      { _delete_data          = _delete; }
+    void setScratchpadForDelete(bool _delete = true)                { _delete_scratchpad    = _delete; }
+    void setPaddedDataForDelete(bool _delete = true)                { _delete_padded_data   = _delete; }
+};
+class Matrix {
+    bool                     _data_is_int32          = false; 
+
+    bool                     _use_single_scratchpad  = false;
+
+    bool                     _delete_data            = false;
+    bool                     _delete_scratchpad      = false;
+    bool                     _delete_padded_data     = false;
+
+    int8_t*                  _data                   = nullptr;
+    int8_t*                  _scratchpad             = nullptr;
+    int8_t*                  _padded_data            = nullptr;
+
+    bool                     _data_is_in_scratchpad  = false;
+    bool                     _need_scratchpad        = false;
+
+    bool                     _padded_data_is_valid   = false;
+    bool                     _padding_scrathpad_set  = false;
+
+    LowPrecision::MemLayout  _mem_layout             = LowPrecision::MemLayout::kColumnMajor;
+    LowPrecision::Shape      _shape;
+    LowPrecision::Shape      _prepared_shape;
+    LowPrecision::MatrixType _type;
+    bool                     _need_downcast          = false;
+    int32_t                  _downcast_coeff         = 1;
+    bool                     _process_unsigned       = false;
+public:
+    Matrix(
+        LowPrecision::MatrixType type = LowPrecision::MatrixType::Unknown,
+        LowPrecision::MemLayout memLayout = LowPrecision::MemLayout::kColumnMajor
+    ){ _mem_layout = memLayout; _type = type; }
+    Matrix(const Matrix& var) {
+        this->_data                     = var._data;
+        this->_scratchpad               = var._scratchpad;
+        this->_padded_data              = var._padded_data;
+        
+        this->_data_is_in_scratchpad    = var._data_is_in_scratchpad;
+        this->_need_scratchpad          = var._need_scratchpad;
+
+        this->_padded_data_is_valid     = var._padded_data_is_valid;
+        this->_padding_scrathpad_set    = var._padding_scrathpad_set;
+
+        this->_mem_layout               = var._mem_layout;
+        this->_shape                    = var._shape;
+        this->_type                     = var._type;
+    }
+    ~Matrix(){
+        if(_delete_data)
+            LowPrecision::deallocate(_data);
+        if(_delete_scratchpad)
+            LowPrecision::deallocate(_scratchpad);
+        if(_delete_padded_data)
+            LowPrecision::deallocate(_padded_data);
+    }
+    
+    bool isUseSingleScratchpad()                                    { return _use_single_scratchpad; }
+
+    bool isScratchpadValid()                                        { return _data_is_in_scratchpad; }
+    bool getNeedScratchpad()                                        { return _need_scratchpad; }
+
+    bool isPaddedDataValid()                                        { return _padded_data_is_valid; }
+    bool getPaddingScratchpadSetting()                              { return _padding_scrathpad_set; }
+
+    bool getNeedDowncast()                                          { return _need_downcast; }
+
+    int8_t* getData()                                               { return _data; }
+    int8_t* getScratchpad()                                         { return _scratchpad; }
+    int8_t* getPaddedData()                                         { return _padded_data; }
+
+    int32_t getDowncastCoeff()                                      { return _downcast_coeff; }
+    LowPrecision::Shape getShape()                                  { return _shape; }
+    LowPrecision::Shape getPreparedShape()                          { return _prepared_shape; }
+    LowPrecision::Shape getFinalShape()                             { return _prepared_shape; }
+    LowPrecision::MemLayout getMemLayout()                          { return _mem_layout; }
+    LowPrecision::MatrixType getMatrixType()                        { return _type; }
+    LowPrecision::DataType getDataType()                            { return ((_data_is_int32)?(LowPrecision::DataType::Int32):(LowPrecision::DataType::Int8)); }
+    bool getSignStatus()                                            { return !_process_unsigned; }
+
+    void useSingleScratchpad(bool enable = true)                    { _use_single_scratchpad = enable; }
+
+    void setScratchpadValid(bool enable_scratchpad = true)          { _data_is_in_scratchpad= enable_scratchpad; }
+    void setNeedScratchpad(bool need_scratchpad = true)             { _need_scratchpad      = need_scratchpad; }
+
+    void setPaddedDataValid(bool enable_padded_data = true)         { _padded_data_is_valid = enable_padded_data; }
+    void setPaddingScratchpadSetting(bool set_padding_sp = true)    { _padding_scrathpad_set= set_padding_sp; }
+
+    void setData(int8_t* data)                                      { _data                 = data; }
+    void setScratchpad(int8_t* data)                                { _scratchpad           = data; }
+    void setPaddingScratchpad(int8_t* data)                         { _padded_data          = data; }
+
+    void setData(int32_t* data)                                     { _data                 = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; }
+    void setScratchpad(int32_t* data)                               { _scratchpad           = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; }
+    void setPaddingScratchpad(int32_t* data)                        { _padded_data          = LowPrecision::get_pointer_as<int8_t>(data); _data_is_int32 = true; }
+
+    void setDataAndScratchpad(int8_t* data, int8_t* scratchpad)     { _data                 = data;
+                                                                        _scratchpad           = scratchpad; }
+    void setDataAndScratchpad(int32_t* data, int32_t* scratchpad)   { _data                 = LowPrecision::get_pointer_as<int8_t>(data);
+                                                                        _scratchpad           = LowPrecision::get_pointer_as<int8_t>(scratchpad);
+                                                                        _data_is_int32        = true; }
+
+    void setDataAndScratchpadAndShape(const int8_t* data, const int8_t* scratchpad, LowPrecision::Shape shape)
+                                                                    { _data                 = const_cast<int8_t*>(data);
+                                                                        _scratchpad           = const_cast<int8_t*>(scratchpad);
+                                                                        _shape                = shape; }
+    void setDataAndScratchpadAndShape(const int32_t* data, const int32_t* scratchpad, LowPrecision::Shape shape)
+                                                                    { _data                 = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(data));
+                                                                        _scratchpad           = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(scratchpad));
+                                                                        _shape                = shape;
+                                                                        _data_is_int32        = true; }
+
+    void setDataAndPaddingAndScratchpadAndShape(const int8_t* data, const int8_t* scratchpad, const int8_t* padded_data, LowPrecision::Shape shape)
+                                                                    { _data                 = const_cast<int8_t*>(data);
+                                                                        _scratchpad           = const_cast<int8_t*>(scratchpad);
+                                                                        _padded_data          = const_cast<int8_t*>(padded_data);
+                                                                        _shape                = shape; }
+    void setDataAndPaddingAndScratchpadAndShape(const int32_t* data, const int32_t* scratchpad, const int32_t* padded_data, LowPrecision::Shape shape)
+                                                                    { _data                 = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(data));
+                                                                        _scratchpad           = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(scratchpad));
+                                                                        _padded_data          = LowPrecision::get_pointer_as<int8_t>(const_cast<int32_t*>(padded_data));
+                                                                        _shape                = shape;
+                                                                        _data_is_int32        = true; }
+
+    void setShape(LowPrecision::Shape shape)                        { _shape                = shape; }
+    void setPreparedShape(LowPrecision::Shape shape)                { _prepared_shape       = shape; }
+    void setMemLayout(LowPrecision::MemLayout mem_layout)           { _mem_layout           = mem_layout; }
+    void setDowncastCoeff(int32_t downcast_coeff)                   { _downcast_coeff       = downcast_coeff; 
+                                                                        _need_downcast        = true; }
+    void setSignStatus(bool is_signed = true)                       { _process_unsigned     = !is_signed; }
+
+    void setDataForDelete(bool _delete = true)                      { _delete_data          = _delete; }
+    void setScratchpadForDelete(bool _delete = true)                { _delete_scratchpad    = _delete; }
+    void setPaddedDataForDelete(bool _delete = true)                { _delete_padded_data   = _delete; }
+};
+class Params{
+public:
+    int start_batches;
+    int start_columns;
+    int start_rows;
+
+    int end_batches;
+    int end_columns;
+    int end_rows;
+
+    int lhs_stride;
+    int rhs_stride;
+    int dst_stride;
+    Params(){}
+};
+class MulParams{
+public:
+    #if BarrelShiftMulW8A8_FusedLayers
+    bool disable_bsm_fused_layers;
+    #endif
+    bool need_downcasting;
+    MulParams(){
+        need_downcasting = false;
+        #if BarrelShiftMulW8A8_FusedLayers
+        disable_bsm_fused_layers = false;
+        #endif
+    }
+};
+class TimingDetailes{
+    bool _activated = false;
+    long int _id = -1;
+public:
+    typedef enum {
+        Multiplication,
+        LHS,
+        RHS,
+        DST,
+        Packing,
+        LHSPacking,
+        RHSPacking,
+        DSTPacking,
+        DSTUnPacking,
+        Padding,
+        LHSPadding,
+        RHSPadding,
+        DSTPadding,
+        DSTUnPadding,
+        GEMM,
+    } TimingElement;
+    TimingDetailes():_activated(false){}
+    TimingDetailes(const TimingDetailes&) = delete;
+    inline bool activated(){ return _activated; }
+    inline bool activate(bool activate = true){ _activated = activate; return _activated; }
+    inline long int ID(long int id = -1){ _id = ((id >= 0)?(id):(_id)); return _id; }
+    long double multiplication = 0;
+    long double lhs = 0;
+    long double rhs = 0;
+    long double dst = 0;
+    long double lhs_packing = 0;
+    long double rhs_packing = 0;
+    long double dst_packing = 0;
+    long double dst_unpacking = 0;
+    long double lhs_padding = 0;
+    long double rhs_padding = 0;
+    long double dst_padding = 0;
+    long double dst_unpadding = 0;
+    long double gemm = 0;
+    inline double total() { return multiplication + lhs + rhs + dst + 
+                                    lhs_packing + rhs_packing + dst_packing + 
+                                    lhs_padding + rhs_padding + dst_padding + 
+                                    dst_unpacking + dst_unpadding +
+                                    gemm; }
+    static inline void SaveTimestamp(TimingDetailes* timing, struct timespec& t, bool dont_capture = false){
+        if (timing != nullptr && timing->activated() && !dont_capture)
+            clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
+    }
+    static inline void SaveDifference(TimingDetailes* timing, struct timespec& ts, struct timespec& te, TimingElement element, bool dont_capture = false){
+        if (timing != nullptr && timing->activated() && !dont_capture){
+            long double t = calculate_time_diff_seconds(ts, te);
+            switch (element){
+            case TimingDetailes::TimingElement::Multiplication:
+                timing->multiplication += t;
+                break;
+            case TimingDetailes::TimingElement::LHS:
+                timing->lhs += t;
+                break;
+            case TimingDetailes::TimingElement::RHS:
+                timing->rhs += t;
+                break;
+            case TimingDetailes::TimingElement::DST:
+                timing->dst += t;
+                break;
+            case TimingDetailes::TimingElement::LHSPacking:
+                timing->lhs_packing += t;
+                break;
+            case TimingDetailes::TimingElement::RHSPacking:
+                timing->rhs_packing += t;
+                break;
+            case TimingDetailes::TimingElement::DSTPacking:
+                timing->dst_packing += t;
+                break;
+            case TimingDetailes::TimingElement::DSTUnPacking:
+                timing->dst_unpacking += t;
+                break;
+            case TimingDetailes::TimingElement::LHSPadding:
+                timing->lhs_padding += t;
+                break;
+            case TimingDetailes::TimingElement::RHSPadding:
+                timing->rhs_padding += t;
+                break;
+            case TimingDetailes::TimingElement::DSTPadding:
+                timing->dst_padding += t;
+                break;
+            case TimingDetailes::TimingElement::DSTUnPadding:
+                timing->dst_unpadding += t;
+                break;
+            case TimingDetailes::TimingElement::GEMM:
+                timing->gemm += t;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+};
+class TimingManager{
+    std::vector<TimingDetailes*> _timings;
+public:
+    TimingManager(){}
+    TimingManager(const TimingManager&) = delete;
+    ~TimingManager();
+    void addTimingDetail(TimingDetailes* timer){ _timings.push_back(timer); }
+    size_t getCount(){ return _timings.size(); }
+};
+typedef std::vector<Shape> ShapeList;
+typedef std::tuple<int,int,int> LeastSize;
 
 #ifdef TFLITE_BUILD
 }

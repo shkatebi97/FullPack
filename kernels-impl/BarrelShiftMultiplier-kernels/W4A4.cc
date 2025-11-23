@@ -1,5 +1,6 @@
 #include "../../low_precision_fully_connected.h"
 
+#ifdef IS_ARM
 namespace LowPrecision{
     namespace FullyConnected{
         using ::LowPrecision::Method;
@@ -9,76 +10,50 @@ namespace LowPrecision{
         using ::LowPrecision::MemLayout;
         using ::LowPrecision::MulParams;
         namespace BSM{
-            namespace W8A8{
+            namespace W4A4{ // TODO: Implement This! Filter And Input Packing Needs to be implemented. The multiplication is done (not tested).
                 size_t TransformFilterShape(int* shape, int n_dims){
                     return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
                 }
                 size_t TransformInputShape(int* shape, int n_dims){
                     return ::LowPrecision::FullyConnected::CalcFlatSize(shape, n_dims);
                 }
-                template <> LowPrecision::Status QuantizeFilter<uint8_t>(const uint8_t* input, Shape k_shape, uint8_t* output, MemLayout layout){
+                template <typename T>
+                LowPrecision::Status QuantizeFilter(const T* input, Shape k_shape, T* output, MemLayout layout){
                     if (k_shape.number_dims != 2)
                         return Status::DimensionsMisMatch;
-                    if (k_shape.size[0] % 8)
+                    if (k_shape.size[0] % 16)
                         return Status::SizesMisMatch;
                     if (layout != MemLayout::kRowMajor)
                         return Status::WrongMemLayout;
                     size_t N = k_shape.size[1],
-                        K = k_shape.size[0];
+                           K = k_shape.size[0];
                     size_t p = 0;
                     for (size_t j=0;j<N;j+=8)
-                        for (size_t i=0;i<K;i++)
+                        for (size_t i=0;i<K;i+=2)
                             for (size_t k=j;k<j+8;k++)
-                                output[p++] = input[i*N+k];
+                                output[p++] = (input[i*N+k] & 0xf) | ((input[(i+1)*N+k] & 0xf) << 4);
                     return Status::Success;
                 }
-                template <> LowPrecision::Status QuantizeFilter<int8_t>(const int8_t* input, Shape k_shape, int8_t* output, MemLayout layout){
-                    if (k_shape.number_dims != 2)
-                        return Status::DimensionsMisMatch;
-                    if (k_shape.size[0] % 8)
-                        return Status::SizesMisMatch;
-                    if (layout != MemLayout::kRowMajor)
-                        return Status::WrongMemLayout;
-                    size_t N = k_shape.size[1],
-                        K = k_shape.size[0];
-                    size_t p = 0;
-                    for (size_t j=0;j<N;j+=8)
-                        for (size_t i=0;i<K;i++)
-                            for (size_t k=j;k<j+8;k++)
-                                output[p++] = input[i*N+k];
-                    return Status::Success;
-                }
-                template <> LowPrecision::Status QuantizeInput<uint8_t>(const uint8_t* input, Shape shape, uint8_t* output, MemLayout layout){
+                template <typename T>
+                LowPrecision::Status QuantizeInput(const T* input, Shape shape, T* output, MemLayout layout){
                     if (shape.number_dims != 2)
                         return Status::DimensionsMisMatch;
+                    if (shape.size[1] % 16)
+                        return Status::SizesMisMatch;
                     if (layout != MemLayout::kRowMajor)
                         return Status::WrongMemLayout;
-                    bool is_multibatched = shape.number_dims == 2 && shape.size[0] > 1;
                     size_t K = shape.size[1],
-                        M = shape.size[0];
+                           M = shape.size[0];
                     size_t p = 0;
                     for (size_t j=0;j<M;j+=8)
-                        for (size_t i=0;i<K;i++)
+                        for (size_t i=0;i<K;i+=2)
                             for (size_t k=j;k<j+8;k++)
-                                output[p++] = input[k*K+i];
-                    return Status::Success;
-                }
-                template <> LowPrecision::Status QuantizeInput<int8_t>(const int8_t* input, Shape shape, int8_t* output, MemLayout layout){
-                    if (shape.number_dims != 2)
-                        return Status::DimensionsMisMatch;
-                    if (layout != MemLayout::kRowMajor)
-                        return Status::WrongMemLayout;
-                    size_t K = shape.size[1],
-                        M = shape.size[0];
-                    size_t p = 0;
-                    for (size_t j = 0 ; j < M ; j += 8)
-                        for (size_t i = 0 ; i < K ; i++)
-                            for (size_t k = j ; k < j + 8 ; k++)
-                                output[p++] = input[k * K + i];
+                                output[p++] = (input[k*K+i] & 0xf) | ((input[k*K+i+1] & 0xf) << 4);
                     return Status::Success;
                 }
                 LowPrecision::Status UnpackOutput(const int32_t* input, Shape shape, int32_t* output){
-                    #if BarrelShiftMulW8A8_FusedLayers == 0 && BarrelShiftMulW8A8_InKernelUnpack == 1
+                    return NotUpdated;
+                    #if BarrelShiftMulW8A8_InKernelUnpack
                     return Status::NotNeeded;
                     #else
                     if (shape.number_dims != 2 || shape.size[1] <= 1)
@@ -105,6 +80,9 @@ namespace LowPrecision{
                     int32_t* output, Shape output_shape,
                     MulParams params
                 ){
+                    #if BarrelShiftMulW8A8_UnpackWithSmallStore != 1 || BarrelShiftMulW8A8_InKernelUnpack != 1 || BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad == 1
+                    return Status::NotUpdated;
+                    #endif
                     int lhs_batches = input_shape.size[0],
                         lhs_columns = input_shape.size[1],
                         rhs_rows    = kernel_shape.size[0],
@@ -112,7 +90,6 @@ namespace LowPrecision{
 
                     int need_downcasting = (params.need_downcasting)?(0xff):(0x00);
                     
-                    #ifdef IS_ARM
                     if (lhs_columns != rhs_rows)
                         return Status::SizesMisMatch;
                     if(lhs_columns == 0 || rhs_columns == 0 || lhs_batches == 0)
@@ -126,10 +103,10 @@ namespace LowPrecision{
                             a_stride = lhs_columns,
                             c_stride = N;
                     
-                    const int8_t* w = kernel;
+                    int8_t* w = const_cast<int8_t*>(kernel);
                     
-                    #if BarrelShiftMulW8A8_FusedLayers == 0 && BarrelShiftMulW8A8_InKernelUnpack == 1 && BarrelShiftMulW8A8_UnpackWithSmallStore == 1
-                        int16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_s16(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
+                    #if BarrelShiftMulW8A8_UnpackWithSmallStore == 1 && BarrelShiftMulW8A8_InKernelUnpack == 1
+                        int16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_s32(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
                         int16x8_t vACC_Ar76543210_x_Wc07654321 = vACC_Ar76543210_x_Wc76543210; 
                         int16x8_t vACC_Ar76543210_x_Wc10765432 = vACC_Ar76543210_x_Wc76543210; 
                         int16x8_t vACC_Ar76543210_x_Wc21076543 = vACC_Ar76543210_x_Wc76543210; 
@@ -141,8 +118,15 @@ namespace LowPrecision{
                         int8x16_t vWc15T0    = vld1q_s8((int8_t*)w); w += 16;
                         int8x8_t vWc76543210 = vget_low_u8(vWc15T0);
                         #else
-                        int8x8_t vWc76543210 = vld1_s8((int8_t*)w); w += 8;
                         #endif
+                    #endif
+
+                    int mr_block_size = 8, nr_block_size = 8;
+                    for (size_t mr_block_start = 0; mr_block_start < M; mr_block_start += mr_block_size) {
+                        w = const_cast<int8_t*>(kernel);
+                        int8x8_t vWc76543210_Wc15141312111098 = vld1_s8((int8_t*)w); w += 8;
+                        int8x8_t vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                        vWc76543210_Wc15141312111098 = vshl_n_s8(vWc76543210_Wc15141312111098, 4);
                         int8x8_t vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
                         int8x8_t vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
                         int8x8_t vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
@@ -150,18 +134,17 @@ namespace LowPrecision{
                         int8x8_t vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
                         int8x8_t vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
                         int8x8_t vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
-                    #endif
-
-                    int mr_block_size = 8, nr_block_size = 8;
-                    for (size_t mr_block_start = 0; mr_block_start < M; mr_block_start += mr_block_size) {
                         for (size_t nr_block_start = 0; nr_block_start < N; nr_block_start += nr_block_size) {
-                                        w = kernel + nr_block_start * K;
-                            const int8_t* a = input  + mr_block_start * K;
+                                          w = w - nr_block_size;
+                            const int8_t* a = input  + mr_block_start * K / 2;
                             int32_t*      c = output + mr_block_start * N + nr_block_start;
                             int k = K;
-                            #if BarrelShiftMulW8A8_FusedLayers == 0 && BarrelShiftMulW8A8_InKernelUnpack == 1 && BarrelShiftMulW8A8_UnpackWithSmallStore == 1
+                            int8x8_t vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
+                            #if BarrelShiftMulW8A8_UnpackWithSmallStore == 1 && BarrelShiftMulW8A8_InKernelUnpack == 1
+                                #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad == 0
+                                #endif
                             #else
-                            int16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_s16(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
+                            int16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_s32(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
                             int16x8_t vACC_Ar76543210_x_Wc07654321 = vACC_Ar76543210_x_Wc76543210; 
                             int16x8_t vACC_Ar76543210_x_Wc10765432 = vACC_Ar76543210_x_Wc76543210; 
                             int16x8_t vACC_Ar76543210_x_Wc21076543 = vACC_Ar76543210_x_Wc76543210; 
@@ -182,7 +165,7 @@ namespace LowPrecision{
                             int8x8_t vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
                             int8x8_t vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
                             int8x8_t vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
-                            #if BarrelShiftMulW8A8_FusedLayers == 0 && BarrelShiftMulW8A8_InKernelUnpack == 1 && BarrelShiftMulW8A8_UnpackWithTLB == 1
+                            #if BarrelShiftMulW8A8_InKernelUnpack == 1 && BarrelShiftMulW8A8_UnpackWithTLB == 1
                             uint8x16_t vidxs;
                             asm volatile(
                                 "mov x0, 0xFFFF1110FFFF0100\n\t"
@@ -194,19 +177,21 @@ namespace LowPrecision{
                             #endif
                             #endif
 
-                            for (; k >= 8; k -= 8) { // 158 - 52 = 106
+                            for (; k >= 8; k -= 8) { // ?
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     int8x16_t vAr15T0 = vld1q_s8((int8_t*)a); a += 16;
                                     int8x8_t vAr76543210 = vget_low_u8(vAr15T0);
                                 #else
-                                    int8x8_t vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                                    int8x8_t vAr76543210 = vshr_n_s8(vAr76543210_Ar15141312111098, 4);
+                                    vAr76543210_Ar15141312111098 = vshl_n_s8(vAr76543210_Ar15141312111098, 4);
                                 #endif
                                 vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vWc76543210 = vget_high_u8(vWc15T0);
                                     vWc15T0     = vld1q_s8((int8_t*)w); w += 16;
                                 #else
-                                    vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                                    vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                                    vWc76543210_Wc15141312111098 = vld1_s8((int8_t*)w); w += 8;
                                 #endif
                                 vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
                                 vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
@@ -227,13 +212,15 @@ namespace LowPrecision{
                                     vAr76543210 = vget_high_u8(vAr15T0);
                                     vAr15T0     = vld1q_s8((int8_t*)a); a += 16;
                                 #else
-                                    vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                                    vAr76543210 = vshr_n_s8(vAr76543210_Ar15141312111098, 4);
+                                    vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
                                 #endif
                                 vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vWc76543210 = vget_low_u8(vWc15T0);
                                 #else
-                                    vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                                    vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                                    vWc76543210_Wc15141312111098 = vshl_n_s8(vWc76543210_Wc15141312111098, 4);
                                 #endif
                                 vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
                                 vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
@@ -253,14 +240,16 @@ namespace LowPrecision{
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vAr76543210 = vget_low_u8(vAr15T0);
                                 #else
-                                    vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                                    vAr76543210 = vshr_n_s8(vAr76543210_Ar15141312111098, 4);
+                                    vAr76543210_Ar15141312111098 = vshl_n_s8(vAr76543210_Ar15141312111098, 4);
                                 #endif
                                 vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vWc76543210 = vget_high_u8(vWc15T0);
                                     vWc15T0     = vld1q_s8((int8_t*)w); w += 16;
                                 #else
-                                    vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                                    vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                                    vWc76543210_Wc15141312111098 = vld1_s8((int8_t*)w); w += 8;
                                 #endif
                                 vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
                                 vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
@@ -282,13 +271,15 @@ namespace LowPrecision{
                                     vAr76543210 = vget_high_u8(vAr15T0);
                                     vAr15T0     = vld1q_s8((int8_t*)a); a += 16;
                                 #else
-                                    vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                                    vAr76543210 = vshr_n_s8(vAr76543210_Ar15141312111098, 4);
+                                    vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
                                 #endif
                                 vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vWc76543210 = vget_low_u8(vWc15T0);
                                 #else
-                                    vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                                    vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                                    vWc76543210_Wc15141312111098 = vshl_n_s8(vWc76543210_Wc15141312111098, 4);
                                 #endif
                                 vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
                                 vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
@@ -308,14 +299,16 @@ namespace LowPrecision{
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vAr76543210 = vget_low_u8(vAr15T0);
                                 #else
-                                    vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                                    vAr76543210 = vshr_n_s8(vAr76543210_Ar15141312111098, 4);
+                                    vAr76543210_Ar15141312111098 = vshl_n_s8(vAr76543210_Ar15141312111098, 4);
                                 #endif
                                 vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vWc76543210 = vget_high_u8(vWc15T0);
                                     vWc15T0     = vld1q_s8((int8_t*)w); w += 16;
                                 #else
-                                    vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                                    vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                                    vWc76543210_Wc15141312111098 = vld1_s8((int8_t*)w); w += 8;
                                 #endif
                                 vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
                                 vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
@@ -336,13 +329,15 @@ namespace LowPrecision{
                                     vAr76543210 = vget_high_u8(vAr15T0);
                                     vAr15T0     = vld1q_s8((int8_t*)a); a += 16;
                                 #else
-                                    vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                                    vAr76543210 = vshr_n_s8(vAr76543210_Ar15141312111098, 4);
+                                    vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
                                 #endif
                                 vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vWc76543210 = vget_low_u8(vWc15T0);
                                 #else
-                                    vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                                    vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                                    vWc76543210_Wc15141312111098 = vshl_n_s8(vWc76543210_Wc15141312111098, 4);
                                 #endif
                                 vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
                                 vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
@@ -362,14 +357,16 @@ namespace LowPrecision{
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vAr76543210 = vget_low_u8(vAr15T0);
                                 #else
-                                    vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                                    vAr76543210 = vshr_n_s8(vAr76543210_Ar15141312111098, 4);
+                                    vAr76543210_Ar15141312111098 = vshl_n_s8(vAr76543210_Ar15141312111098, 4);
                                 #endif
                                 vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vWc76543210 = vget_high_u8(vWc15T0);
                                     vWc15T0     = vld1q_s8((int8_t*)w); w += 16;
                                 #else
-                                    vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                                    vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                                    vWc76543210_Wc15141312111098 = vld1_s8((int8_t*)w); w += 8;
                                 #endif
                                 vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
                                 vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
@@ -389,13 +386,15 @@ namespace LowPrecision{
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vAr76543210 = vget_high_u8(vAr15T0);
                                 #else
-                                    vAr76543210 = vld1_s8((int8_t*)a); a += 8;
+                                    vAr76543210 = vshr_n_s8(vAr76543210_Ar15141312111098, 4);
+                                    vAr76543210_Ar15141312111098 = vld1_s8((int8_t*)a); a += 8;
                                 #endif
                                 vACC_Ar76543210_x_Wc76543210 = vmlal_s8(vACC_Ar76543210_x_Wc76543210, vWc76543210, vAr76543210);
                                 #if BarrelShiftMulW8A8_UseUInt8x16VectorsForLoad
                                     vWc76543210 = vget_low_u8(vWc15T0);
                                 #else
-                                    vWc76543210 = vld1_s8((int8_t*)w); w += 8;
+                                    vWc76543210 = vshr_n_s8(vWc76543210_Wc15141312111098, 4);
+                                    vWc76543210_Wc15141312111098 = vshl_n_s8(vWc76543210_Wc15141312111098, 4);
                                 #endif
                                 vACC_Ar76543210_x_Wc07654321 = vmlal_s8(vACC_Ar76543210_x_Wc07654321, vWc07654321, vAr76543210);
                                 vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
@@ -413,7 +412,7 @@ namespace LowPrecision{
                                 vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
                             }
 
-                            #if BarrelShiftMulW8A8_FusedLayers == 0 && BarrelShiftMulW8A8_InKernelUnpack == 1 && BarrelShiftMulW8A8_UnpackWithSmallStore == 1
+                            #if BarrelShiftMulW8A8_InKernelUnpack == 1 && BarrelShiftMulW8A8_UnpackWithSmallStore == 1
                             #else
                             int32_t* c0 = c;
                             int32_t* c1 = c0 + c_stride;
@@ -424,378 +423,319 @@ namespace LowPrecision{
                             int32_t* c6 = c5 + c_stride;
                             int32_t* c7 = c6 + c_stride;
                             #endif
-                            
-                            #if BarrelShiftMulW8A8_FusedLayers
-                            if (!params.disable_bsm_fused_layers) {
-                                #if BarrelShiftMulW8A8_FusedLayers_IrregularStore
-                                int32x4_t vACC_Ar76543210_x_Wc76543210_high, vACC_Ar76543210_x_Wc76543210_low,
-                                            vACC_Ar76543210_x_Wc07654321_high, vACC_Ar76543210_x_Wc07654321_low,
-                                            vACC_Ar76543210_x_Wc10765432_high, vACC_Ar76543210_x_Wc10765432_low,
-                                            vACC_Ar76543210_x_Wc21076543_high, vACC_Ar76543210_x_Wc21076543_low,
-                                            vACC_Ar76543210_x_Wc32107654_high, vACC_Ar76543210_x_Wc32107654_low,
-                                            vACC_Ar76543210_x_Wc43210765_high, vACC_Ar76543210_x_Wc43210765_low,
-                                            vACC_Ar76543210_x_Wc54321076_high, vACC_Ar76543210_x_Wc54321076_low,
-                                            vACC_Ar76543210_x_Wc65432107_high, vACC_Ar76543210_x_Wc65432107_low;
+
+                            #if BarrelShiftMulW8A8_InKernelUnpack
+                                #if BarrelShiftMulW8A8_UnpackWithSmallStore
+                                    int16_t* cp0 = get_pointer_as<int16_t>(c);
+                                    int16_t* cp1 = cp0 + 2 * c_stride; // get_pointer_as<int16_t>(c0 + c_stride);
+                                    int16_t* cp2 = cp1 + 2 * c_stride; // get_pointer_as<int16_t>(c1 + c_stride);
+                                    int16_t* cp3 = cp2 + 2 * c_stride; // get_pointer_as<int16_t>(c2 + c_stride);
+                                    int16_t* cp4 = cp3 + 2 * c_stride; // get_pointer_as<int16_t>(c3 + c_stride);
+                                    int16_t* cp5 = cp4 + 2 * c_stride; // get_pointer_as<int16_t>(c4 + c_stride);
+                                    int16_t* cp6 = cp5 + 2 * c_stride; // get_pointer_as<int16_t>(c5 + c_stride);
+                                    int16_t* cp7 = cp6 + 2 * c_stride; // get_pointer_as<int16_t>(c6 + c_stride);
+
+                                    vst1q_lane_s16(cp0 + 0 , vACC_Ar76543210_x_Wc76543210, 0);
+                                    vst1q_lane_s16(cp0 + 2 , vACC_Ar76543210_x_Wc07654321, 0);
+                                    vst1q_lane_s16(cp0 + 4 , vACC_Ar76543210_x_Wc10765432, 0);
+                                    vst1q_lane_s16(cp0 + 6 , vACC_Ar76543210_x_Wc21076543, 0);
                                     
-                                    vACC_Ar76543210_x_Wc76543210_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc76543210), 0);
-                                    vst1q_s32(c0, vACC_Ar76543210_x_Wc76543210_low);
-                                    vACC_Ar76543210_x_Wc76543210_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc76543210, 0);
-                                    vst1q_s32(c0+4, vACC_Ar76543210_x_Wc76543210_high);
+                                    // vWc76543210 = vld1_s8((int8_t*)w); w += 8;
 
-                                    vACC_Ar76543210_x_Wc07654321_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc07654321), 0);
-                                    vst1q_s32(c1, vACC_Ar76543210_x_Wc07654321_low);
-                                    vACC_Ar76543210_x_Wc07654321_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc07654321, 0);
-                                    vst1q_s32(c1+4, vACC_Ar76543210_x_Wc07654321_high);
+                                    vst1q_lane_s16(cp0 + 8 , vACC_Ar76543210_x_Wc32107654, 0);
+                                    vst1q_lane_s16(cp0 + 10, vACC_Ar76543210_x_Wc43210765, 0);
+                                    vst1q_lane_s16(cp0 + 12, vACC_Ar76543210_x_Wc54321076, 0);
+                                    vst1q_lane_s16(cp0 + 14, vACC_Ar76543210_x_Wc65432107, 0);
 
-                                    vACC_Ar76543210_x_Wc10765432_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc10765432), 0);
-                                    vst1q_s32(c2, vACC_Ar76543210_x_Wc10765432_low);
-                                    vACC_Ar76543210_x_Wc10765432_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc10765432, 0);
-                                    vst1q_s32(c2+4, vACC_Ar76543210_x_Wc10765432_high);
 
-                                    vACC_Ar76543210_x_Wc21076543_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc21076543), 0);
-                                    vst1q_s32(c3, vACC_Ar76543210_x_Wc21076543_low);
-                                    vACC_Ar76543210_x_Wc21076543_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc21076543, 0);
-                                    vst1q_s32(c3+4, vACC_Ar76543210_x_Wc21076543_high);
+                                    // vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
+                                    vst1q_lane_s16(cp1 + 0 , vACC_Ar76543210_x_Wc65432107, 1);
+                                    vst1q_lane_s16(cp1 + 2 , vACC_Ar76543210_x_Wc76543210, 1);
+                                    vst1q_lane_s16(cp1 + 4 , vACC_Ar76543210_x_Wc07654321, 1);
+                                    vst1q_lane_s16(cp1 + 6 , vACC_Ar76543210_x_Wc10765432, 1);
 
-                                    vACC_Ar76543210_x_Wc32107654_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc32107654), 0);
-                                    vst1q_s32(c4, vACC_Ar76543210_x_Wc32107654_low);
-                                    vACC_Ar76543210_x_Wc32107654_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc32107654, 0);
-                                    vst1q_s32(c4+4, vACC_Ar76543210_x_Wc32107654_high);
+                                    vst1q_lane_s16(cp1 + 8 , vACC_Ar76543210_x_Wc21076543, 1);
+                                    vst1q_lane_s16(cp1 + 10, vACC_Ar76543210_x_Wc32107654, 1);
+                                    vst1q_lane_s16(cp1 + 12, vACC_Ar76543210_x_Wc43210765, 1);
+                                    vst1q_lane_s16(cp1 + 14, vACC_Ar76543210_x_Wc54321076, 1);
 
-                                    vACC_Ar76543210_x_Wc43210765_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc43210765), 0);
-                                    vst1q_s32(c5, vACC_Ar76543210_x_Wc43210765_low);
-                                    vACC_Ar76543210_x_Wc43210765_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc43210765, 0);
-                                    vst1q_s32(c5+4, vACC_Ar76543210_x_Wc43210765_high);
 
-                                    vACC_Ar76543210_x_Wc54321076_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc54321076), 0);
-                                    vst1q_s32(c6, vACC_Ar76543210_x_Wc54321076_low);
-                                    vACC_Ar76543210_x_Wc54321076_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc54321076, 0);
-                                    vst1q_s32(c6+4, vACC_Ar76543210_x_Wc54321076_high);
+                                    // vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
+                                    vst1q_lane_s16(cp2 + 0 , vACC_Ar76543210_x_Wc54321076, 2);
+                                    vst1q_lane_s16(cp2 + 2 , vACC_Ar76543210_x_Wc65432107, 2);
+                                    vst1q_lane_s16(cp2 + 4 , vACC_Ar76543210_x_Wc76543210, 2);
+                                    vst1q_lane_s16(cp2 + 6 , vACC_Ar76543210_x_Wc07654321, 2);
 
-                                    vACC_Ar76543210_x_Wc65432107_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc65432107), 0);
-                                    vst1q_s32(c7, vACC_Ar76543210_x_Wc65432107_low);
-                                    vACC_Ar76543210_x_Wc65432107_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc65432107, 0);
-                                    vst1q_s32(c7+4, vACC_Ar76543210_x_Wc65432107_high);
+                                    vst1q_lane_s16(cp2 + 8 , vACC_Ar76543210_x_Wc10765432, 2);
+                                    vst1q_lane_s16(cp2 + 10, vACC_Ar76543210_x_Wc21076543, 2);
+                                    vst1q_lane_s16(cp2 + 12, vACC_Ar76543210_x_Wc32107654, 2);
+                                    vst1q_lane_s16(cp2 + 14, vACC_Ar76543210_x_Wc43210765, 2);
+
+
+                                    // vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
+                                    vst1q_lane_s16(cp3 + 0 , vACC_Ar76543210_x_Wc43210765, 3);
+                                    vst1q_lane_s16(cp3 + 2 , vACC_Ar76543210_x_Wc54321076, 3);
+                                    vst1q_lane_s16(cp3 + 4 , vACC_Ar76543210_x_Wc65432107, 3);
+                                    vst1q_lane_s16(cp3 + 6 , vACC_Ar76543210_x_Wc76543210, 3);
+
+                                    vst1q_lane_s16(cp3 + 8 , vACC_Ar76543210_x_Wc07654321, 3);
+                                    vst1q_lane_s16(cp3 + 10, vACC_Ar76543210_x_Wc10765432, 3);
+                                    vst1q_lane_s16(cp3 + 12, vACC_Ar76543210_x_Wc21076543, 3);
+                                    vst1q_lane_s16(cp3 + 14, vACC_Ar76543210_x_Wc32107654, 3);
+
+
+                                    // vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
+                                    vst1q_lane_s16(cp4 + 0 , vACC_Ar76543210_x_Wc32107654, 4);
+                                    vst1q_lane_s16(cp4 + 2 , vACC_Ar76543210_x_Wc43210765, 4);
+                                    vst1q_lane_s16(cp4 + 4 , vACC_Ar76543210_x_Wc54321076, 4);
+                                    vst1q_lane_s16(cp4 + 6 , vACC_Ar76543210_x_Wc65432107, 4);
+
+                                    vst1q_lane_s16(cp4 + 8 , vACC_Ar76543210_x_Wc76543210, 4);
+                                    vst1q_lane_s16(cp4 + 10, vACC_Ar76543210_x_Wc07654321, 4);
+                                    vst1q_lane_s16(cp4 + 12, vACC_Ar76543210_x_Wc10765432, 4);
+                                    vst1q_lane_s16(cp4 + 14, vACC_Ar76543210_x_Wc21076543, 4);
+
+
+                                    // vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
+                                    vst1q_lane_s16(cp5 + 0 , vACC_Ar76543210_x_Wc21076543, 5);
+                                    vst1q_lane_s16(cp5 + 2 , vACC_Ar76543210_x_Wc32107654, 5);
+                                    vst1q_lane_s16(cp5 + 4 , vACC_Ar76543210_x_Wc43210765, 5);
+                                    vst1q_lane_s16(cp5 + 6 , vACC_Ar76543210_x_Wc54321076, 5);
+
+                                    vst1q_lane_s16(cp5 + 8 , vACC_Ar76543210_x_Wc65432107, 5);
+                                    vst1q_lane_s16(cp5 + 10, vACC_Ar76543210_x_Wc76543210, 5);
+                                    vst1q_lane_s16(cp5 + 12, vACC_Ar76543210_x_Wc07654321, 5);
+                                    vst1q_lane_s16(cp5 + 14, vACC_Ar76543210_x_Wc10765432, 5);
+
+
+                                    // vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
+                                    vst1q_lane_s16(cp6 + 0 , vACC_Ar76543210_x_Wc10765432, 6);
+                                    vst1q_lane_s16(cp6 + 2 , vACC_Ar76543210_x_Wc21076543, 6);
+                                    vst1q_lane_s16(cp6 + 4 , vACC_Ar76543210_x_Wc32107654, 6);
+                                    vst1q_lane_s16(cp6 + 6 , vACC_Ar76543210_x_Wc43210765, 6);
+
+                                    vst1q_lane_s16(cp6 + 8 , vACC_Ar76543210_x_Wc54321076, 6);
+                                    vst1q_lane_s16(cp6 + 10, vACC_Ar76543210_x_Wc65432107, 6);
+                                    vst1q_lane_s16(cp6 + 12, vACC_Ar76543210_x_Wc76543210, 6);
+                                    vst1q_lane_s16(cp6 + 14, vACC_Ar76543210_x_Wc07654321, 6);
+
+
+                                    // vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
+                                    vst1q_lane_s16(cp7 + 0 , vACC_Ar76543210_x_Wc07654321, 7);
+                                    vACC_Ar76543210_x_Wc07654321 = veorq_s32(vACC_Ar76543210_x_Wc07654321, vACC_Ar76543210_x_Wc07654321);
+                                    vst1q_lane_s16(cp7 + 2 , vACC_Ar76543210_x_Wc10765432, 7);
+                                    vACC_Ar76543210_x_Wc10765432 = vACC_Ar76543210_x_Wc07654321;
+                                    vst1q_lane_s16(cp7 + 4 , vACC_Ar76543210_x_Wc21076543, 7);
+                                    vACC_Ar76543210_x_Wc21076543 = vACC_Ar76543210_x_Wc07654321;
+                                    vst1q_lane_s16(cp7 + 6 , vACC_Ar76543210_x_Wc32107654, 7);
+                                    vACC_Ar76543210_x_Wc32107654 = vACC_Ar76543210_x_Wc07654321;
+
+                                    vst1q_lane_s16(cp7 + 8 , vACC_Ar76543210_x_Wc43210765, 7);
+                                    vACC_Ar76543210_x_Wc43210765 = vACC_Ar76543210_x_Wc07654321;
+                                    vst1q_lane_s16(cp7 + 10, vACC_Ar76543210_x_Wc54321076, 7);
+                                    vACC_Ar76543210_x_Wc54321076 = vACC_Ar76543210_x_Wc07654321;
+                                    vst1q_lane_s16(cp7 + 12, vACC_Ar76543210_x_Wc65432107, 7);
+                                    vACC_Ar76543210_x_Wc65432107 = vACC_Ar76543210_x_Wc07654321;
+                                    vst1q_lane_s16(cp7 + 14, vACC_Ar76543210_x_Wc76543210, 7);
+                                    vACC_Ar76543210_x_Wc76543210 = vACC_Ar76543210_x_Wc07654321;
+                                #else
+                                    #if BarrelShiftMulW8A8_UnpackWithTLB
+                                        // TODO: Compelete this!
+                                        // vACC_Ar76543210_x_Wc76543210
+                                        // vACC_Ar76543210_x_Wc07654321
+                                        // vACC_Ar76543210_x_Wc10765432
+                                        // vACC_Ar76543210_x_Wc21076543
+                                        int8x16x4_t vACC_Ar76543210_x_Wc_76543210_07654321_10765432_21076543 = {
+                                            vreinterpretq_s8_s16(vACC_Ar76543210_x_Wc76543210),
+                                            vreinterpretq_s8_s16(vACC_Ar76543210_x_Wc07654321),
+                                            vreinterpretq_s8_s16(vACC_Ar76543210_x_Wc10765432),
+                                            vreinterpretq_s8_s16(vACC_Ar76543210_x_Wc21076543)
+                                        };
+                                        int8x16_t o = vqtbl4q_s8(vACC_Ar76543210_x_Wc_76543210_07654321_10765432_21076543, vidxs);
+                                    #else
+                                        uint16x8_t vACC_Or0C0123,
+                                                vACC_Or0C4567,
+                                                vACC_Or1C0123,
+                                                vACC_Or1C4567,
+                                                vACC_Or2C0123,
+                                                vACC_Or2C4567,
+                                                vACC_Or3C0123,
+                                                vACC_Or3C4567,
+                                                vACC_Or4C0123,
+                                                vACC_Or4C4567,
+                                                vACC_Or5C0123,
+                                                vACC_Or5C4567,
+                                                vACC_Or6C0123,
+                                                vACC_Or6C4567,
+                                                vACC_Or7C0123,
+                                                vACC_Or7C4567;
+
+                                        vACC_Or0C0123 = veorq_u16(vACC_Or0C0123, vACC_Or0C0123);
+                                        vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 0, vACC_Ar76543210_x_Wc76543210, 0);
+                                        vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 2, vACC_Ar76543210_x_Wc07654321, 0);
+                                        vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 4, vACC_Ar76543210_x_Wc10765432, 0);
+                                        vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 6, vACC_Ar76543210_x_Wc21076543, 0);
+                                        vACC_Or0C4567 = veorq_u16(vACC_Or0C4567, vACC_Or0C4567);
+                                        vst1q_s32(c0, vACC_Or0C0123);
+                                        vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 0, vACC_Ar76543210_x_Wc32107654, 0);
+                                        vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 2, vACC_Ar76543210_x_Wc43210765, 0);
+                                        vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 4, vACC_Ar76543210_x_Wc54321076, 0);
+                                        vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 6, vACC_Ar76543210_x_Wc65432107, 0);
+                                        vACC_Or1C0123 = veorq_u16(vACC_Or1C0123, vACC_Or1C0123);
+                                        vst1q_s32(c0+4, vACC_Or0C4567);
+
+                                        vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 0, vACC_Ar76543210_x_Wc65432107, 1);
+                                        vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 2, vACC_Ar76543210_x_Wc76543210, 1);
+                                        vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 4, vACC_Ar76543210_x_Wc07654321, 1);
+                                        vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 6, vACC_Ar76543210_x_Wc10765432, 1);
+                                        vACC_Or1C4567 = veorq_u16(vACC_Or1C4567, vACC_Or1C4567);
+                                        vst1q_s32(c1, vACC_Or1C0123);
+                                        vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 0, vACC_Ar76543210_x_Wc21076543, 1);
+                                        vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 2, vACC_Ar76543210_x_Wc32107654, 1);
+                                        vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 4, vACC_Ar76543210_x_Wc43210765, 1);
+                                        vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 6, vACC_Ar76543210_x_Wc54321076, 1);
+                                        vACC_Or2C0123 = veorq_u16(vACC_Or2C0123, vACC_Or2C0123);
+                                        vst1q_s32(c1+4, vACC_Or1C4567);
+
+                                        vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 0, vACC_Ar76543210_x_Wc54321076, 2);
+                                        vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 2, vACC_Ar76543210_x_Wc65432107, 2);
+                                        vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 4, vACC_Ar76543210_x_Wc76543210, 2);
+                                        vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 6, vACC_Ar76543210_x_Wc07654321, 2);
+                                        vACC_Or2C4567 = veorq_u16(vACC_Or2C4567, vACC_Or2C4567);
+                                        vst1q_s32(c2, vACC_Or2C0123);
+                                        vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 0, vACC_Ar76543210_x_Wc10765432, 2);
+                                        vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 2, vACC_Ar76543210_x_Wc21076543, 2);
+                                        vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 4, vACC_Ar76543210_x_Wc32107654, 2);
+                                        vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 6, vACC_Ar76543210_x_Wc43210765, 2);
+                                        vACC_Or3C0123 = veorq_u16(vACC_Or3C0123, vACC_Or3C0123);
+                                        vst1q_s32(c2+4, vACC_Or2C4567);
+
+                                        vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C0123, 0, vACC_Ar76543210_x_Wc43210765, 3);
+                                        vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 2, vACC_Ar76543210_x_Wc54321076, 3);
+                                        vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 4, vACC_Ar76543210_x_Wc65432107, 3);
+                                        vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 6, vACC_Ar76543210_x_Wc76543210, 3);
+                                        vACC_Or3C4567 = veorq_u16(vACC_Or3C4567, vACC_Or3C4567);
+                                        vst1q_s32(c3, vACC_Or3C0123);
+                                        vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 0, vACC_Ar76543210_x_Wc07654321, 3);
+                                        vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 2, vACC_Ar76543210_x_Wc10765432, 3);
+                                        vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 4, vACC_Ar76543210_x_Wc21076543, 3);
+                                        vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 6, vACC_Ar76543210_x_Wc32107654, 3);
+                                        vACC_Or4C0123 = veorq_u16(vACC_Or4C0123, vACC_Or4C0123);
+                                        vst1q_s32(c3+4, vACC_Or3C4567);
+
+                                        vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 0, vACC_Ar76543210_x_Wc32107654, 4);
+                                        vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 2, vACC_Ar76543210_x_Wc43210765, 4);
+                                        vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 4, vACC_Ar76543210_x_Wc54321076, 4);
+                                        vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 6, vACC_Ar76543210_x_Wc65432107, 4);
+                                        vACC_Or4C4567 = veorq_u16(vACC_Or4C4567, vACC_Or4C4567);
+                                        vst1q_s32(c4, vACC_Or4C0123);
+                                        vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 0, vACC_Ar76543210_x_Wc76543210, 4);
+                                        vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 2, vACC_Ar76543210_x_Wc07654321, 4);
+                                        vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 4, vACC_Ar76543210_x_Wc10765432, 4);
+                                        vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 6, vACC_Ar76543210_x_Wc21076543, 4);
+                                        vACC_Or5C0123 = veorq_u16(vACC_Or5C0123, vACC_Or5C0123);
+                                        vst1q_s32(c4+4, vACC_Or4C4567);
+
+                                        vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 0, vACC_Ar76543210_x_Wc21076543, 5);
+                                        vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 2, vACC_Ar76543210_x_Wc32107654, 5);
+                                        vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 4, vACC_Ar76543210_x_Wc43210765, 5);
+                                        vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 6, vACC_Ar76543210_x_Wc54321076, 5);
+                                        vACC_Or5C4567 = veorq_u16(vACC_Or5C4567, vACC_Or5C4567);
+                                        vst1q_s32(c5, vACC_Or5C0123);
+                                        vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 0, vACC_Ar76543210_x_Wc65432107, 5);
+                                        vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 2, vACC_Ar76543210_x_Wc76543210, 5);
+                                        vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 4, vACC_Ar76543210_x_Wc07654321, 5);
+                                        vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 6, vACC_Ar76543210_x_Wc10765432, 5);
+                                        vACC_Or6C0123 = veorq_u16(vACC_Or6C0123, vACC_Or6C0123);
+                                        vst1q_s32(c5+4, vACC_Or5C4567);
+
+                                        vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 0, vACC_Ar76543210_x_Wc10765432, 6);
+                                        vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 2, vACC_Ar76543210_x_Wc21076543, 6);
+                                        vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 4, vACC_Ar76543210_x_Wc32107654, 6);
+                                        vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 6, vACC_Ar76543210_x_Wc43210765, 6);
+                                        vACC_Or6C4567 = veorq_u16(vACC_Or6C4567, vACC_Or6C4567);
+                                        vst1q_s32(c6, vACC_Or6C0123);
+                                        vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 0, vACC_Ar76543210_x_Wc54321076, 6);
+                                        vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 2, vACC_Ar76543210_x_Wc65432107, 6);
+                                        vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 4, vACC_Ar76543210_x_Wc76543210, 6);
+                                        vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 6, vACC_Ar76543210_x_Wc07654321, 6);
+                                        vACC_Or7C0123 = veorq_u16(vACC_Or7C0123, vACC_Or7C0123);
+                                        vst1q_s32(c6+4, vACC_Or6C4567);
+
+                                        vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 0, vACC_Ar76543210_x_Wc07654321, 7);
+                                        vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 2, vACC_Ar76543210_x_Wc10765432, 7);
+                                        vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 4, vACC_Ar76543210_x_Wc21076543, 7);
+                                        vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 6, vACC_Ar76543210_x_Wc32107654, 7);
+                                        vACC_Or7C4567 = veorq_u16(vACC_Or7C4567, vACC_Or7C4567);
+                                        vst1q_s32(c7, vACC_Or7C0123);
+                                        vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 0, vACC_Ar76543210_x_Wc43210765, 7);
+                                        vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 2, vACC_Ar76543210_x_Wc54321076, 7);
+                                        vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 4, vACC_Ar76543210_x_Wc65432107, 7);
+                                        vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 6, vACC_Ar76543210_x_Wc76543210, 7);
+                                        vst1q_s32(c7+4, vACC_Or7C4567);
+                                    #endif
                                 #endif
-                            } else {
+                            #else
+                                int32x4_t vACC_Ar76543210_x_Wc76543210_high, vACC_Ar76543210_x_Wc76543210_low,
+                                        vACC_Ar76543210_x_Wc07654321_high, vACC_Ar76543210_x_Wc07654321_low,
+                                        vACC_Ar76543210_x_Wc10765432_high, vACC_Ar76543210_x_Wc10765432_low,
+                                        vACC_Ar76543210_x_Wc21076543_high, vACC_Ar76543210_x_Wc21076543_low,
+                                        vACC_Ar76543210_x_Wc32107654_high, vACC_Ar76543210_x_Wc32107654_low,
+                                        vACC_Ar76543210_x_Wc43210765_high, vACC_Ar76543210_x_Wc43210765_low,
+                                        vACC_Ar76543210_x_Wc54321076_high, vACC_Ar76543210_x_Wc54321076_low,
+                                        vACC_Ar76543210_x_Wc65432107_high, vACC_Ar76543210_x_Wc65432107_low;
+                                
+                                vACC_Ar76543210_x_Wc76543210_low = vshll_n_s16(vget_low_u16(vACC_Ar76543210_x_Wc76543210), 0);
+                                vst1q_s32(c0, vACC_Ar76543210_x_Wc76543210_low);
+                                vACC_Ar76543210_x_Wc76543210_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc76543210, 0);
+                                vst1q_s32(c0+4, vACC_Ar76543210_x_Wc76543210_high);
+
+                                vACC_Ar76543210_x_Wc07654321_low = vshll_n_s16(vget_low_u16(vACC_Ar76543210_x_Wc07654321), 0);
+                                vst1q_s32(c1, vACC_Ar76543210_x_Wc07654321_low);
+                                vACC_Ar76543210_x_Wc07654321_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc07654321, 0);
+                                vst1q_s32(c1+4, vACC_Ar76543210_x_Wc07654321_high);
+
+                                vACC_Ar76543210_x_Wc10765432_low = vshll_n_s16(vget_low_u16(vACC_Ar76543210_x_Wc10765432), 0);
+                                vst1q_s32(c2, vACC_Ar76543210_x_Wc10765432_low);
+                                vACC_Ar76543210_x_Wc10765432_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc10765432, 0);
+                                vst1q_s32(c2+4, vACC_Ar76543210_x_Wc10765432_high);
+
+                                vACC_Ar76543210_x_Wc21076543_low = vshll_n_s16(vget_low_u16(vACC_Ar76543210_x_Wc21076543), 0);
+                                vst1q_s32(c3, vACC_Ar76543210_x_Wc21076543_low);
+                                vACC_Ar76543210_x_Wc21076543_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc21076543, 0);
+                                vst1q_s32(c3+4, vACC_Ar76543210_x_Wc21076543_high);
+
+                                vACC_Ar76543210_x_Wc32107654_low = vshll_n_s16(vget_low_u16(vACC_Ar76543210_x_Wc32107654), 0);
+                                vst1q_s32(c4, vACC_Ar76543210_x_Wc32107654_low);
+                                vACC_Ar76543210_x_Wc32107654_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc32107654, 0);
+                                vst1q_s32(c4+4, vACC_Ar76543210_x_Wc32107654_high);
+
+                                vACC_Ar76543210_x_Wc43210765_low = vshll_n_s16(vget_low_u16(vACC_Ar76543210_x_Wc43210765), 0);
+                                vst1q_s32(c5, vACC_Ar76543210_x_Wc43210765_low);
+                                vACC_Ar76543210_x_Wc43210765_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc43210765, 0);
+                                vst1q_s32(c5+4, vACC_Ar76543210_x_Wc43210765_high);
+
+                                vACC_Ar76543210_x_Wc54321076_low = vshll_n_s16(vget_low_u16(vACC_Ar76543210_x_Wc54321076), 0);
+                                vst1q_s32(c6, vACC_Ar76543210_x_Wc54321076_low);
+                                vACC_Ar76543210_x_Wc54321076_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc54321076, 0);
+                                vst1q_s32(c6+4, vACC_Ar76543210_x_Wc54321076_high);
+
+                                vACC_Ar76543210_x_Wc65432107_low = vshll_n_s16(vget_low_u16(vACC_Ar76543210_x_Wc65432107), 0);
+                                vst1q_s32(c7, vACC_Ar76543210_x_Wc65432107_low);
+                                vACC_Ar76543210_x_Wc65432107_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc65432107, 0);
+                                vst1q_s32(c7+4, vACC_Ar76543210_x_Wc65432107_high);
                             #endif
-                                #if BarrelShiftMulW8A8_InKernelUnpack
-                                    #if BarrelShiftMulW8A8_UnpackWithSmallStore
-                                        int16_t* cp0 = get_pointer_as<int16_t>(c);
-                                        int16_t* cp1 = cp0 + 2 * c_stride; // get_pointer_as<int16_t>(c0 + c_stride);
-                                        int16_t* cp2 = cp1 + 2 * c_stride; // get_pointer_as<int16_t>(c1 + c_stride);
-                                        int16_t* cp3 = cp2 + 2 * c_stride; // get_pointer_as<int16_t>(c2 + c_stride);
-                                        int16_t* cp4 = cp3 + 2 * c_stride; // get_pointer_as<int16_t>(c3 + c_stride);
-                                        int16_t* cp5 = cp4 + 2 * c_stride; // get_pointer_as<int16_t>(c4 + c_stride);
-                                        int16_t* cp6 = cp5 + 2 * c_stride; // get_pointer_as<int16_t>(c5 + c_stride);
-                                        int16_t* cp7 = cp6 + 2 * c_stride; // get_pointer_as<int16_t>(c6 + c_stride);
-
-                                        vst1q_lane_s16(cp0 + 0 , vACC_Ar76543210_x_Wc76543210, 0);
-                                        vst1q_lane_s16(cp0 + 2 , vACC_Ar76543210_x_Wc07654321, 0);
-                                        vst1q_lane_s16(cp0 + 4 , vACC_Ar76543210_x_Wc10765432, 0);
-                                        vst1q_lane_s16(cp0 + 6 , vACC_Ar76543210_x_Wc21076543, 0);
-                                        
-                                        vWc76543210 = vld1_s8((int8_t*)w); w += 8;
-
-                                        vst1q_lane_s16(cp0 + 8 , vACC_Ar76543210_x_Wc32107654, 0);
-                                        vst1q_lane_s16(cp0 + 10, vACC_Ar76543210_x_Wc43210765, 0);
-                                        vst1q_lane_s16(cp0 + 12, vACC_Ar76543210_x_Wc54321076, 0);
-                                        vst1q_lane_s16(cp0 + 14, vACC_Ar76543210_x_Wc65432107, 0);
-
-
-                                        vWc07654321 = vext_s8(vWc76543210, vWc76543210, 1);
-                                        vst1q_lane_s16(cp1 + 0 , vACC_Ar76543210_x_Wc65432107, 1);
-                                        vst1q_lane_s16(cp1 + 2 , vACC_Ar76543210_x_Wc76543210, 1);
-                                        vst1q_lane_s16(cp1 + 4 , vACC_Ar76543210_x_Wc07654321, 1);
-                                        vst1q_lane_s16(cp1 + 6 , vACC_Ar76543210_x_Wc10765432, 1);
-
-                                        vst1q_lane_s16(cp1 + 8 , vACC_Ar76543210_x_Wc21076543, 1);
-                                        vst1q_lane_s16(cp1 + 10, vACC_Ar76543210_x_Wc32107654, 1);
-                                        vst1q_lane_s16(cp1 + 12, vACC_Ar76543210_x_Wc43210765, 1);
-                                        vst1q_lane_s16(cp1 + 14, vACC_Ar76543210_x_Wc54321076, 1);
-
-
-                                        vWc10765432 = vext_s8(vWc76543210, vWc76543210, 2);
-                                        vst1q_lane_s16(cp2 + 0 , vACC_Ar76543210_x_Wc54321076, 2);
-                                        vst1q_lane_s16(cp2 + 2 , vACC_Ar76543210_x_Wc65432107, 2);
-                                        vst1q_lane_s16(cp2 + 4 , vACC_Ar76543210_x_Wc76543210, 2);
-                                        vst1q_lane_s16(cp2 + 6 , vACC_Ar76543210_x_Wc07654321, 2);
-
-                                        vst1q_lane_s16(cp2 + 8 , vACC_Ar76543210_x_Wc10765432, 2);
-                                        vst1q_lane_s16(cp2 + 10, vACC_Ar76543210_x_Wc21076543, 2);
-                                        vst1q_lane_s16(cp2 + 12, vACC_Ar76543210_x_Wc32107654, 2);
-                                        vst1q_lane_s16(cp2 + 14, vACC_Ar76543210_x_Wc43210765, 2);
-
-
-                                        vWc21076543 = vext_s8(vWc76543210, vWc76543210, 3);
-                                        vst1q_lane_s16(cp3 + 0 , vACC_Ar76543210_x_Wc43210765, 3);
-                                        vst1q_lane_s16(cp3 + 2 , vACC_Ar76543210_x_Wc54321076, 3);
-                                        vst1q_lane_s16(cp3 + 4 , vACC_Ar76543210_x_Wc65432107, 3);
-                                        vst1q_lane_s16(cp3 + 6 , vACC_Ar76543210_x_Wc76543210, 3);
-
-                                        vst1q_lane_s16(cp3 + 8 , vACC_Ar76543210_x_Wc07654321, 3);
-                                        vst1q_lane_s16(cp3 + 10, vACC_Ar76543210_x_Wc10765432, 3);
-                                        vst1q_lane_s16(cp3 + 12, vACC_Ar76543210_x_Wc21076543, 3);
-                                        vst1q_lane_s16(cp3 + 14, vACC_Ar76543210_x_Wc32107654, 3);
-
-
-                                        vWc32107654 = vext_s8(vWc76543210, vWc76543210, 4);
-                                        vst1q_lane_s16(cp4 + 0 , vACC_Ar76543210_x_Wc32107654, 4);
-                                        vst1q_lane_s16(cp4 + 2 , vACC_Ar76543210_x_Wc43210765, 4);
-                                        vst1q_lane_s16(cp4 + 4 , vACC_Ar76543210_x_Wc54321076, 4);
-                                        vst1q_lane_s16(cp4 + 6 , vACC_Ar76543210_x_Wc65432107, 4);
-
-                                        vst1q_lane_s16(cp4 + 8 , vACC_Ar76543210_x_Wc76543210, 4);
-                                        vst1q_lane_s16(cp4 + 10, vACC_Ar76543210_x_Wc07654321, 4);
-                                        vst1q_lane_s16(cp4 + 12, vACC_Ar76543210_x_Wc10765432, 4);
-                                        vst1q_lane_s16(cp4 + 14, vACC_Ar76543210_x_Wc21076543, 4);
-
-
-                                        vWc43210765 = vext_s8(vWc76543210, vWc76543210, 5);
-                                        vst1q_lane_s16(cp5 + 0 , vACC_Ar76543210_x_Wc21076543, 5);
-                                        vst1q_lane_s16(cp5 + 2 , vACC_Ar76543210_x_Wc32107654, 5);
-                                        vst1q_lane_s16(cp5 + 4 , vACC_Ar76543210_x_Wc43210765, 5);
-                                        vst1q_lane_s16(cp5 + 6 , vACC_Ar76543210_x_Wc54321076, 5);
-
-                                        vst1q_lane_s16(cp5 + 8 , vACC_Ar76543210_x_Wc65432107, 5);
-                                        vst1q_lane_s16(cp5 + 10, vACC_Ar76543210_x_Wc76543210, 5);
-                                        vst1q_lane_s16(cp5 + 12, vACC_Ar76543210_x_Wc07654321, 5);
-                                        vst1q_lane_s16(cp5 + 14, vACC_Ar76543210_x_Wc10765432, 5);
-
-
-                                        vWc54321076 = vext_s8(vWc76543210, vWc76543210, 6);
-                                        vst1q_lane_s16(cp6 + 0 , vACC_Ar76543210_x_Wc10765432, 6);
-                                        vst1q_lane_s16(cp6 + 2 , vACC_Ar76543210_x_Wc21076543, 6);
-                                        vst1q_lane_s16(cp6 + 4 , vACC_Ar76543210_x_Wc32107654, 6);
-                                        vst1q_lane_s16(cp6 + 6 , vACC_Ar76543210_x_Wc43210765, 6);
-
-                                        vst1q_lane_s16(cp6 + 8 , vACC_Ar76543210_x_Wc54321076, 6);
-                                        vst1q_lane_s16(cp6 + 10, vACC_Ar76543210_x_Wc65432107, 6);
-                                        vst1q_lane_s16(cp6 + 12, vACC_Ar76543210_x_Wc76543210, 6);
-                                        vst1q_lane_s16(cp6 + 14, vACC_Ar76543210_x_Wc07654321, 6);
-
-
-                                        vWc65432107 = vext_s8(vWc76543210, vWc76543210, 7);
-                                        vst1q_lane_s16(cp7 + 0 , vACC_Ar76543210_x_Wc07654321, 7);
-                                        vACC_Ar76543210_x_Wc07654321 = veorq_s16(vACC_Ar76543210_x_Wc07654321, vACC_Ar76543210_x_Wc07654321);
-                                        vst1q_lane_s16(cp7 + 2 , vACC_Ar76543210_x_Wc10765432, 7);
-                                        vACC_Ar76543210_x_Wc10765432 = vACC_Ar76543210_x_Wc07654321;
-                                        vst1q_lane_s16(cp7 + 4 , vACC_Ar76543210_x_Wc21076543, 7);
-                                        vACC_Ar76543210_x_Wc21076543 = vACC_Ar76543210_x_Wc07654321;
-                                        vst1q_lane_s16(cp7 + 6 , vACC_Ar76543210_x_Wc32107654, 7);
-                                        vACC_Ar76543210_x_Wc32107654 = vACC_Ar76543210_x_Wc07654321;
-
-                                        vst1q_lane_s16(cp7 + 8 , vACC_Ar76543210_x_Wc43210765, 7);
-                                        vACC_Ar76543210_x_Wc43210765 = vACC_Ar76543210_x_Wc07654321;
-                                        vst1q_lane_s16(cp7 + 10, vACC_Ar76543210_x_Wc54321076, 7);
-                                        vACC_Ar76543210_x_Wc54321076 = vACC_Ar76543210_x_Wc07654321;
-                                        vst1q_lane_s16(cp7 + 12, vACC_Ar76543210_x_Wc65432107, 7);
-                                        vACC_Ar76543210_x_Wc65432107 = vACC_Ar76543210_x_Wc07654321;
-                                        vst1q_lane_s16(cp7 + 14, vACC_Ar76543210_x_Wc76543210, 7);
-                                        vACC_Ar76543210_x_Wc76543210 = vACC_Ar76543210_x_Wc07654321;
-                                    #else // BarrelShiftMulW8A8_UnpackWithSmallStore
-                                        #if BarrelShiftMulW8A8_UnpackWithTLB
-                                            // TODO: Compelete this!
-                                            // vACC_Ar76543210_x_Wc76543210
-                                            // vACC_Ar76543210_x_Wc07654321
-                                            // vACC_Ar76543210_x_Wc10765432
-                                            // vACC_Ar76543210_x_Wc21076543
-                                            int8x16x4_t vACC_Ar76543210_x_Wc_76543210_07654321_10765432_21076543 = {
-                                                vreinterpretq_s8_s16(vACC_Ar76543210_x_Wc76543210),
-                                                vreinterpretq_s8_s16(vACC_Ar76543210_x_Wc07654321),
-                                                vreinterpretq_s8_s16(vACC_Ar76543210_x_Wc10765432),
-                                                vreinterpretq_s8_s16(vACC_Ar76543210_x_Wc21076543)
-                                            };
-                                            int8x16_t o = vqtbl4q_s8(vACC_Ar76543210_x_Wc_76543210_07654321_10765432_21076543, vidxs);
-                                        #else // BarrelShiftMulW8A8_UnpackWithTLB
-                                            uint16x8_t vACC_Or0C0123,
-                                                    vACC_Or0C4567,
-                                                    vACC_Or1C0123,
-                                                    vACC_Or1C4567,
-                                                    vACC_Or2C0123,
-                                                    vACC_Or2C4567,
-                                                    vACC_Or3C0123,
-                                                    vACC_Or3C4567,
-                                                    vACC_Or4C0123,
-                                                    vACC_Or4C4567,
-                                                    vACC_Or5C0123,
-                                                    vACC_Or5C4567,
-                                                    vACC_Or6C0123,
-                                                    vACC_Or6C4567,
-                                                    vACC_Or7C0123,
-                                                    vACC_Or7C4567;
-
-                                            vACC_Or0C0123 = veorq_u16(vACC_Or0C0123, vACC_Or0C0123);
-                                            vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 0, vACC_Ar76543210_x_Wc76543210, 0);
-                                            vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 2, vACC_Ar76543210_x_Wc07654321, 0);
-                                            vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 4, vACC_Ar76543210_x_Wc10765432, 0);
-                                            vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 6, vACC_Ar76543210_x_Wc21076543, 0);
-                                            vACC_Or0C4567 = veorq_u16(vACC_Or0C4567, vACC_Or0C4567);
-                                            vst1q_s32(c0, vACC_Or0C0123);
-                                            vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 0, vACC_Ar76543210_x_Wc32107654, 0);
-                                            vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 2, vACC_Ar76543210_x_Wc43210765, 0);
-                                            vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 4, vACC_Ar76543210_x_Wc54321076, 0);
-                                            vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 6, vACC_Ar76543210_x_Wc65432107, 0);
-                                            vACC_Or1C0123 = veorq_u16(vACC_Or1C0123, vACC_Or1C0123);
-                                            vst1q_s32(c0+4, vACC_Or0C4567);
-
-                                            vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 0, vACC_Ar76543210_x_Wc65432107, 1);
-                                            vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 2, vACC_Ar76543210_x_Wc76543210, 1);
-                                            vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 4, vACC_Ar76543210_x_Wc07654321, 1);
-                                            vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 6, vACC_Ar76543210_x_Wc10765432, 1);
-                                            vACC_Or1C4567 = veorq_u16(vACC_Or1C4567, vACC_Or1C4567);
-                                            vst1q_s32(c1, vACC_Or1C0123);
-                                            vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 0, vACC_Ar76543210_x_Wc21076543, 1);
-                                            vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 2, vACC_Ar76543210_x_Wc32107654, 1);
-                                            vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 4, vACC_Ar76543210_x_Wc43210765, 1);
-                                            vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 6, vACC_Ar76543210_x_Wc54321076, 1);
-                                            vACC_Or2C0123 = veorq_u16(vACC_Or2C0123, vACC_Or2C0123);
-                                            vst1q_s32(c1+4, vACC_Or1C4567);
-
-                                            vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 0, vACC_Ar76543210_x_Wc54321076, 2);
-                                            vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 2, vACC_Ar76543210_x_Wc65432107, 2);
-                                            vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 4, vACC_Ar76543210_x_Wc76543210, 2);
-                                            vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 6, vACC_Ar76543210_x_Wc07654321, 2);
-                                            vACC_Or2C4567 = veorq_u16(vACC_Or2C4567, vACC_Or2C4567);
-                                            vst1q_s32(c2, vACC_Or2C0123);
-                                            vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 0, vACC_Ar76543210_x_Wc10765432, 2);
-                                            vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 2, vACC_Ar76543210_x_Wc21076543, 2);
-                                            vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 4, vACC_Ar76543210_x_Wc32107654, 2);
-                                            vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 6, vACC_Ar76543210_x_Wc43210765, 2);
-                                            vACC_Or3C0123 = veorq_u16(vACC_Or3C0123, vACC_Or3C0123);
-                                            vst1q_s32(c2+4, vACC_Or2C4567);
-
-                                            vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C0123, 0, vACC_Ar76543210_x_Wc43210765, 3);
-                                            vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 2, vACC_Ar76543210_x_Wc54321076, 3);
-                                            vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 4, vACC_Ar76543210_x_Wc65432107, 3);
-                                            vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 6, vACC_Ar76543210_x_Wc76543210, 3);
-                                            vACC_Or3C4567 = veorq_u16(vACC_Or3C4567, vACC_Or3C4567);
-                                            vst1q_s32(c3, vACC_Or3C0123);
-                                            vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 0, vACC_Ar76543210_x_Wc07654321, 3);
-                                            vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 2, vACC_Ar76543210_x_Wc10765432, 3);
-                                            vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 4, vACC_Ar76543210_x_Wc21076543, 3);
-                                            vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 6, vACC_Ar76543210_x_Wc32107654, 3);
-                                            vACC_Or4C0123 = veorq_u16(vACC_Or4C0123, vACC_Or4C0123);
-                                            vst1q_s32(c3+4, vACC_Or3C4567);
-
-                                            vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 0, vACC_Ar76543210_x_Wc32107654, 4);
-                                            vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 2, vACC_Ar76543210_x_Wc43210765, 4);
-                                            vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 4, vACC_Ar76543210_x_Wc54321076, 4);
-                                            vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 6, vACC_Ar76543210_x_Wc65432107, 4);
-                                            vACC_Or4C4567 = veorq_u16(vACC_Or4C4567, vACC_Or4C4567);
-                                            vst1q_s32(c4, vACC_Or4C0123);
-                                            vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 0, vACC_Ar76543210_x_Wc76543210, 4);
-                                            vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 2, vACC_Ar76543210_x_Wc07654321, 4);
-                                            vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 4, vACC_Ar76543210_x_Wc10765432, 4);
-                                            vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 6, vACC_Ar76543210_x_Wc21076543, 4);
-                                            vACC_Or5C0123 = veorq_u16(vACC_Or5C0123, vACC_Or5C0123);
-                                            vst1q_s32(c4+4, vACC_Or4C4567);
-
-                                            vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 0, vACC_Ar76543210_x_Wc21076543, 5);
-                                            vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 2, vACC_Ar76543210_x_Wc32107654, 5);
-                                            vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 4, vACC_Ar76543210_x_Wc43210765, 5);
-                                            vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 6, vACC_Ar76543210_x_Wc54321076, 5);
-                                            vACC_Or5C4567 = veorq_u16(vACC_Or5C4567, vACC_Or5C4567);
-                                            vst1q_s32(c5, vACC_Or5C0123);
-                                            vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 0, vACC_Ar76543210_x_Wc65432107, 5);
-                                            vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 2, vACC_Ar76543210_x_Wc76543210, 5);
-                                            vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 4, vACC_Ar76543210_x_Wc07654321, 5);
-                                            vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 6, vACC_Ar76543210_x_Wc10765432, 5);
-                                            vACC_Or6C0123 = veorq_u16(vACC_Or6C0123, vACC_Or6C0123);
-                                            vst1q_s32(c5+4, vACC_Or5C4567);
-
-                                            vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 0, vACC_Ar76543210_x_Wc10765432, 6);
-                                            vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 2, vACC_Ar76543210_x_Wc21076543, 6);
-                                            vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 4, vACC_Ar76543210_x_Wc32107654, 6);
-                                            vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 6, vACC_Ar76543210_x_Wc43210765, 6);
-                                            vACC_Or6C4567 = veorq_u16(vACC_Or6C4567, vACC_Or6C4567);
-                                            vst1q_s32(c6, vACC_Or6C0123);
-                                            vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 0, vACC_Ar76543210_x_Wc54321076, 6);
-                                            vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 2, vACC_Ar76543210_x_Wc65432107, 6);
-                                            vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 4, vACC_Ar76543210_x_Wc76543210, 6);
-                                            vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 6, vACC_Ar76543210_x_Wc07654321, 6);
-                                            vACC_Or7C0123 = veorq_u16(vACC_Or7C0123, vACC_Or7C0123);
-                                            vst1q_s32(c6+4, vACC_Or6C4567);
-
-                                            vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 0, vACC_Ar76543210_x_Wc07654321, 7);
-                                            vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 2, vACC_Ar76543210_x_Wc10765432, 7);
-                                            vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 4, vACC_Ar76543210_x_Wc21076543, 7);
-                                            vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 6, vACC_Ar76543210_x_Wc32107654, 7);
-                                            vACC_Or7C4567 = veorq_u16(vACC_Or7C4567, vACC_Or7C4567);
-                                            vst1q_s32(c7, vACC_Or7C0123);
-                                            vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 0, vACC_Ar76543210_x_Wc43210765, 7);
-                                            vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 2, vACC_Ar76543210_x_Wc54321076, 7);
-                                            vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 4, vACC_Ar76543210_x_Wc65432107, 7);
-                                            vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 6, vACC_Ar76543210_x_Wc76543210, 7);
-                                            vst1q_s32(c7+4, vACC_Or7C4567);
-                                        #endif // BarrelShiftMulW8A8_UnpackWithTLB
-                                    #endif // BarrelShiftMulW8A8_UnpackWithSmallStore
-                                #else // BarrelShiftMulW8A8_InKernelUnpack
-                                    int32x4_t vACC_Ar76543210_x_Wc76543210_high, vACC_Ar76543210_x_Wc76543210_low,
-                                              vACC_Ar76543210_x_Wc07654321_high, vACC_Ar76543210_x_Wc07654321_low,
-                                              vACC_Ar76543210_x_Wc10765432_high, vACC_Ar76543210_x_Wc10765432_low,
-                                              vACC_Ar76543210_x_Wc21076543_high, vACC_Ar76543210_x_Wc21076543_low,
-                                              vACC_Ar76543210_x_Wc32107654_high, vACC_Ar76543210_x_Wc32107654_low,
-                                              vACC_Ar76543210_x_Wc43210765_high, vACC_Ar76543210_x_Wc43210765_low,
-                                              vACC_Ar76543210_x_Wc54321076_high, vACC_Ar76543210_x_Wc54321076_low,
-                                              vACC_Ar76543210_x_Wc65432107_high, vACC_Ar76543210_x_Wc65432107_low;
-                                    
-                                    vACC_Ar76543210_x_Wc76543210_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc76543210), 0);
-                                    vst1q_s32(c0, vACC_Ar76543210_x_Wc76543210_low);
-                                    vACC_Ar76543210_x_Wc76543210_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc76543210, 0);
-                                    vst1q_s32(c0+4, vACC_Ar76543210_x_Wc76543210_high);
-
-                                    vACC_Ar76543210_x_Wc07654321_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc07654321), 0);
-                                    vst1q_s32(c1, vACC_Ar76543210_x_Wc07654321_low);
-                                    vACC_Ar76543210_x_Wc07654321_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc07654321, 0);
-                                    vst1q_s32(c1+4, vACC_Ar76543210_x_Wc07654321_high);
-
-                                    vACC_Ar76543210_x_Wc10765432_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc10765432), 0);
-                                    vst1q_s32(c2, vACC_Ar76543210_x_Wc10765432_low);
-                                    vACC_Ar76543210_x_Wc10765432_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc10765432, 0);
-                                    vst1q_s32(c2+4, vACC_Ar76543210_x_Wc10765432_high);
-
-                                    vACC_Ar76543210_x_Wc21076543_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc21076543), 0);
-                                    vst1q_s32(c3, vACC_Ar76543210_x_Wc21076543_low);
-                                    vACC_Ar76543210_x_Wc21076543_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc21076543, 0);
-                                    vst1q_s32(c3+4, vACC_Ar76543210_x_Wc21076543_high);
-
-                                    vACC_Ar76543210_x_Wc32107654_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc32107654), 0);
-                                    vst1q_s32(c4, vACC_Ar76543210_x_Wc32107654_low);
-                                    vACC_Ar76543210_x_Wc32107654_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc32107654, 0);
-                                    vst1q_s32(c4+4, vACC_Ar76543210_x_Wc32107654_high);
-
-                                    vACC_Ar76543210_x_Wc43210765_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc43210765), 0);
-                                    vst1q_s32(c5, vACC_Ar76543210_x_Wc43210765_low);
-                                    vACC_Ar76543210_x_Wc43210765_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc43210765, 0);
-                                    vst1q_s32(c5+4, vACC_Ar76543210_x_Wc43210765_high);
-
-                                    vACC_Ar76543210_x_Wc54321076_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc54321076), 0);
-                                    vst1q_s32(c6, vACC_Ar76543210_x_Wc54321076_low);
-                                    vACC_Ar76543210_x_Wc54321076_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc54321076, 0);
-                                    vst1q_s32(c6+4, vACC_Ar76543210_x_Wc54321076_high);
-
-                                    vACC_Ar76543210_x_Wc65432107_low = vshll_n_s16(vget_low_s16(vACC_Ar76543210_x_Wc65432107), 0);
-                                    vst1q_s32(c7, vACC_Ar76543210_x_Wc65432107_low);
-                                    vACC_Ar76543210_x_Wc65432107_high = vshll_high_n_s16(vACC_Ar76543210_x_Wc65432107, 0);
-                                    vst1q_s32(c7+4, vACC_Ar76543210_x_Wc65432107_high);
-                                #endif // BarrelShiftMulW8A8_InKernelUnpack
-                            #if BarrelShiftMulW8A8_FusedLayers
-                            }
-                            #endif // BarrelShiftMulW8A8_FusedLayers
                         }
                     }
-                    #else
-                    return Status::NotImplemented;
-                    #endif
                     return Status::Success;
                 }
-                [[deprecated]] Status MultiplyInt8MultiBatched(
+                Status MultiplyInt8MultiBatched(
                     const uint8_t* input, Shape input_shape,
                     const uint8_t* kernel, Shape kernel_shape,
                     int32_t* output, Shape output_shape,
                     MulParams params
                 ){
+                    return NotUpdated; // TODO: Implement this
                     int lhs_batches = input_shape.size[0],
                         lhs_columns = input_shape.size[1],
                         rhs_rows    = kernel_shape.size[0],
@@ -803,7 +743,6 @@ namespace LowPrecision{
                     
                     int need_downcasting = (params.need_downcasting)?(0xff):(0x00);
                     
-                    #ifdef IS_ARM
                     if (lhs_columns != rhs_rows)
                         return Status::SizesMisMatch;
                     if(lhs_columns == 0 || rhs_rows == 0 || lhs_batches == 0)
@@ -829,7 +768,7 @@ namespace LowPrecision{
                             int32_t*       c = output + mr_block_start * N + nr_block_start;
                             int k = K;
 
-                            uint16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_u16(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
+                            uint16x8_t vACC_Ar76543210_x_Wc76543210 = veorq_u32(vACC_Ar76543210_x_Wc76543210, vACC_Ar76543210_x_Wc76543210); 
                             uint16x8_t vACC_Ar76543210_x_Wc07654321 = vACC_Ar76543210_x_Wc76543210; 
                             uint16x8_t vACC_Ar76543210_x_Wc10765432 = vACC_Ar76543210_x_Wc76543210; 
                             uint16x8_t vACC_Ar76543210_x_Wc21076543 = vACC_Ar76543210_x_Wc76543210; 
@@ -993,16 +932,16 @@ namespace LowPrecision{
                                 vWc65432107 = vext_u8(vWc76543210, vWc76543210, 7);
                             }
 
-                            uint32_t* c0 = get_pointer_as<uint32_t>(c);
-                            uint32_t* c1 = c0 + c_stride;
-                            uint32_t* c2 = c1 + c_stride;
-                            uint32_t* c3 = c2 + c_stride;
-                            uint32_t* c4 = c3 + c_stride;
-                            uint32_t* c5 = c4 + c_stride;
-                            uint32_t* c6 = c5 + c_stride;
-                            uint32_t* c7 = c6 + c_stride;
+                            int32_t* c0 = c;
+                            int32_t* c1 = c0 + c_stride;
+                            int32_t* c2 = c1 + c_stride;
+                            int32_t* c3 = c2 + c_stride;
+                            int32_t* c4 = c3 + c_stride;
+                            int32_t* c5 = c4 + c_stride;
+                            int32_t* c6 = c5 + c_stride;
+                            int32_t* c7 = c6 + c_stride;
 
-                            #if BarrelShiftMulW8A8_FusedLayers == 0 && BarrelShiftMulW8A8_InKernelUnpack == 1 && BarrelShiftMulW8A8_UnpackWithSmallStore == 0
+                            if (BarrelShiftMulW8A8_InKernelUnpack){
                                 uint16x8_t vACC_Or0C0123,
                                         vACC_Or0C4567,
                                         vACC_Or1C0123,
@@ -1026,104 +965,104 @@ namespace LowPrecision{
                                 vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 4, vACC_Ar76543210_x_Wc10765432, 0);
                                 vACC_Or0C0123 = vcopyq_laneq_u16(vACC_Or0C0123, 6, vACC_Ar76543210_x_Wc21076543, 0);
                                 vACC_Or0C4567 = veorq_u16(vACC_Or0C4567, vACC_Or0C4567);
-                                vst1q_u32(c0, vACC_Or0C0123);
+                                vst1q_s32(c0, vACC_Or0C0123);
                                 vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 0, vACC_Ar76543210_x_Wc32107654, 0);
                                 vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 2, vACC_Ar76543210_x_Wc43210765, 0);
                                 vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 4, vACC_Ar76543210_x_Wc54321076, 0);
                                 vACC_Or0C4567 = vcopyq_laneq_u16(vACC_Or0C4567, 6, vACC_Ar76543210_x_Wc65432107, 0);
                                 vACC_Or1C0123 = veorq_u16(vACC_Or1C0123, vACC_Or1C0123);
-                                vst1q_u32(c0+4, vACC_Or0C4567);
+                                vst1q_s32(c0+4, vACC_Or0C4567);
 
                                 vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 0, vACC_Ar76543210_x_Wc65432107, 1);
                                 vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 2, vACC_Ar76543210_x_Wc76543210, 1);
                                 vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 4, vACC_Ar76543210_x_Wc07654321, 1);
                                 vACC_Or1C0123 = vcopyq_laneq_u16(vACC_Or1C0123, 6, vACC_Ar76543210_x_Wc10765432, 1);
                                 vACC_Or1C4567 = veorq_u16(vACC_Or1C4567, vACC_Or1C4567);
-                                vst1q_u32(c1, vACC_Or1C0123);
+                                vst1q_s32(c1, vACC_Or1C0123);
                                 vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 0, vACC_Ar76543210_x_Wc21076543, 1);
                                 vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 2, vACC_Ar76543210_x_Wc32107654, 1);
                                 vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 4, vACC_Ar76543210_x_Wc43210765, 1);
                                 vACC_Or1C4567 = vcopyq_laneq_u16(vACC_Or1C4567, 6, vACC_Ar76543210_x_Wc54321076, 1);
                                 vACC_Or2C0123 = veorq_u16(vACC_Or2C0123, vACC_Or2C0123);
-                                vst1q_u32(c1+4, vACC_Or1C4567);
+                                vst1q_s32(c1+4, vACC_Or1C4567);
 
                                 vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 0, vACC_Ar76543210_x_Wc54321076, 2);
                                 vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 2, vACC_Ar76543210_x_Wc65432107, 2);
                                 vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 4, vACC_Ar76543210_x_Wc76543210, 2);
                                 vACC_Or2C0123 = vcopyq_laneq_u16(vACC_Or2C0123, 6, vACC_Ar76543210_x_Wc07654321, 2);
                                 vACC_Or2C4567 = veorq_u16(vACC_Or2C4567, vACC_Or2C4567);
-                                vst1q_u32(c2, vACC_Or2C0123);
+                                vst1q_s32(c2, vACC_Or2C0123);
                                 vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 0, vACC_Ar76543210_x_Wc10765432, 2);
                                 vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 2, vACC_Ar76543210_x_Wc21076543, 2);
                                 vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 4, vACC_Ar76543210_x_Wc32107654, 2);
                                 vACC_Or2C4567 = vcopyq_laneq_u16(vACC_Or2C4567, 6, vACC_Ar76543210_x_Wc43210765, 2);
                                 vACC_Or3C0123 = veorq_u16(vACC_Or3C0123, vACC_Or3C0123);
-                                vst1q_u32(c2+4, vACC_Or2C4567);
+                                vst1q_s32(c2+4, vACC_Or2C4567);
 
                                 vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C0123, 0, vACC_Ar76543210_x_Wc43210765, 3);
                                 vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 2, vACC_Ar76543210_x_Wc54321076, 3);
                                 vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 4, vACC_Ar76543210_x_Wc65432107, 3);
                                 vACC_Or3C0123 = vcopyq_laneq_u16(vACC_Or3C0123, 6, vACC_Ar76543210_x_Wc76543210, 3);
                                 vACC_Or3C4567 = veorq_u16(vACC_Or3C4567, vACC_Or3C4567);
-                                vst1q_u32(c3, vACC_Or3C0123);
+                                vst1q_s32(c3, vACC_Or3C0123);
                                 vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 0, vACC_Ar76543210_x_Wc07654321, 3);
                                 vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 2, vACC_Ar76543210_x_Wc10765432, 3);
                                 vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 4, vACC_Ar76543210_x_Wc21076543, 3);
                                 vACC_Or3C4567 = vcopyq_laneq_u16(vACC_Or3C4567, 6, vACC_Ar76543210_x_Wc32107654, 3);
                                 vACC_Or4C0123 = veorq_u16(vACC_Or4C0123, vACC_Or4C0123);
-                                vst1q_u32(c3+4, vACC_Or3C4567);
+                                vst1q_s32(c3+4, vACC_Or3C4567);
 
                                 vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 0, vACC_Ar76543210_x_Wc32107654, 4);
                                 vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 2, vACC_Ar76543210_x_Wc43210765, 4);
                                 vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 4, vACC_Ar76543210_x_Wc54321076, 4);
                                 vACC_Or4C0123 = vcopyq_laneq_u16(vACC_Or4C0123, 6, vACC_Ar76543210_x_Wc65432107, 4);
                                 vACC_Or4C4567 = veorq_u16(vACC_Or4C4567, vACC_Or4C4567);
-                                vst1q_u32(c4, vACC_Or4C0123);
+                                vst1q_s32(c4, vACC_Or4C0123);
                                 vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 0, vACC_Ar76543210_x_Wc76543210, 4);
                                 vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 2, vACC_Ar76543210_x_Wc07654321, 4);
                                 vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 4, vACC_Ar76543210_x_Wc10765432, 4);
                                 vACC_Or4C4567 = vcopyq_laneq_u16(vACC_Or4C4567, 6, vACC_Ar76543210_x_Wc21076543, 4);
                                 vACC_Or5C0123 = veorq_u16(vACC_Or5C0123, vACC_Or5C0123);
-                                vst1q_u32(c4+4, vACC_Or4C4567);
+                                vst1q_s32(c4+4, vACC_Or4C4567);
 
                                 vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 0, vACC_Ar76543210_x_Wc21076543, 5);
                                 vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 2, vACC_Ar76543210_x_Wc32107654, 5);
                                 vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 4, vACC_Ar76543210_x_Wc43210765, 5);
                                 vACC_Or5C0123 = vcopyq_laneq_u16(vACC_Or5C0123, 6, vACC_Ar76543210_x_Wc54321076, 5);
                                 vACC_Or5C4567 = veorq_u16(vACC_Or5C4567, vACC_Or5C4567);
-                                vst1q_u32(c5, vACC_Or5C0123);
+                                vst1q_s32(c5, vACC_Or5C0123);
                                 vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 0, vACC_Ar76543210_x_Wc65432107, 5);
                                 vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 2, vACC_Ar76543210_x_Wc76543210, 5);
                                 vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 4, vACC_Ar76543210_x_Wc07654321, 5);
                                 vACC_Or5C4567 = vcopyq_laneq_u16(vACC_Or5C4567, 6, vACC_Ar76543210_x_Wc10765432, 5);
                                 vACC_Or6C0123 = veorq_u16(vACC_Or6C0123, vACC_Or6C0123);
-                                vst1q_u32(c5+4, vACC_Or5C4567);
+                                vst1q_s32(c5+4, vACC_Or5C4567);
 
                                 vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 0, vACC_Ar76543210_x_Wc10765432, 6);
                                 vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 2, vACC_Ar76543210_x_Wc21076543, 6);
                                 vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 4, vACC_Ar76543210_x_Wc32107654, 6);
                                 vACC_Or6C0123 = vcopyq_laneq_u16(vACC_Or6C0123, 6, vACC_Ar76543210_x_Wc43210765, 6);
                                 vACC_Or6C4567 = veorq_u16(vACC_Or6C4567, vACC_Or6C4567);
-                                vst1q_u32(c6, vACC_Or6C0123);
+                                vst1q_s32(c6, vACC_Or6C0123);
                                 vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 0, vACC_Ar76543210_x_Wc54321076, 6);
                                 vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 2, vACC_Ar76543210_x_Wc65432107, 6);
                                 vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 4, vACC_Ar76543210_x_Wc76543210, 6);
                                 vACC_Or6C4567 = vcopyq_laneq_u16(vACC_Or6C4567, 6, vACC_Ar76543210_x_Wc07654321, 6);
                                 vACC_Or7C0123 = veorq_u16(vACC_Or7C0123, vACC_Or7C0123);
-                                vst1q_u32(c6+4, vACC_Or6C4567);
+                                vst1q_s32(c6+4, vACC_Or6C4567);
 
                                 vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 0, vACC_Ar76543210_x_Wc07654321, 7);
                                 vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 2, vACC_Ar76543210_x_Wc10765432, 7);
                                 vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 4, vACC_Ar76543210_x_Wc21076543, 7);
                                 vACC_Or7C0123 = vcopyq_laneq_u16(vACC_Or7C0123, 6, vACC_Ar76543210_x_Wc32107654, 7);
                                 vACC_Or7C4567 = veorq_u16(vACC_Or7C4567, vACC_Or7C4567);
-                                vst1q_u32(c7, vACC_Or7C0123);
+                                vst1q_s32(c7, vACC_Or7C0123);
                                 vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 0, vACC_Ar76543210_x_Wc43210765, 7);
                                 vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 2, vACC_Ar76543210_x_Wc54321076, 7);
                                 vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 4, vACC_Ar76543210_x_Wc65432107, 7);
                                 vACC_Or7C4567 = vcopyq_laneq_u16(vACC_Or7C4567, 6, vACC_Ar76543210_x_Wc76543210, 7);
-                                vst1q_u32(c7+4, vACC_Or7C4567);
-                            #else
+                                vst1q_s32(c7+4, vACC_Or7C4567);
+                            } else {
                                 uint32x4_t vACC_Ar76543210_x_Wc76543210_high, vACC_Ar76543210_x_Wc76543210_low,
                                         vACC_Ar76543210_x_Wc07654321_high, vACC_Ar76543210_x_Wc07654321_low,
                                         vACC_Ar76543210_x_Wc10765432_high, vACC_Ar76543210_x_Wc10765432_low,
@@ -1134,57 +1073,53 @@ namespace LowPrecision{
                                         vACC_Ar76543210_x_Wc65432107_high, vACC_Ar76543210_x_Wc65432107_low;
                                 
                                 vACC_Ar76543210_x_Wc76543210_low = vshll_n_u16(vget_low_u16(vACC_Ar76543210_x_Wc76543210), 0);
-                                vst1q_u32(c0, vACC_Ar76543210_x_Wc76543210_low);
+                                vst1q_s32(c0, vACC_Ar76543210_x_Wc76543210_low);
                                 vACC_Ar76543210_x_Wc76543210_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc76543210, 0);
-                                vst1q_u32(c0+4, vACC_Ar76543210_x_Wc76543210_high);
+                                vst1q_s32(c0+4, vACC_Ar76543210_x_Wc76543210_high);
 
                                 vACC_Ar76543210_x_Wc07654321_low = vshll_n_u16(vget_low_u16(vACC_Ar76543210_x_Wc07654321), 0);
-                                vst1q_u32(c1, vACC_Ar76543210_x_Wc07654321_low);
+                                vst1q_s32(c1, vACC_Ar76543210_x_Wc07654321_low);
                                 vACC_Ar76543210_x_Wc07654321_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc07654321, 0);
-                                vst1q_u32(c1+4, vACC_Ar76543210_x_Wc07654321_high);
+                                vst1q_s32(c1+4, vACC_Ar76543210_x_Wc07654321_high);
 
                                 vACC_Ar76543210_x_Wc10765432_low = vshll_n_u16(vget_low_u16(vACC_Ar76543210_x_Wc10765432), 0);
-                                vst1q_u32(c2, vACC_Ar76543210_x_Wc10765432_low);
+                                vst1q_s32(c2, vACC_Ar76543210_x_Wc10765432_low);
                                 vACC_Ar76543210_x_Wc10765432_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc10765432, 0);
-                                vst1q_u32(c2+4, vACC_Ar76543210_x_Wc10765432_high);
+                                vst1q_s32(c2+4, vACC_Ar76543210_x_Wc10765432_high);
 
                                 vACC_Ar76543210_x_Wc21076543_low = vshll_n_u16(vget_low_u16(vACC_Ar76543210_x_Wc21076543), 0);
-                                vst1q_u32(c3, vACC_Ar76543210_x_Wc21076543_low);
+                                vst1q_s32(c3, vACC_Ar76543210_x_Wc21076543_low);
                                 vACC_Ar76543210_x_Wc21076543_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc21076543, 0);
-                                vst1q_u32(c3+4, vACC_Ar76543210_x_Wc21076543_high);
+                                vst1q_s32(c3+4, vACC_Ar76543210_x_Wc21076543_high);
 
                                 vACC_Ar76543210_x_Wc32107654_low = vshll_n_u16(vget_low_u16(vACC_Ar76543210_x_Wc32107654), 0);
-                                vst1q_u32(c4, vACC_Ar76543210_x_Wc32107654_low);
+                                vst1q_s32(c4, vACC_Ar76543210_x_Wc32107654_low);
                                 vACC_Ar76543210_x_Wc32107654_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc32107654, 0);
-                                vst1q_u32(c4+4, vACC_Ar76543210_x_Wc32107654_high);
+                                vst1q_s32(c4+4, vACC_Ar76543210_x_Wc32107654_high);
 
                                 vACC_Ar76543210_x_Wc43210765_low = vshll_n_u16(vget_low_u16(vACC_Ar76543210_x_Wc43210765), 0);
-                                vst1q_u32(c5, vACC_Ar76543210_x_Wc43210765_low);
+                                vst1q_s32(c5, vACC_Ar76543210_x_Wc43210765_low);
                                 vACC_Ar76543210_x_Wc43210765_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc43210765, 0);
-                                vst1q_u32(c5+4, vACC_Ar76543210_x_Wc43210765_high);
+                                vst1q_s32(c5+4, vACC_Ar76543210_x_Wc43210765_high);
 
                                 vACC_Ar76543210_x_Wc54321076_low = vshll_n_u16(vget_low_u16(vACC_Ar76543210_x_Wc54321076), 0);
-                                vst1q_u32(c6, vACC_Ar76543210_x_Wc54321076_low);
+                                vst1q_s32(c6, vACC_Ar76543210_x_Wc54321076_low);
                                 vACC_Ar76543210_x_Wc54321076_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc54321076, 0);
-                                vst1q_u32(c6+4, vACC_Ar76543210_x_Wc54321076_high);
+                                vst1q_s32(c6+4, vACC_Ar76543210_x_Wc54321076_high);
 
                                 vACC_Ar76543210_x_Wc65432107_low = vshll_n_u16(vget_low_u16(vACC_Ar76543210_x_Wc65432107), 0);
-                                vst1q_u32(c7, vACC_Ar76543210_x_Wc65432107_low);
+                                vst1q_s32(c7, vACC_Ar76543210_x_Wc65432107_low);
                                 vACC_Ar76543210_x_Wc65432107_high = vshll_high_n_u16(vACC_Ar76543210_x_Wc65432107, 0);
-                                vst1q_u32(c7+4, vACC_Ar76543210_x_Wc65432107_high);
-                            #endif
+                                vst1q_s32(c7+4, vACC_Ar76543210_x_Wc65432107_high);
+                            }
                         }
                     }
-                    #else
-                    return Status::NotImplemented;
-                    #endif
                     return Status::Success;
                 }
                 Status MultiplyInt8MultiBatchedBlock(
                     const int8_t* input, const int8_t* kernel,
                     int32_t* output, const Params params
                 ){ return Status::NotImplemented; }
-                #if IS_ARM
                 inline void unpack_8x8_block_barrelshift_mul(
                     uint16x8_t& vACC_Ar76543210_x_Wc76543210,
                     uint16x8_t& vACC_Ar76543210_x_Wc07654321,
@@ -1195,7 +1130,6 @@ namespace LowPrecision{
                     uint16x8_t& vACC_Ar76543210_x_Wc54321076,
                     uint16x8_t& vACC_Ar76543210_x_Wc65432107
                 ){
-                    #ifdef IS_ARM
                     asm volatile(
                         "ins v0.h[0], %[vACC_Ar76543210_x_Wc76543210].h[0]\n\t"
                         "ins v1.h[1], %[vACC_Ar76543210_x_Wc76543210].h[1]\n\t"
@@ -1289,7 +1223,6 @@ namespace LowPrecision{
                         :
                         : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7"
                     );
-                    #endif
                 }
                 inline void unpack_8x8_block_barrelshift_mul(
                     int16x8_t& vACC_Ar76543210_x_Wc76543210,
@@ -1301,7 +1234,6 @@ namespace LowPrecision{
                     int16x8_t& vACC_Ar76543210_x_Wc54321076,
                     int16x8_t& vACC_Ar76543210_x_Wc65432107
                 ){
-                    #ifdef IS_ARM
                     asm volatile(
                         "ins v0.h[0], %[vACC_Ar76543210_x_Wc76543210].h[0]\n\t"
                         "ins v1.h[1], %[vACC_Ar76543210_x_Wc76543210].h[1]\n\t"
@@ -1395,9 +1327,7 @@ namespace LowPrecision{
                         :
                         : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7"
                     );
-                    #endif
                 }
-                #endif
                 inline void unpack_8x8_block_barrelshift(const int32_t* O, int32_t* O_unpack, size_t offset){
                     #if BarrelShiftMulW8A8_SimpleUnpack
                     for (size_t i = 0 ; i < 8 ; i++)
@@ -1422,7 +1352,6 @@ namespace LowPrecision{
                     const int32_t* O_6 = O + 6 * offset;
                     const int32_t* O_7 = O + 7 * offset;
 
-                    #ifdef IS_ARM
                     asm volatile(
                         "ld2 {v16.4s, v17.4s}, [%[O_0]], #32\n\t"
                         "ld2 {v18.4s, v19.4s}, [%[O_1]], #32\n\t"
@@ -1536,9 +1465,58 @@ namespace LowPrecision{
                         "v24", "v25", "v26", "v27", "v28", "v29", "v30", "v31"
                     );
                     #endif
-                    #endif
                 }
             }
         }
     }
 }
+
+// Template Instanciations
+namespace LowPrecision{
+    namespace FullyConnected{
+        namespace BSM {
+            namespace W4A4{
+                template LowPrecision::Status QuantizeFilter<int8_t>(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout);
+                template LowPrecision::Status QuantizeFilter<uint8_t>(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout);
+                template LowPrecision::Status QuantizeInput<int8_t>(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout);
+                template LowPrecision::Status QuantizeInput<uint8_t>(const uint8_t* input, LowPrecision::Shape shape, uint8_t* output, LowPrecision::MemLayout layout);
+            }
+        }
+        
+    }
+}
+#else
+namespace LowPrecision{
+    namespace FullyConnected{
+        namespace BSM {
+            namespace W4A4{
+                template <> LowPrecision::Status QuantizeFilter<int8_t>(const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
+                template <> LowPrecision::Status QuantizeFilter<uint8_t>(const uint8_t* input, LowPrecision::Shape k_shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
+                template <> LowPrecision::Status QuantizeInput<int8_t>(const int8_t* input, LowPrecision::Shape shape, int8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
+                template <> LowPrecision::Status QuantizeInput<uint8_t>(const uint8_t* input, LowPrecision::Shape shape, uint8_t* output, LowPrecision::MemLayout layout){ return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status UnpackOutput(const int32_t* input, Shape shape, int32_t* output) { return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status MultiplyInt8SingleBatch(
+                    const int8_t* input, LowPrecision::Shape input_shape,
+                    const int8_t* kernel, LowPrecision::Shape kernel_shape,
+                    int32_t* output, LowPrecision::Shape output_shape
+                ){ return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status MultiplyInt8MultiBatched(
+                    const int8_t* input, LowPrecision::Shape input_shape,
+                    const int8_t* kernel, LowPrecision::Shape kernel_shape,
+                    int32_t* output, LowPrecision::Shape output_shape,
+                    LowPrecision::MulParams params
+                ){ return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status MultiplyInt8MultiBatched(
+                    const uint8_t* input, LowPrecision::Shape input_shape,
+                    const uint8_t* kernel, LowPrecision::Shape kernel_shape,
+                    int32_t* output, LowPrecision::Shape output_shape,
+                    LowPrecision::MulParams params
+                ){ return LowPrecision::Status::NotImplemented; }
+                LowPrecision::Status MultiplyInt8MultiBatchedBlock(
+                    const int8_t* input, const int8_t* kernel,
+                    int32_t* output, const Params params){ return LowPrecision::Status::NotImplemented; }
+            }
+        }
+    }
+}
+#endif
