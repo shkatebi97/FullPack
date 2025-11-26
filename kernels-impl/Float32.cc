@@ -10,9 +10,8 @@ namespace LowPrecision{
                 int i, j;
                 auto dst_ptr = dst_ptr_r;
                 asm volatile(
-                    //"mov x0, %[src_ptr_1]\n\t"
+                    "mov x0, %[src_ptr_1]\n\t"
                     
-                    "mov %w[j], wzr\n\t"
                     "0:\n\t"
 
                     "mov %w[i], wzr\n\t"
@@ -47,10 +46,8 @@ namespace LowPrecision{
                     "add %w[j], %w[j], #4\n\t"
                     "cmp %w[j], %w[rows]\n\t"
                     "b.lt 0b\n\t"
-
-
                     
-                    //"mov %[src_ptr_1], x0\n\t"
+                    "mov %[src_ptr_1], x0\n\t"
 
                     :   [ dst_ptr ]   "+r"(dst_ptr)
                     :   [ src_ptr_1 ]   "r" (src_ptr_1), [ src_ptr_2 ] "r" (src_ptr_2),
@@ -69,7 +66,7 @@ namespace LowPrecision{
                 float32_t* src_ptr_4 = src + 3 * columns;
                 float32_t* packed_ptr = packed;
                 doInputPackImpl(src_ptr_1, src_ptr_2, src_ptr_3, src_ptr_4, packed_ptr, rows, columns);
-            }
+            }   
             LowPrecision::Status QuantizeFilter(LowPrecision::Method method, const int8_t* input, LowPrecision::Shape k_shape, int8_t* output, LowPrecision::MemLayout layout){
                 #ifdef IS_ARM
                 if (k_shape.number_dims != 2)
@@ -151,7 +148,7 @@ namespace LowPrecision{
                     "trn1 v5.4s, v2.4s, v3.4s\n\t"  // v5 = | 43,33,23,13 | 42,32,22,12
 
                     "trn2 v6.4s, v0.4s, v1.4s\n\t"  // v6 = | 81,71,61,51 | 80,70,60,50
-                    "trn2 v7.4s, v2.4s, v3.4s\n\t"  // v7 = | 82,72,62,52 | 82,72,62,52
+                    "trn2 v7.4s, v2.4s, v3.4s\n\t"  // v7 = | 83,73,63,53 | 82,72,62,52
 
                     "st1 {v4.8b}, [%[output]], #8\n\t"
                     "st1 {v5.8b}, [%[output]], #8\n\t"
@@ -208,7 +205,6 @@ namespace LowPrecision{
                 float32_t* output, LowPrecision::Shape output_shape,
                 LowPrecision::MulParams params
             ){
-                #ifdef IS_ARM
                 int lhs_batches = input_shape.size[0],
                     lhs_columns = input_shape.size[1],
                     rhs_rows    = kernel_shape.size[1],
@@ -241,7 +237,10 @@ namespace LowPrecision{
                     * ACC       -> v29-31    (Constants)
                 */
                 asm volatile (
+                    // k used for loop over input rows
+                    "mov %w[k], wzr\n\t"
 
+                    // Storing the exponent mask, mantissa, and bit 24
                     "mov w1, #0x7F800000\n\t"
                     "mov w2, #0x007fffff\n\t"
                     "mov w0, #0x00800000\t\n"
@@ -249,21 +248,22 @@ namespace LowPrecision{
                     "dup v30.4s, w2\n\t"                 // v1 = 007f ffff
                     "dup v31.4s, w0\n\t"                 // v2 = 0080 0000
 
+                    // Storing input matrix and weight pointers
                     "mov x1, %[activation]\n\t"
                     "mov x2, %[weights]\n\t"
 
-
                     // Start of The Loop Over Batches
                     "5:\n\t"
+                    // j used for loop over Weight columns
                     "mov %w[j], wzr\n\t"
 
                     "0:\n\t"
+                    // i used for loop over Input columns (Weight rows)
                     "mov %w[i], wzr\n\t"
                     "movi v24.4s, #0\n\t"
                     "movi v25.4s, #0\n\t"
                     "movi v26.4s, #0\n\t"
                     "movi v27.4s, #0\n\t"
-
 
                     // Load Activations
                     "ld1 {v0.4s},  [%[activation]], #16\n\t"
@@ -271,35 +271,29 @@ namespace LowPrecision{
                     "ld1 {v2.4s},  [%[activation]], #16\n\t"
                     "ld1 {v3.4s},  [%[activation]], #16\n\t"
                     
-
                     "1:\n\t"
-                    "movi v8.4s, #0\n\t"
-                    "movi v9.4s, #0\n\t"
-                    "movi v10.4s, #0\n\t"
-                    "movi v11.4s, #0\n\t"
-                    "movi v12.4s, #0\n\t"
-                    "movi v13.4s, #0\n\t"
-                    "movi v14.4s, #0\n\t"
-                    "movi v15.4s, #0\n\t"
-                    "movi v16.4s, #0\n\t"
-                    "movi v17.4s, #0\n\t"
-                    "movi v18.4s, #0\n\t"
-                    "movi v19.4s, #0\n\t"
-                    "movi v20.4s, #0\n\t"
-                    "movi v21.4s, #0\n\t"
-                    "movi v22.4s, #0\n\t"
-                    "movi v23.4s, #0\n\t"
-                    "movi v28.4s, #0\n\t"
-
                     // Load Weights
                     "ld1 {v4.4s}, [%[weights]], #16\n\t"
 
+                    // Converting 8-bit weights to 32-bit
                     "sxtl2 v6.8h, v4.16b\n\t"
                     "sxtl2 v7.4s, v6.8h\n\t"
                     "sxtl v6.4s, v6.4h\n\t"
                     "sxtl v4.8h, v4.8b\n\t"
                     "sxtl2 v5.4s, v4.8h\n\t"
-                    "sxtl v4.4s, v4.4h\n\t"
+                    "sxtl v4.4s, v4.4h\n\t"  
+
+                    /// Create mask from Activations for use Non Zero datas
+                    // if vs.s[i] == 0 then vd.s[i] = 0xFFFFFFFF else 0x00000000
+                    "cmeq v20.4s, v0.4s, #0\n\t"
+                    "cmeq v21.4s, v1.4s, #0\n\t"
+                    "cmeq v22.4s, v2.4s, #0\n\t"
+                    "cmeq v23.4s, v3.4s, #0\n\t"
+
+                    "not v20.16b, v20.16b\n\t"
+                    "not v21.16b, v21.16b\n\t"
+                    "not v22.16b, v22.16b\n\t"
+                    "not v23.16b, v23.16b\n\t"
 
                     // v7 = 0eee eeee e000 0000 (e = exp)
                     "and v8.16B,    v0.16B, v29.16B\t\n"    
@@ -344,19 +338,23 @@ namespace LowPrecision{
                     "ushr v10.4s,    v10.4s, #24\t\n"
                     "ushr v11.4s,    v11.4s, #24\t\n"
 
-                    // v8 = max - exp
-                    "sub v8.4s,     v8.4s,  v12.4s\t\n"
-                    "sub v9.4s,     v9.4s,  v13.4s\t\n"
-                    "sub v10.4s,    v10.4s, v14.4s\t\n"
-                    "sub v11.4s,    v11.4s, v15.4s\t\n"
-                    
+                    // v8 = exp - max
+                    "sub v16.4s,     v8.4s, v12.4s\t\n"
+                    "sub v17.4s,     v9.4s, v13.4s\t\n"
+                    "sub v18.4s,    v10.4s, v14.4s\t\n"
+                    "sub v19.4s,    v11.4s, v15.4s\t\n"
+
+                    // Remove Diff(exp) that src data was 0
+                    "and v16.16b, v16.16b, v20.16b\n\t"
+                    "and v17.16b, v17.16b, v21.16b\n\t"
+                    "and v18.16b, v18.16b, v22.16b\n\t"
+                    "and v19.16b, v19.16b, v23.16b\n\t"
 
                     // save maxs to v28
                     "mov v28.s[0], v12.s[0]\n\t"
                     "mov v28.s[1], v13.s[0]\n\t"
                     "mov v28.s[2], v14.s[0]\n\t"
                     "mov v28.s[3], v15.s[0]\n\t"
-
                     
                     // Extract fractions
                     // v9 = 0000 0000 0aaa aaaa AAAA
@@ -365,23 +363,23 @@ namespace LowPrecision{
                     "and v14.16B, v30.16B, v2.16B\t\n"
                     "and v15.16B, v30.16B, v3.16B\t\n"
 
+                    // Mask for use nonzero datas
+                    "and v20.16b, v20.16b, v31.16b\n\t"
+                    "and v21.16b, v21.16b, v31.16b\n\t"
+                    "and v22.16b, v22.16b, v31.16b\n\t"
+                    "and v23.16b, v23.16b, v31.16b\n\t"
+
                     // add 1 left of fractions... 23 to 24 bit
                     // v9 = 00AA AAAA (A = fraction)
-                    "eor v12.16B, v12.16B, v31.16B\t\n"
-                    "eor v13.16B, v13.16B, v31.16B\t\n"
-                    "eor v14.16B, v14.16B, v31.16B\t\n"
-                    "eor v15.16B, v15.16B, v31.16B\t\n"
-
+                    "eor v12.16B, v12.16B, v20.16B\t\n"
+                    "eor v13.16B, v13.16B, v21.16B\t\n"
+                    "eor v14.16B, v14.16B, v22.16B\t\n"
+                    "eor v15.16B, v15.16B, v23.16B\t\n"
 
                     // v31 = 0080 0000 ==> 8000 0000
                     "shl v31.4s, v31.4s, #8\n\t"
 
-                    // v12 = shift right mantisa
-                    "sshl v16.4s, v12.4s, v8.4s\t\n"
-                    "sshl v17.4s, v13.4s, v9.4s\t\n"
-                    "sshl v18.4s, v14.4s, v10.4s\t\n"
-                    "sshl v19.4s, v15.4s, v11.4s\t\n"
-
+                    
                     // 2's compelete of fraction
                     // v8 = sign extend floats
                     "sshr v8.4s,    v0.4s, #31\t\n"
@@ -390,10 +388,10 @@ namespace LowPrecision{
                     "sshr v11.4s,   v3.4s, #31\t\n"
             
                     // v20 = not fraction if sign is 1
-                    "eor v20.16B, v16.16B, v8.16B\t\n"
-                    "eor v21.16B, v17.16B, v9.16B\t\n"
-                    "eor v22.16B, v18.16B, v10.16B\t\n"
-                    "eor v23.16B, v19.16B, v11.16B\t\n"
+                    "eor v20.16B, v12.16B, v8.16B\t\n"
+                    "eor v21.16B, v13.16B, v9.16B\t\n"
+                    "eor v22.16B, v14.16B, v10.16B\t\n"
+                    "eor v23.16B, v15.16B, v11.16B\t\n"
                     
                     // v10 = 0 or 1
                     "ushr v8.4s, v8.4s, #31\t\n"
@@ -406,158 +404,478 @@ namespace LowPrecision{
                     "add v1.4s, v21.4s, v9.4s\t\n"
                     "add v2.4s, v22.4s, v10.4s\t\n"
                     "add v3.4s, v23.4s, v11.4s\t\n"
+                    
+                    // variable for function g(n) = n - 3
+                    "mov w0, #3\n\t"                        // w0 = 3
 
-                    // Multiplication  
-                    // Rows #1
+                    ////////////////////////////////////////////////////////////////////
+                    //////////////////////// Multiplication ////////////////////////////  
+                    ////////////////////////////////////////////////////////////////////
+
+                    // Row #1
+
+                    // Mul
                     "mul v8.4s, v0.4s, v4.4s\n\t"
                     "mul v9.4s, v0.4s, v5.4s\n\t"
                     "mul v10.4s, v0.4s, v6.4s\n\t"
                     "mul v11.4s, v0.4s, v7.4s\n\t"
-                
-                    "ld1 {v0.4s},  [%[activation]], #16\n\t"
-
-                    // Rows #2
-                    "mul v12.4s, v1.4s, v4.4s\n\t"
-                    "mul v13.4s, v1.4s, v5.4s\n\t"
-                    "mul v14.4s, v1.4s, v6.4s\n\t"
-                    "mul v15.4s, v1.4s, v7.4s\n\t"
-
-                    "ld1 {v1.4s},  [%[activation]], #16\n\t"
-
-                    // Rows #3
-                    "mul v16.4s, v2.4s, v4.4s\n\t"
-                    "mul v17.4s, v2.4s, v5.4s\n\t"
-                    "mul v18.4s, v2.4s, v6.4s\n\t"
-                    "mul v19.4s, v2.4s, v7.4s\n\t"
                     
-                    "ld1 {v2.4s},  [%[activation]], #16\n\t"
+                    // Calculate shift utils
+                    // 2's com(results)
+                    "sshr v12.4s, v8.4s, #31\n\t"
+                    "sshr v13.4s, v9.4s, #31\n\t"
+                    "sshr v14.4s, v10.4s, #31\n\t"
+                    "sshr v15.4s, v11.4s, #31\n\t"
 
-                    // Rows #4
-                    "mul v20.4s, v3.4s, v4.4s\n\t"
-                    "mul v21.4s, v3.4s, v5.4s\n\t"
-                    "mul v22.4s, v3.4s, v6.4s\n\t"
-                    "mul v23.4s, v3.4s, v7.4s\n\t"
+                    "eor v20.16b, v8.16b, v12.16b\n\t"
+                    "eor v21.16b, v9.16b, v13.16b\n\t"
+                    "eor v22.16b, v10.16b, v14.16b\n\t"
+                    "eor v23.16b, v11.16b, v15.16b\n\t"
 
-                    "ld1 {v3.4s},  [%[activation]], #16\n\t"
+                    "ushr v12.4s, v8.4s, #31\n\t"
+                    "ushr v13.4s, v9.4s, #31\n\t"
+                    "ushr v14.4s, v10.4s, #31\n\t"
+                    "ushr v15.4s, v11.4s, #31\n\t"
+                    
+                    "add v12.4s, v20.4s, v12.4s\n\t"
+                    "add v13.4s, v21.4s, v13.4s\n\t"
+                    "add v14.4s, v22.4s, v14.4s\n\t"
+                    "add v15.4s, v23.4s, v15.4s\n\t"
+                    
+                    "dup v0.4s, w0\n\t"                 // v0 = 3
+
+                    // n = count of zeros on the left
+                    // n = 0 if 32bit --> n = 0, 1, 2, ... , 32
+                    "clz v12.4s, v12.4s\n\t"
+                    "clz v13.4s, v13.4s\n\t"
+                    "clz v14.4s, v14.4s\n\t"
+                    "clz v15.4s, v15.4s\n\t"
+
+                    // find bigest number g(n) = min(n)
+                    "uminv s12, v12.4s\n\t"
+                    "uminv s13, v13.4s\n\t"
+                    "uminv s14, v14.4s\n\t"
+                    "uminv s15, v15.4s\n\t"
+
+                    // Colapse g(n) to a vector
+                    "mov v12.s[1], v13.s[0]\n\t"
+                    "mov v12.s[2], v14.s[0]\n\t"
+                    "mov v12.s[3], v15.s[0]\n\t"
+
+                    // h(n) = g(n) - 3
+                    "sub v12.4s, v12.4s, v0.4s\n\t"
+                    
+                    // s(n) = sign(h(n))
+                    "sshr v13.4s, v12.4s, #31\n\t"
+
+                    // f(n) = and (h(n), s(n)) = n-2 if n<=2; 0 if n>=2
+                    "and v20.16b, v12.16b, v13.16b\n\t"
+
+                    // Extend f(n)s to 4 vector
+                    "dup v12.4s, v20.s[0]\n\t"
+                    "dup v13.4s, v20.s[1]\n\t"
+                    "dup v14.4s, v20.s[2]\n\t"
+                    "dup v15.4s, v20.s[3]\n\t"
+
+                    // shift utils is on v12-v15
+                    // A(0)*W(i)*2^(X_0 + f(n))         X_0 = v16.4s , f(n) = v12
+                    "add v12.4s, v12.4s, v16.4s\n\t"
+                    "add v13.4s, v13.4s, v16.4s\n\t"
+                    "add v14.4s, v14.4s, v16.4s\n\t"
+                    "add v15.4s, v15.4s, v16.4s\n\t"
+
+                    // we need to hold f(n) for calculate right exponrnt
+                    "mov v16.16b, v20.16b\n\t"
+
+                    // shift operation
+                    "sshl v8.4s, v8.4s, v12.4s\n\t"
+                    "sshl v9.4s, v9.4s, v13.4s\n\t"
+                    "sshl v10.4s, v10.4s, v14.4s\n\t"
+                    "sshl v11.4s, v11.4s, v15.4s\n\t"
 
                     // compress Resuls
-                    // Rows #1
                     "addv s8,   v8.4s\n\t"
                     "addv s9,   v9.4s\n\t"
                     "addv s10,  v10.4s\n\t"
                     "addv s11,  v11.4s\n\t"
 
-                    // Rows #2
-                    "addv s12,  v12.4s\n\t"
-                    "addv s13,  v13.4s\n\t"
-                    "addv s14,  v14.4s\n\t"
-                    "addv s15,  v15.4s\n\t"
+                    // store Result of Row 1
+                    "mov v20.s[0], v8.s[0]\n\t"
+                    "mov v20.s[1], v9.s[0]\n\t"
+                    "mov v20.s[2], v10.s[0]\n\t"
+                    "mov v20.s[3], v11.s[0]\n\t"
+
+                    ///////////////////// Rows #2
+                    // Mul
+                    "mul v8.4s, v1.4s, v4.4s\n\t"
+                    "mul v9.4s, v1.4s, v5.4s\n\t"
+                    "mul v10.4s, v1.4s, v6.4s\n\t"
+                    "mul v11.4s, v1.4s, v7.4s\n\t"
                     
+                    // 2's com(results)
+                    "sshr v12.4s, v8.4s, #31\n\t"
+                    "sshr v13.4s, v9.4s, #31\n\t"
+                    "sshr v14.4s, v10.4s, #31\n\t"
+                    "sshr v15.4s, v11.4s, #31\n\t"
+
+                    "eor v1.16b, v8.16b, v12.16b\n\t"
+                    "eor v21.16b, v9.16b, v13.16b\n\t"
+                    "eor v22.16b, v10.16b, v14.16b\n\t"
+                    "eor v23.16b, v11.16b, v15.16b\n\t"
+
+                    "ushr v12.4s, v8.4s, #31\n\t"
+                    "ushr v13.4s, v9.4s, #31\n\t"
+                    "ushr v14.4s, v10.4s, #31\n\t"
+                    "ushr v15.4s, v11.4s, #31\n\t"
+                    
+                    "add v12.4s, v1.4s, v12.4s\n\t"
+                    "add v13.4s, v21.4s, v13.4s\n\t"
+                    "add v14.4s, v22.4s, v14.4s\n\t"
+                    "add v15.4s, v23.4s, v15.4s\n\t"
+
+                    // n = count of zeros on the left
+                    // n = 0 if 32bit --> n = 0, 1, 2, ... , 32
+                    "clz v12.4s, v12.4s\n\t"
+                    "clz v13.4s, v13.4s\n\t"
+                    "clz v14.4s, v14.4s\n\t"
+                    "clz v15.4s, v15.4s\n\t"
+
+                    // find bigest number g(n) = max(n)
+                    "uminv s12, v12.4s\n\t"
+                    "uminv s13, v13.4s\n\t"
+                    "uminv s14, v14.4s\n\t"
+                    "uminv s15, v15.4s\n\t"
+
+                    "mov v12.s[1], v13.s[0]\n\t"
+                    "mov v12.s[2], v14.s[0]\n\t"
+                    "mov v12.s[3], v15.s[0]\n\t"
+
+                    // h(n) = g(n) - 3
+                    "sub v12.4s, v12.4s, v0.4s\n\t"
+                    
+                    // s(n) = sign(h(n))
+                    "sshr v13.4s, v12.4s, #31\n\t"
+
+                    // f(n) = and (h(n), s(n)) = n-2 if n<=2; 0 if n>=2
+                    "and v1.16b, v12.16b, v13.16b\n\t"
+
+                    "dup v12.4s, v1.s[0]\n\t"
+                    "dup v13.4s, v1.s[1]\n\t"
+                    "dup v14.4s, v1.s[2]\n\t"
+                    "dup v15.4s, v1.s[3]\n\t"
+
+                    // A(0)*W(i)*2^(X_0 + f(n))         X_0 = v16.4s , f(n) = v12
+                    "add v12.4s, v12.4s, v17.4s\n\t"
+                    "add v13.4s, v13.4s, v17.4s\n\t"
+                    "add v14.4s, v14.4s, v17.4s\n\t"
+                    "add v15.4s, v15.4s, v17.4s\n\t"
+
+                    // we need to hold f(n) for calculate right exponrnt
+                    "mov v17.16b, v1.16b\n\t"
+
+                    "sshl v8.4s, v8.4s, v12.4s\n\t"
+                    "sshl v9.4s, v9.4s, v13.4s\n\t"
+                    "sshl v10.4s, v10.4s, v14.4s\n\t"
+                    "sshl v11.4s, v11.4s, v15.4s\n\t"
+
+                    // compress Resuls
+                    "addv s8,   v8.4s\n\t"
+                    "addv s9,   v9.4s\n\t"
+                    "addv s10,  v10.4s\n\t"
+                    "addv s11,  v11.4s\n\t"
+
+                    "mov v21.s[0], v8.s[0]\n\t"
+                    "mov v21.s[1], v9.s[0]\n\t"
+                    "mov v21.s[2], v10.s[0]\n\t"
+                    "mov v21.s[3], v11.s[0]\n\t"
+
                     // Rows #3
-                    "addv s16,  v16.4s\n\t"
-                    "addv s17,  v17.4s\n\t"
-                    "addv s18,  v18.4s\n\t"
-                    "addv s19,  v19.4s\n\t"
+                    // Mul
+                    "mul v8.4s, v2.4s, v4.4s\n\t"
+                    "mul v9.4s, v2.4s, v5.4s\n\t"
+                    "mul v10.4s, v2.4s, v6.4s\n\t"
+                    "mul v11.4s, v2.4s, v7.4s\n\t"
+                    
+                    // 2's com(results)
+                    "sshr v12.4s, v8.4s, #31\n\t"
+                    "sshr v13.4s, v9.4s, #31\n\t"
+                    "sshr v14.4s, v10.4s, #31\n\t"
+                    "sshr v15.4s, v11.4s, #31\n\t"
+
+                    "eor v1.16b, v8.16b, v12.16b\n\t"
+                    "eor v2.16b, v9.16b, v13.16b\n\t"
+                    "eor v22.16b, v10.16b, v14.16b\n\t"
+                    "eor v23.16b, v11.16b, v15.16b\n\t"
+
+                    "ushr v12.4s, v8.4s, #31\n\t"
+                    "ushr v13.4s, v9.4s, #31\n\t"
+                    "ushr v14.4s, v10.4s, #31\n\t"
+                    "ushr v15.4s, v11.4s, #31\n\t"
+                    
+                    "add v12.4s, v1.4s, v12.4s\n\t"
+                    "add v13.4s, v2.4s, v13.4s\n\t"
+                    "add v14.4s, v22.4s, v14.4s\n\t"
+                    "add v15.4s, v23.4s, v15.4s\n\t"
+
+                    // n = count of zeros on the left
+                    // n = 0 if 32bit --> n = 0, 1, 2, ... , 32
+                    "clz v12.4s, v12.4s\n\t"
+                    "clz v13.4s, v13.4s\n\t"
+                    "clz v14.4s, v14.4s\n\t"
+                    "clz v15.4s, v15.4s\n\t"
+
+                    // find bigest number g(n) = max(n)
+                    "uminv s12, v12.4s\n\t"
+                    "uminv s13, v13.4s\n\t"
+                    "uminv s14, v14.4s\n\t"
+                    "uminv s15, v15.4s\n\t"
+
+                    "mov v12.s[1], v13.s[0]\n\t"
+                    "mov v12.s[2], v14.s[0]\n\t"
+                    "mov v12.s[3], v15.s[0]\n\t"
+
+                    // h(n) = g(n) - 3
+                    "sub v12.4s, v12.4s, v0.4s\n\t"
+                    
+                    // s(n) = sign(h(n))
+                    "sshr v13.4s, v12.4s, #31\n\t"
+
+                    // f(n) = and (h(n), s(n)) = n-2 if n<=2; 0 if n>=2
+                    "and v1.16b, v12.16b, v13.16b\n\t"
+
+                    "dup v12.4s, v1.s[0]\n\t"
+                    "dup v13.4s, v1.s[1]\n\t"
+                    "dup v14.4s, v1.s[2]\n\t"
+                    "dup v15.4s, v1.s[3]\n\t"
+
+                    // A(0)*W(i)*2^(X_0 + f(n))         X_0 = v16.4s , f(n) = v12
+                    "add v12.4s, v12.4s, v18.4s\n\t"
+                    "add v13.4s, v13.4s, v18.4s\n\t"
+                    "add v14.4s, v14.4s, v18.4s\n\t"
+                    "add v15.4s, v15.4s, v18.4s\n\t"
+
+                    // we need to hold f(n) for calculate right exponrnt
+                    "mov v18.16b, v1.16b\n\t"
+
+                    "sshl v8.4s, v8.4s, v12.4s\n\t"
+                    "sshl v9.4s, v9.4s, v13.4s\n\t"
+                    "sshl v10.4s, v10.4s, v14.4s\n\t"
+                    "sshl v11.4s, v11.4s, v15.4s\n\t"
+
+                    // compress Resuls
+                    "addv s8,   v8.4s\n\t"
+                    "addv s9,   v9.4s\n\t"
+                    "addv s10,  v10.4s\n\t"
+                    "addv s11,  v11.4s\n\t"
+
+                    "mov v22.s[0], v8.s[0]\n\t"
+                    "mov v22.s[1], v9.s[0]\n\t"
+                    "mov v22.s[2], v10.s[0]\n\t"
+                    "mov v22.s[3], v11.s[0]\n\t"
                     
                     // Rows #4
-                    "addv s20,  v20.4s\n\t"
-                    "addv s21,  v21.4s\n\t"
-                    "addv s22,  v22.4s\n\t"
-                    "addv s23,  v23.4s\n\t"
+                    // Mul
+                    "mul v8.4s, v3.4s, v4.4s\n\t"
+                    "mul v9.4s, v3.4s, v5.4s\n\t"
+                    "mul v10.4s, v3.4s, v6.4s\n\t"
+                    "mul v11.4s, v3.4s, v7.4s\n\t"
+                    
+                    // 2's com(results)
+                    "sshr v12.4s, v8.4s, #31\n\t"
+                    "sshr v13.4s, v9.4s, #31\n\t"
+                    "sshr v14.4s, v10.4s, #31\n\t"
+                    "sshr v15.4s, v11.4s, #31\n\t"
 
-                    // mov Resuls to v12-v15
-                    
-                    "mov v13.s[3], v15.s[0]\n\t"
-                    "mov v13.s[2], v14.s[0]\n\t"
-                    "mov v13.s[1], v13.s[0]\n\t"
-                    "mov v13.s[0], v12.s[0]\n\t"
+                    "eor v1.16b, v8.16b, v12.16b\n\t"
+                    "eor v2.16b, v9.16b, v13.16b\n\t"
+                    "eor v3.16b, v10.16b, v14.16b\n\t"
+                    "eor v23.16b, v11.16b, v15.16b\n\t"
 
-                    "mov v12.s[0], v8.s[0]\n\t"
-                    "mov v12.s[1], v9.s[0]\n\t"
-                    "mov v12.s[2], v10.s[0]\n\t"
-                    "mov v12.s[3], v11.s[0]\n\t"
+                    "ushr v12.4s, v8.4s, #31\n\t"
+                    "ushr v13.4s, v9.4s, #31\n\t"
+                    "ushr v14.4s, v10.4s, #31\n\t"
+                    "ushr v15.4s, v11.4s, #31\n\t"
                     
-                    "mov v14.s[0], v16.s[0]\n\t"
-                    "mov v14.s[1], v17.s[0]\n\t"
-                    "mov v14.s[2], v18.s[0]\n\t"
-                    "mov v14.s[3], v19.s[0]\n\t"
+                    "add v12.4s, v1.4s, v12.4s\n\t"
+                    "add v13.4s, v2.4s, v13.4s\n\t"
+                    "add v14.4s, v3.4s, v14.4s\n\t"
+                    "add v15.4s, v23.4s, v15.4s\n\t"
                     
-                    "mov v15.s[0], v20.s[0]\n\t"
-                    "mov v15.s[1], v21.s[0]\n\t"
-                    "mov v15.s[2], v22.s[0]\n\t"
-                    "mov v15.s[3], v23.s[0]\n\t"
+
+                    // n = count of zeros on the left
+                    // n = 0 if 32bit --> n = 0, 1, 2, ... , 32
+                    "clz v12.4s, v12.4s\n\t"
+                    "clz v13.4s, v13.4s\n\t"
+                    "clz v14.4s, v14.4s\n\t"
+                    "clz v15.4s, v15.4s\n\t"
+
+                    // find bigest number g(n) = max(n)
+                    "uminv s12, v12.4s\n\t"
+                    "uminv s13, v13.4s\n\t"
+                    "uminv s14, v14.4s\n\t"
+                    "uminv s15, v15.4s\n\t"
+
+                    "mov v12.s[1], v13.s[0]\n\t"
+                    "mov v12.s[2], v14.s[0]\n\t"
+                    "mov v12.s[3], v15.s[0]\n\t"
+                    
+                    // h(n) = g(n) - 3
+                    "sub v12.4s, v12.4s, v0.4s\n\t"
+                    
+                    // s(n) = sign(h(n))
+                    "sshr v13.4s, v12.4s, #31\n\t"
+
+                    // f(n) = and (h(n), s(n)) = n-2 if n<=2; 0 if n>=2
+                    "and v1.16b, v12.16b, v13.16b\n\t"
+
+                    "dup v12.4s, v1.s[0]\n\t"
+                    "dup v13.4s, v1.s[1]\n\t"
+                    "dup v14.4s, v1.s[2]\n\t"
+                    "dup v15.4s, v1.s[3]\n\t"
+
+                    // A(0)*W(i)*2^(X_0 + f(n))         X_0 = v16.4s , f(n) = v12
+                    "add v12.4s, v12.4s, v19.4s\n\t"
+                    "add v13.4s, v13.4s, v19.4s\n\t"
+                    "add v14.4s, v14.4s, v19.4s\n\t"
+                    "add v15.4s, v15.4s, v19.4s\n\t"
+
+                    // we need to hold f(n) for calculate right exponrnt
+                    "mov v19.16b, v1.16b\n\t"
+
+                    "sshl v8.4s, v8.4s, v12.4s\n\t"
+                    "sshl v9.4s, v9.4s, v13.4s\n\t"
+                    "sshl v10.4s, v10.4s, v14.4s\n\t"
+                    "sshl v11.4s, v11.4s, v15.4s\n\t"
+
+                    // compress Resuls
+                    "addv s8,   v8.4s\n\t"
+                    "addv s9,   v9.4s\n\t"
+                    "addv s10,  v10.4s\n\t"
+                    "addv s11,  v11.4s\n\t"
+
+                    "mov v23.s[0], v8.s[0]\n\t"
+                    "mov v23.s[1], v9.s[0]\n\t"
+                    "mov v23.s[2], v10.s[0]\n\t"
+                    "mov v23.s[3], v11.s[0]\n\t"
+
+                    ///////////////////////////////////////////////////////////////////////////
+                    ////////////////////////// End Mul ////////////////////////////////////////
 
                     // extract result sign
-                    "and v8.16B, v12.16B, v31.16B\t\n" 
-                    "and v9.16B, v13.16B, v31.16B\t\n" 
-                    "and v10.16B, v14.16B, v31.16B\t\n" 
-                    "and v11.16B, v14.16B, v31.16B\t\n" 
+                    "and v8.16B, v20.16B, v31.16B\t\n" 
+                    "and v9.16B, v21.16B, v31.16B\t\n" 
+                    "and v10.16B, v22.16B, v31.16B\t\n" 
+                    "and v11.16B, v23.16B, v31.16B\t\n" 
 
                     // v31 = 80000000 ==> 00000008
                     "ushr v31.4s, v31.4s, #28\n\t"
 
                     // 2's compelete of fraction
                     // sign extend
-                    "sshr v16.4s, v12.4s, #31\t\n"
-                    "sshr v17.4s, v13.4s, #31\t\n"
-                    "sshr v18.4s, v14.4s, #31\t\n"
-                    "sshr v19.4s, v15.4s, #31\t\n"
+                    "sshr v12.4s, v20.4s, #31\t\n"
+                    "sshr v13.4s, v21.4s, #31\t\n"
+                    "sshr v14.4s, v22.4s, #31\t\n"
+                    "sshr v15.4s, v23.4s, #31\t\n"
 
                     // not fraction if sign is 1
-                    "eor v12.16B, v12.16B, v16.16B\t\n"
-                    "eor v13.16B, v13.16B, v17.16B\t\n"
-                    "eor v14.16B, v14.16B, v18.16B\t\n"
-                    "eor v15.16B, v15.16B, v19.16B\t\n"
+                    "eor v20.16B, v20.16B, v12.16B\t\n"
+                    "eor v21.16B, v21.16B, v13.16B\t\n"
+                    "eor v22.16B, v22.16B, v14.16B\t\n"
+                    "eor v23.16B, v23.16B, v15.16B\t\n"
 
-                    "ushr v16.4s, v16.4s, #31\t\n"
-                    "ushr v17.4s, v17.4s, #31\t\n"
-                    "ushr v18.4s, v18.4s, #31\t\n"
-                    "ushr v19.4s, v19.4s, #31\t\n"
+                    "ushr v12.4s, v12.4s, #31\t\n"
+                    "ushr v13.4s, v13.4s, #31\t\n"
+                    "ushr v14.4s, v14.4s, #31\t\n"
+                    "ushr v15.4s, v15.4s, #31\t\n"
 
                     // not(fraction)+1 if sign is 1
-                    "add v12.4s, v12.4s, v16.4s\t\n"
-                    "add v13.4s, v13.4s, v17.4s\t\n"
-                    "add v14.4s, v14.4s, v18.4s\t\n"
-                    "add v15.4s, v15.4s, v19.4s\t\n"
+                    "add v20.4s, v20.4s, v12.4s\t\n"
+                    "add v21.4s, v21.4s, v13.4s\t\n"
+                    "add v22.4s, v22.4s, v14.4s\t\n"
+                    "add v23.4s, v23.4s, v15.4s\t\n"
 
-                    // extend maxs to vectors
+                    // Find bitwidth of result of each register?
+                    "clz v12.4s, v20.4s\n\t"
+                    "clz v13.4s, v21.4s\n\t"
+                    "clz v14.4s, v22.4s\n\t"
+                    "clz v15.4s, v23.4s\n\t"
+                    
+                    "cmeq v0.4s, v20.4s, #0\n\t"
+                    "cmeq v1.4s, v21.4s, #0\n\t"
+                    "cmeq v2.4s, v22.4s, #0\n\t"
+                    "cmeq v3.4s, v23.4s, #0\n\t"
+
+                    "not v0.16b, v0.16b\n\t"
+                    "not v1.16b, v1.16b\n\t"
+                    "not v2.16b, v2.16b\n\t"
+                    "not v3.16b, v3.16b\n\t"
+
+                    // v12 = count zero - 8
+                    "sub v12.4s, v12.4s, v31.4s\n\t"
+                    "sub v13.4s, v13.4s, v31.4s\n\t"
+                    "sub v14.4s, v14.4s, v31.4s\n\t"
+                    "sub v15.4s, v15.4s, v31.4s\n\t"
+                    
+                    "and v12.16b, v0.16b, v12.16b\n\t"
+                    "and v13.16b, v1.16b, v13.16b\n\t"
+                    "and v14.16b, v2.16b, v14.16b\n\t"
+                    "and v15.16b, v3.16b, v15.16b\n\t"
+
+                    
+                    // v20 = v20 >> v12  ==> Mantisa = v20-23
+                    "sshl v20.4s, v20.4s, v12.4s\n\t"
+                    "sshl v21.4s, v21.4s, v13.4s\n\t"
+                    "sshl v22.4s, v22.4s, v14.4s\n\t"
+                    "sshl v23.4s, v23.4s, v15.4s\n\t"
+                    
+                    // exponent must be subtract with count of...
+                    //...shift left during the operation
+                    "add v12.4s, v12.4s, v16.4s\n\t"
+                    "add v13.4s, v13.4s, v17.4s\n\t"
+                    "add v14.4s, v14.4s, v18.4s\n\t"
+                    "add v15.4s, v15.4s, v19.4s\n\t"
+
+                    // v31 = 00000008 ==> 00800000
+                    "shl v31.4s, v31.4s, #20\n\t"
+
+                    // extend max exponents to vectors
                     "dup v16.4s, v28.s[0]\n\t"
                     "dup v17.4s, v28.s[1]\n\t"
                     "dup v18.4s, v28.s[2]\n\t"
                     "dup v19.4s, v28.s[3]\n\t"
 
-                    // Find bitwidth of result of each register?
-                    "clz v20.4s, v12.4s\n\t"
-                    "clz v21.4s, v13.4s\n\t"
-                    "clz v22.4s, v14.4s\n\t"
-                    "clz v23.4s, v15.4s\n\t"
-                    
-                    // v16 = count zero - 8
-                    "sub v20.4s, v20.4s, v31.4s\n\t"
-                    "sub v21.4s, v21.4s, v31.4s\n\t"
-                    "sub v22.4s, v22.4s, v31.4s\n\t"
-                    "sub v23.4s, v23.4s, v31.4s\n\t"
+                    // v31 = 00800000 ==> FF7FFFFF bit 24 is 0
+                    // "not v31.16b, v31.16b\n\t"
 
-                    // v0 = v0 << v16
-                    "sshl v12.4s, v12.4s, v20.4s\n\t"
-                    "sshl v13.4s, v13.4s, v21.4s\n\t"
-                    "sshl v14.4s, v14.4s, v22.4s\n\t"
-                    "sshl v15.4s, v15.4s, v23.4s\n\t"
+                    // v16 = right exp
+                    "sub v16.4s, v16.4s, v12.4s\n\t"
+                    "sub v17.4s, v17.4s, v13.4s\n\t"
+                    "sub v18.4s, v18.4s, v14.4s\n\t"
+                    "sub v19.4s, v19.4s, v15.4s\n\t"
                     
-                    // v8 = right exp
-                    "sub v16.4s, v16.4s, v20.4s\n\t"
-                    "sub v17.4s, v17.4s, v21.4s\n\t"
-                    "sub v18.4s, v18.4s, v22.4s\n\t"
-                    "sub v19.4s, v19.4s, v23.4s\n\t"
+                    // check for Zero value. if is Zero then rghit exp is 0
+                    "and v16.16b, v16.16b, v0.16b\n\t"
+                    "and v17.16b, v17.16b, v1.16b\n\t"
+                    "and v18.16b, v18.16b, v2.16b\n\t"
+                    "and v19.16b, v19.16b, v3.16b\n\t"
 
-                    // v31 = 00000008 ==> 00800000
-                    "shl v31.4s, v31.4s, #20\n\t"
+                    // remove bit 24 from fraction 
+                    "and v12.16b, v0.16b, v31.16b\n\t"
+                    "and v13.16b, v1.16b, v31.16b\n\t"
+                    "and v14.16b, v2.16b, v31.16b\n\t"
+                    "and v15.16b, v3.16b, v31.16b\n\t"
+                    
+                    // Load Activations for next iteration
+                    "ld1 {v0.4s},  [%[activation]], #16\n\t"
+                    "ld1 {v1.4s},  [%[activation]], #16\n\t"
+                    "ld1 {v2.4s},  [%[activation]], #16\n\t"
+                    "ld1 {v3.4s},  [%[activation]], #16\n\t"
 
                     // extract mantisa
-                    "eor v12.16b, v12.16b, v31.16b\n\t"
-                    "eor v13.16b, v13.16b, v31.16b\n\t"
-                    "eor v14.16b, v14.16b, v31.16b\n\t"
-                    "eor v15.16b, v15.16b, v31.16b\n\t"
+                    "eor v12.16b, v20.16b, v12.16b\n\t"
+                    "eor v13.16b, v21.16b, v13.16b\n\t"
+                    "eor v14.16b, v22.16b, v14.16b\n\t"
+                    "eor v15.16b, v23.16b, v15.16b\n\t"
 
                     "eor v8.16B,    v8.16B,  v12.16B\n\t"
                     "eor v9.16B,    v9.16B,  v13.16B\n\t"
