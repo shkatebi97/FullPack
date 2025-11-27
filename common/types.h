@@ -9,6 +9,7 @@
 #include <fstream>
 #include <streambuf>
 #include <string.h>
+#include <vector>
 #ifndef TFLITE_BUILD
 #include "half.hpp"
 #endif
@@ -38,21 +39,24 @@ typedef enum : uint64_t {
     NotExtracted            = 0x000000000800,
     NotSupported            = 0x000000001000,
     NotUpdated              = 0x000000002000,
-    LHSNotReady             = 0x000000004000,
-    RHSNotReady             = 0x000000008000,
-    DSTNotReady             = 0x000000010000,
-    LHSNotInitialized       = 0x000000020000,
-    RHSNotInitialized       = 0x000000040000,
-    DSTNotInitialized       = 0x000000080000,
-    NotNeeded               = 0x000000100000,
-    NeedDowncastWScratch    = 0x000000200000,
-    InputsSignsDifferent    = 0x000000400000,
-    DSTCantBeUnsigned       = 0x000000800000,
-    NeedPackingScratchpad   = 0x000001000000,
-    NeedPaddingScratchpad   = 0x000002000000,
-    LHSFinalShapeNotValid   = 0x000004000000,
-    RHSFinalShapeNotValid   = 0x000008000000,
-    DSTFinalShapeNotValid   = 0x000010000000,
+    LHSPaddedNotReady       = 0x000000004000,
+    RHSPaddedNotReady       = 0x000000008000,
+    DSTPaddedNotReady       = 0x000000010000,
+    LHSScratchpadNotReady   = 0x000000020000,
+    RHSScratchpadNotReady   = 0x000000040000,
+    DSTScratchpadNotReady   = 0x000000080000,
+    LHSNotInitialized       = 0x000000100000,
+    RHSNotInitialized       = 0x000000200000,
+    DSTNotInitialized       = 0x000000400000,
+    NotNeeded               = 0x000000800000,
+    NeedDowncastWScratch    = 0x000001000000,
+    InputsSignsDifferent    = 0x000002000000,
+    DSTCantBeUnsigned       = 0x000004000000,
+    NeedPackingScratchpad   = 0x000008000000,
+    NeedPaddingScratchpad   = 0x000010000000,
+    LHSFinalShapeNotValid   = 0x000020000000,
+    RHSFinalShapeNotValid   = 0x000040000000,
+    DSTFinalShapeNotValid   = 0x000080000000,
     // Source
     InputQuantizition       = 0x000100000000,
     FilterQuantizition      = 0x000200000000,
@@ -124,14 +128,23 @@ inline const char* get_status_string(Status status){
     case NotUpdated:
         strcpy(output, std::string("NotUpdated").c_str());
         break;
-    case LHSNotReady:
-        strcpy(output, std::string("LHSNotReady").c_str());
+    case LHSPaddedNotReady:
+        strcpy(output, std::string("LHSPaddedNotReady").c_str());
         break;
-    case RHSNotReady:
-        strcpy(output, std::string("RHSNotReady").c_str());
+    case RHSPaddedNotReady:
+        strcpy(output, std::string("RHSPaddedNotReady").c_str());
         break;
-    case DSTNotReady:
-        strcpy(output, std::string("DSTNotReady").c_str());
+    case DSTPaddedNotReady:
+        strcpy(output, std::string("DSTPaddedNotReady").c_str());
+        break;
+    case LHSScratchpadNotReady:
+        strcpy(output, std::string("LHSScratchpadNotReady").c_str());
+        break;
+    case RHSScratchpadNotReady:
+        strcpy(output, std::string("RHSScratchpadNotReady").c_str());
+        break;
+    case DSTScratchpadNotReady:
+        strcpy(output, std::string("DSTScratchpadNotReady").c_str());
         break;
     case LHSNotInitialized:
         strcpy(output, std::string("LHSNotInitialized").c_str());
@@ -581,11 +594,14 @@ public:
     Shape():number_dims(0),size(nullptr),flatsize(0){id = last_id; last_id++;}
     ~Shape(){
         this->initilizied = false;
-        if (this->size && this->allocated)
-            if (number_dims > 1)
+        if (this->size && this->allocated){
+            if (number_dims > 1) {
                 delete[] this->size;
-            else
+            }
+            else {
                 delete this->size;
+            }
+        }
         this->allocated = false;
     }
     Shape(const Shape& reference){
