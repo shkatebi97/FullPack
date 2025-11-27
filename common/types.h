@@ -9,6 +9,7 @@
 #include <fstream>
 #include <streambuf>
 #include <string.h>
+#include <vector>
 #ifndef TFLITE_BUILD
 #include "half.hpp"
 #endif
@@ -593,11 +594,14 @@ public:
     Shape():number_dims(0),size(nullptr),flatsize(0){id = last_id; last_id++;}
     ~Shape(){
         this->initilizied = false;
-        if (this->size && this->allocated)
-            if (number_dims > 1)
+        if (this->size && this->allocated){
+            if (number_dims > 1) {
                 delete[] this->size;
-            else
+            }
+            else {
                 delete this->size;
+            }
+        }
         this->allocated = false;
     }
     Shape(const Shape& reference){

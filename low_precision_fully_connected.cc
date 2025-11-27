@@ -1884,21 +1884,21 @@ namespace LowPrecision{
                 assert(new_shape.number_dims <= 2 && "Expected 2 dimensions for the weight matrix");
             } else if (type == LowPrecision::MatrixType::Output){
                 if (pad_rows_too)
-                    new_shape.size[0] = ::ceil(input_shape.size[0] / (float(M))) * M;
+                    new_shape.size[new_shape.number_dims - 2] = ::ceil(input_shape.size[input_shape.number_dims - 2] / (float(M))) * M;
                 else
-                    new_shape.size[0] = input_shape.size[0];
-                new_shape.size[1] = ::ceil(input_shape.size[1] / (float(N))) * N;
+                    new_shape.size[new_shape.number_dims - 2] = input_shape.size[input_shape.number_dims - 2];
+                new_shape.size[new_shape.number_dims - 1] = ::ceil(input_shape.size[input_shape.number_dims - 1] / (float(N))) * N;
                 if (new_shape.number_dims > 2)
-                    for (int i = 2; i < new_shape.number_dims; i++)
+                    for (int i = 0; i < new_shape.number_dims - 2; i++)
                         new_shape.size[i] = input_shape.size[i];
             } else {
                 if (pad_rows_too)
-                    new_shape.size[0] = ::ceil(input_shape.size[0] / (float(M))) * M;
+                    new_shape.size[new_shape.number_dims - 2] = ::ceil(input_shape.size[input_shape.number_dims - 2] / (float(M))) * M;
                 else
-                    new_shape.size[0] = input_shape.size[0];
-                new_shape.size[1] = ::ceil(input_shape.size[1] / (float(K))) * K;
+                    new_shape.size[new_shape.number_dims - 2] = input_shape.size[input_shape.number_dims - 2];
+                new_shape.size[new_shape.number_dims - 1] = ::ceil(input_shape.size[input_shape.number_dims - 1] / (float(K))) * K;
                 if (new_shape.number_dims > 2)
-                    for (int i = 2; i < new_shape.number_dims; i++)
+                    for (int i = 0; i < new_shape.number_dims - 2; i++)
                         new_shape.size[i] = input_shape.size[i];
             }
             new_shape.flatsize = ::LowPrecision::FullyConnected::CalcFlatSize(new_shape.size, new_shape.number_dims);
