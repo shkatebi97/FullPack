@@ -9,6 +9,8 @@
 #include <fstream>
 #include <streambuf>
 #include <string.h>
+#include <stdint.h>
+#include <vector>
 #ifndef TFLITE_BUILD
 #include "half.hpp"
 #endif

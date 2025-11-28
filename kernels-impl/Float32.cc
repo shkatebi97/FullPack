@@ -205,6 +205,7 @@ namespace LowPrecision{
                 float32_t* output, LowPrecision::Shape output_shape,
                 LowPrecision::MulParams params
             ){
+                #ifdef IS_ARM
                 int lhs_batches = input_shape.size[0],
                     lhs_columns = input_shape.size[1],
                     rhs_rows    = kernel_shape.size[1],
