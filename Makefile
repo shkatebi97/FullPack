@@ -107,7 +107,7 @@ ifeq ($(TARGET_ISA), aarch64 x86_64-avx512 x86_64-avx2 x86_64-avx)
 link:												Build-Ruy
 endif
 
-link:												libfullpack.so \
+link:												$(BUILD_DIR)/libfullpack.so \
 													$(BUILD_DIR)/low_precision_fully_connected.o \
 													$(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o \
 													$(BUILD_DIR)/low_precision_fully_connected_test.o
