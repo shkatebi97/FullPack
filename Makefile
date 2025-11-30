@@ -371,7 +371,7 @@ $(BUILD_DIR)/low_precision_fully_connected_test.o:				low_precision_fully_connec
 													common/flags.h \
 													low_precision_fully_connected_benchmark.h \
 													Makefile
-	$(CXX) low_precision_fully_connected_test.cc  $(KERNELS_MEM_ACCESS_FLAGS) -I$(RUY_INC) $(CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/low_precision_fully_connected_test.o -c
+	$(CXX) low_precision_fully_connected_test.cc  $(KERNELS_MEM_ACCESS_FLAGS) $(RUY_INC) $(CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/low_precision_fully_connected_test.o -c
 
 clean:
 	$(RM) -r $(BUILD_DIR) build-*
