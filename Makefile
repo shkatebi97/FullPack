@@ -103,10 +103,19 @@ else
 all: 												link
 endif
 
-ifeq ($(TARGET_ISA), aarch64 x86_64-avx512 x86_64-avx2 x86_64-avx)
-link:												Build-Ruy
-endif
-
+ifeq ($(filter $(TARGET_ISA), aarch64 x86_64-avx512 x86_64-avx2 x86_64-avx), $(TARGET_ISA))
+link:												Build-Ruy \
+													$(BUILD_DIR)/libfullpack.so \
+													$(BUILD_DIR)/low_precision_fully_connected.o \
+													$(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o \
+													$(BUILD_DIR)/low_precision_fully_connected_test.o \
+													common/types.h \
+													common/flags.h \
+													common/half.hpp \
+													common/asmutility.h \
+													Makefile
+	$(CXX) $(BUILD_DIR)/low_precision_fully_connected.o $(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o $(BUILD_DIR)/low_precision_fully_connected_test.o $(KERNELS_OBJS) $(RUY_LIB) $(RUY_LIB_LINK) $(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) $(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/low_precision_fully_connected_test
+else
 link:												$(BUILD_DIR)/libfullpack.so \
 													$(BUILD_DIR)/low_precision_fully_connected.o \
 													$(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o \
@@ -117,6 +126,7 @@ link:												$(BUILD_DIR)/libfullpack.so \
 													common/asmutility.h \
 													Makefile
 	$(CXX) $(BUILD_DIR)/low_precision_fully_connected.o $(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o $(BUILD_DIR)/low_precision_fully_connected_test.o $(KERNELS_OBJS) $(RUY_LIB) $(RUY_LIB_LINK) $(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) $(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/low_precision_fully_connected_test
+endif
 
 $(BUILD_DIR)/libfullpack.so:						Create-Build-Directory \
 													$(BUILD_DIR)/low_precision_fully_connected.o \
@@ -137,7 +147,7 @@ Create-Build-Directory:
 			 $(BUILD_DIR)/kernels-impl/Float32-kernels \
 			 $(BUILD_DIR)/ops-implementations/mul
 
-ifneq ($(TARGET_ISA), riscv-vector riscv64-vector-internal)
+ifneq ($(filter $(TARGET_ISA), riscv-vector riscv64-vector-internal), $(TARGET_ISA))
 Build-Ruy:					
 	$(MAKE) -C ruy ENABLE_RUY_PROFILER=$(ENABLE_RUY_PROFILER) DEBUG=$(DEBUG) DISABLE_KERNELS_MEM_ACCESS=$(DISABLE_KERNELS_MEM_ACCESS) TARGET_ISA=$(TARGET_ISA)
 else
