@@ -110,7 +110,7 @@ endif
 link:												$(BUILD_DIR)/libfullpack.so \
 													$(BUILD_DIR)/low_precision_fully_connected.o \
 													$(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o \
-													$(BUILD_DIR)/low_precision_fully_connected_test.o
+													$(BUILD_DIR)/low_precision_fully_connected_test.o \
 													common/types.h \
 													common/flags.h \
 													common/half.hpp \
