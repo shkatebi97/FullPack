@@ -1,9 +1,13 @@
 MKDIR=mkdir
 TARGET_ISA ?= aarch64
-RUY_LIB=ruy/bazel-bin/ruy
-RUY_LIB_PROFILER=ruy/bazel-bin/ruy/profiler
-RUY_INC=ruy
+RUY_LIB=-Lruy/bazel-bin/ruy
+RUY_LIB_PROFILER=-Lruy/bazel-bin/ruy/profiler
+RUY_INC=-Iruy
 RUY_CCFLAGS := 	-Wall -Wextra -Wc++14-compat -Wundef -lpthread
+RUY_LIB_PROFILER_LINK := -linstrumentation
+CPU_LIB=-Lruy/bazel-bin/external/cpuinfo
+CPU_INC=-Iruy/third_party/cpuinfo/include
+CPU_LIB_LINK := -lcpuinfo_impl -lclog
 ifeq ($(TARGET_ISA), aarch64)
 	RUY_LIB_LINK := -lcontext -lkernel_arm -lpack_arm -lfrontend -lprepacked_cache -lcontext_get_ctx -lctx -lallocator -lcpuinfo -lthread_pool -lprepare_packed_matrices -ltrmul -lblock_map -lapply_multiplier -lblocking_counter -ldenormal -lsystem_aligned_alloc -ltune -lwait
 	ARCH_MODIFIER_FLAGS := -march=armv8.2-a+fp16
@@ -32,11 +36,40 @@ else ifeq ($(TARGET_ISA), x86_64-avx)
 	CXX := /usr/bin/g++
 	CC := /usr/bin/gcc
 	BUILD_DIR?=build-x86_64-avx
+else ifeq ($(TARGET_ISA), riscv64-vector-internal)
+	RUY_LIB_LINK:=
+	RUY_LIB:=
+	RUY_LIB_PROFILER:=
+	RUY_INC:=
+	RUY_CCFLAGS:=
+	RUY_LIB_PROFILER_LINK:=
+	CPU_LIB:=
+	CPU_INC:=
+	CPU_LIB_LINK:=
+	ARCH_MODIFIER_FLAGS :=
+	SHARED_CCFLAGS = -lstdc++ -std=c++20 $(OPTIMIZATION_FLAG) -Wno-pointer-arith -Wno-narrowing $(ARCH_DEFINES) -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
+	ARCH_DEFINES := -DIS_RISCV -DIS_RISCV64 -DHAS_VEXTENSION
+	TOOLCHAIN_INSTALL_PREFIX?=/riscv/_install
+# 	Can be riscv64-unknown-linux-gnu or riscv64-unknown-elf
+	ifeq ($(TARGET_TYPE), linux)
+		TARGET:=riscv64-unknown-linux-gnu
+	else ifeq ($(TARGET_TYPE), newlib)
+		TARGET:=riscv64-unknown-elf
+	endif
+	CXX:=$(TOOLCHAIN_INSTALL_PREFIX)/bin/$(TARGET)-g++
+	CC:=$(TOOLCHAIN_INSTALL_PREFIX)/bin/$(TARGET)-gcc
+	SYSROOT?=$(INSTALL_PREFIX)/$(TARGET)
+	SUB_PARAM?=
+  BUILD_DIR?=build-rvv
+else ifeq ($(TARGET_ISA), riscv64-vector)
+# 	Can be gem5/llvm-rv64gcv-newlib or gem5/llvm-rv64gcv-linux
+	TARGET_TYPE?=linux
+	ifeq ($(TARGET_TYPE), linux)
+		RISCV_BUILDER_IMAGE:=gem5/llvm-rv64gcv-linux
+	else ifeq ($(TARGET_TYPE), newlib)
+		RISCV_BUILDER_IMAGE:=gem5/llvm-rv64gcv-newlib
+	endif
 endif
-RUY_LIB_PROFILER_LINK := -linstrumentation
-CPU_LIB=ruy/bazel-bin/external/cpuinfo
-CPU_INC=ruy/third_party/cpuinfo/include
-CPU_LIB_LINK := -lcpuinfo_impl -lclog
 
 KERNELS_OBJS := $(BUILD_DIR)/kernels-impl/Int8-Int4.o $(BUILD_DIR)/kernels-impl/Int4-Int8.o $(BUILD_DIR)/kernels-impl/Int4-Int4.o $(BUILD_DIR)/kernels-impl/Int8-Ternary.o $(BUILD_DIR)/kernels-impl/Ternary-Int8.o $(BUILD_DIR)/kernels-impl/Ternary-Ternary.o $(BUILD_DIR)/kernels-impl/Int8-Binary.o $(BUILD_DIR)/kernels-impl/Binary-Int8.o $(BUILD_DIR)/kernels-impl/Binary-Binary.o $(BUILD_DIR)/kernels-impl/Binary-Binary-XOR.o $(BUILD_DIR)/kernels-impl/Int8-Quaternary.o $(BUILD_DIR)/kernels-impl/Int3-Int3.o $(BUILD_DIR)/kernels-impl/ULPPACK.o $(BUILD_DIR)/kernels-impl/ULPPACK/4x8-neon-multipack-type2.o $(BUILD_DIR)/kernels-impl/ULPPACK/4x8-neon-multipack.o $(BUILD_DIR)/kernels-impl/SelfDependent-kernels/W4A4.o $(BUILD_DIR)/kernels-impl/SelfDependent-kernels/W4A8.o $(BUILD_DIR)/kernels-impl/SelfDependent-kernels/W8A4.o $(BUILD_DIR)/kernels-impl/SelfDependent-kernels/W2A2.o $(BUILD_DIR)/kernels-impl/SelfDependent.o $(BUILD_DIR)/kernels-impl/BarrelShiftMultiplier-kernels/W8A8.o $(BUILD_DIR)/kernels-impl/BarrelShiftMultiplier-kernels/W4A4.o $(BUILD_DIR)/kernels-impl/BarrelShiftMultiplier.o $(BUILD_DIR)/kernels-impl/Float32.o
 
@@ -49,7 +82,7 @@ else
     OPTIMIZATION_FLAG = -O3
 endif
 
-SHARED_CCFLAGS = -pthread -lstdc++ $(OPTIMIZATION_FLAG) -Wno-pointer-arith -Wno-narrowing $(ARCH_DEFINES) -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
+SHARED_CCFLAGS ?= -pthread -lstdc++ $(OPTIMIZATION_FLAG) -Wno-pointer-arith -Wno-narrowing $(ARCH_DEFINES) -DTFLITE_BUILD -lm -flax-vector-conversions -fPIC
 CCFLAGS = -static $(SHARED_CCFLAGS)
 
 ENABLE_RUY_PROFILER ?= 0
@@ -61,17 +94,29 @@ else
     KERNELS_MEM_ACCESS_FLAGS = -UDISABLE_KERNELS_MEM_ACCESS
 endif
 
-all:												Build-Ruy \
-													$(BUILD_DIR)/libfullpack.so \
+ifeq ($(TARGET_ISA), riscv64-vector)
+all: 												docker-build
+
+docker-build:
+	docker run --rm -v $(PWD):/workspace -w /workspace $(RISCV_BUILDER_IMAGE) /bin/bash -c "make TARGET_ISA=riscv64-vector-internal DEBUG=$(DEBUG) DISABLE_KERNELS_MEM_ACCESS=$(DISABLE_KERNELS_MEM_ACCESS) TARGET_TYPE=$(TARGET_TYPE) $(SUB_PARAM)"
+else
+all: 												link
+endif
+
+ifeq ($(TARGET_ISA), aarch64 x86_64-avx512 x86_64-avx2 x86_64-avx)
+link:												Build-Ruy
+endif
+
+link:												libfullpack.so \
 													$(BUILD_DIR)/low_precision_fully_connected.o \
 													$(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o \
-													$(BUILD_DIR)/low_precision_fully_connected_test.o \
+													$(BUILD_DIR)/low_precision_fully_connected_test.o
 													common/types.h \
 													common/flags.h \
 													common/half.hpp \
 													common/asmutility.h \
 													Makefile
-	$(CXX) $(BUILD_DIR)/low_precision_fully_connected.o $(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o $(BUILD_DIR)/low_precision_fully_connected_test.o $(KERNELS_OBJS) -L$(RUY_LIB) $(RUY_LIB_LINK) -L$(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) -L$(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/low_precision_fully_connected_test
+	$(CXX) $(BUILD_DIR)/low_precision_fully_connected.o $(BUILD_DIR)/ops-implementations/mul/LowPrecisionPacking.o $(BUILD_DIR)/low_precision_fully_connected_test.o $(KERNELS_OBJS) $(RUY_LIB) $(RUY_LIB_LINK) $(RUY_LIB_PROFILER) $(RUY_LIB_PROFILER_LINK) $(CPU_LIB) $(CPU_LIB_LINK) $(RUY_CCFLAGS) $(CCFLAGS) ${LDFLAGS} -o $(BUILD_DIR)/low_precision_fully_connected_test
 
 $(BUILD_DIR)/libfullpack.so:						Create-Build-Directory \
 													$(BUILD_DIR)/low_precision_fully_connected.o \
@@ -92,8 +137,14 @@ Create-Build-Directory:
 			 $(BUILD_DIR)/kernels-impl/Float32-kernels \
 			 $(BUILD_DIR)/ops-implementations/mul
 
+ifneq ($(TARGET_ISA), riscv-vector riscv64-vector-internal)
 Build-Ruy:					
 	$(MAKE) -C ruy ENABLE_RUY_PROFILER=$(ENABLE_RUY_PROFILER) DEBUG=$(DEBUG) DISABLE_KERNELS_MEM_ACCESS=$(DISABLE_KERNELS_MEM_ACCESS) TARGET_ISA=$(TARGET_ISA)
+else
+Build-Ruy:
+	@echo "Ruy does not support RISC-V Vector target ISA."
+	@false
+endif
 
 ############################# Kernels Start #############################
 

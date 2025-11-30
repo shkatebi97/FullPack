@@ -10,6 +10,8 @@
 #include <streambuf>
 #include <string.h>
 #include <vector>
+// required for uint64_t
+#include <stdint.h>
 #ifndef TFLITE_BUILD
 #include "half.hpp"
 #endif
@@ -20,6 +22,10 @@ typedef float float32_t;
 
 #ifdef TFLITE_BUILD
 namespace LowPrecision{
+#endif
+
+#ifndef CLOCK_PROCESS_CPUTIME_ID
+#define CLOCK_PROCESS_CPUTIME_ID CLOCK_MONOTONIC
 #endif
 
 typedef enum : uint64_t {

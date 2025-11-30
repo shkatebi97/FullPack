@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdint.h>
 #include <bitset>
 int main(){
     int as[] = { -1,  0,  0 };
