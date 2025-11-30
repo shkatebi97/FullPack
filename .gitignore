@@ -1,6 +1,4 @@
-low_precision_fully_connected_test.o
-low_precision_fully_connected.o
-kernels/*.o
+
 low_precision_fully_connected_test
 result-multibatch/*
 !result-multibatch/benchmark.sh
@@ -14,6 +12,7 @@ Results/*/*/deepspeech-*/**
 !Results/experiment-51-CNNs-with-sleep-fixed-iterations-rpi4-SD-BDM-ordinary-I8I8/logs/CSVs/*.csv
 **/*.backup
 tmp-exp
+build*
 
 # Prerequisites
 *.d

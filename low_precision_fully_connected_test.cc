@@ -32,18 +32,23 @@ using namespace LowPrecision::FullyConnected;
 int verbosity_level = 0;
 
 template <typename T>
-inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape shape, bool no_print_hex = true){
+inline void print_2D_matrix(std::string name, T* matrix, LowPrecision::Shape shape, bool no_print_hex = true) {
     if (no_print_hex)
-        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << std::endl;
+        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ", Size: " << sizeof(T) << ", Type: " << typeid(T).name() << ") [" << std::endl;
     else
-        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ") [" << std::endl << std::hex;
+        std::cout << name << " = (Shape: " << LowPrecision::get_shape_string(shape) << ", Pointer: " << ((void*) matrix) << ", Size: " << sizeof(T) << ", Type: " << typeid(T).name() << ") [" << std::endl << std::hex;
     for (int i = 0; i < shape.size[0]; i++){
         std::cout << "\t[ ";
-        for (int j = 0; j < shape.size[1]; j++)
-            if (no_print_hex)
-                std::cout << (int)matrix[(i * shape.size[1]) + j] << ", ";
-            else
-                std::cout << "0x" << std::setfill('0') << std::setw(2) << (uint)matrix[(i * shape.size[1]) + j] << ", ";
+        for (int j = 0; j < shape.size[1]; j++) {
+            unsigned char* base = get_pointer_as<unsigned char>(&matrix[(i * shape.size[1]) + j]);
+            std::cout << "0x";
+            for (int z = 0; z < sizeof(T); z++)
+                if (no_print_hex)
+                    std::cout << static_cast<int>(base[z]) << ", ";
+                else
+                    std::cout << std::setfill('0') << std::setw(2) << static_cast<unsigned int>(base[z]);
+            std::cout << ", ";
+        }
         std::cout << "]" << std::endl;
     }
     std::cout << "]";
@@ -104,11 +109,12 @@ std::vector<std::tuple<size_t, size_t, size_t>> extractSize(std::string str){
     return result;
 }
 
-template <typename Ti, typename To>
-Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_shape, Shape kernel_shape, Shape output_shape, LowPrecision::SelfDependentType self_dependent_type = LowPrecision::SelfDependentType::NotSelfDependent){
+template <typename Ti1, typename Ti2, typename To>
+Status calculate_trusted_output(Ti1* input, Ti2* kernel, To* output, Shape input_shape, Shape kernel_shape, Shape output_shape, LowPrecision::SelfDependentType self_dependent_type = LowPrecision::SelfDependentType::NotSelfDependent){
     if (input_shape.size[1] != kernel_shape.size[0])
         return Status::SizesMisMatch;
     if (self_dependent_type != LowPrecision::SelfDependentType::NotSelfDependent){
+        // static_assert(std::is_same<Ti1, Ti2>::value, "Ti1 and Ti2 must be the same type");
         size_t M = input_shape.size[0];
         size_t K = kernel_shape.size[0];
         size_t N = kernel_shape.size[1];
@@ -197,7 +203,8 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
                             else
                                 output[m * o_offset + n] += input[m * i_offset + k] * kernel[k * k_offset + n];
         } else if (self_dependent_shifts_W == 0){
-            std::cout << " (met self_dependent_shifts_W == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            if (verbosity_level > 0)
+                std::cout << " (met self_dependent_shifts_W == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
             for (size_t m = 0; m < M; m++)
                 for (size_t n = 0; n < N; n++)
                     for (size_t k = 0; k < K; k++)
@@ -234,6 +241,154 @@ Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_s
     return Status::Success;
 }
 
+template <typename Ti, typename To>
+Status calculate_trusted_output(Ti* input, Ti* kernel, To* output, Shape input_shape, Shape kernel_shape, Shape output_shape, LowPrecision::SelfDependentType self_dependent_type = LowPrecision::SelfDependentType::NotSelfDependent){
+    if (input_shape.size[1] != kernel_shape.size[0])
+        return Status::SizesMisMatch;
+    if (self_dependent_type != LowPrecision::SelfDependentType::NotSelfDependent){
+        int M = input_shape.size[0];
+        int K = kernel_shape.size[0];
+        int N = kernel_shape.size[1];
+
+        int i_offset = K;
+        int k_offset = N;
+        int o_offset = N;
+
+        int self_dependent_shifts_A = LowPrecision::get_self_dependent_A_num_shifts(self_dependent_type);
+        int self_dependent_shifts_W = LowPrecision::get_self_dependent_W_num_shifts(self_dependent_type);
+        int self_dependent_counts_A = LowPrecision::get_self_dependent_A_data_count(self_dependent_type);
+        int self_dependent_counts_W = LowPrecision::get_self_dependent_W_data_count(self_dependent_type);
+        int self_dependent_offset = LowPrecision::get_self_dependent_offset(self_dependent_type);
+        To shift_value_A = pow(2, self_dependent_shifts_A);
+        To shift_value_W = pow(2, self_dependent_shifts_W);
+
+        if (verbosity_level > 0)
+            std::cout << "Caculating Trusted Output with Activations shift value of " << shift_value_A
+                      << " and Weights shift value of " << shift_value_W 
+                      << " and offset of " << self_dependent_offset;
+        if (self_dependent_shifts_A == self_dependent_shifts_W){
+            if (verbosity_level > 0)
+                std::cout << " (met self_dependent_shifts_A == self_dependent_shifts_W and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            for (int m = 0; m < M; m++)
+                for (int n = 0; n < N; n++) {
+                    To t = 0;
+                    for (int k = 0; k < K; k++) {
+                        if (self_dependent_offset > 1) 
+                            if (k % self_dependent_offset == 0 && k + self_dependent_offset < K)
+                                t += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + (k + self_dependent_offset)]) * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + self_dependent_offset) * k_offset + n]);
+                            else
+                                t += input[m * i_offset + k] * kernel[k * k_offset + n];
+                        else
+                            if (self_dependent_counts_A == self_dependent_counts_W)
+                                if (self_dependent_counts_A == 2)
+                                    if (k % 2 == 0 && k + self_dependent_offset < K)
+                                        t += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + k + 1]) * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + 1) * k_offset + n]);
+                                    else
+                                        t += input[m * i_offset + k] * kernel[k * k_offset + n];
+                                else if (self_dependent_counts_A == 4)
+                                    if (k % 4 == 0 && k + self_dependent_offset < K)
+                                        t += (
+                                                0 * shift_value_A * input[m * i_offset + k + 0] + 
+                                                1 * shift_value_A * input[m * i_offset + k + 1] +
+                                                2 * shift_value_A * input[m * i_offset + k + 2] +
+                                                3 * shift_value_A * input[m * i_offset + k + 3]
+                                            ) * (
+                                                0 * shift_value_W * kernel[(k + 0) * k_offset + n] +
+                                                1 * shift_value_W * kernel[(k + 1) * k_offset + n] +
+                                                2 * shift_value_W * kernel[(k + 2) * k_offset + n] +
+                                                3 * shift_value_W * kernel[(k + 3) * k_offset + n]
+                                            );
+                                    else if (k % 4 == 1 && k + self_dependent_offset < K)
+                                        t += (
+                                                0 * shift_value_A * input[m * i_offset + k + 0] + 
+                                                1 * shift_value_A * input[m * i_offset + k + 1] +
+                                                2 * shift_value_A * input[m * i_offset + k + 2]
+                                            ) * (
+                                                0 * shift_value_W * kernel[(k + 0) * k_offset + n] +
+                                                1 * shift_value_W * kernel[(k + 1) * k_offset + n] +
+                                                2 * shift_value_W * kernel[(k + 2) * k_offset + n]
+                                            );
+                                    else if (k % 4 == 2 && k + self_dependent_offset < K)
+                                        t += (
+                                                0 * shift_value_A * input[m * i_offset + k + 0] + 
+                                                1 * shift_value_A * input[m * i_offset + k + 1]
+                                            ) * (
+                                                0 * shift_value_W * kernel[(k + 0) * k_offset + n] +
+                                                1 * shift_value_W * kernel[(k + 1) * k_offset + n]
+                                            );
+                                    else
+                                        t += input[m * i_offset + k] * kernel[k * k_offset + n];
+                    }
+                    output[m * o_offset + n] = t;
+                }
+        } else if (self_dependent_shifts_A == 0){
+            if (verbosity_level > 0)
+                std::cout << " (met self_dependent_shifts_A == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            for (int m = 0; m < M; m++)
+                for (int n = 0; n < N; n++) {
+                    To t = 0;
+                    for (int k = 0; k < K; k++) {
+                        if (self_dependent_offset > 1) 
+                            if (k % self_dependent_offset == 0 && k + self_dependent_offset < K)
+                                t += input[m * i_offset + k] * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + self_dependent_offset) * k_offset + n]);
+                            else
+                                t += input[m * i_offset + k] * kernel[k * k_offset + n];
+                        else
+                            if (k % 2 == 0 && k + self_dependent_offset < K)
+                                t += input[m * i_offset + k] * (kernel[k * k_offset + n] + shift_value_W * kernel[(k + 1) * k_offset + n]);
+                            else
+                                t += input[m * i_offset + k] * kernel[k * k_offset + n];
+                    }
+                    output[m * o_offset + n] = t;
+                }
+        } else if (self_dependent_shifts_W == 0){
+            if (verbosity_level > 0)
+                std::cout << " (met self_dependent_shifts_W == 0 and self_dependent_offset > 1 is " << (self_dependent_offset > 1) << ")" << std::endl;
+            for (int m = 0; m < M; m++)
+                for (int n = 0; n < N; n++) {
+                    To t = 0;
+                    for (int k = 0; k < K; k++) {
+                        if (self_dependent_offset > 1) 
+                            if (k % self_dependent_offset == 0 && k + self_dependent_offset < K)
+                                t += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + (k + self_dependent_offset)]) * kernel[k * k_offset + n];
+                            else
+                                t += input[m * i_offset + k] * kernel[k * k_offset + n];
+                        else
+                            if (k % 2 == 0 && k + self_dependent_offset < K)
+                                t += (input[m * i_offset + k] + shift_value_A * input[m * i_offset + k + 1]) * kernel[k * k_offset + n];
+                            else
+                                t += input[m * i_offset + k] * kernel[k * k_offset + n];
+                    }
+                    output[m * o_offset + n] = t;
+                }
+        }
+        else
+            return Status::NotImplemented;
+    } else {
+        if (verbosity_level > 0)
+            std::cout << "Caculating Trusted Output" << std::endl;
+
+        int M = input_shape.size[0];
+        int K = kernel_shape.size[0];
+        int N = kernel_shape.size[1];
+
+        int i_offset = K;
+        int k_offset = N;
+        int o_offset = N;
+        
+        for (int m = 0; m < M; m++)
+            for (int n = 0; n < N; n++) {
+                To t = 0;
+                for (int k = 0; k < K; k++)
+                    t += 
+                        input[m * i_offset + k] * 
+                        kernel[k * k_offset + n];
+                output[m * o_offset + n] = t;
+            }
+    }
+    return Status::Success;
+}
+
 void extract_gemm_size(std::string gemm_size, int& num_batch, int& num_inputs, int& num_output){
     if (gemm_size == "") return;
     if (gemm_size[0] == '"' && gemm_size[gemm_size.size() - 1] == '"')
@@ -247,7 +402,7 @@ void extract_gemm_size(std::string gemm_size, int& num_batch, int& num_inputs, i
     return;
 }
 
-bool run_gemm_api_tests(LowPrecision::Method method){
+bool run_gemm_api_tests_legacy(LowPrecision::Method method){
     if (verbosity_level > 0)
         std::cout << "Testing GEMM API" << std::endl;
     int num_spaces = 50 - string((method != kNoOptimization)?(LowPrecision::get_method_string(method)):("I8-I8")).length();
@@ -306,7 +461,11 @@ bool run_gemm_api_tests(LowPrecision::Method method){
     
     // Generate trusted output
     LowPrecision::Status trusted_ret;
-    trusted_ret = calculate_trusted_output(input_data_MB, kernel_data, output_trusted_MB, input_shape_MB, kernel_shape, output_shape_MB, LowPrecision::IsSelfDependent(method));
+    trusted_ret = calculate_trusted_output<int8_t, int32_t>(
+        input_data_MB, kernel_data, output_trusted_MB, 
+        input_shape_MB, kernel_shape, output_shape_MB, 
+        LowPrecision::IsSelfDependent(method)
+    );
 
     #if IS_ARM
     if (is_gem5)
@@ -466,6 +625,8 @@ bool run_gemm_api_tests(LowPrecision::Method method){
             print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[1], no_hex_verbosity);
             print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[1].flatsize, input_scratchpads_shape_list[0], no_hex_verbosity);
         }
+            
+        print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, no_hex_verbosity);
     }
 
     // Processing The Main GEMM
@@ -567,12 +728,351 @@ bool run_gemm_api_tests(LowPrecision::Method method){
         LowPrecision::mask_out_source(gemm_status)               == LowPrecision::Status::Success &&
         sanityCheckPass
     ) {
-        cout << LowPrecision::get_method_string(method) << " GEMM API Test" << spaces.substr(8) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+        cout << LowPrecision::get_method_string(method) << " GEMM API Overall Test" << spaces.substr(16) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
         return true;
     } else {
-        cout << LowPrecision::get_method_string(method) << " GEMM API Test" << spaces.substr(8) << "=> \033[1m\033[31mFAILED\033[0m" << endl;
+        cout << LowPrecision::get_method_string(method) << " GEMM API Overall Test" << spaces.substr(16) << "=> \033[1m\033[31mFAILED\033[0m" << endl;
         return false;
     }
+}
+
+template<typename LHS_T, typename RHS_T, typename OUT_T>
+bool run_gemm_api_tests(LowPrecision::Method method){
+    if (verbosity_level > 0)
+        std::cout << "Testing GEMM API" << std::endl;
+    int num_spaces = 50 - string((method != kNoOptimization)?(LowPrecision::get_method_string(method)):("I8-I8")).length();
+    vector<char> spaces_vec(num_spaces, ' ');
+    string spaces(spaces_vec.begin(), spaces_vec.end());
+
+    std::string method_name = LowPrecision::get_method_string(method);
+
+    // Setting Constant Values
+    int num_batch               = ((LowPrecision::FullyConnected::GetVariableFromEnv("NumBatches") != "")?(std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv("NumBatches"))):(8)),
+        num_inputs              = ((LowPrecision::FullyConnected::GetVariableFromEnv("NumInputs")  != "")?(std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv("NumInputs") )):(32)),
+        num_output              = ((LowPrecision::FullyConnected::GetVariableFromEnv("NumOutputs") != "")?(std::stoi(LowPrecision::FullyConnected::GetVariableFromEnv("NumOutputs"))):(32));
+    bool singed_input           = !(LowPrecision::FullyConnected::GetVariableFromEnv( "ProcessUnsinged" ) == "TRUE");
+    bool no_verbosity           = LowPrecision::FullyConnected::GetVariableFromEnv( "VERBOSITY" ) == "0";
+    bool no_hex_verbosity       = LowPrecision::FullyConnected::GetVariableFromEnv( "VERBOSITY" ) == "1";
+    bool pre_gemm_print         = LowPrecision::FullyConnected::GetVariableFromEnv( "PreGEMMPrint" ) == "TRUE";
+    bool is_gem5                = LowPrecision::FullyConnected::GetVariableFromEnv( "IS_GEM5" ) == "TRUE";
+    std::string gemm_size       = LowPrecision::FullyConnected::GetVariableFromEnv( "GEMM_SIZE" );
+    std::string sanity_in_file  = LowPrecision::FullyConnected::GetVariableFromEnv( "SANITY_FILE" );
+
+    // Getting GEMM Size From Enviroment Variables
+    extract_gemm_size(gemm_size, num_batch, num_inputs, num_output);
+
+    // Creating Size Arrays
+    if (verbosity_level > 0)
+        std::cout << "Creating Shapes..." << std::endl;
+    int _input_shape_MB[2]      = { num_batch , num_inputs },
+        _kernel_shape[2]        = { num_inputs, num_output },
+        _output_shape_MB[2]     = { num_batch , num_output };
+
+    // Creating Shapes
+    Shape input_shape_MB        = get_shape(_input_shape_MB,        2),
+          kernel_shape          = get_shape(_kernel_shape,          2),
+          output_shape_MB       = get_shape(_output_shape_MB,       2);
+    
+    // Reporting GEMM Sizes
+    if (verbosity_level > 0)
+        std::cout << "[" << method_name << "] Processing GEMM With The Size of " << num_batch << 'x' << num_inputs << 'x' << num_output << std::endl;
+    
+    // Allocating Matrices
+    LHS_T* input_data_MB      = LowPrecision::allocate<LHS_T>(input_shape_MB.flatsize);
+    RHS_T* kernel_data        = LowPrecision::allocate<RHS_T>(kernel_shape.flatsize);
+    OUT_T* output_data_MB     = LowPrecision::allocate<OUT_T>(output_shape_MB.flatsize);
+    OUT_T* output_data_ruy_MB = LowPrecision::allocate<OUT_T>(output_shape_MB.flatsize);
+    OUT_T* output_trusted_MB  = LowPrecision::allocate<OUT_T>(output_shape_MB.flatsize);
+
+    // Filling Input with 1s and 0s
+    for (int i = 0 ; i < input_shape_MB.size[0] ; i++)
+        for (int j = 0 ; j < input_shape_MB.size[1] ; j++)
+            input_data_MB[i * input_shape_MB.size[1] + j] = LHS_T((j % 2)?(1):(0));
+
+    // Filling Kernel with 1s
+    for (int i = 0 ; i < kernel_shape.size[0] ; i++)
+        for (int j = 0 ; j < kernel_shape.size[1] ; j++)
+            kernel_data[i * kernel_shape.size[1] + j] = 1;
+    
+    // Generate trusted output
+    LowPrecision::Status trusted_ret;
+    trusted_ret = calculate_trusted_output(input_data_MB, kernel_data, output_trusted_MB, input_shape_MB, kernel_shape, output_shape_MB, LowPrecision::IsSelfDependent(method));
+
+    #if IS_ARM
+    if (is_gem5)
+        asm volatile (
+            ".word	0xff520110\n\t"
+            :::
+        );
+    #endif
+
+    if (LowPrecision::mask_out_source(trusted_ret) == LowPrecision::Status::Success)
+        cout << method_name << " Trusted Output Generation" << spaces.substr((spaces.size() < 20)?(spaces.size()):(20)) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+    else
+        cout << method_name << " Trusted Output Generation" << spaces.substr((spaces.size() < 20)?(spaces.size()):(20)) << "=> \033[1m\033[31mFAILED\033[0m (Sourcce: TrustedOutputGenerator | Status: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_source(trusted_ret))
+                                                        << ")" << endl;
+
+    // Getting The List of Required Input Scratchpads
+    LowPrecision::ShapeList input_scratchpads_shape_list = LowPrecision::GetInputShapeListForMethod(method, input_shape_MB);
+
+    // Getting The List of Required Kernel Scratchpads
+    LowPrecision::ShapeList kernel_scratchpads_shape_list = LowPrecision::GetFilterShapeListForMethod(method, kernel_shape);
+
+    // Getting The List of Required Output Scratchpads
+    LowPrecision::ShapeList output_scratchpads_shape_list = LowPrecision::GetOutputShapeListForMethod(method, input_shape_MB, kernel_shape, output_shape_MB);
+
+    // Reporting Required Input Scratchpads 
+    if (verbosity_level > 0){
+        std::cout << "Input Scratchpads: " << input_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
+        for (Shape shape : input_scratchpads_shape_list)
+            std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    }
+
+    // Reporting Required Kernel Scratchpads 
+    if (verbosity_level > 0){
+        std::cout << "Kernel Scratchpads: " << kernel_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
+        for (Shape shape : kernel_scratchpads_shape_list)
+            std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    }
+
+    // Reporting Required Output Scratchpads 
+    if (verbosity_level > 0){
+        std::cout << "Output Scratchpads: " << output_scratchpads_shape_list.size() << " Tensors With Shapes: " << std::endl;
+        for (Shape shape : output_scratchpads_shape_list)
+            std::cout << '\t' << LowPrecision::get_shape_string(shape) << std::endl;
+    }
+    
+    // Seperating the Shape of the Kernel Final Space from Scratchpads
+    Shape filter_shape;
+    assert(kernel_scratchpads_shape_list.size() > 0 && "Kernel Scratchpads Shape List is Empty!");
+    filter_shape = kernel_scratchpads_shape_list.back();
+    
+    // Calculating The Amount of Required Space for Input Scratchpads
+    size_t input_scratchpads_allocation_size = 0;
+    for (Shape shape : input_scratchpads_shape_list)
+        input_scratchpads_allocation_size += shape.flatsize;
+    
+    // Calculating The Amount of Required Space for Filter Scratchpads
+    size_t kernel_scratchpads_allocation_size = 0;
+    for (Shape shape : kernel_scratchpads_shape_list)
+        kernel_scratchpads_allocation_size += shape.flatsize;
+    kernel_scratchpads_allocation_size -= filter_shape.flatsize;
+    
+    // Calculating The Amount of Required Space for Output Scratchpads
+    size_t output_scratchpads_allocation_size = 0;
+    for (Shape shape : output_scratchpads_shape_list)
+        output_scratchpads_allocation_size += shape.flatsize;
+    
+    // Allocating Filter, Kernel Scratchpads, And Input Scratchpads
+    LHS_T*  input_scratchpads  = LowPrecision::allocate<LHS_T>(input_scratchpads_allocation_size);
+    RHS_T*  filter_data        = LowPrecision::allocate<RHS_T>(filter_shape.flatsize);
+    RHS_T*  kernel_scratchpads = nullptr;
+    if (kernel_scratchpads_allocation_size)
+        kernel_scratchpads = LowPrecision::allocate<RHS_T>(kernel_scratchpads_allocation_size);
+    OUT_T* output_scratchpads = nullptr;
+    if (output_scratchpads_allocation_size)
+        output_scratchpads = LowPrecision::allocate<OUT_T>(output_scratchpads_allocation_size);
+
+    // Creating Filter Matrix
+    LowPrecision::Matrix_t<RHS_T> filter_matrix;
+    filter_matrix.setDataAndPaddingAndScratchpadAndShape(kernel_data, filter_data, kernel_scratchpads, kernel_shape);
+    if (kernel_scratchpads_shape_list.size() > 1)
+        filter_matrix.setPaddingScratchpadSetting();
+    filter_matrix.setNeedScratchpad();
+    filter_matrix.setSignStatus(singed_input);
+    filter_matrix.setMemLayout(LowPrecision::MemLayout::kRowMajor);
+
+    // Preparing Filter Matrix
+    LowPrecision::TimingDetailes* filter_preparation_timings = new LowPrecision::TimingDetailes();
+    filter_preparation_timings->activate();
+    LowPrecision::Status filter_preparation_status;
+    filter_preparation_status = LowPrecision::PrepareMatrixAsFilterForMethod(filter_matrix, method, filter_preparation_timings);
+    if (LowPrecision::mask_out_source(filter_preparation_status) == LowPrecision::Status::Success)
+        cout << method_name << " Preparing Filter Test" << spaces.substr(16) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+    else
+        cout << method_name << " Preparing Filter Test" << spaces.substr(16) << "=> \033[1m\033[31mFAILED\033[0m (Sourcce: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_status(filter_preparation_status))
+                                                        << " | Status: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_source(filter_preparation_status))
+                                                        << ")" << endl;
+
+    // Creating Input Matrix
+    LowPrecision::Matrix_t<LHS_T> input_matrix;
+    input_matrix.setDataAndScratchpadAndShape(input_data_MB, input_scratchpads, input_shape_MB);
+    input_matrix.useSingleScratchpad();
+    if (input_scratchpads_shape_list.size() > 0)
+        input_matrix.setNeedScratchpad();
+    input_matrix.setSignStatus(singed_input);
+    input_matrix.setMemLayout(LowPrecision::MemLayout::kRowMajor);
+
+    // Preparing Input Matrix
+    LowPrecision::TimingDetailes* input_preparation_timings = new LowPrecision::TimingDetailes();
+    input_preparation_timings->activate();
+    LowPrecision::Status input_preparation_status;
+    input_preparation_status = LowPrecision::PrepareMatrixAsInputForMethod(input_matrix, method, input_preparation_timings);
+    if (LowPrecision::mask_out_source(input_preparation_status) == LowPrecision::Status::Success)
+        cout << method_name << " Preparing Input Test" << spaces.substr(15) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+    else
+        cout << method_name << " Preparing Input Test" << spaces.substr(15) << "=> \033[1m\033[31mFAILED\033[0m (Sourcce: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_status(input_preparation_status))
+                                                        << " | Status: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_source(input_preparation_status))
+                                                        << ")" << endl;
+
+    // Creating Output Matrix
+    LowPrecision::Matrix_t<OUT_T> output_matrix;
+    output_matrix.setDataAndScratchpadAndShape(output_data_MB, output_scratchpads, output_shape_MB);
+    output_matrix.useSingleScratchpad();
+    if (output_scratchpads_shape_list.size() > 0)
+        output_matrix.setNeedScratchpad();
+    output_matrix.setMemLayout(LowPrecision::MemLayout::kRowMajor);
+
+    // Preparing Output Matrix
+    LowPrecision::TimingDetailes* output_preparation_timings = new LowPrecision::TimingDetailes();
+    output_preparation_timings->activate();
+    LowPrecision::Status output_preparation_status;
+    output_preparation_status = LowPrecision::PrepareMatrixAsOutputForMethod(output_matrix, method, output_preparation_timings);
+    if (LowPrecision::mask_out_source(output_preparation_status) == LowPrecision::Status::Success)
+        cout << method_name << " Preparing Output Test" << spaces.substr(16) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+    else
+        cout << method_name << " Preparing Output Test" << spaces.substr(16) << "=> \033[1m\033[31mFAILED\033[0m (Sourcce: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_status(output_preparation_status))
+                                                        << " | Status: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_source(output_preparation_status))
+                                                        << ")" << endl;
+
+    // PreGEMM Print
+    if(pre_gemm_print && verbosity_level > 0){
+        print_2D_matrix("Kernel", kernel_data, kernel_shape, no_hex_verbosity);
+        if (kernel_scratchpads_shape_list.size() >= 1)
+            print_2D_matrix("Filter", filter_data, filter_shape, no_hex_verbosity);
+        if (kernel_scratchpads_shape_list.size() >= 2)
+            print_2D_matrix("Kernel-Scratchpad-#1", kernel_scratchpads, kernel_scratchpads_shape_list[0], no_hex_verbosity);
+
+        print_2D_matrix("Input", input_data_MB, input_shape_MB, no_hex_verbosity);
+        if (input_scratchpads_shape_list.size() == 1)
+            print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[0], no_hex_verbosity);
+        else if (input_scratchpads_shape_list.size() == 2){
+            print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[1], no_hex_verbosity);
+            print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[1].flatsize, input_scratchpads_shape_list[0], no_hex_verbosity);
+        }
+
+        print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, no_hex_verbosity);
+    }
+
+    // Processing The Main GEMM
+    LowPrecision::TimingDetailes* gemm_timings = new LowPrecision::TimingDetailes();
+    gemm_timings->activate();
+    LowPrecision::Status gemm_status;
+    gemm_status = LowPrecision::GEMM(input_matrix, filter_matrix, output_matrix, method, gemm_timings);
+
+    // Validating GEMM result status
+    if (LowPrecision::mask_out_source(gemm_status) == LowPrecision::Status::Success)
+        cout << method_name << " GEMM API Test" << spaces.substr(8) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+    else
+        cout << method_name << " GEMM API Test" << spaces.substr(8) << "=> \033[1m\033[31mFAILED\033[0m (Sourcce: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_status(gemm_status))
+                                                        << " | Status: "
+                                                        << LowPrecision::get_status_string(LowPrecision::mask_out_source(gemm_status))
+                                                        << ")" << endl;
+
+    bool sanityCheckPass = true;
+    for (int i = 0 ; i < output_shape_MB.size[0] ; i++)
+        for (int j = 0 ; j < output_shape_MB.size[1] ; j++)
+            sanityCheckPass &= output_data_MB[i * output_shape_MB.size[1] + j] == output_trusted_MB[i * output_shape_MB.size[1] + j];
+            // sanityCheckPass &= output_data_ruy_MB[i * output_shape_MB.size[1] + j] == output_data_MB[i * output_shape_MB.size[1] + j];
+
+    if ((!sanityCheckPass && !no_verbosity) || sanity_in_file != ""){
+        if (sanity_in_file == "" && verbosity_level > 0){
+            print_2D_matrix("Kernel", kernel_data, kernel_shape, no_hex_verbosity);
+            if (kernel_scratchpads_shape_list.size() >= 1)
+                print_2D_matrix("Filter", filter_data, filter_shape, no_hex_verbosity);
+            if (kernel_scratchpads_shape_list.size() >= 2)
+                print_2D_matrix("Kernel-Scratchpad-#1", kernel_scratchpads, kernel_scratchpads_shape_list[0], no_hex_verbosity);
+
+            print_2D_matrix("Input", input_data_MB, input_shape_MB, no_hex_verbosity);
+            if (input_scratchpads_shape_list.size() == 1)
+                print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[0], no_hex_verbosity);
+            else if (input_scratchpads_shape_list.size() == 2){
+                print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[1], no_hex_verbosity);
+                print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[1].flatsize, input_scratchpads_shape_list[0], no_hex_verbosity);
+            }
+
+            print_2D_matrix("Output", output_data_MB, output_shape_MB, no_hex_verbosity);
+            if (output_scratchpads_shape_list.size() >= 1)
+                print_2D_matrix("Output-Scratchpad-#1", output_scratchpads, output_scratchpads_shape_list[0], no_hex_verbosity);
+            if (output_scratchpads_shape_list.size() >= 2)
+                print_2D_matrix("Output-Scratchpad-#2", output_scratchpads + output_scratchpads_shape_list[0].flatsize, output_scratchpads_shape_list[1], no_hex_verbosity);
+            
+            print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, no_hex_verbosity);
+        } else if (verbosity_level > 0){
+            std::cout << "Saving Sanity Output to " << sanity_in_file << std::endl;
+            std::ofstream output_file;
+            output_file.open(sanity_in_file, std::ofstream::out);
+            print_2D_matrix("Kernel", kernel_data, kernel_shape, output_file, no_hex_verbosity);
+            if (kernel_scratchpads_shape_list.size() >= 1)
+                print_2D_matrix("Filter", filter_data, filter_shape, output_file, no_hex_verbosity);
+            if (kernel_scratchpads_shape_list.size() >= 2)
+                print_2D_matrix("Kernel-Scratchpad-#1", kernel_scratchpads, kernel_scratchpads_shape_list[0], output_file, no_hex_verbosity);
+
+            print_2D_matrix("Input", input_data_MB, input_shape_MB, output_file, no_hex_verbosity);
+            if (input_scratchpads_shape_list.size() == 1)
+                print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[0], output_file, no_hex_verbosity);
+            else if (input_scratchpads_shape_list.size() == 2){
+                print_2D_matrix("Input-Scratchpad-#1", input_scratchpads, input_scratchpads_shape_list[1], output_file, no_hex_verbosity);
+                print_2D_matrix("Input-Scratchpad-#2", input_scratchpads + input_scratchpads_shape_list[1].flatsize, input_scratchpads_shape_list[0], output_file, no_hex_verbosity);
+            }
+
+            print_2D_matrix("Output", output_data_MB, output_shape_MB, output_file, no_hex_verbosity);
+            if (output_scratchpads_shape_list.size() >= 1)
+                print_2D_matrix("Output-Scratchpad-#1", output_scratchpads, output_scratchpads_shape_list[0], output_file, no_hex_verbosity);
+            if (output_scratchpads_shape_list.size() >= 2)
+                print_2D_matrix("Output-Scratchpad-#2", output_scratchpads + output_scratchpads_shape_list[0].flatsize, output_scratchpads_shape_list[1], output_file, no_hex_verbosity);
+            
+            print_2D_matrix("Trusted Output", output_trusted_MB, output_shape_MB, output_file, no_hex_verbosity);
+            output_file.close();
+        }
+    }
+
+    if (sanityCheckPass)
+        cout << LowPrecision::get_method_string(method) << " GEMM API Sanity Test" << spaces.substr(15) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+    else
+        cout << LowPrecision::get_method_string(method) << " GEMM API Sanity Test" << spaces.substr(15) << "=> \033[1m\033[31mFAILED\033[0m" << endl;
+    
+    // Deallication of created pointers
+    if (input_data_MB) 
+        LowPrecision::deallocate(input_data_MB);
+    if (kernel_data) 
+        LowPrecision::deallocate(kernel_data);
+    if (output_data_MB) 
+        LowPrecision::deallocate(output_data_MB);
+    if (output_data_ruy_MB) 
+        LowPrecision::deallocate(output_data_ruy_MB);
+    if (filter_data) 
+        LowPrecision::deallocate(filter_data);
+    if (input_scratchpads) 
+        LowPrecision::deallocate(input_scratchpads);
+    if (kernel_scratchpads_allocation_size)
+        LowPrecision::deallocate(kernel_scratchpads);
+    if (output_scratchpads_allocation_size)
+        LowPrecision::deallocate(output_scratchpads);
+
+    if (
+        LowPrecision::mask_out_source(trusted_ret)               == LowPrecision::Status::Success &&
+        LowPrecision::mask_out_source(filter_preparation_status) == LowPrecision::Status::Success &&
+        LowPrecision::mask_out_source(input_preparation_status)  == LowPrecision::Status::Success &&
+        LowPrecision::mask_out_source(output_preparation_status) == LowPrecision::Status::Success &&
+        LowPrecision::mask_out_source(gemm_status)               == LowPrecision::Status::Success &&
+        sanityCheckPass
+    ) {
+        cout << LowPrecision::get_method_string(method) << " GEMM API Overall Test" << spaces.substr(16) << "=> \033[1m\033[32mPASSED\033[0m" << endl;
+        return true;
+    } else {
+        cout << LowPrecision::get_method_string(method) << " GEMM API Overall Test" << spaces.substr(16) << "=> \033[1m\033[31mFAILED\033[0m" << endl;
+        return false;
+    }
+
 }
 
 #ifndef IS_RISCV
@@ -5392,6 +5892,7 @@ int main(int argc, char *argv[]){
     bool multibatch_benchmark_enable = false;
     bool integrity_test = true;
     bool gather_timing_details = false;
+    bool test_gemm_api_legacy = false;
 
     int  selected_test = 0xffff;
     int  selected_benchmark_enable = 0xffff;
@@ -5542,6 +6043,50 @@ int main(int argc, char *argv[]){
         singlebatch_benchmark_enable = false;
         multibatch_benchmark_enable = false;
         integrity_test = false;
+        if (argc >= 3){
+            for (size_t i = 0; i < argc - 2; i++){
+                std::string selected_test = "";
+                selected_test = argv[2 + i];
+                if (verbosity_level > 0)
+                    std::cout << "Parsing method " << selected_test << std::endl;
+                if (selected_test == "All")
+                    test_gemm_api |= 0xffffe000;
+                else if (selected_test == "ULPPACK-W4A4")
+                    test_gemm_api |= 0x00002000; 
+                else if (selected_test == "SelfDependentW4A4")
+                    test_gemm_api |= 0x00004000; 
+                else if (selected_test == "SelfDependentW4A8")
+                    test_gemm_api |= 0x00008000; 
+                else if (selected_test == "SelfDependentW8A4")
+                    test_gemm_api |= 0x00010000; 
+                else if (selected_test == "SelfDependentW2A2")
+                    test_gemm_api |= 0x00020000;
+                else if (selected_test == "BarrelShiftMultiplierW8A8")
+                    test_gemm_api |= 0x00040000; 
+                else if (selected_test == "BarrelShiftMultiplierW4A4")
+                    test_gemm_api |= 0x00080000; 
+                else if (selected_test == "BarrelShiftMultiplierW8A4")
+                    test_gemm_api |= 0x00100000; 
+                else if (selected_test == "BarrelShiftMultiplierW4A8")
+                    test_gemm_api |= 0x00200000; 
+                else if (selected_test == "BarrelShiftMultiplierW2A2")
+                    test_gemm_api |= 0x00400000;
+                else if (selected_test == "AF32WI8")
+                    test_gemm_api |= 0x00800000;
+                else {
+                    std::cout << "unrecognised method: " << selected_test << std::endl;
+                    return -1;
+                }
+            }
+        } else
+            test_gemm_api = 0xffffff;
+        
+    }
+    else if (input_mode == "test-gemm-api-legacy"){
+        singlebatch_benchmark_enable = false;
+        multibatch_benchmark_enable = false;
+        integrity_test = false;
+        test_gemm_api_legacy = true;
         if (argc >= 3){
             for (size_t i = 0; i < argc - 2; i++){
                 std::string selected_test = "";
@@ -7193,78 +7738,135 @@ int main(int argc, char *argv[]){
             run_mul_api_tests(LowPrecision::Method::kBarrelShiftMulW8A8);
     }
     
-    if (test_gemm_api){
-        if (test_gemm_api == 0x80000000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kNoOptimization))
+    if (!test_gemm_api_legacy) {
+        if (test_gemm_api){
+            bool failed = false;
+            if (test_gemm_api == 0x80000000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kNoOptimization);
+            if (test_gemm_api &  0x00000001)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kInt8Int4);
+            if (test_gemm_api &  0x00000002)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kInt8Binary);
+            if (test_gemm_api &  0x00000004)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kInt8Ternary);
+            if (test_gemm_api &  0x00000008)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kInt8QuaTernary);
+            if (test_gemm_api &  0x00000010)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kInt4ActInt8Weight);
+            if (test_gemm_api &  0x00000020)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kInt4ActInt4Weight);
+            if (test_gemm_api &  0x00000040)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kTernaryActInt8Weight);
+            if (test_gemm_api &  0x00000200)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kTernaryActTernaryWeight);
+            if (test_gemm_api &  0x00000080)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBinaryActInt8Weight);
+            if (test_gemm_api &  0x00000100)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBinaryActBinaryWeight);
+            if (test_gemm_api &  0x00000800)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBinaryActBinaryWeightXOR);
+            if (test_gemm_api &  0x00000400)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kInt3ActInt3Weight);
+            if (test_gemm_api &  0x00002000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kULPPACKW4A4);
+            if (test_gemm_api &  0x00004000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kSelfDependentW4A4);
+            if (test_gemm_api &  0x00008000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kSelfDependentW4A8);
+            if (test_gemm_api &  0x00010000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kSelfDependentW8A4);
+            if (test_gemm_api &  0x00020000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kSelfDependentW2A2);
+            if (test_gemm_api &  0x00040000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBarrelShiftMulW8A8);
+            if (test_gemm_api &  0x00080000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBarrelShiftMulW4A4);
+            if (test_gemm_api &  0x00100000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBarrelShiftMulW8A4);
+            if (test_gemm_api &  0x00200000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBarrelShiftMulW4A8);
+            if (test_gemm_api &  0x00400000)
+                failed |= !run_gemm_api_tests<int8_t, int8_t, int32_t>(LowPrecision::Method::kBarrelShiftMulW2A2);
+            if (test_gemm_api &  0x00800000)
+                failed |= !run_gemm_api_tests<float32_t, int8_t, float32_t>(LowPrecision::Method::kAF32WI8);
+            if (failed)
                 return -1;
-        if (test_gemm_api &  0x00000001)
-            if (!run_gemm_api_tests(LowPrecision::Method::kInt8Int4))
-                return -1;
-        if (test_gemm_api &  0x00000002)
-            if (!run_gemm_api_tests(LowPrecision::Method::kInt8Binary))
-                return -1;
-        if (test_gemm_api &  0x00000004)
-            if (!run_gemm_api_tests(LowPrecision::Method::kInt8Ternary))
-                return -1;
-        if (test_gemm_api &  0x00000008)
-            if (!run_gemm_api_tests(LowPrecision::Method::kInt8QuaTernary))
-                return -1;
-        if (test_gemm_api &  0x00000010)
-            if (!run_gemm_api_tests(LowPrecision::Method::kInt4ActInt8Weight))
-                return -1;
-        if (test_gemm_api &  0x00000020)
-            if (!run_gemm_api_tests(LowPrecision::Method::kInt4ActInt4Weight))
-                return -1;
-        if (test_gemm_api &  0x00000040)
-            if (!run_gemm_api_tests(LowPrecision::Method::kTernaryActInt8Weight))
-                return -1;
-        if (test_gemm_api &  0x00000200)
-            if (!run_gemm_api_tests(LowPrecision::Method::kTernaryActTernaryWeight))
-                return -1;
-        if (test_gemm_api &  0x00000080)
-            if (!run_gemm_api_tests(LowPrecision::Method::kBinaryActInt8Weight))
-                return -1;
-        if (test_gemm_api &  0x00000100)
-            if (!run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeight))
-                return -1;
-        if (test_gemm_api &  0x00000800)
-            if (!run_gemm_api_tests(LowPrecision::Method::kBinaryActBinaryWeightXOR))
-                return -1;
-        if (test_gemm_api &  0x00000400)
-            if (!run_gemm_api_tests(LowPrecision::Method::kInt3ActInt3Weight))
-                return -1;
-        if (test_gemm_api &  0x00002000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kULPPACKW4A4))
-                return -1;
-        if (test_gemm_api &  0x00004000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A4))
-                return -1;
-        if (test_gemm_api &  0x00008000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kSelfDependentW4A8))
-                return -1;
-        if (test_gemm_api &  0x00010000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kSelfDependentW8A4))
-                return -1;
-        if (test_gemm_api &  0x00020000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kSelfDependentW2A2))
-                return -1;
-        if (test_gemm_api &  0x00040000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW8A8))
-                return -1;
-        if (test_gemm_api &  0x00080000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A4))
-                return -1;
-        if (test_gemm_api &  0x00100000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW8A4))
-                return -1;
-        if (test_gemm_api &  0x00200000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW4A8))
-                return -1;
-        if (test_gemm_api &  0x00400000)
-            if (!run_gemm_api_tests(LowPrecision::Method::kBarrelShiftMulW2A2))
-                return -1;
+        }
     }
-
+    else {
+        if (test_gemm_api){
+            if (test_gemm_api == 0x80000000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kNoOptimization))
+                    return -1;
+            if (test_gemm_api &  0x00000001)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kInt8Int4))
+                    return -1;
+            if (test_gemm_api &  0x00000002)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kInt8Binary))
+                    return -1;
+            if (test_gemm_api &  0x00000004)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kInt8Ternary))
+                    return -1;
+            if (test_gemm_api &  0x00000008)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kInt8QuaTernary))
+                    return -1;
+            if (test_gemm_api &  0x00000010)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kInt4ActInt8Weight))
+                    return -1;
+            if (test_gemm_api &  0x00000020)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kInt4ActInt4Weight))
+                    return -1;
+            if (test_gemm_api &  0x00000040)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kTernaryActInt8Weight))
+                    return -1;
+            if (test_gemm_api &  0x00000200)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kTernaryActTernaryWeight))
+                    return -1;
+            if (test_gemm_api &  0x00000080)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kBinaryActInt8Weight))
+                    return -1;
+            if (test_gemm_api &  0x00000100)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kBinaryActBinaryWeight))
+                    return -1;
+            if (test_gemm_api &  0x00000800)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kBinaryActBinaryWeightXOR))
+                    return -1;
+            if (test_gemm_api &  0x00000400)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kInt3ActInt3Weight))
+                    return -1;
+            if (test_gemm_api &  0x00002000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kULPPACKW4A4))
+                    return -1;
+            if (test_gemm_api &  0x00004000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kSelfDependentW4A4))
+                    return -1;
+            if (test_gemm_api &  0x00008000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kSelfDependentW4A8))
+                    return -1;
+            if (test_gemm_api &  0x00010000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kSelfDependentW8A4))
+                    return -1;
+            if (test_gemm_api &  0x00020000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kSelfDependentW2A2))
+                    return -1;
+            if (test_gemm_api &  0x00040000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kBarrelShiftMulW8A8))
+                    return -1;
+            if (test_gemm_api &  0x00080000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kBarrelShiftMulW4A4))
+                    return -1;
+            if (test_gemm_api &  0x00100000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kBarrelShiftMulW8A4))
+                    return -1;
+            if (test_gemm_api &  0x00200000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kBarrelShiftMulW4A8))
+                    return -1;
+            if (test_gemm_api &  0x00400000)
+                if (!run_gemm_api_tests_legacy(LowPrecision::Method::kBarrelShiftMulW2A2))
+                    return -1;
+        }
+    }
+    
     benchmark_mode_t benchmark_mode;
 
     benchmark_mode.multibatch_benchmark                                 = multibatch_benchmark_enable;
