@@ -647,7 +647,6 @@ bool run_gemm_api_tests_legacy(LowPrecision::Method method){
     for (int i = 0 ; i < output_shape_MB.size[0] ; i++)
         for (int j = 0 ; j < output_shape_MB.size[1] ; j++)
             sanityCheckPass &= output_data_MB[i * output_shape_MB.size[1] + j] == output_trusted_MB[i * output_shape_MB.size[1] + j];
-            // sanityCheckPass &= output_data_ruy_MB[i * output_shape_MB.size[1] + j] == output_data_MB[i * output_shape_MB.size[1] + j];
 
     if ((!sanityCheckPass && !no_verbosity) || sanity_in_file != ""){
         if (sanity_in_file == "" && verbosity_level > 0){
@@ -782,15 +781,26 @@ bool run_gemm_api_tests(LowPrecision::Method method){
     OUT_T* output_data_ruy_MB = LowPrecision::allocate<OUT_T>(output_shape_MB.flatsize);
     OUT_T* output_trusted_MB  = LowPrecision::allocate<OUT_T>(output_shape_MB.flatsize);
 
-    // Filling Input with 1s and 0s
+    // Filling Input:
+    //   - for AF32WI8: values float32 random in range [-1, 1]
+    //   - others: values 0 or 1
+    srand(42);
     for (int i = 0 ; i < input_shape_MB.size[0] ; i++)
         for (int j = 0 ; j < input_shape_MB.size[1] ; j++)
-            input_data_MB[i * input_shape_MB.size[1] + j] = LHS_T((j % 2)?(1):(0));
+            if (method == LowPrecision::Method::kAF32WI8)
+                input_data_MB[i * input_shape_MB.size[1] + j] = LHS_T((rand() / float(RAND_MAX)) * 2.0f - 1.0f);
+            else
+                input_data_MB[i * input_shape_MB.size[1] + j] = LHS_T((j % 2)?(1):(0));
 
-    // Filling Kernel with 1s
+    // Filling Kernel:
+    //   - for AF32WI8: values int8 random in range [-127, 127]
+    //   - others: all values 1
     for (int i = 0 ; i < kernel_shape.size[0] ; i++)
         for (int j = 0 ; j < kernel_shape.size[1] ; j++)
-            kernel_data[i * kernel_shape.size[1] + j] = 1;
+            if (method == LowPrecision::Method::kAF32WI8)
+                kernel_data[i * kernel_shape.size[1] + j] = RHS_T((rand() % 255) - 127);
+            else
+                kernel_data[i * kernel_shape.size[1] + j] = 1;
     
     // Generate trusted output
     LowPrecision::Status trusted_ret;
@@ -975,12 +985,26 @@ bool run_gemm_api_tests(LowPrecision::Method method){
                                                         << LowPrecision::get_status_string(LowPrecision::mask_out_source(gemm_status))
                                                         << ")" << endl;
 
+    // Sanity Check:
+    //   - AF32WI8 (OUT_T=float32): tolerance instead '==' because rounding error 
+    //   - others: ==
     bool sanityCheckPass = true;
+    float max_float_error = 0.0f;
+    const float float_tolerance = 1e-2f;
     for (int i = 0 ; i < output_shape_MB.size[0] ; i++)
-        for (int j = 0 ; j < output_shape_MB.size[1] ; j++)
-            sanityCheckPass &= output_data_MB[i * output_shape_MB.size[1] + j] == output_trusted_MB[i * output_shape_MB.size[1] + j];
-            // sanityCheckPass &= output_data_ruy_MB[i * output_shape_MB.size[1] + j] == output_data_MB[i * output_shape_MB.size[1] + j];
-
+        for (int j = 0 ; j < output_shape_MB.size[1] ; j++) {
+            OUT_T got      = output_data_MB   [i * output_shape_MB.size[1] + j];
+            OUT_T expected = output_trusted_MB[i * output_shape_MB.size[1] + j];
+            if (method == LowPrecision::Method::kAF32WI8) {
+                float err = std::abs(float(got) - float(expected));
+                max_float_error = std::max(max_float_error, err);
+                sanityCheckPass &= (err <= float_tolerance);
+            } else {
+                sanityCheckPass &= (got == expected);
+            }
+        }
+    if (method == LowPrecision::Method::kAF32WI8)
+        printf("AF32WI8 Max Float Error: %e  (tolerance: %e)\n", max_float_error, float_tolerance);
     if ((!sanityCheckPass && !no_verbosity) || sanity_in_file != ""){
         if (sanity_in_file == "" && verbosity_level > 0){
             print_2D_matrix("Kernel", kernel_data, kernel_shape, no_hex_verbosity);
