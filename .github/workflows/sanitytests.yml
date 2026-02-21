@@ -52,4 +52,8 @@ jobs:
       run: |
         qemu-aarch64-static ./build-aarch64/low_precision_fully_connected_test test-gemm-api BarrelShiftMultiplierW8A8
 
+    - name: Run MultiplierAF32WI8 Test
+      run: |
+        qemu-aarch64-static ./build-aarch64/low_precision_fully_connected_test test-gemm-api AF32WI8
+
 
