@@ -80,3 +80,18 @@ make -j `nproc` DEBUG=1
 
 The provided tool will be built statically, so you don't need to dynamically link it with other libraries and can be used as a standalone benchmark tool.
 The supported flags and env. variables will be added here soon.
+## AF32WI8 per-layer selection (TFLite)
+
+On ARMv8, hybrid FullyConnected can use method `AF32WI8` (float32 activations × int8 weights).
+Control which FC layers use it:
+
+```bash
+export LowPrecisionFC=AF32WI8
+export LowPrecisionFC_Layers=ALL          # default if unset
+export LowPrecisionFC_Layers=0            # single FC index
+export LowPrecisionFC_Layers=0,2,5        # multiple indices
+export LowPrecisionFC_Layers=dense_1,fc2  # filter tensor name / substring
+export LowPrecisionFC_Debug=1             # optional logging
+```
+
+Tests and details: [`notebooks/README.md`](notebooks/README.md) and [`notebooks/af32wi8_layer_select_tests.ipynb`](notebooks/af32wi8_layer_select_tests.ipynb).

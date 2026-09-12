@@ -38,6 +38,22 @@ namespace LowPrecision {
         LowPrecision::Method GetMethodFromEnv();
         std::string GetVariableFromEnv(std::string variable);
         LowPrecision::DataType GetDataType(int type);
+
+        // Layer selection via LowPrecisionFC_Layers=ALL|0|0,2,5|dense_1,fc2
+        struct LayerSelection {
+            bool select_all = true;
+            std::vector<int> indices;
+            std::vector<std::string> names;
+            std::vector<std::string> invalid_tokens;
+            bool IsSelected(int index, const std::string& name = "") const;
+        };
+        LayerSelection ParseLayerSelectionFromEnv();
+        LayerSelection ParseLayerSelection(const std::string& raw);
+        bool IsLayerSelected(int index, const std::string& name = "");
+        bool IsLayerSelected(const LayerSelection& selection, int index, const std::string& name = "");
+        bool IsArmV8Runtime();
+        bool AF32WI8ShapeOk(int m, int k, int n);
+
         bool IsAppliable(
             LowPrecision::Method method, LowPrecision::Shape input_shape, LowPrecision::Shape filter_shape, 
             LowPrecision::DataType input_type, LowPrecision::DataType filter_type,

@@ -1,5 +1,8 @@
 #include "low_precision_fully_connected.h"
 
+#include <cctype>
+#include <sstream>
+
 namespace LowPrecision{
     unsigned long int Shape::last_id = 0;
     TimingManager::~TimingManager(){
@@ -126,6 +129,110 @@ namespace LowPrecision{
             }
             return retval;
         }
+        static bool IsValidLayerNameToken(const std::string& token) {
+            if (token.empty()) return false;
+            char c0 = token[0];
+            if (!(std::isalpha(static_cast<unsigned char>(c0)) || c0 == '_'))
+                return false;
+            for (char c : token) {
+                if (std::isalnum(static_cast<unsigned char>(c)) ||
+                    c == '_' || c == '.' || c == '/' || c == ':' || c == '-')
+                    continue;
+                return false;
+            }
+            return true;
+        }
+        bool LayerSelection::IsSelected(int index, const std::string& name) const {
+            if (select_all)
+                return true;
+            for (int idx : indices) {
+                if (idx == index)
+                    return true;
+            }
+            if (!name.empty()) {
+                for (const auto& n : names) {
+                    if (n.empty()) continue;
+                    if (name == n || name.find(n) != std::string::npos)
+                        return true;
+                }
+            }
+            return false;
+        }
+        LayerSelection ParseLayerSelection(const std::string& raw) {
+            LayerSelection selection;
+            std::string trimmed = raw;
+            // trim
+            auto l = trimmed.find_first_not_of(" \t\n\r");
+            if (l == std::string::npos) {
+                selection.select_all = true;
+                return selection;
+            }
+            auto r = trimmed.find_last_not_of(" \t\n\r");
+            trimmed = trimmed.substr(l, r - l + 1);
+            if (trimmed.empty()) {
+                selection.select_all = true;
+                return selection;
+            }
+            std::string upper = trimmed;
+            for (auto& c : upper) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+            if (upper == "ALL") {
+                selection.select_all = true;
+                return selection;
+            }
+            selection.select_all = false;
+            std::stringstream ss(trimmed);
+            std::string token;
+            while (std::getline(ss, token, ',')) {
+                auto tl = token.find_first_not_of(" \t\n\r");
+                if (tl == std::string::npos) continue;
+                auto tr = token.find_last_not_of(" \t\n\r");
+                token = token.substr(tl, tr - tl + 1);
+                if (token.empty()) continue;
+                std::string token_upper = token;
+                for (auto& c : token_upper) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+                if (token_upper == "ALL") {
+                    selection.select_all = true;
+                    selection.indices.clear();
+                    selection.names.clear();
+                    selection.invalid_tokens.clear();
+                    return selection;
+                }
+                bool is_index = !token.empty();
+                for (char c : token) {
+                    if (!std::isdigit(static_cast<unsigned char>(c))) {
+                        is_index = false;
+                        break;
+                    }
+                }
+                if (is_index) {
+                    selection.indices.push_back(std::stoi(token));
+                } else if (IsValidLayerNameToken(token)) {
+                    selection.names.push_back(token);
+                } else {
+                    selection.invalid_tokens.push_back(token);
+                }
+            }
+            return selection;
+        }
+        LayerSelection ParseLayerSelectionFromEnv() {
+            return ParseLayerSelection(GetVariableFromEnv("LowPrecisionFC_Layers"));
+        }
+        bool IsLayerSelected(const LayerSelection& selection, int index, const std::string& name) {
+            return selection.IsSelected(index, name);
+        }
+        bool IsLayerSelected(int index, const std::string& name) {
+            return ParseLayerSelectionFromEnv().IsSelected(index, name);
+        }
+        bool IsArmV8Runtime() {
+#if defined(IS_ARM64) || (defined(__aarch64__) || defined(__arm64__))
+            return true;
+#else
+            return false;
+#endif
+        }
+        bool AF32WI8ShapeOk(int m, int k, int n) {
+            return (m % 4 == 0) && (k % 8 == 0) && (n % 4 == 0);
+        }
         LowPrecision::DataType GetDataType(int type){
             if (type == 1)
                 return DataType::Float32;
@@ -210,6 +317,29 @@ namespace LowPrecision{
             //     return !(input_shape.size[input_shape.number_dims - 1] % 16);
             if (method == Method::kNoOptimization)
                 return false;
+
+            if (method == Method::kAF32WI8) {
+                // AF32WI8 NEON kernel is ARMv8-only.
+                if (!IsArmV8Runtime())
+                    return false;
+                // input: [M, K], filter typically [N, K] or [K, N] after transpose handling upstream.
+                int m = (input_shape.number_dims >= 2) ? input_shape.size[0] : 0;
+                int k = (input_shape.number_dims >= 2) ? input_shape.size[input_shape.number_dims - 1] : 0;
+                int n = (filter_shape.number_dims >= 2) ? filter_shape.size[0] : 0;
+                // filter rows often = N (units), cols = K (input depth) in TFLite FC layout after .T()
+                if (filter_shape.number_dims >= 2) {
+                    // Prefer K from filter last dim if it matches input K.
+                    int filter_k = filter_shape.size[filter_shape.number_dims - 1];
+                    int filter_n = filter_shape.size[0];
+                    if (filter_k == k)
+                        n = filter_n;
+                    else if (filter_n == k) {
+                        n = filter_k;
+                    }
+                }
+                if (!AF32WI8ShapeOk(m, k, n))
+                    return false;
+            }
 
             // If none of the aboves
             return true;
@@ -704,6 +834,11 @@ namespace LowPrecision{
                 ret = LowPrecision::FullyConnected::SelfDependent::QuantizeFilter(method, input_ptr, input_padded_shape, output, layout);
             else if (method &  LowPrecision::Method::kBarrelShiftMul)
                 ret = LowPrecision::FullyConnected::BSM::QuantizeFilter(method, input_ptr, input_padded_shape, output, layout);
+            else if (method == LowPrecision::Method::kAF32WI8)
+                ret = LowPrecision::FullyConnected::Float32::QuantizeFilter(
+                    method, input_ptr, input_padded_shape, output, layout);
+            else
+                ret = Status::NotImplemented;
             
             if (need_padding)
                 LowPrecision::deallocate(input_ptr);
