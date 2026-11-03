@@ -142,6 +142,21 @@ namespace LowPrecision{
             }
             return true;
         }
+        // A token matches the whole name or a '/'- or ':'-delimited run of
+        // components inside it ("conv1" matches "model/conv1/Conv2D" but not
+        // "conv10").
+        static bool LayerNameMatchesToken(const std::string& name, const std::string& token) {
+            auto is_boundary = [](char c) { return c == '/' || c == ':'; };
+            size_t pos = name.find(token);
+            while (pos != std::string::npos) {
+                size_t end = pos + token.size();
+                bool left_ok = (pos == 0) || is_boundary(name[pos - 1]);
+                bool right_ok = (end == name.size()) || is_boundary(name[end]);
+                if (left_ok && right_ok) return true;
+                pos = name.find(token, pos + 1);
+            }
+            return false;
+        }
         bool LayerSelection::IsSelected(int index, const std::string& name) const {
             if (select_all)
                 return true;
@@ -152,7 +167,7 @@ namespace LowPrecision{
             if (!name.empty()) {
                 for (const auto& n : names) {
                     if (n.empty()) continue;
-                    if (name == n || name.find(n) != std::string::npos)
+                    if (LayerNameMatchesToken(name, n))
                         return true;
                 }
             }

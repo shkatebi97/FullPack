@@ -19,6 +19,12 @@ def main():
     assert ls.parse_layer_selection("dense_1,fc2").is_selected(name="model/dense_1/x")
     assert ls.parse_layer_selection("0,dense_1").is_selected(0)
     assert ls.parse_layer_selection("0,dense_1").is_selected(name="dense_1")
+    c1 = ls.parse_layer_selection("conv1")
+    assert not c1.is_selected(name="conv10")
+    assert c1.is_selected(name="conv1")
+    assert c1.is_selected(name="model/conv1/Conv2D")
+    assert not c1.is_selected(name="model/conv10/Conv2D")
+    assert not c1.is_selected(name="xconv1") and not c1.is_selected(name="conv1_bn")
     sel = ls.parse_layer_selection("0,!!!,dense_1")
     assert "!!!" in sel.invalid_tokens
     assert ls.should_apply_af32wi8(

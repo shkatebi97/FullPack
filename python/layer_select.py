@@ -21,6 +21,11 @@ from typing import List, Optional, Set
 _INDEX_RE = re.compile(r"^\d+$")
 
 
+def _name_matches(name: str, token: str) -> bool:
+    """Whole name, or '/'- or ':'-delimited components (conv1 != conv10)."""
+    return re.search(r"(?:^|[/:])" + re.escape(token) + r"(?:$|[/:])", name) is not None
+
+
 @dataclass
 class LayerSelection:
     """Parsed LowPrecisionFC_Layers policy."""
@@ -35,12 +40,9 @@ class LayerSelection:
             return True
         if index is not None and index in self.indices:
             return True
-        if name is not None and name in self.names:
-            return True
-        # Also match if name contains any selected name as substring (TFLite mangling)
         if name is not None:
             for n in self.names:
-                if n and n in name:
+                if n and _name_matches(name, n):
                     return True
         return False
 

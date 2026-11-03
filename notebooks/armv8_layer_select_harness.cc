@@ -50,6 +50,14 @@ static void test_parse_and_gates() {
            "parse_layers_by_name");
   }
   {
+    auto s = ParseLayerSelection("conv1");
+    expect(!s.IsSelected(-1, "conv10"), "name_exact_conv1_vs_conv10");
+    expect(s.IsSelected(-1, "conv1"), "name_exact_conv1_vs_conv1");
+    expect(s.IsSelected(-1, "model/conv1/Conv2D") && !s.IsSelected(-1, "model/conv10/Conv2D") &&
+               !s.IsSelected(-1, "xconv1") && !s.IsSelected(-1, "conv1_bn"),
+           "name_exact_component_boundaries");
+  }
+  {
     auto s = ParseLayerSelection("0,dense_1,3");
     expect(s.IsSelected(0) && s.IsSelected(3) && s.IsSelected(-1, "dense_1"),
            "parse_layers_mixed");
