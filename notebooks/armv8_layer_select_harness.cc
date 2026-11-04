@@ -72,8 +72,9 @@ static void test_parse_and_gates() {
   expect(IsLayerSelected(2, ""), "should_apply_matched_layer");
   expect(!IsLayerSelected(1, ""), "should_apply_unmatched_layer");
 
-  expect(AF32WI8ShapeOk(4, 8, 4) && !AF32WI8ShapeOk(5, 8, 4) &&
-             !AF32WI8ShapeOk(4, 7, 4) && !AF32WI8ShapeOk(4, 8, 5),
+  expect(AF32WI8ShapeOk(4, 16, 4) && !AF32WI8ShapeOk(5, 16, 4) &&
+             !AF32WI8ShapeOk(4, 8, 4) && !AF32WI8ShapeOk(4, 24, 4) &&
+             !AF32WI8ShapeOk(4, 7, 4) && !AF32WI8ShapeOk(4, 16, 5),
          "af32wi8_rejects_bad_shapes");
   expect(IsArmV8Runtime(), "af32wi8_armv8_runtime_true");
 }

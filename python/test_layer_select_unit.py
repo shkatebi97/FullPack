@@ -33,6 +33,11 @@ def main():
     assert not ls.should_apply_af32wi8(
         method_env="AF32WI8", layers_env="0", layer_index=1, require_arm=False
     )
+    for k in (16, 32, 64, 80):
+        assert ls.af32wi8_shape_ok(4, k, 4)
+    for k in (8, 24, 40, 56):
+        assert not ls.af32wi8_shape_ok(4, k, 4)
+    assert not ls.af32wi8_shape_ok(5, 16, 4) and not ls.af32wi8_shape_ok(4, 16, 5)
     print("section-a unit OK")
 
 

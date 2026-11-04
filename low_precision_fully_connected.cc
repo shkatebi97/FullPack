@@ -245,8 +245,10 @@ namespace LowPrecision{
             return false;
 #endif
         }
+        // K must be a multiple of 16: GetPaddedShape pads AF32WI8 K to 16 and
+        // PadMatrixFromShapeToShape corrupts float data, so K%16 != 0 is wrong.
         bool AF32WI8ShapeOk(int m, int k, int n) {
-            return (m % 4 == 0) && (k % 8 == 0) && (n % 4 == 0);
+            return (m % 4 == 0) && (k % 16 == 0) && (n % 4 == 0);
         }
         LowPrecision::DataType GetDataType(int type){
             if (type == 1)

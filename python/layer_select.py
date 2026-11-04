@@ -87,8 +87,8 @@ def is_arm_v8() -> bool:
 
 
 def af32wi8_shape_ok(m: int, k: int, n: int) -> bool:
-    """AF32WI8 requires M%4==0, K%8==0, N%4==0."""
-    return m % 4 == 0 and k % 8 == 0 and n % 4 == 0
+    """AF32WI8 requires M%4==0, K%16==0, N%4==0 (matches C++ AF32WI8ShapeOk)."""
+    return m % 4 == 0 and k % 16 == 0 and n % 4 == 0
 
 
 def should_apply_af32wi8(
@@ -98,7 +98,7 @@ def should_apply_af32wi8(
     layer_index: Optional[int] = None,
     layer_name: Optional[str] = None,
     m: int = 4,
-    k: int = 8,
+    k: int = 16,
     n: int = 4,
     require_arm: bool = True,
 ) -> bool:
