@@ -2,7 +2,8 @@
 # Build & run ARMv8 harness under qemu-aarch64 (uses existing make objects).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-BUILD="$ROOT/build-aarch64"
+REL=build-aarch64  # make targets are relative to ROOT (see Makefile BUILD_DIR)
+BUILD="$ROOT/$REL"
 OUT="$BUILD/armv8_layer_select_harness"
 QEMU="${QEMU:-qemu-aarch64-static}"
 CXX=aarch64-linux-gnu-g++
@@ -10,10 +11,10 @@ FLAGS="-O2 -std=c++14 -static -pthread -lstdc++ -lm -flax-vector-conversions -Wn
 
 cd "$ROOT"
 make -j"$(nproc)" TARGET_ISA=aarch64 \
-  "$BUILD/libfullpack.so" \
-  "$BUILD/low_precision_fully_connected.o" \
-  "$BUILD/ops-implementations/mul/LowPrecisionPacking.o" \
-  "$BUILD/kernels-impl/Float32.o" >/tmp/fullpack_make.log 2>&1 || {
+  "$REL/libfullpack.so" \
+  "$REL/low_precision_fully_connected.o" \
+  "$REL/ops-implementations/mul/LowPrecisionPacking.o" \
+  "$REL/kernels-impl/Float32.o" >/tmp/fullpack_make.log 2>&1 || {
   tail -50 /tmp/fullpack_make.log; exit 1;
 }
 
